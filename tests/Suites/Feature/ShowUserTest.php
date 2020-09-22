@@ -4,6 +4,7 @@ namespace Tests\Suites\Feature;
 
 use Examples\ShowsUserDataExample;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\Example;
 use Tests\App\Models\User;
 use Tests\TestCase;
 
@@ -33,7 +34,7 @@ class ShowUserTest extends TestCase
             ->assertSee('Duilio Palacios')
             ->assertSee('user@example.test');
 
-        tap(new ShowsUserDataExample(), function ($example) use ($user) {
+        tap(Example::first(), function (Example $example) use ($user) {
             $this->assertSame('Get user data by ID', $example->title);
             $this->assertSame('Retrieves the public-user data', $example->description);
             $this->assertSame('GET', $example->request_method);

@@ -37,61 +37,28 @@ class ExampleGenerator
 
         $test = $this->getTestInfo();
 
-        $this->generateExampleClass([
+        Example::updateOrCreate([
+            'class_name' => $test['class'],
+            'method_name' => $test['function'],
+        ], [
             // Test
-            'className' => $this->generateClassNameFrom($test),
             'title' => $this->getTitleFrom($test),
             'description' => $this->getDescriptionFrom($test),
             // Request
-            'requestHeaders' => $this->exportRequestHeaders(),
-            'requestMethod' => $this->request->method(),
-            'requestPath' => $this->request->path(),
-            'requestQueryParameters' => $this->exportQueryParameters(),
-            'requestInput' => $this->exportRequestInput(),
+            'request_headers' => $this->exportRequestHeaders(),
+            'request_method' => $this->request->method(),
+            'request_path' => $this->request->path(),
+            'request_query_parameters' => $this->exportQueryParameters(),
+            'request_input' => $this->exportRequestInput(),
             // Route
             'route' => $this->request->route()->uri(),
-            'routeParameters' => $this->exportRouteParameters(),
+            'route_parameters' => $this->exportRouteParameters(),
             // Response
-            'responseStatus' => $this->response->getStatusCode(),
-            'responseHeaders' => $this->exportResponseHeaders(),
-            'responseBody' => $this->exportResponseContent(),
-            'responseTemplate' => $this->exportResponseTemplate(),
+            'response_status' => $this->response->getStatusCode(),
+            'response_headers' => $this->exportResponseHeaders(),
+            'response_body' => $this->exportResponseContent(),
+            'response_template' => $this->exportResponseTemplate(),
         ]);
-    }
-
-    protected function generateExampleClass(array $attributes)
-    {
-        if (! File::isDirectory($this->examplesDirectory)) {
-            File::makeDirectory($this->examplesDirectory);
-            File::put($this->examplesDirectory.'/.gitignore', "*\n!.gitignore\n");
-        }
-
-        File::put(
-            $this->getFileName($attributes['className']),
-            $this->generateClassContent($attributes)
-        );
-    }
-
-    protected function getFileName($className)
-    {
-        return $this->examplesDirectory.'/'.$className.'.php';
-    }
-
-    protected function generateClassContent(array $attributes): string
-    {
-        $stub = File::get(__DIR__ . '/../stubs/Example.php.stub');
-
-        return str_replace($this->getPlaceholders($attributes), $attributes, $stub);
-    }
-
-    protected function getPlaceholders(array $attributes)
-    {
-        return collect($attributes)
-            ->keys()
-            ->map(function ($attribute) {
-                return '{{'.$attribute.'}}';
-            })
-            ->all();
     }
 
     protected function getTestInfo(): array
@@ -108,68 +75,58 @@ class ExampleGenerator
             ?: ucfirst(str_replace('_', ' ', $test['function']));
     }
 
-    protected function getDescriptionFrom($test)
+    protected function getDescriptionFrom($test): ?string
     {
-        return var_export($this->getAnnotationFromTestMethod($test, 'description'), true);
+        return $this->getAnnotationFromTestMethod($test, 'description');
     }
 
-    protected function generateClassNameFrom($test): string
+    protected function exportRequestHeaders(): array
     {
-        return Str::studly($test['function']).'Example';
-    }
-
-    protected function exportRequestHeaders(): string
-    {
-        return var_export([
+        return [
             'accept' => $this->request->headers->get('accept'),
             'accept-language' => $this->request->headers->get('accept-language'),
             'accept-charset' => $this->request->headers->get('accept-charset'),
-        ], true);
+        ];
     }
 
-    protected function exportQueryParameters(): string
+    protected function exportQueryParameters(): array
     {
-        return var_export($this->request->query(), true);
+        return $this->request->query();
     }
 
-    protected function exportRequestInput(): string
+    protected function exportRequestInput(): array
     {
-        return var_export($this->request->input(), true);
+        return $this->request->input();
     }
 
-    protected function exportResponseHeaders()
+    protected function exportResponseHeaders(): array
     {
-        return var_export($this->response->headers->all(), true);
+        return $this->response->headers->all();
     }
 
     protected function exportResponseContent()
     {
-        if (Str::contains($this->response->headers->get('content-type'), '/json')) {
-            $contentAsArray = json_decode($this->response->getContent(), JSON_OBJECT_AS_ARRAY);
-            return var_export($contentAsArray, true);
-        }
-
-        return var_export($this->response->getContent(), true);
+        return $this->response->getContent();
     }
 
-    // TODO: revisit this.
-    protected function exportResponseTemplate(): string
+    // @TODO: revisit this.
+    protected function exportResponseTemplate(): ?string
     {
         if ($this->response->original instanceof View) {
             return var_export(File::get($this->response->original->getPath()), true);
         }
 
-        return var_export(null, true);
+        return null;
     }
 
     /**
      * Export all route parameters as keys and the parameter-where conditions as values.
      *
-     * @return string
+     * @return array
      */
-    protected function exportRouteParameters(): string
+    protected function exportRouteParameters(): array
     {
-        $parameters = collect($this->request->route()->parameterNames())
+        return collect($this->request->route()->parameterNames())
             ->mapWithKeys(function ($parameter) {
                 return [$parameter => '*'];
             })
@@ -183,8 +140,6 @@ class ExampleGenerator
             })
             ->values()
             ->all();
-
-        return var_export($parameters, true);
     }
 
     protected function isRouteParameterOptional($parameter): bool

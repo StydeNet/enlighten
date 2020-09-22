@@ -5,6 +5,7 @@ namespace Tests\Suites\Feature;
 use Examples\CreatesANewUserExample;
 use Examples\ShowsUserDataExample;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\Example;
 use Tests\TestCase;
 
 class CreateUserTest extends TestCase
@@ -30,7 +31,7 @@ class CreateUserTest extends TestCase
             'password' => 'my-password',
         ]);
 
-        tap(new CreatesANewUserExample(), function ($example) {
+        tap(Example::first(), function (Example $example) {
             $this->assertSame('POST', $example->request_method);
             $this->assertSame('user', $example->request_path);
             $this->assertSame('user', $example->route);
