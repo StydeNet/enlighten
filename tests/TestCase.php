@@ -5,6 +5,7 @@ namespace Tests;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Styde\Enlighten\EnlightenServiceProvider;
 use Styde\Enlighten\ExampleGeneratorMiddleware;
 use Tests\App\Providers\RouteServiceProvider;
 
@@ -17,12 +18,15 @@ class TestCase extends OrchestraTestCase
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         $this->loadViewsFrom(__DIR__ . '/resources/views');
+
+        $this->overrideConfiguration();
     }
 
     protected function getPackageProviders($app)
     {
         return [
             RouteServiceProvider::class,
+            EnlightenServiceProvider::class,
         ];
     }
 
@@ -47,5 +51,12 @@ class TestCase extends OrchestraTestCase
     protected function loadViewsFrom($dir): void
     {
         $this->app['view']->addLocation($dir);
+    }
+
+    protected function overrideConfiguration(): void
+    {
+        $this->app->config->set([
+            'enlighten.examples.directory' => __DIR__ . '/../examples/',
+        ]);
     }
 }

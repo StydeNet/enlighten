@@ -14,7 +14,7 @@ class ExampleGenerator
     /**
      * @var string
      */
-    protected $codeExamplesDirectory;
+    protected $examplesDirectory;
     /**
      * @var Request
      */
@@ -24,17 +24,17 @@ class ExampleGenerator
      */
     private $response;
 
-    public function __construct(Request $request, Response $response)
+    public function __construct($examplesDirectory)
+    {
+        // This needs to be dynamic (from config, for example)
+        $this->examplesDirectory = $examplesDirectory;
+    }
+
+    public function generateExample(Request $request, Response $response)
     {
         $this->request = $request;
         $this->response = $response;
 
-        // This needs to be dynamic (from config, for example)
-        $this->codeExamplesDirectory = __DIR__.'/../examples';
-    }
-
-    public function generateExample()
-    {
         $test = $this->getTestInfo();
 
         $this->generateExampleClass([
@@ -61,8 +61,9 @@ class ExampleGenerator
 
     protected function generateExampleClass(array $attributes)
     {
-        if (! File::isDirectory($this->codeExamplesDirectory)) {
-            File::makeDirectory($this->codeExamplesDirectory);
+        if (! File::isDirectory($this->examplesDirectory)) {
+            File::makeDirectory($this->examplesDirectory);
+            File::put($this->examplesDirectory.'/.gitignore', "*\n!.gitignore\n");
         }
 
         File::put(
@@ -73,7 +74,7 @@ class ExampleGenerator
 
     protected function getFileName($className)
     {
-        return $this->codeExamplesDirectory.'/'.$className.'.php';
+        return $this->examplesDirectory.'/'.$className.'.php';
     }
 
     protected function generateClassContent(array $attributes): string
