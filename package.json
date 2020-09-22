@@ -1,0 +1,38 @@
+{
+  "name": "enlighten",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StydeNet/enlighten.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StydeNet/enlighten/issues"
+  },
+  "homepage": "https://github.com/StydeNet/enlighten#readme",
+  "devDependencies": {
+    "alpinejs": "^2.7.0",
+    "cross-env": "^7.0.2",
+    "laravel-mix": "^5.0.5",
+    "less": "^3.12.2",
+    "less-loader": "^7.0.1",
+    "tailwindcss": "^1.8.10",
+    "vue-template-compiler": "^2.6.12"
+  }
+}
