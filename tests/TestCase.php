@@ -1,0 +1,51 @@
+<?php
+
+namespace Tests;
+
+use Illuminate\Config\Repository as Config;
+use Illuminate\Contracts\Http\Kernel;
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Styde\Enlighten\ExampleGeneratorMiddleware;
+use Tests\App\Providers\RouteServiceProvider;
+
+class TestCase extends OrchestraTestCase
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        $this->loadViewsFrom(__DIR__ . '/resources/views');
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            RouteServiceProvider::class,
+        ];
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $this->configureDatabase($app['config']);
+
+        $app[Kernel::class]->pushMiddleware(ExampleGeneratorMiddleware::class);
+    }
+
+    protected function configureDatabase(Config $config): void
+    {
+        // Setup default database to use sqlite :memory:
+        $config->set('database.default', 'testbench');
+        $config->set('database.connections.testbench', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+    }
+
+    protected function loadViewsFrom($dir): void
+    {
+        $this->app['view']->addLocation($dir);
+    }
+}

@@ -1,0 +1,73 @@
+<?php
+
+namespace Examples;
+
+use Styde\Enlighten\Example;
+
+class {{className}} extends Example
+{
+    public function getTitle(): string
+    {
+        return '{{title}}';
+    }
+
+    public function getDescription(): ?string
+    {
+        return {{description}};
+    }
+
+    public function getRequestHeaders(): array
+    {
+        return {{requestHeaders}};
+    }
+
+    public function getRequestMethod(): string
+    {
+        return '{{requestMethod}}';
+    }
+
+    public function getRequestPath(): string
+    {
+        return '{{requestPath}}';
+    }
+
+    public function getRequestQueryParameters(): array
+    {
+        return {{requestQueryParameters}};
+    }
+
+    public function getRequestInput(): array
+    {
+        return {{requestInput}};
+    }
+
+    public function getRoute(): string
+    {
+        return '{{route}}';
+    }
+
+    public function getRouteParameters(): array
+    {
+        return {{routeParameters}};
+    }
+
+    public function getResponseHeaders(): array
+    {
+        return {{responseHeaders}};
+    }
+
+    public function getResponseStatus(): int
+    {
+        return {{responseStatus}};
+    }
+
+    public function getResponseBody()
+    {
+        return {{responseBody}};
+    }
+
+    public function getResponseTemplate(): ?string
+    {
+        return {{responseTemplate}};
+    }
+}

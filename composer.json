@@ -1,0 +1,37 @@
+{
+    "name": "styde/enlighten",
+    "description": "Enlighten your APIs with auto-generated documentation",
+    "type": "library",
+    "require": {
+        "php": "^7.3",
+        "laravel/framework": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+        "orchestra/testbench": "^6.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Duilio Palacios",
+            "email": "duilio@styde.net"
+        },
+        {
+            "name": "Jeffer Ochoa",
+            "email": "jeffer.8a@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Styde\\Enlighten\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Examples\\": "examples/",
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
