@@ -19,11 +19,15 @@ class ExampleGeneratorMiddleware
 
         // Allow users to create a whitelist or blacklist of status...
         // @TODO: Add excluded status to a configuration option
-        if (app()->runningUnitTests() && ! in_array($response->status(), [404, 500, '...'])) {
-            $generator = new ExampleGenerator($request, $response);
-            $generator->generateExample();
+        if (app()->runningUnitTests() && $this->allowedStatus($response)) {
+            app(ExampleGenerator::class)->generateExample($request, $response);
         }
 
         return $response;
+    }
+
+    protected function allowedStatus($response): bool
+    {
+        return !in_array($response->status(), [404, 500, '...']);
     }
 }
