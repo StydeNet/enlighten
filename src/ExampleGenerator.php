@@ -171,7 +171,9 @@ class ExampleGenerator
 
     protected function isTestExcluded(array $test)
     {
-        if ($this->exclude->contains($test['function'])) {
+        if ($this->exclude->contains(function ($pattern) use ($test) {
+            return Str::is($pattern, $test['function']);
+        })) {
             return true;
         }
 

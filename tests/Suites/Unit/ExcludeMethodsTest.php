@@ -5,7 +5,7 @@ namespace Tests\Suites\Unit;
 use Styde\Enlighten\Example;
 use Tests\TestCase;
 
-class MethodAnnotationTest extends TestCase
+class ExcludeMethodsTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -14,6 +14,7 @@ class MethodAnnotationTest extends TestCase
         $this->app->config->set([
             'enlighten.exclude' => [
                 'does_not_export_test_methods_excluded_in_the_configuration',
+                '*use_wildcards_to_ignore*',
             ],
         ]);
     }
@@ -21,7 +22,13 @@ class MethodAnnotationTest extends TestCase
     /** @test */
     function does_not_export_test_methods_excluded_in_the_configuration()
     {
-        $this->assertTestIsNotExportedAsExample();
+        $this->assertExampleIsNotCreated();
+    }
+
+    /** @test */
+    function can_use_wildcards_to_ignore_a_test_method_in_the_configuration()
+    {
+        $this->assertExampleIsNotCreated();
     }
 
     /**
@@ -30,21 +37,6 @@ class MethodAnnotationTest extends TestCase
      */
     function does_not_export_test_methods_with_the_enlighten_exclude_annotation()
     {
-        $this->assertTestIsNotExportedAsExample();
-    }
-
-    protected function assertTestIsNotExportedAsExample()
-    {
-        $this->withoutExceptionHandling();
-
-        $response = $this->post('user', [
-            'name' => 'Duilio',
-            'email' => 'duilio@example.test',
-            'password' => 'my-password',
-        ]);
-
-        $response->assertRedirect('/');
-
-        $this->assertSame(0, Example::count());
+        $this->assertExampleIsNotCreated();
     }
 }

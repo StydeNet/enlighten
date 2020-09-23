@@ -11,6 +11,8 @@ use Tests\App\Providers\RouteServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
+    use TestHelpers;
+
     protected function setUp(): void
     {
         parent::setUp();
