@@ -15,14 +15,6 @@ class ExampleGenerator
      * @var string
      */
     protected $examplesDirectory;
-    /**
-     * @var Request
-     */
-    private $request;
-    /**
-     * @var Response
-     */
-    private $response;
 
     public function __construct($examplesDirectory)
     {
@@ -32,9 +24,6 @@ class ExampleGenerator
 
     public function generateExample(Request $request, Response $response)
     {
-        $this->request = $request;
-        $this->response = $response;
-
         $test = $this->getTestInfo();
 
         Example::updateOrCreate([
@@ -45,19 +34,19 @@ class ExampleGenerator
             'title' => $this->getTitleFrom($test),
             'description' => $this->getDescriptionFrom($test),
             // Request
-            'request_headers' => $this->exportRequestHeaders(),
-            'request_method' => $this->request->method(),
-            'request_path' => $this->request->path(),
-            'request_query_parameters' => $this->exportQueryParameters(),
-            'request_input' => $this->exportRequestInput(),
+            'request_headers' => $this->exportRequestHeaders($request),
+            'request_method' => $request->method(),
+            'request_path' => $request->path(),
+            'request_query_parameters' => $this->exportQueryParameters($request),
+            'request_input' => $this->exportRequestInput($request),
             // Route
-            'route' => $this->request->route()->uri(),
-            'route_parameters' => $this->exportRouteParameters(),
+            'route' => $request->route()->uri(),
+            'route_parameters' => $this->exportRouteParameters($request),
             // Response
-            'response_status' => $this->response->getStatusCode(),
-            'response_headers' => $this->exportResponseHeaders(),
-            'response_body' => $this->exportResponseContent(),
-            'response_template' => $this->exportResponseTemplate(),
+            'response_status' => $response->getStatusCode(),
+            'response_headers' => $this->exportResponseHeaders($response),
+            'response_body' => $this->exportResponseContent($response),
+            'response_template' => $this->exportResponseTemplate($response),
         ]);
     }
 
@@ -80,40 +69,44 @@ class ExampleGenerator
         return $this->getAnnotationFromTestMethod($test, 'description');
     }
 
-    protected function exportRequestHeaders(): array
+    // @TODO: allow users to allow or blocklist the request headers.
+    protected function exportRequestHeaders(Request $request): array
     {
         return [
-            'accept' => $this->request->headers->get('accept'),
-            'accept-language' => $this->request->headers->get('accept-language'),
-            'accept-charset' => $this->request->headers->get('accept-charset'),
+            'accept' => $request->headers->get('accept'),
+            'accept-language' => $request->headers->get('accept-language'),
+            'accept-charset' => $request->headers->get('accept-charset'),
         ];
     }
 
-    protected function exportQueryParameters(): array
+    // @TODO: allow users to allow or blocklist the request query parameters.
+    protected function exportQueryParameters(Request $request): array
     {
-        return $this->request->query();
+        return $request->query();
     }
 
-    protected function exportRequestInput(): array
+    // @TODO: allow users to allow or blocklist the request input.
+    protected function exportRequestInput(Request $request): array
     {
-        return $this->request->input();
+        return $request->input();
     }
 
-    protected function exportResponseHeaders(): array
+    // @TODO: allow users to allow or blocklist the response headers.
+    protected function exportResponseHeaders(Response $response): array
     {
-        return $this->response->headers->all();
+        return $response->headers->all();
     }
 
-    protected function exportResponseContent()
+    protected function exportResponseContent(Response $response)
     {
-        return $this->response->getContent();
+        return $response->getContent();
     }
 
     // @TODO: revisit this.
-    protected function exportResponseTemplate(): ?string
+    protected function exportResponseTemplate(Response $response): ?string
     {
-        if ($this->response->original instanceof View) {
-            return var_export(File::get($this->response->original->getPath()), true);
+        if ($response->original instanceof View) {
+            return var_export(File::get($response->original->getPath()), true);
         }
 
         return null;
@@ -124,27 +117,27 @@ class ExampleGenerator
      *
      * @return array
      */
-    protected function exportRouteParameters(): array
+    protected function exportRouteParameters(Request $request): array
     {
-        return collect($this->request->route()->parameterNames())
+        return collect($request->route()->parameterNames())
             ->mapWithKeys(function ($parameter) {
                 return [$parameter => '*'];
             })
-            ->merge($this->request->route()->wheres)
-            ->map(function ($pattern, $name) {
+            ->merge($request->route()->wheres)
+            ->map(function ($pattern, $name) use ($request) {
                 return [
                     'name' => $name,
                     'pattern' => $pattern,
-                    'optional' => $this->isRouteParameterOptional($name),
+                    'optional' => $this->isRouteParameterOptional($request, $name),
                 ];
             })
             ->values()
             ->all();
     }
 
-    protected function isRouteParameterOptional($parameter): bool
+    protected function isRouteParameterOptional(Request $request, $parameter): bool
     {
-        return (bool) preg_match("/\{{$parameter}\?\}/", $this->request->route()->uri());
+        return (bool) preg_match("/{{$parameter}\?}/", $request->route()->uri());
     }
 
     protected function getAnnotationFromTestMethod($test, $annotation): ?string
