@@ -2,7 +2,6 @@
 
 namespace Tests\Suites\Feature;
 
-use Examples\ShowsUserDataExample;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
 use Tests\App\Models\User;

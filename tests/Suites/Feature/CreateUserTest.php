@@ -2,8 +2,6 @@
 
 namespace Tests\Suites\Feature;
 
-use Examples\CreatesANewUserExample;
-use Examples\ShowsUserDataExample;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
 use Tests\TestCase;
