@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('enlighten::layout.main')
 
 @section('content')
 

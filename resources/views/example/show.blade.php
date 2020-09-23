@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('enlighten::layout.main')
 
 @section('content')
 <div class="py-12">
@@ -9,12 +9,12 @@
                 <p class="text-gray-100">{{ $codeExample->description }}</p>
             </div>
 
-            @include('_request-info')
+            @include('enlighten::block.request-info')
 
-{{--            @include('_response-info')--}}
+            @include('enlighten::block.response-info')
         </div>
 
-{{--        @include('_preview')--}}
+        @include('enlighten::block.preview')
     </div>
 </div>
 @endsection

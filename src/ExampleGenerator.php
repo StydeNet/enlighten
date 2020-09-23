@@ -21,12 +21,11 @@ class ExampleGenerator
     public function generateExample(Request $request, Response $response)
     {
         $test = $this->getTestInfo();
-
         if ($this->isTestExcluded($test)) {
             return;
         }
 
-        Example::updateOrCreate([
+        $q = Example::updateOrCreate([
             'class_name' => $test['class'],
             'method_name' => $test['function'],
         ], [

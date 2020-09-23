@@ -1,4 +1,4 @@
-<x-headline>Request Input</x-headline>
+<x-enlighten-headline>Request Input</x-enlighten-headline>
 <table class="bg-gray-800 p-4 rounded-lg overflow-hidden text-gray-100 mb-4 w-full mt-4">
     <thead>
     <tr class="bg-gray-500">

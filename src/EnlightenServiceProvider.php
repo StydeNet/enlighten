@@ -11,6 +11,25 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->mergeConfigFrom(__DIR__.'/../config/enlighten.php', 'enlighten');
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'enlighten');
+
+        $this->loadViewComponentsAs('enlighten', [
+            'headline' => 'enlighten::components.headline',
+            'html-response' => 'enlighten::components.html-response',
+            'json-response' => 'enlighten::components.json-response',
+            'key-value' => 'enlighten::components.key-value',
+            'sub-title' => 'enlighten::components.sub-title',
+        ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../dist' => public_path('enlighten'),
+                __DIR__.'/../resources/views' => resource_path('views/vendor/enlighten'),
+            ], 'enlighten');
+        }
+
+        $this->loadroutesFrom(__DIR__.'/routes.php');
     }
 
     public function register()
