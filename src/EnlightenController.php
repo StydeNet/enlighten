@@ -1,8 +1,6 @@
 <?php
 
-namespace Styde\Enlighten\Http\Controllers;
-
-use Styde\Enlighten\Example;
+namespace Styde\Enlighten;
 
 class EnlightenController {
 

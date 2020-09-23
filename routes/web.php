@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Styde\Enlighten\Http\Controllers\EnlightenController;
+use Styde\Enlighten\EnlightenController;
 
 Route::prefix('enlighten')->middleware('web')->group(function () {
     Route::get('/dashboard', [EnlightenController::class, 'index'])
