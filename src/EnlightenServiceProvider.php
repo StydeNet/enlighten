@@ -16,7 +16,7 @@ class EnlightenServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ExampleGenerator::class, function () {
-            return new ExampleGenerator($this->app->config->get('enlighten'));
+            return new ExampleGenerator($this->app->config->get('enlighten'), new TestInspector);
         });
     }
 }
