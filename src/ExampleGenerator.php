@@ -15,7 +15,7 @@ class ExampleGenerator
 
     public function __construct(array $config)
     {
-        $this->exclude = collect($config['exclude']);
+        $this->exclude = $config['exclude'];
     }
 
     public function generateExample(Request $request, Response $response)
@@ -153,12 +153,10 @@ class ExampleGenerator
 
     protected function isTestExcluded(array $test)
     {
-        if ($this->exclude->contains(function ($pattern) use ($test) {
-            return Str::is($pattern, $test['function']);
-        })) {
+        if (Str::is($this->exclude, $test['function']) || Str::is($this->exclude, $test['class'])) {
             return true;
         }
-
+        
         $config = array_merge(
             $this->getTestClassConfig($test),
             $this->getTestMethodConfig($test)

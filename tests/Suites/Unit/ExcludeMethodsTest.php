@@ -11,6 +11,7 @@ class ExcludeMethodsTest extends TestCase
     {
         parent::setUp();
 
+        // @TODO: make sure the configuration is reset after the test.
         $this->app->config->set([
             'enlighten.exclude' => [
                 'does_not_export_test_methods_excluded_in_the_configuration',
