@@ -2,8 +2,8 @@
 
 namespace Tests\Suites\Api;
 
-use Examples\GetsTheListOfUsersExample;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\Example;
 use Tests\App\Models\User;
 use Tests\TestCase;
 
@@ -42,7 +42,9 @@ class ListUsersTest extends TestCase
                 ]
             ]);
 
-        tap(new GetsTheListOfUsersExample, function ($example) {
+        tap(Example::first(), function (Example $example) {
+            $this->assertSame('Tests\Suites\Api\ListUsersTest', $example->class_name);
+            $this->assertSame('gets_the_list_of_users', $example->method_name);
             $this->assertSame('Obtiene la lista de usuarios', $example->title);
             $this->assertSame('Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema', $example->description);
             $this->assertSame('GET', $example->request_method);

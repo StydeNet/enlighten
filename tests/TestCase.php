@@ -11,11 +11,14 @@ use Tests\App\Providers\RouteServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
+    use TestHelpers;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         $this->loadViewsFrom(__DIR__ . '/resources/views');
 

@@ -2,8 +2,8 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use InvalidArgumentException;
 
 /**
  * @property-read Example $title
@@ -22,44 +22,32 @@ use InvalidArgumentException;
  * @property-read Example $response_type
  * @property-read Example $full_path
  */
-abstract class Example
+class Example extends Model
 {
-    abstract public function getTitle(): string;
+    protected $table = 'enlighten_examples';
 
-    abstract public function getDescription(): ?string;
+    protected $guarded = [];
 
-    abstract public function getRequestHeaders(): array;
+    protected $casts = [
+        'request_headers' => 'array',
+        'request_query_parameters' => 'array',
+        'request_input' => 'array',
+        'route_parameters' => 'array',
+        'response_headers' => 'array',
+    ];
 
-    abstract public function getRequestMethod(): string;
+    // Accessors
 
-    abstract public function getRequestPath(): string;
-
-    abstract public function getRequestQueryParameters(): array;
-
-    abstract public function getRequestInput(): array;
-
-    abstract public function getRoute(): string;
-
-    abstract public function getRouteParameters(): array;
-
-    abstract public function getResponseHeaders(): array;
-
-    abstract public function getResponseStatus(): int;
-
-    abstract public function getResponseBody();
-
-    abstract public function getResponseTemplate(): ?string;
-
-    public function getFullPath(): string
+    public function getFullPathAttribute()
     {
-        if (empty($this->getRequestQueryParameters())) {
-            return $this->getRequestPath();
+        if (empty($this->request_query_parameters)) {
+            return $this->request_path;
         }
 
-        return $this->getRequestPath().'?'.http_build_query($this->getRequestQueryParameters());
+        return $this->request_path.'?'.http_build_query($this->request_query_parameters);
     }
 
-    public function getResponseType(): string
+    public function getResponseTypeAttribute()
     {
         $contentTypes = [
             'text/html' => 'HTML',
@@ -68,25 +56,16 @@ abstract class Example
         ];
 
         return collect($contentTypes)->first(function ($label, $type) {
-            return Str::contains($this->responseHeaders['content-type'][0], $type);
+            return Str::contains($this->response_headers['content-type'][0], $type);
         });
     }
 
-    /**
-     * Dynamically call getters on the class using properties with snake case format.
-     * i.e.: $example->full_path is equivalent to calling $example->getFullPath();
-     *
-     * @param string $attribute
-     * @return mixed
-     */
-    public function __get($attribute)
+    public function getResponseBodyAttribute()
     {
-        $method = 'get'.Str::studly($attribute);
-
-        if (method_exists($this, $method)) {
-            return $this->$method();
+        if ($this->response_type === 'JSON') {
+            return json_decode($this->attributes['response_body'], JSON_OBJECT_AS_ARRAY);
         }
 
-        throw new InvalidArgumentException("The method {$method} was not found in the CodeExample class");
+        return $this->attributes['response_body'];
     }
 }
