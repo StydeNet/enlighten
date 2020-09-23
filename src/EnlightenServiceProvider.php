@@ -12,7 +12,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../config/enlighten.php', 'enlighten');
 
-        if ($this->app->environment('local')) {
+        if ($this->app->environment('local', 'testing')) {
             $this->loadroutesFrom(__DIR__.'/routes.php');
         }
 
