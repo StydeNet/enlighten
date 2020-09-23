@@ -151,6 +151,55 @@ class ExampleGenerator
         return trim($annotations[1][0], '. ');
     }
 
+    protected function isTestExcluded(array $test)
+    {
+        if ($this->exclude->contains(function ($pattern) use ($test) {
+            return Str::is($pattern, $test['function']);
+        })) {
+            return true;
+        }
+
+        $config = array_merge(
+            $this->getTestClassConfig($test),
+            $this->getTestMethodConfig($test)
+        );
+
+        if (isset ($config['exclude']) && $config['exclude']) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function getTestClassConfig(array $test): array
+    {
+        $classConfig = $this->getAnnotationFromTestClass($test, 'enlighten');
+
+        if (is_null($classConfig)) {
+            return [];
+        }
+
+        return json_decode($classConfig, JSON_OBJECT_AS_ARRAY);
+    }
+
+    protected function getAnnotationFromTestClass($test, $annotation): ?string
+    {
+        preg_match_all("#@{$annotation} (.*?)\n#s", $this->getTestClassDocBlock($test), $annotations);
+
+        if (empty ($annotations[1])) {
+            return null;
+        }
+
+        return trim($annotations[1][0], '. ');
+    }
+
+    protected function getTestClassDocBlock($test)
+    {
+        $class = new \ReflectionClass($test['class']);
+
+        return $class->getDocComment();
+    }
+
     protected function getTestMethodDocBlock($test)
     {
         $method = new ReflectionMethod($test['class'], $test['function']);
@@ -167,22 +216,5 @@ class ExampleGenerator
         }
 
         return json_decode($methodConfig, JSON_OBJECT_AS_ARRAY);
-    }
-
-    protected function isTestExcluded(array $test)
-    {
-        if ($this->exclude->contains(function ($pattern) use ($test) {
-            return Str::is($pattern, $test['function']);
-        })) {
-            return true;
-        }
-
-        $config = $this->getTestMethodConfig($test);
-
-        if (isset ($config['exclude']) && $config['exclude']) {
-            return true;
-        }
-
-        return false;
     }
 }
