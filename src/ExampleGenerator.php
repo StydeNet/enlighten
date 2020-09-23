@@ -25,7 +25,7 @@ class ExampleGenerator
             return;
         }
 
-        $q = Example::updateOrCreate([
+        Example::updateOrCreate([
             'class_name' => $test['class'],
             'method_name' => $test['function'],
         ], [
