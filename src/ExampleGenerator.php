@@ -11,20 +11,20 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ExampleGenerator
 {
-    /**
-     * @var string
-     */
-    protected $examplesDirectory;
+    protected $exclude;
 
-    public function __construct($examplesDirectory)
+    public function __construct(array $config)
     {
-        // This needs to be dynamic (from config, for example)
-        $this->examplesDirectory = $examplesDirectory;
+        $this->exclude = collect($config['exclude']);
     }
 
     public function generateExample(Request $request, Response $response)
     {
         $test = $this->getTestInfo();
+
+        if ($this->isTestExcluded($test)) {
+            return;
+        }
 
         Example::updateOrCreate([
             'class_name' => $test['class'],
@@ -142,14 +142,45 @@ class ExampleGenerator
 
     protected function getAnnotationFromTestMethod($test, $annotation): ?string
     {
-        $method = new ReflectionMethod($test['class'], $test['function']);
-
-        preg_match_all("#@{$annotation} (.*?)\n#s", $method->getDocComment(), $annotations);
+        preg_match_all("#@{$annotation} (.*?)\n#s", $this->getTestMethodDocBlock($test), $annotations);
 
         if (empty ($annotations[1])) {
             return null;
         }
 
         return trim($annotations[1][0], '. ');
+    }
+
+    protected function getTestMethodDocBlock($test)
+    {
+        $method = new ReflectionMethod($test['class'], $test['function']);
+
+        return $method->getDocComment();
+    }
+
+    protected function getTestMethodConfig(array $test): array
+    {
+        $methodConfig = $this->getAnnotationFromTestMethod($test, 'enlighten');
+
+        if (is_null($methodConfig)) {
+            return [];
+        }
+
+        return json_decode($methodConfig, JSON_OBJECT_AS_ARRAY);
+    }
+
+    protected function isTestExcluded(array $test)
+    {
+        if ($this->exclude->contains($test['function'])) {
+            return true;
+        }
+
+        $config = $this->getTestMethodConfig($test);
+
+        if (isset ($config['exclude']) && $config['exclude']) {
+            return true;
+        }
+
+        return false;
     }
 }
