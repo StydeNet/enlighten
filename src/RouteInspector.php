@@ -1,0 +1,41 @@
+<?php
+
+namespace Styde\Enlighten;
+
+use Illuminate\Routing\Route;
+
+class RouteInspector
+{
+    public function getInfo(Route $route)
+    {
+        return new RouteInfo($route->uri(), $this->getParameters($route));
+    }
+
+    /**
+     * Get all the route parameters as keys and the parameter-where conditions as values.
+     *
+     * @return array
+     */
+    protected function getParameters(Route $route): array
+    {
+        return collect($route->parameterNames())
+            ->mapWithKeys(function ($parameter) {
+                return [$parameter => '*'];
+            })
+            ->merge($route->wheres)
+            ->map(function ($pattern, $name) use ($route) {
+                return [
+                    'name' => $name,
+                    'pattern' => $pattern,
+                    'optional' => $this->isParameterOptional($route, $name),
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
+    protected function isParameterOptional(Route $route, $parameter): bool
+    {
+        return (bool) preg_match("/{{$parameter}\?}/", $route->uri());
+    }
+}

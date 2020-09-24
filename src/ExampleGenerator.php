@@ -3,24 +3,23 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
-use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
 // @TODO: rename class because it's not generating anything anymore.
 // ExampleRepository? ExampleRecorder?
 class ExampleGenerator
 {
-    protected $exclude;
-    /**
-     * @var TestInspector
-     */
-    private $testInspector;
+    protected array $exclude;
+    private TestInspector $testInspector;
+    private RequestInspector $requestInspector;
+    private ResponseInspector $responseInspector;
 
-    public function __construct(array $config, TestInspector $testInspector)
+    public function __construct(array $config, TestInspector $testInspector, RequestInspector $requestInspector, ResponseInspector $responseInspector)
     {
         $this->exclude = $config['exclude'];
         $this->testInspector = $testInspector;
+        $this->requestInspector = $requestInspector;
+        $this->responseInspector = $responseInspector;
     }
 
     public function generateExample(Request $request, Response $response)
@@ -30,6 +29,10 @@ class ExampleGenerator
         if ($testMethodInfo->isExcluded($this->exclude)) {
             return;
         }
+
+        $requestInfo = $this->requestInspector->getInfoFrom($request);
+
+        $responseInfo = $this->responseInspector->getInfoFrom($response);
 
         $group = ExampleGroup::updateOrCreate([
             'class_name' => $testMethodInfo->classInfo->getClassName(),
@@ -45,90 +48,19 @@ class ExampleGenerator
             'title' => $testMethodInfo->getTitle(),
             'description' => $testMethodInfo->getDescription(),
             // Request
-            'request_headers' => $this->exportRequestHeaders($request),
-            'request_method' => $request->method(),
-            'request_path' => $request->path(),
-            'request_query_parameters' => $this->exportQueryParameters($request),
-            'request_input' => $this->exportRequestInput($request),
+            'request_headers' => $requestInfo->getHeaders(),
+            'request_method' => $requestInfo->getMethod(),
+            'request_path' => $requestInfo->getPath(),
+            'request_query_parameters' => $requestInfo->getQueryParameters(),
+            'request_input' => $requestInfo->getInput(),
             // Route
-            'route' => $request->route()->uri(),
-            'route_parameters' => $this->exportRouteParameters($request),
+            'route' => $requestInfo->routeInfo->getUri(),
+            'route_parameters' => $requestInfo->routeInfo->getParameters(),
             // Response
-            'response_status' => $response->getStatusCode(),
-            'response_headers' => $this->exportResponseHeaders($response),
-            'response_body' => $this->exportResponseContent($response),
-            'response_template' => $this->exportResponseTemplate($response),
+            'response_status' => $responseInfo->getStatusCode(),
+            'response_headers' => $responseInfo->getHeaders(),
+            'response_body' => $responseInfo->getContent(),
+            'response_template' => $responseInfo->getTemplate(),
         ]);
-    }
-
-    // @TODO: allow users to allow or blocklist the request headers.
-    protected function exportRequestHeaders(Request $request): array
-    {
-        return [
-            'accept' => $request->headers->get('accept'),
-            'accept-language' => $request->headers->get('accept-language'),
-            'accept-charset' => $request->headers->get('accept-charset'),
-        ];
-    }
-
-    // @TODO: allow users to allow or blocklist the request query parameters.
-    protected function exportQueryParameters(Request $request): array
-    {
-        return $request->query();
-    }
-
-    // @TODO: allow users to allow or blocklist the request input.
-    protected function exportRequestInput(Request $request): array
-    {
-        return $request->input();
-    }
-
-    // @TODO: allow users to allow or blocklist the response headers.
-    protected function exportResponseHeaders(Response $response): array
-    {
-        return $response->headers->all();
-    }
-
-    protected function exportResponseContent(Response $response)
-    {
-        return $response->getContent();
-    }
-
-    // @TODO: revisit this.
-    protected function exportResponseTemplate(Response $response): ?string
-    {
-        if ($response->original instanceof View) {
-            return var_export(File::get($response->original->getPath()), true);
-        }
-
-        return null;
-    }
-
-    /**
-     * Export all route parameters as keys and the parameter-where conditions as values.
-     *
-     * @return array
-     */
-    protected function exportRouteParameters(Request $request): array
-    {
-        return collect($request->route()->parameterNames())
-            ->mapWithKeys(function ($parameter) {
-                return [$parameter => '*'];
-            })
-            ->merge($request->route()->wheres)
-            ->map(function ($pattern, $name) use ($request) {
-                return [
-                    'name' => $name,
-                    'pattern' => $pattern,
-                    'optional' => $this->isRouteParameterOptional($request, $name),
-                ];
-            })
-            ->values()
-            ->all();
-    }
-
-    protected function isRouteParameterOptional(Request $request, $parameter): bool
-    {
-        return (bool) preg_match("/{{$parameter}\?}/", $request->route()->uri());
     }
 }
