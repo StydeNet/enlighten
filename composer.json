@@ -3,7 +3,7 @@
     "description": "Enlighten your APIs with auto-generated documentation",
     "type": "library",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "laravel/framework": "^8.0",
         "ext-json": "*"
     },

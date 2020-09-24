@@ -3,6 +3,7 @@
 namespace Tests\Suites\Feature;
 
 use Styde\Enlighten\Example;
+use Styde\Enlighten\ExampleGroup;
 use Tests\TestCase;
 
 class CodeExampleViewTest extends TestCase
@@ -22,9 +23,14 @@ class CodeExampleViewTest extends TestCase
 
     protected function createCodeExample()
     {
+        $group = ExampleGroup::create([
+            'class_name' => 'Tests\Feature\CreateUserTest',
+            'title' => 'Create User',
+        ]);
+
         return Example::create([
             'title' => 'Creates a new user',
-            'class_name' => 'Tests\Feature\CreateUserTest',
+            'group_id' => $group,
             'method_name' => 'creates_a_new_user',
             'description' => 'register new users in the system.',
             'request_path' => 'user',

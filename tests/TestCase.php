@@ -6,6 +6,7 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Styde\Enlighten\EnlightenServiceProvider;
+use Styde\Enlighten\ExampleGenerator;
 use Styde\Enlighten\ExampleGeneratorMiddleware;
 use Tests\App\Providers\RouteServiceProvider;
 
@@ -22,7 +23,7 @@ class TestCase extends OrchestraTestCase
 
         $this->loadViewsFrom(__DIR__ . '/resources/views');
 
-        $this->overrideConfiguration();
+        $this->addCustomConfiguration();
     }
 
     protected function getPackageProviders($app)
@@ -56,7 +57,7 @@ class TestCase extends OrchestraTestCase
         $this->app['view']->addLocation($dir);
     }
 
-    protected function overrideConfiguration(): void
+    protected function addCustomConfiguration(): void
     {
         $this->app->config->set([
             'enlighten.examples.directory' => __DIR__ . '/../examples/',

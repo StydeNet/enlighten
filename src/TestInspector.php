@@ -2,31 +2,24 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\Types\Static_;
 use ReflectionClass;
 use ReflectionMethod;
 
 class TestInspector
 {
+    private static $testClasses = [];
+
     public function getInfo()
     {
         $trace = $this->getTestTrace();
 
-        $classDocBlock = (new ReflectionClass($trace['class']))->getDocComment();
-
-        $methodDocBlock = (new ReflectionMethod($trace['class'], $trace['function']))->getDocComment();
-
-        return new TestInfo(
-            $trace,
-            array_merge(
-                $this->getConfigFrom($classDocBlock),
-                $this->getConfigFrom($methodDocBlock)
-            ),
-            [
-                'method_title' => $this->getAnnotation($methodDocBlock, 'testdox'),
-                'method_description' => $this->getAnnotation($methodDocBlock, 'description'),
-            ]
-        );
+        return [
+            $testClassInfo = $this->makeTestClassInfo($trace['class']),
+            $this->makeTestMethodInfo($trace, $testClassInfo)
+        ];
     }
 
     protected function getTestTrace(): array
@@ -57,5 +50,38 @@ class TestInspector
         }
 
         return trim($annotations[1][0], '. ');
+    }
+
+    private function makeTestClassInfo($class)
+    {
+        if (isset(static::$testClasses[$class])) {
+            return static::$testClasses[$class];
+        }
+
+        $classDocBlock = (new ReflectionClass($class))->getDocComment();
+
+        return static::$testClasses[$class] = new TestClassInfo(
+            $class, $this->getConfigFrom($classDocBlock), [
+                'title' => $this->getAnnotation($classDocBlock, 'testdox'),
+                'description' => $this->getAnnotation($classDocBlock, 'description'),
+            ]
+        );
+    }
+
+    protected function makeTestMethodInfo(array $trace, TestClassInfo $testClassInfo): TestInfo
+    {
+        $methodDocBlock = (new ReflectionMethod($trace['class'], $trace['function']))->getDocComment();
+
+        return new TestInfo(
+            $trace,
+            array_merge(
+                $testClassInfo->getConfig(),
+                $this->getConfigFrom($methodDocBlock)
+            ),
+            [
+                'method_title' => $this->getAnnotation($methodDocBlock, 'testdox'),
+                'method_description' => $this->getAnnotation($methodDocBlock, 'description'),
+            ]
+        );
     }
 }

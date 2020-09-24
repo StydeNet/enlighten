@@ -4,9 +4,14 @@ namespace Tests\Suites\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
+use Styde\Enlighten\ExampleGroup;
 use Tests\App\Models\User;
 use Tests\TestCase;
 
+/**
+ * @testdox Shows the user's information
+ * @description This endpoint allows you to get all the info from a specific user.
+ */
 class ShowUserTest extends TestCase
 {
     use RefreshDatabase;
@@ -32,6 +37,12 @@ class ShowUserTest extends TestCase
             ->assertViewIs('user.show')
             ->assertSee('Duilio Palacios')
             ->assertSee('user@example.test');
+
+        tap(ExampleGroup::first(), function (ExampleGroup $exampleGroup) {
+            $this->assertSame('Tests\Suites\Feature\ShowUserTest', $exampleGroup->class_name);
+            $this->assertSame("Shows the user's information", $exampleGroup->title);
+            $this->assertSame('This endpoint allows you to get all the info from a specific user', $exampleGroup->description);
+        });
 
         tap(Example::first(), function (Example $example) use ($user) {
             $this->assertSame('Get user data by ID', $example->title);

@@ -36,6 +36,13 @@ class Example extends Model
         'response_headers' => 'array',
     ];
 
+    // Relationships
+
+    public function group()
+    {
+        return $this->belongsTo(ExampleGroup::class);
+    }
+
     // Accessors
 
     public function getFullPathAttribute()

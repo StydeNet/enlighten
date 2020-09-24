@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
+// @TODO: rename class because it's not generating anything anymore.
+// ExampleRepository? ExampleRecorder?
 class ExampleGenerator
 {
     protected $exclude;
@@ -23,14 +25,20 @@ class ExampleGenerator
 
     public function generateExample(Request $request, Response $response)
     {
-        $test = $this->testInspector->getInfo();
+        [$testClasSInfo, $test] = $this->testInspector->getInfo();
 
         if ($test->isExcluded($this->exclude)) {
             return;
         }
 
-        Example::updateOrCreate([
+        $group = ExampleGroup::updateOrCreate([
             'class_name' => $test->getClass(),
+        ], [
+            'title' => $testClasSInfo->getTitle(),
+            'description' => $testClasSInfo->getDescription(),
+        ]);
+
+        $group->examples()->updateOrCreate([
             'method_name' => $test->getMethod(),
         ], [
             // Test
