@@ -12,25 +12,25 @@ class ResponseInspector
     {
         return new ResponseInfo(
             $response->getStatusCode(),
-            $this->getResponseHeaders($response),
-            $this->getResponseContent($response),
-            $this->getResponseTemplate($response)
+            $this->getHeaders($response),
+            $this->getContent($response),
+            $this->getTemplate($response)
         );
     }
 
     // @TODO: allow users to allow or blocklist the response headers.
-    protected function getResponseHeaders(Response $response): array
+    protected function getHeaders(Response $response): array
     {
         return $response->headers->all();
     }
 
-    protected function getResponseContent(Response $response): string
+    protected function getContent(Response $response): string
     {
         return $response->getContent();
     }
 
     // @TODO: revisit this.
-    protected function getResponseTemplate(Response $response): ?string
+    protected function getTemplate(Response $response): ?string
     {
         if ($response->original instanceof View) {
             return var_export(File::get($response->original->getPath()), true);
