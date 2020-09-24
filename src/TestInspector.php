@@ -2,24 +2,20 @@
 
 namespace Styde\Enlighten;
 
-use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use phpDocumentor\Reflection\Types\Static_;
-use ReflectionClass;
-use ReflectionMethod;
 
 class TestInspector
 {
-    private static $testClasses = [];
+    private static array $testClasses = [];
 
-    public function getInfo()
+    public function getInfo(): TestMethodInfo
     {
         $trace = $this->getTestTrace();
 
-        return [
-            $testClassInfo = $this->makeTestClassInfo($trace['class']),
-            $this->makeTestMethodInfo($trace, $testClassInfo)
-        ];
+        $testClassInfo = $this->makeTestClassInfo($trace['class']);
+
+        return $this->makeTestMethodInfo($testClassInfo, $trace['function']);
     }
 
     protected function getTestTrace(): array
@@ -30,58 +26,40 @@ class TestInspector
         });
     }
 
-    protected function getConfigFrom($docBlock): array
+    private function makeTestClassInfo($className)
     {
-        $classConfig = $this->getAnnotation($docBlock, 'enlighten');
-
-        if (is_null($classConfig)) {
-            return [];
+        if (isset(static::$testClasses[$className])) {
+            return static::$testClasses[$className];
         }
 
-        return json_decode($classConfig, JSON_OBJECT_AS_ARRAY);
-    }
+        $annotations = Annotations::fromClass($className);
 
-    protected function getAnnotation($docblock, $annotation): ?string
-    {
-        preg_match_all("#@{$annotation} (.*?)\n#s", $docblock, $annotations);
-
-        if (empty ($annotations[1])) {
-            return null;
-        }
-
-        return trim($annotations[1][0], '. ');
-    }
-
-    private function makeTestClassInfo($class)
-    {
-        if (isset(static::$testClasses[$class])) {
-            return static::$testClasses[$class];
-        }
-
-        $classDocBlock = (new ReflectionClass($class))->getDocComment();
-
-        return static::$testClasses[$class] = new TestClassInfo(
-            $class, $this->getConfigFrom($classDocBlock), [
-                'title' => $this->getAnnotation($classDocBlock, 'testdox'),
-                'description' => $this->getAnnotation($classDocBlock, 'description'),
-            ]
+        return static::$testClasses[$className] = new TestClassInfo(
+            $className, $this->getConfigFrom($annotations), $this->getTextsFrom($annotations)
         );
     }
 
-    protected function makeTestMethodInfo(array $trace, TestClassInfo $testClassInfo): TestInfo
+    protected function makeTestMethodInfo(TestClassInfo $testClassInfo, string $methodName): TestMethodInfo
     {
-        $methodDocBlock = (new ReflectionMethod($trace['class'], $trace['function']))->getDocComment();
+        $annotations = Annotations::fromMethod($testClassInfo->getClassName(), $methodName);
 
-        return new TestInfo(
-            $trace,
-            array_merge(
-                $testClassInfo->getConfig(),
-                $this->getConfigFrom($methodDocBlock)
-            ),
-            [
-                'method_title' => $this->getAnnotation($methodDocBlock, 'testdox'),
-                'method_description' => $this->getAnnotation($methodDocBlock, 'description'),
-            ]
+        return new TestMethodInfo(
+            $testClassInfo, $methodName,
+            array_merge($testClassInfo->getConfig(), $this->getConfigFrom($annotations)),
+            $this->getTextsFrom($annotations)
         );
+    }
+
+    protected function getConfigFrom($annotations): array
+    {
+        return json_decode($annotations->get('enlighten', '{}'), JSON_OBJECT_AS_ARRAY);
+    }
+
+    protected function getTextsFrom(Collection $annotations): array
+    {
+        return [
+            'title' => $annotations->get('testdox'),
+            'description' => $annotations->get('description'),
+        ];
     }
 }

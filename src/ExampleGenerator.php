@@ -25,25 +25,25 @@ class ExampleGenerator
 
     public function generateExample(Request $request, Response $response)
     {
-        [$testClasSInfo, $test] = $this->testInspector->getInfo();
+        $testMethodInfo = $this->testInspector->getInfo();
 
-        if ($test->isExcluded($this->exclude)) {
+        if ($testMethodInfo->isExcluded($this->exclude)) {
             return;
         }
 
         $group = ExampleGroup::updateOrCreate([
-            'class_name' => $test->getClass(),
+            'class_name' => $testMethodInfo->classInfo->getClassName(),
         ], [
-            'title' => $testClasSInfo->getTitle(),
-            'description' => $testClasSInfo->getDescription(),
+            'title' => $testMethodInfo->classInfo->getTitle(),
+            'description' => $testMethodInfo->classInfo->getDescription(),
         ]);
 
         $group->examples()->updateOrCreate([
-            'method_name' => $test->getMethod(),
+            'method_name' => $testMethodInfo->getMethodName(),
         ], [
             // Test
-            'title' => $test->getTitle(),
-            'description' => $test->getDescription(),
+            'title' => $testMethodInfo->getTitle(),
+            'description' => $testMethodInfo->getDescription(),
             // Request
             'request_headers' => $this->exportRequestHeaders($request),
             'request_method' => $request->method(),
