@@ -53,4 +53,29 @@ class ResponseInspectorTest extends TestCase
         $this->assertSame('******', $headers['token']);
         $this->assertArrayNotHasKey('key-not-present', $headers);
     }
+
+    /** @test */
+    function excluded_headers_take_precedence_over_overwritten_headers()
+    {
+        $response = new Response('', 200, [
+            'token' => 'this-value-should-be-removed',
+            'content-type' => 'application/json',
+        ]);
+
+        $responseInspector = new ResponseInspector([
+            'headers' => [
+                'exclude' => [
+                    'token'
+                ],
+                'overwrite' => [
+                    'token' => '******',
+                ],
+            ]
+        ]);
+
+        $headers = $responseInspector->getInfoFrom($response)->getHeaders();
+
+        $this->assertSame(['application/json'], $headers['content-type']);
+        $this->assertArrayNotHasKey('token', $headers);
+    }
 }

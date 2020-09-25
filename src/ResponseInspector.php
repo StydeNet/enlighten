@@ -30,11 +30,10 @@ class ResponseInspector
 
     protected function getHeaders(Response $response): array
     {
-        $headers = collect($response->headers->all());
+        $headers = collect($response->headers->all())
+            ->diffKeys($this->excludeHeaders->flip());
 
-        return $headers
-            ->diffKeys($this->excludeHeaders->flip())
-            ->merge($this->overwriteHeaders->intersectByKeys($headers))
+         return $headers->merge($this->overwriteHeaders->intersectByKeys($headers))
             ->all();
     }
 
