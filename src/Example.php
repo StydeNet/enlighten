@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 
 /**
@@ -24,6 +25,8 @@ use Illuminate\Support\Str;
  */
 class Example extends Model
 {
+    protected $connection = 'enlighten';
+
     protected $table = 'enlighten_examples';
 
     protected $guarded = [];
