@@ -2,4 +2,11 @@
 
 return [
     'exclude' => [],
+
+    'response' => [
+        'headers' => [
+            'exclude' => [],
+            'overwrite' => [],
+        ]
+    ]
 ];

@@ -21,7 +21,7 @@ class RequestInspector
             $this->getHeadersFrom($request),
             $this->getQueryParametersFrom($request),
             $this->getInputFrom($request),
-            $this->routeInspector->getInfo($request->route())
+            $this->routeInspector->getInfoFrom($request->route())
         );
     }
 
