@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExampleGroup extends Model
 {
+    protected $connection = 'enlighten';
+
     protected $table = 'enlighten_example_groups';
 
     protected $guarded = [];

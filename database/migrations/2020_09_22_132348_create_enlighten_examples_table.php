@@ -13,7 +13,11 @@ class CreateEnlightenExamplesTable extends Migration
      */
     public function up()
     {
-        Schema::create('enlighten_examples', function (Blueprint $table) {
+        if (Schema::connection('enlighten')->hasTable('enlighten_examples')) {
+            return;
+        }
+
+        Schema::connection('enlighten')->create('enlighten_examples', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('group_id')
@@ -46,6 +50,6 @@ class CreateEnlightenExamplesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enlighten_examples');
+        Schema::connection('enlighten')->dropIfExists('enlighten_examples');
     }
 }

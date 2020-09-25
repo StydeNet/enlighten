@@ -2,12 +2,15 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Config\Repository as Config;
 use Illuminate\Support\ServiceProvider;
 
 class EnlightenServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->addDatabaseConnection($this->app->config);
+
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->mergeConfigFrom(__DIR__.'/../config/enlighten.php', 'enlighten');
@@ -32,6 +35,17 @@ class EnlightenServiceProvider extends ServiceProvider
                 __DIR__.'/../resources/views' => resource_path('views/vendor/enlighten'),
             ], 'enlighten');
         }
+    }
+
+    protected function addDatabaseConnection(Config $config)
+    {
+        $connection = $config->get('database.connections.'.$config->get('database.default'));
+
+        if ($connection['driver'] !== 'sqlite') {
+            $connection['database'] = $connection['database'].'_enlighten';
+        }
+
+        $config->set('database.connections.enlighten', $connection);
     }
 
     public function register()
