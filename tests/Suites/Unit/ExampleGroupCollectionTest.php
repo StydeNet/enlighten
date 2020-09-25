@@ -16,25 +16,6 @@ class ExampleGroupCollectionTest extends TestCase
     }
 
     /** @test */
-    function get_items_that_match_a_pattern()
-    {
-        $collection = ExampleGroupCollection::make([
-            new Example(['class_name' => 'ListUsersTest']),
-            new Example(['class_name' => 'UpdatePostsTest']),
-            new Example(['class_name' => 'CreateProjectsTest']),
-            new Example(['class_name' => 'SearchUsersTest']),
-            new Example(['class_name' => 'CreateUserTest']),
-        ]);
-
-        $expected = [
-            ['class_name' => 'ListUsersTest'],
-            ['class_name' => 'SearchUsersTest'],
-            ['class_name' => 'CreateUserTest'],
-        ];
-        $this->assertSame($expected, $collection->match('class_name', ['*Users*', '*User*'])->values()->toArray());
-    }
-
-    /** @test */
     public function some_test(): void
     {
         $collection = ExampleGroupCollection::make([

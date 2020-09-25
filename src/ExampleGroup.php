@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class ExampleGroup extends Model
 {
@@ -20,5 +21,10 @@ class ExampleGroup extends Model
     public function examples()
     {
         return $this->hasMany(Example::class, 'group_id');
+    }
+
+    public function matches(Module $module)
+    {
+        return Str::is($module->pattern, $this->class_name);
     }
 }

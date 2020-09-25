@@ -4,13 +4,13 @@ namespace Styde\Enlighten;
 
 class Module
 {
-    private string $name;
+    public string $name;
     /**
      * @var string|array
      */
-    private $pattern;
+    public $pattern;
 
-    private ExampleGroupCollection $group;
+    public ExampleGroupCollection $group;
 
     public function __construct(string $name, $pattern = [])
     {

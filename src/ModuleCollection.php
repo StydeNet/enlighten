@@ -2,49 +2,48 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Support\Str;
+
 class ModuleCollection extends \Illuminate\Support\Collection
 {
     public function __construct($items = [])
     {
         parent::__construct(array_map(function ($item) {
-            return new Module($item['name'], $item['pattern']);
+            if (is_array($item)) {
+                return new Module($item['name'], $item['pattern']);
+            }
+
+            return $item;
         }, $items));
     }
 
     public function getByName($name)
     {
-        return $this->first(function ($module) use ($name) {
-            return $module->getName() === $name;
-        });
+        return $this->firstWhere('name', $name);
     }
 
     public function addGroups(ExampleGroupCollection $groups) : self
     {
-        $this->each(function ($module) use ($groups) {
-            $matches = $groups->match('class_name', $module->getPattern());
+        return $this
+            ->each(function ($module) use (&$groups) {
+                [$matches, $groups] = $groups->partition(fn($group) => $group->matches($module));
 
-            $module->addGroup($matches);
-
-            // Avoid adding the same group twice to the module collection.
-            $groups->forget($matches->keys()->all());
-        });
-
-        $this->addRemainingGroupsToTheDefaultModule($groups);
-
-        return $this;
+                $module->addGroup($matches);
+            })
+            ->addRemainingGroupsToTheDefaultModule($groups);
     }
 
-    private function addRemainingGroupsToTheDefaultModule(ExampleGroupCollection $groups)
+    private function addRemainingGroupsToTheDefaultModule(ExampleGroupCollection $groups): self
     {
         if ($groups->isEmpty()) {
-            return;
+            return $this;
         }
 
-        $module = new Module(config('enlighten.default_moudle', 'Other Modules'));
+        $module = new Module(config('enlighten.default_module', 'Other Modules'));
 
         $module->addGroup($groups);
 
-        $this->add($module);
+        return $this->add($module);
     }
 
 }

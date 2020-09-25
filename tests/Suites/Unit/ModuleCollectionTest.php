@@ -2,7 +2,7 @@
 
 namespace Tests\Suites\Unit;
 
-use Styde\Enlighten\Example;
+use Styde\Enlighten\ExampleGroup;
 use Styde\Enlighten\ExampleGroupCollection;
 use Styde\Enlighten\Module;
 use Styde\Enlighten\ModuleCollection;
@@ -48,37 +48,41 @@ class ModuleCollectionTest extends TestCase
         ]);
 
         $groupCollection = ExampleGroupCollection::make([
-            new Example(['class_name' => 'ListUsersTest']),
-            new Example(['class_name' => 'UpdatePostsTest']),
-            new Example(['class_name' => 'ListProjectsTest']),
-            new Example(['class_name' => 'SearchUsersTest']),
-            new Example(['class_name' => 'CreateUserTest']),
-            new Example(['class_name' => 'SearchTest']),
+            new ExampleGroup(['class_name' => 'ListUsersTest']),
+            new ExampleGroup(['class_name' => 'UpdatePostsTest']),
+            new ExampleGroup(['class_name' => 'ListProjectsTest']),
+            new ExampleGroup(['class_name' => 'SearchUsersTest']),
+            new ExampleGroup(['class_name' => 'CreateUserTest']),
+            new ExampleGroup(['class_name' => 'SearchTest']),
         ]);
 
         $modules->addGroups($groupCollection);
 
-        $this->assertModuleHasGroups($modules->getByName('Users'), [
+        $this->assertModuleHasGroups($modules, 'Users', [
             ['class_name' => 'ListUsersTest'],
             ['class_name' => 'SearchUsersTest'],
             ['class_name' => 'CreateUserTest'],
         ]);
 
-        $this->assertModuleHasGroups($modules->getByName('Posts'), [
+        $this->assertModuleHasGroups($modules, 'Posts', [
             ['class_name' => 'UpdatePostsTest'],
         ]);
 
-        $this->assertModuleHasGroups($modules->getByName('Search'), [
+        $this->assertModuleHasGroups($modules, 'Search', [
             ['class_name' => 'SearchTest']
         ]);
 
-        $this->assertModuleHasGroups($modules->getByName('Other Modules'), [
+        $this->assertModuleHasGroups($modules, 'Other Modules', [
             ['class_name' => 'ListProjectsTest']
         ]);
     }
 
-    public function assertModuleHasGroups(Module $module, array $expectedGroups)
+    public function assertModuleHasGroups(ModuleCollection $modules, $name, array $expectedGroups)
     {
+        $module = $modules->getByName($name);
+
+        $this->assertInstanceOf(Module::class, $module);
+
         $this->assertSame($expectedGroups, $module->getGroup()->values()->toArray());
     }
 }
