@@ -2,6 +2,8 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Support\Str;
+
 class Collection extends \Illuminate\Support\Collection
 {
     /**

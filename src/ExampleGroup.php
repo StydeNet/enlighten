@@ -12,6 +12,11 @@ class ExampleGroup extends Model
 
     protected $guarded = [];
 
+    public function newCollection(array $models = [])
+    {
+        return new ExampleGroupCollection($models);
+    }
+
     public function examples()
     {
         return $this->hasMany(Example::class, 'group_id');
