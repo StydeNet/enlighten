@@ -8,14 +8,16 @@ class EnlightenController {
 
     public function index()
     {
-        $groups = ExampleGroup::with('examples')->get();
+        $tabs = TestSuite::all();
 
-        $tabs = $groups->getTestSuites();
+        $groups = ExampleGroup::with('examples')->get();
 
         $modules = ModuleCollection::make(config('enlighten.modules'));
 
+        $modules->addGroups($groups);
+
         return view('enlighten::dashboard.index', [
-            'modules' => $modules->addGroups($groups),
+            'modules' => $modules,
             'tabs' => $tabs
         ]);
     }
