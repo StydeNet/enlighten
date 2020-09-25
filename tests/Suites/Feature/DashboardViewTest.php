@@ -9,6 +9,7 @@ class DashboardViewTest extends TestCase {
     /** @test */
     public function get_dashboard_view(): void
     {
+        $this->withoutExceptionHandling();
         $response =$this->get(route('enlighten.dashboard'));
 
         $response->assertOk();

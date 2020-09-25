@@ -8,14 +8,15 @@ class EnlightenController {
 
     public function index()
     {
-        $groups = ExampleGroup::with('examples')
-            ->get()
-            ->groupBy(function ($group) {
-                return Str::after(Str::beforeLast($group->class_name, '\\'), '\\');
-            });
+        $groups = ExampleGroup::with('examples')->get();
+
+        $tabs = $groups->getTestSuites();
+
+        $modules = ModuleCollection::make(config('enlighten.modules'));
 
         return view('enlighten::dashboard.index', [
-            'groups' => $groups
+            'modules' => $modules->addGroups($groups),
+            'tabs' => $tabs
         ]);
     }
 

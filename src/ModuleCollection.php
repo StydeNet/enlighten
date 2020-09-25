@@ -18,7 +18,7 @@ class ModuleCollection extends \Illuminate\Support\Collection
         });
     }
 
-    public function addGroups(ExampleGroupCollection $groups)
+    public function addGroups(ExampleGroupCollection $groups) : self
     {
         $this->each(function ($module) use ($groups) {
             $matches = $groups->match('class_name', $module->getPattern());
@@ -30,6 +30,8 @@ class ModuleCollection extends \Illuminate\Support\Collection
         });
 
         $this->addRemainingGroupsToTheDefaultModule($groups);
+
+        return $this;
     }
 
     private function addRemainingGroupsToTheDefaultModule(ExampleGroupCollection $groups)

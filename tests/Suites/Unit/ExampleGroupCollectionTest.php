@@ -33,4 +33,18 @@ class ExampleGroupCollectionTest extends TestCase
         ];
         $this->assertSame($expected, $collection->match('class_name', ['*Users*', '*User*'])->values()->toArray());
     }
+
+    /** @test */
+    public function some_test(): void
+    {
+        $collection = ExampleGroupCollection::make([
+            new Example(['class_name' => 'Tests\Api\ListUsersTest']),
+            new Example(['class_name' => 'Tests\Feature\UpdatePostsTest']),
+            new Example(['class_name' => 'Tests\Unit\CreateProjectsTest']),
+            new Example(['class_name' => 'Tests\Api\User\SearchUsersTest']),
+            new Example(['class_name' => 'Tests\Feature\CreateUserTest']),
+        ]);
+
+        $this->assertSame(['Api', 'Feature', 'Unit'], $collection->getTestSuites());
+    }
 }

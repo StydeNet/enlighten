@@ -8,5 +8,16 @@ return [
             'exclude' => [],
             'overwrite' => [],
         ]
+    ],
+
+    'modules' => [
+        [
+            'name' => 'Users',
+            'pattern' => ['*Users*']
+        ],
+        [
+            'name' => 'Other Modules',
+            'pattern' => ['*'],
+        ],
     ]
 ];

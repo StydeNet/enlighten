@@ -18,4 +18,11 @@ class ExampleGroupCollection extends EloquentCollection
     {
         return $this->filter(fn($item) => Str::is($expression, $item->getAttribute($field)));
     }
+
+    public function getTestSuites()
+    {
+        return $this->pluck('class_name')->map(function ($text) {
+            return explode('\\', $text)[1];
+        })->unique()->toArray();
+    }
 }
