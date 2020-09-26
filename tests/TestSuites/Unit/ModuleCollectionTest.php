@@ -14,14 +14,8 @@ class ModuleCollectionTest extends TestCase
     function can_create_a_module_collection()
     {
         $modules = ModuleCollection::make([
-            [
-                'name' => 'Users',
-                'pattern' => ['*UserTest*', '*UsersTest*'],
-            ],
-            [
-                'name' => 'Posts',
-                'pattern' => ['*PostsTest*'],
-            ],
+            new Module('Users', ['*UserTest*', '*UsersTest*']),
+            new Module('Posts', ['*PostsTest*']),
         ]);
 
         tap($modules->getByName('Users'), function (Module $userModule) {
@@ -33,18 +27,9 @@ class ModuleCollectionTest extends TestCase
     function add_example_groups_to_the_module_collection_items()
     {
         $modules = ModuleCollection::make([
-            [
-                'name' => 'Users',
-                'pattern' => ['*UserTest*', '*UsersTest*'],
-            ],
-            [
-                'name' => 'Posts',
-                'pattern' => ['*PostsTest*'],
-            ],
-            [
-                'name' => 'Search',
-                'pattern' => ['Search*'],
-            ],
+            new Module('Users', ['*UserTest*', '*UsersTest*']),
+            new Module('Posts', ['*PostsTest*']),
+            new Module('Search', ['Search*']),
         ]);
 
         $groupCollection = ExampleGroupCollection::make([

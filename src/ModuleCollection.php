@@ -2,21 +2,8 @@
 
 namespace Styde\Enlighten;
 
-use Illuminate\Support\Str;
-
 class ModuleCollection extends \Illuminate\Support\Collection
 {
-    public function __construct($items = [])
-    {
-        parent::__construct(array_map(function ($item) {
-            if (is_array($item)) {
-                return new Module($item['name'], $item['pattern']);
-            }
-
-            return $item;
-        }, $items));
-    }
-
     public function getByName($name)
     {
         return $this->firstWhere('name', $name);

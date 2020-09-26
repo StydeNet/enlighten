@@ -12,6 +12,14 @@ class Module
 
     public ExampleGroupCollection $group;
 
+    public static function all()
+    {
+        return ModuleCollection::make(config('enlighten.modules'))
+            ->map(function ($item) {
+                return new static($item['name'], $item['pattern']);
+            });
+    }
+
     public function __construct(string $name, $pattern = [])
     {
         $this->name = $name;

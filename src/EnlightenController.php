@@ -10,7 +10,7 @@ class EnlightenController {
 
         $groups = ExampleGroup::with('examples')->get();
 
-        $modules = ModuleCollection::make(config('enlighten.modules'));
+        $modules = Module::all();
 
         $modules->addGroups($groups);
 
