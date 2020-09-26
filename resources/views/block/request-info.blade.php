@@ -3,8 +3,8 @@
 
     <x-enlighten-key-value
         :items="[
-            $codeExample->request_method => $codeExample->route,
-            'URL' => $codeExample->request_path . ($codeExample->request_query_parameters ? '?' . http_build_query($codeExample->request_query_parameters) : '')
+            $codeExample->request_method => $codeExample->request_path . ($codeExample->request_query_parameters ? '?' . http_build_query($codeExample->request_query_parameters) : ''),
+            'Route' => $codeExample->route
         ]"></x-enlighten-key-value>
 
     @includeWhen($codeExample->route_parameters, 'enlighten::block.parameters-table')
