@@ -9,7 +9,7 @@ Route::prefix('enlighten')
         Route::get('/dashboard/{suite?}', [EnlightenController::class, 'index'])
             ->name('enlighten.dashboard');
 
-        Route::get('/group/{group}', [EnlightenController::class, 'show'])
+        Route::get('/{suite}/{group}', [EnlightenController::class, 'show'])
             ->name('enlighten.group.show');
 
         Route::view('/intro', 'enlighten::intro')->name('enlighten.intro');

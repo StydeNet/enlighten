@@ -10,7 +10,10 @@
 </head>
 <body class="bg-gray-900">
 
-@yield('content')
+<x-enlighten-app-layout :tabs="$tabs" :active="$active">
+    <x-slot name="title">{{ $title }}</x-slot>
+    @yield('content')
+</x-enlighten-app-layout>
 
 <script src="/enlighten/js/build.js"></script>
 </body>

@@ -28,6 +28,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'key-value' => 'enlighten::components.key-value',
             'sub-title' => 'enlighten::components.sub-title',
             'info-panel' => 'enlighten::components.info-panel',
+            'app-layout' => 'enlighten::components.app-layout',
         ]);
 
         if ($this->app->runningInConsole()) {

@@ -2,19 +2,8 @@
 
 @section('content')
 
-    <div class="container mx-auto my-12 h-screen px-4">
-        <nav class="border-b border-gray-500">
-            <ul class="flex space-x-4">
-                @foreach($tabs as $tab)
-                    <li
-                        class="border-b-2 hover:border-teal-400 border-transparent transition-all ease-in-out duration-200 {{ $tab->slug === $suite ?  'border-teal-400' : '' }}">
-                           <a href="{{ route('enlighten.dashboard', ['suite' => $tab->slug]) }}" class="py-4 px-2 text-gray-100 focus:outline-none">{{ $tab->title }}</a>
-                    </li>
-                @endforeach
-            </ul>
-        </nav>
-
-        <div class="grid grid-cols-4 gap-4 mt-4">
+    <div class="w-full mx-auto my-12 h-screen">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
             @foreach($modules as $module)
             <div class="rounded-lg bg-white overflow-hidden">
                 <div class="flex p-4 justify-between items-center w-full border-b border-gray-300 bg-gray-200">
@@ -24,7 +13,7 @@
                 <ul>
                     @foreach($module->getGroup() as $group)
                     <li>
-                        <a href="{{ route('enlighten.group.show', ['group' => $group]) }}"
+                        <a href="{{ route('enlighten.group.show', ['suite' => $active, 'group' => $group]) }}"
                            class="block py-2 px-4 text-gray-700 hover:text-teal-500 hover:bg-gray-100 transition-all ease-in-out duration-100"
                         >{{ $group->title }}</a>
                     </li>

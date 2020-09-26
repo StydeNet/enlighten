@@ -1,10 +1,7 @@
 @extends('enlighten::layout.main')
 
 @section('content')
-<div class="container mx-auto py-12">
-    <span class="block w-full border-b border-gray-300 py-4 mb-8">
-        <h1 class="text-3xl text-gray-100">{{ $group->title }}</h1>
-    </span>
+<div class="w-full">
     @foreach($group->examples as $codeExample)
         <div class="grid grid-cols-2 gap-4 w-full mb-12">
             <div>

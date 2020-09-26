@@ -8,9 +8,7 @@ class EnlightenController {
 
     public function index(string $suite = null)
     {
-        $tabs = TestSuite::all()->mapWithKeys(function ($value, $key) {
-            return [Str::slug($key) => $value];
-        });
+        $tabs = $this->getTabs();
 
         if ($tabs->isEmpty()) {
             return redirect(route('enlighten.intro'));
@@ -35,12 +33,25 @@ class EnlightenController {
         return view('enlighten::dashboard.index', [
             'modules' => $modules->whereHasGroups(),
             'tabs' => $tabs,
-            'suite' => $suite
+            'active' => $suite->slug,
+            'title' => 'Dashboard'
         ]);
     }
 
-    public function show(ExampleGroup $group)
+    public function show(string $suite, ExampleGroup $group)
     {
-        return view('enlighten::group.show', ['group' => $group]);
+        return view('enlighten::group.show', [
+            'group' => $group,
+            'title' => $group->title,
+            'tabs' => $this->getTabs(),
+            'active' => $suite
+        ]);
+    }
+
+    protected function getTabs()
+    {
+        return TestSuite::all()->mapWithKeys(function ($value, $key) {
+            return [Str::slug($key) => $value];
+        });
     }
 }
