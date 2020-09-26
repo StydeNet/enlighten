@@ -2,11 +2,15 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Support\Str;
+
 class EnlightenController {
 
     public function index(string $suite = null)
     {
-        $tabs = TestSuite::all();
+        $tabs = TestSuite::all()->mapWithKeys(function ($value, $key) {
+            return [Str::slug($key) => $value];
+        });
 
         if ($tabs->isEmpty()) {
             return redirect(route('enlighten.intro'));

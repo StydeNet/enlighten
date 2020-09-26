@@ -19,6 +19,14 @@ class DashboardViewTest extends TestCase {
     }
 
     /** @test */
+    public function redirect_to_intro_page_if_no_data_has_been_recorded_yet(): void
+    {
+        $response = $this->get(route('enlighten.dashboard'));
+
+        $response->assertRedirect(route('enlighten.intro'));
+    }
+
+    /** @test */
     public function get_test_groups_by_test_suite(): void
     {
         ExampleGroup::create(['class_name' => 'Tests\Api\UserTest', 'title' => 'User tests']);
@@ -27,7 +35,7 @@ class DashboardViewTest extends TestCase {
         ExampleGroup::create(['class_name' => 'Tests\Unit\FilterTest', 'title' => 'Filter tests']);
 
         $response = $this->get(
-            route('enlighten.dashboard', ['suite' => 'Api'])
+            route('enlighten.dashboard', ['suite' => 'api'])
         );
 
         $response->assertOk();
