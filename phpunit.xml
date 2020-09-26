@@ -7,13 +7,13 @@
   </coverage>
   <testsuites>
     <testsuite name="Unit">
-      <directory suffix="Test.php">./tests/Suites/Unit</directory>
+      <directory suffix="Test.php">./tests/TestSuites/Unit</directory>
     </testsuite>
     <testsuite name="Api">
-      <directory suffix="Test.php">./tests/Suites/Api</directory>
+      <directory suffix="Test.php">./tests/TestSuites/Api</directory>
     </testsuite>
     <testsuite name="Feature">
-      <directory suffix="Test.php">./tests/Suites/Feature</directory>
+      <directory suffix="Test.php">./tests/TestSuites/Feature</directory>
     </testsuite>
   </testsuites>
     <php>
