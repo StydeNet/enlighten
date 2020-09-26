@@ -3,7 +3,8 @@
 
     <x-enlighten-key-value
         :items="[
-            $codeExample->request_method => $codeExample->request_path . ($codeExample->request_query_parameters ? '?' . http_build_query($codeExample->request_query_parameters) : ''),
+            'Method' => $codeExample->request_method,
+            'URL' => $codeExample->request_path . ($codeExample->request_query_parameters ? '?' . http_build_query($codeExample->request_query_parameters) : ''),
             'Route' => $codeExample->route
         ]"></x-enlighten-key-value>
 
