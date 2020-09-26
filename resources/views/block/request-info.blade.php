@@ -1,12 +1,14 @@
-<div class="my-2">
-    <x-enlighten-sub-title>Request</x-enlighten-sub-title>
-    <p class="py-4 border-b border-gray-500 mb-4">
-        <span class="p-1 bg-blue-200 text-blue-500">{{ $codeExample->request_method }}</span>
-        <span class="text-gray-200">{{ $codeExample->route }}</span>
-    </p>
+<x-enlighten-info-panel>
+    <x-slot name="title">Request</x-slot>
+
+    <x-enlighten-key-value
+        :items="[
+            $codeExample->request_method => $codeExample->route,
+            'URL' => $codeExample->request_path . ($codeExample->request_query_parameters ? '?' . http_build_query($codeExample->request_query_parameters) : '')
+        ]"></x-enlighten-key-value>
 
     @includeWhen($codeExample->route_parameters, 'enlighten::block.parameters-table')
     @includeWhen($codeExample->request_input, 'enlighten::block.request-input-table')
 
     <x-enlighten-key-value :items="$codeExample->request_headers" title="Request Headers"></x-enlighten-key-value>
-</div>
+</x-enlighten-info-panel>

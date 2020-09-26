@@ -1,5 +1,4 @@
-<x-enlighten-headline>Request Input</x-enlighten-headline>
-<table class="bg-gray-800 p-4 rounded-lg overflow-hidden text-gray-100 mb-4 w-full mt-4">
+<table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
     <thead>
     <tr class="bg-gray-500">
         <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Name</th>

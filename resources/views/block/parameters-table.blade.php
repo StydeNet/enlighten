@@ -1,7 +1,7 @@
-<table class="bg-gray-800 p-4 rounded-lg overflow-hidden text-gray-100 mb-4 w-full">
+<table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
     <thead>
     <tr class="bg-gray-500">
-        <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Name</th>
+        <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Parameter</th>
         <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Pattern</th>
         <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Optional</th>
     </tr>

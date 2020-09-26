@@ -39,6 +39,6 @@ class EnlightenController {
 
     public function show(ExampleGroup $group)
     {
-        return view('enlighten::example.show', ['group' => $group]);
+        return view('enlighten::group.show', ['group' => $group]);
     }
 }

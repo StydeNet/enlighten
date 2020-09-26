@@ -1,6 +1,8 @@
 <div>
-    <h3 class="font-normal text-gray-300 border-b border-gray-300 py-2">{{ $title }}</h3>
-    <ul class="bg-gray-800 p-4 rounded-lg text-gray-100 mt-4">
+    @if(!empty($title))
+    <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full">{{ $title }}</span>
+    @endif
+    <ul class="bg-gray-800 p-4 rounded-lg text-gray-100">
         @foreach($items as $key => $value)
             <li>
                 <span class="font-thin break-all text-gray-200">{{ $key }}:</span>

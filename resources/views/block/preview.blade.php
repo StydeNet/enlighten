@@ -1,4 +1,4 @@
-<div class="p-4">
+<div>
     @if($codeExample->response_type === 'JSON')
         <x-enlighten-json-response :json="$codeExample->response_body"></x-enlighten-json-response>
     @elseif($codeExample->response_type === 'HTML')
