@@ -2,7 +2,6 @@
 
 namespace Tests\Suites\Unit;
 
-use Styde\Enlighten\Example;
 use Tests\TestCase;
 
 class ExcludeMethodsTest extends TestCase
@@ -13,7 +12,7 @@ class ExcludeMethodsTest extends TestCase
 
         // @TODO: make sure the configuration is reset after the test.
         $this->app->config->set([
-            'enlighten.exclude' => [
+            'enlighten.tests.exclude' => [
                 'does_not_export_test_methods_excluded_in_the_configuration',
                 '*use_wildcards_to_ignore*',
             ],

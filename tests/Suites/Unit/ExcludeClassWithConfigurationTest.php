@@ -12,7 +12,7 @@ class ExcludeClassWithConfigurationTest extends TestCase
 
         // @TODO: make sure the configuration is reset after the test.
         $this->app->config->set([
-            'enlighten.exclude' => [
+            'enlighten.tests.exclude' => [
                 '*ExcludeClassWithConfiguration*',
             ],
         ]);

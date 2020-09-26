@@ -1,7 +1,11 @@
 <?php
 
 return [
-    'exclude' => [],
+    'tests' => [
+        'exclude' => [],
+    ],
+
+    // 'request' => [...],
 
     'response' => [
         'headers' => [
@@ -9,6 +13,8 @@ return [
             'overwrite' => [],
         ]
     ],
+
+    // 'test-suites' => [...],
 
     'modules' => [
         [
