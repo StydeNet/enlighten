@@ -70,4 +70,21 @@ class ModuleCollectionTest extends TestCase
 
         $this->assertSame($expectedGroups, $module->getGroup()->values()->toArray());
     }
+
+    /** @test */
+    public function remove_empty_modules_from_collection(): void
+    {
+        $modules = ModuleCollection::make([
+            new Module('Users', ['*UserTest*', '*UsersTest*']),
+            new Module('Posts', ['*EMPTY*']),
+        ]);
+
+        $groupCollection = Collection::make([
+            new ExampleGroup(['class_name' => 'ListUsersTest']),
+        ]);
+
+        $modules = $modules->addGroups($groupCollection)->whereHasGroups();
+
+        $this->assertSame(1, $modules->count());
+    }
 }

@@ -35,4 +35,10 @@ class ModuleCollection extends Collection
         return $this->add($module);
     }
 
+    public function whereHasGroups(): self
+    {
+        return $this->filter(function ($module) {
+            return $module->group->isNotEmpty();
+        });
+    }
 }

@@ -4,12 +4,11 @@
 
     <div class="container mx-auto my-12 h-screen px-4">
         <nav class="border-b border-gray-500">
-            <ul class="flex space-x-4" x-data="{active: '{{ Arr::first($tabs) }}'}">
+            <ul class="flex space-x-4">
                 @foreach($tabs as $tabName)
                     <li
-                        x-bind:class="{'border-teal-400': (active === '{{$tabName}}')}"
-                        class="border-b-2 hover:border-teal-400 border-transparent transition-all ease-in-out duration-200">
-                            <button x-on:click="active = '{{$tabName}}'" type="button" class="py-4 px-2 text-gray-100 focus:outline-none">{{ $tabName }}</button>
+                        class="border-b-2 hover:border-teal-400 border-transparent transition-all ease-in-out duration-200 {{ $tabName === $suite ?  'border-teal-400' : '' }}">
+                           <a href="{{ route('enlighten.dashboard', ['suite' => strtolower($tabName)]) }}" class="py-4 px-2 text-gray-100 focus:outline-none">{{ $tabName }}</a>
                     </li>
                 @endforeach
             </ul>

@@ -2,8 +2,10 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 
 class ExampleGroup extends Model
 {
@@ -13,13 +15,30 @@ class ExampleGroup extends Model
 
     protected $guarded = [];
 
+    // Query methods
+    public  static function findByTestSuite(?string $suite) : Collection
+    {
+        if (empty($suite)) {
+            return Collection::make();
+        }
+        return static::bySuite($suite)->get();
+    }
+
+    // Relationships
     public function examples()
     {
         return $this->hasMany(Example::class, 'group_id');
     }
 
+    // Helpers
     public function matches(Module $module)
     {
         return Str::is($module->pattern, $this->class_name);
+    }
+
+    // Scopes
+    public function scopeBySuite($query, string $suite) : Builder
+    {
+        return $query->where('class_name', 'like', "%Tests%$suite%");
     }
 }

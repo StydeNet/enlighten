@@ -6,9 +6,11 @@ use Styde\Enlighten\EnlightenController;
 Route::prefix('enlighten')
     ->middleware('web')
     ->group(function () {
-        Route::get('/dashboard/', [EnlightenController::class, 'index'])
+        Route::get('/dashboard/{suite?}', [EnlightenController::class, 'index'])
             ->name('enlighten.dashboard');
 
         Route::get('/example/{example}', [EnlightenController::class, 'show'])
             ->name('enlighten.example.show');
+
+        Route::view('/intro', 'enlighten::intro')->name('enlighten.intro');
     });
