@@ -1,3 +1,5 @@
+@props(['active' => null, 'tabs' => []])
+
 <div class="h-screen flex overflow-hidden bg-gray-100" x-data="{open: false}">
     <div x-cloal x-show="open" class="md:hidden">
         <div class="fixed inset-0 flex z-40">
