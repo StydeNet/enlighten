@@ -16,11 +16,12 @@ class ExampleGroup extends Model
     protected $guarded = [];
 
     // Query methods
-    public  static function findByTestSuite(?string $suite) : Collection
+    public  static function findByTestSuite(TestSuite $suite) : Collection
     {
         if (empty($suite)) {
             return Collection::make();
         }
+
         return static::bySuite($suite)->get();
     }
 
@@ -37,8 +38,8 @@ class ExampleGroup extends Model
     }
 
     // Scopes
-    public function scopeBySuite($query, string $suite) : Builder
+    public function scopeBySuite($query, TestSuite $suite) : Builder
     {
-        return $query->where('class_name', 'like', "%Tests%$suite%");
+        return $query->where('class_name', 'like', "Tests%{$suite->key}%");
     }
 }

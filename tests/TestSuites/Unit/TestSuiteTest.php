@@ -17,11 +17,24 @@ class TestSuiteTest extends TestCase
         $this->createExampleGroup('Tests\Unit\UserTest');
 
         $expected = [
-            'Api' => 'Api',
-            'Feature' => 'Feature',
-            'Unit' => 'Unit'
+            [
+                'key' => 'Api',
+                'title' => 'Api',
+                'slug' => 'api',
+            ],
+            [
+                'key' => 'Feature',
+                'title' => 'Feature',
+                'slug' => 'feature',
+            ],
+            [
+                'key' => 'Unit',
+                'title' => 'Unit',
+                'slug' => 'unit',
+            ],
         ];
-        $this->assertSame($expected, TestSuite::all()->toArray());
+
+        $this->assertSame($expected, TestSuite::all()->values()->toArray());
     }
 
     /** @test */
@@ -35,10 +48,18 @@ class TestSuiteTest extends TestCase
         ]);
 
         $expected = [
-            'Api' => 'API',
-            'Feature' => 'Features',
+            [
+                'key' => 'Api',
+                'title' => 'API',
+                'slug' => 'api',
+            ],
+            [
+                'key' => 'Feature',
+                'title' => 'Features',
+                'slug' => 'feature',
+            ],
         ];
-        $this->assertSame($expected, TestSuite::all()->toArray());
+        $this->assertSame($expected, TestSuite::all()->values()->toArray());
     }
 
     protected function createExampleGroup($className)
