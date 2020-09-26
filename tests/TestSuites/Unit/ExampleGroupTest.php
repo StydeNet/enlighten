@@ -5,6 +5,7 @@ namespace Tests\Suites\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
 use Styde\Enlighten\ExampleGroup;
+use Styde\Enlighten\TestSuite;
 use Tests\TestCase;
 
 class ExampleGroupTest extends TestCase {
@@ -19,7 +20,7 @@ class ExampleGroupTest extends TestCase {
         ExampleGroup::create(['class_name' => 'Tests\Feature\UserTest', 'title' => 'Users Feature tests']);
         ExampleGroup::create(['class_name' => 'Tests\Unit\FilterTest', 'title' => 'Filter tests']);
 
-        $tests = ExampleGroup::findByTestSuite('api');
+        $tests = ExampleGroup::findByTestSuite(new TestSuite('Api'));
 
         $this->assertSame(
             [

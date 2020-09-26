@@ -5,10 +5,10 @@
     <div class="container mx-auto my-12 h-screen px-4">
         <nav class="border-b border-gray-500">
             <ul class="flex space-x-4">
-                @foreach($tabs as $tabName)
+                @foreach($tabs as $tab)
                     <li
-                        class="border-b-2 hover:border-teal-400 border-transparent transition-all ease-in-out duration-200 {{ $tabName === $suite ?  'border-teal-400' : '' }}">
-                           <a href="{{ route('enlighten.dashboard', ['suite' => $tabName]) }}" class="py-4 px-2 text-gray-100 focus:outline-none">{{ $tabName }}</a>
+                        class="border-b-2 hover:border-teal-400 border-transparent transition-all ease-in-out duration-200 {{ $tab->slug === $suite->slug ?  'border-teal-400' : '' }}">
+                           <a href="{{ route('enlighten.dashboard', ['suite' => $tab->slug]) }}" class="py-4 px-2 text-gray-100 focus:outline-none">{{ $tab->title }}</a>
                     </li>
                 @endforeach
             </ul>

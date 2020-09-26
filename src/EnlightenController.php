@@ -13,10 +13,12 @@ class EnlightenController {
         }
 
         if ($suite === null) {
-            $suite =  $tabs->keys()->first();
+            $suite = $tabs->first();
+        } else {
+            $suite = $tabs->firstWhere('slug', $suite);
         }
 
-        if (! $tabs->has($suite)) {
+        if ($suite === null) {
             return redirect(route('enlighten.dashboard'));
         }
 

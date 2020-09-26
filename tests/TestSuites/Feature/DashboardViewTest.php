@@ -14,8 +14,9 @@ class DashboardViewTest extends TestCase {
 
         $response = $this->get(route('enlighten.dashboard'));
 
-        $response->assertOk();
-        $response->assertViewIs('enlighten::dashboard.index');
+        $response
+            ->assertOk()
+            ->assertViewIs('enlighten::dashboard.index');
     }
 
     /** @test */
@@ -26,17 +27,14 @@ class DashboardViewTest extends TestCase {
         ExampleGroup::create(['class_name' => 'Tests\Feature\UserTest', 'title' => 'Users Feature tests']);
         ExampleGroup::create(['class_name' => 'Tests\Unit\FilterTest', 'title' => 'Filter tests']);
 
-        $response = $this->get(
-            route('enlighten.dashboard', ['suite' => 'Api'])
-        );
+        $response = $this->get(route('enlighten.dashboard', ['suite' => 'api']));
 
-        $response->assertOk();
-
-        $response->assertViewHas('suite');
-        $response->assertSeeText('User tests');
-        $response->assertSeeText('Post tests');
-        $response->assertDontSeeText('Users Feature tests');
-        $response->assertDontSeeText('Filter tests');
+        $response->assertOk()
+            ->assertViewHas('suite')
+            ->assertSeeText('User tests')
+            ->assertSeeText('Post tests')
+            ->assertDontSeeText('Users Feature tests')
+            ->assertDontSeeText('Filter tests');
     }
 
     /** @test */
@@ -52,10 +50,10 @@ class DashboardViewTest extends TestCase {
 
         $response->assertOk();
 
-        $response->assertViewHas('suite');
-        $response->assertSeeText('User tests');
-        $response->assertSeeText('Post tests');
-        $response->assertDontSeeText('Users Feature tests');
-        $response->assertDontSeeText('Filter tests');
+        $response->assertViewHas('suite')
+            ->assertSeeText('User tests')
+            ->assertSeeText('Post tests')
+            ->assertDontSeeText('Users Feature tests')
+            ->assertDontSeeText('Filter tests');
     }
 }
