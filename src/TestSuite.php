@@ -8,10 +8,17 @@ class TestSuite
 {
     public static function all()
     {
-        return DB::connection('enlighten')->table('enlighten_example_groups')
+        if (config()->has('enlighten.test-suites')) {
+            return collect(config('enlighten.test-suites'));
+        }
+
+        return DB::connection('enlighten')
+            ->table('enlighten_example_groups')
             ->pluck('class_name')
-            ->map(function ($classNames) {
-                return explode('\\', $classNames)[1];
+            ->mapWithKeys(function ($classNames) {
+                $name = explode('\\', $classNames)[1];
+
+                return [$name => $name];
             })
             ->unique();
     }

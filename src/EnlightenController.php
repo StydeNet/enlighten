@@ -2,8 +2,6 @@
 
 namespace Styde\Enlighten;
 
-use Illuminate\Support\Str;
-
 class EnlightenController {
 
     public function index()

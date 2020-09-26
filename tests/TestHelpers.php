@@ -20,4 +20,9 @@ trait TestHelpers
 
         $this->assertSame(0, Example::count());
     }
+
+    protected function setConfig(array $config)
+    {
+        $this->app->config->set($config);
+    }
 }

@@ -16,10 +16,32 @@ class TestSuiteTest extends TestCase
         $this->createExampleGroup('Tests\Feature\UpdateUserTest');
         $this->createExampleGroup('Tests\Unit\UserTest');
 
-        $this->assertSame(['Api', 'Feature', 'Unit'], TestSuite::all()->values()->all());
+        $expected = [
+            'Api' => 'Api',
+            'Feature' => 'Feature',
+            'Unit' => 'Unit'
+        ];
+        $this->assertSame($expected, TestSuite::all()->toArray());
     }
 
-    public function createExampleGroup($className)
+    /** @test */
+    function get_test_suites_from_config()
+    {
+        $this->setConfig([
+            'enlighten.test-suites' => [
+                'Api' => 'API',
+                'Feature' => 'Features',
+            ],
+        ]);
+
+        $expected = [
+            'Api' => 'API',
+            'Feature' => 'Features',
+        ];
+        $this->assertSame($expected, TestSuite::all()->toArray());
+    }
+
+    protected function createExampleGroup($className)
     {
         return ExampleGroup::create([
             'class_name' => $className,
