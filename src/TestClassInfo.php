@@ -2,20 +2,18 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class TestClassInfo
+class TestClassInfo implements TestInfo
 {
     private string $className;
 
-    private array $config;
-
     private array $texts;
 
-    public function __construct(string $className, array $config = [], array $texts = [])
+    public function __construct(string $className, array $texts = [])
     {
         $this->className = $className;
-        $this->config = $config;
 
         $this->texts = $texts;
     }
@@ -23,11 +21,6 @@ class TestClassInfo
     public function getClassName()
     {
         return $this->className;
-    }
-
-    public function getConfig()
-    {
-        return $this->config;
     }
 
     public function getTitle()
@@ -49,5 +42,20 @@ class TestClassInfo
         }
 
         return $result->replaceMatches('@([A-Z])@', ' $1')->trim();
+    }
+
+    public function isExcluded(): bool
+    {
+        return false;
+    }
+
+    public function save(): Model
+    {
+        return ExampleGroup::updateOrCreate([
+            'class_name' => $this->getClassName(),
+        ], [
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+        ]);
     }
 }

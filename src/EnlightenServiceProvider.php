@@ -54,8 +54,7 @@ class EnlightenServiceProvider extends ServiceProvider
             $config = $this->app->config->get('enlighten');
 
             return new ExampleGenerator(
-                $config,
-                new TestInspector,
+                new TestInspector($config),
                 new RequestInspector(new RouteInspector),
                 new ResponseInspector($config['response'])
             );
