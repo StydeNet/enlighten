@@ -33,8 +33,8 @@ class EnlightenController {
         ]);
     }
 
-    public function show(Example $example)
+    public function show(ExampleGroup $group)
     {
-        return view('enlighten::example.show', ['codeExample' => $example]);
+        return view('enlighten::example.show', ['group' => $group]);
     }
 }

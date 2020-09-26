@@ -12,6 +12,7 @@ class CodeExampleViewTest extends TestCase
     /** @test */
     public function get_code_example_view(): void
     {
+        $this->markTestIncomplete();
         $codeExample = $this->createCodeExample();
 
         $response =$this->get(route('enlighten.example.show', ['example' => $codeExample]));

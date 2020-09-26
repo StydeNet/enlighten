@@ -8,7 +8,7 @@
                 @foreach($tabs as $tabName)
                     <li
                         class="border-b-2 hover:border-teal-400 border-transparent transition-all ease-in-out duration-200 {{ $tabName === $suite ?  'border-teal-400' : '' }}">
-                           <a href="{{ route('enlighten.dashboard', ['suite' => strtolower($tabName)]) }}" class="py-4 px-2 text-gray-100 focus:outline-none">{{ $tabName }}</a>
+                           <a href="{{ route('enlighten.dashboard', ['suite' => $tabName]) }}" class="py-4 px-2 text-gray-100 focus:outline-none">{{ $tabName }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -24,7 +24,7 @@
                 <ul>
                     @foreach($module->getGroup() as $group)
                     <li>
-                        <a href="#"
+                        <a href="{{ route('enlighten.group.show', ['group' => $group]) }}"
                            class="block py-2 px-4 text-gray-700 hover:text-teal-500 hover:bg-gray-100 transition-all ease-in-out duration-100"
                         >{{ $group->title }}</a>
                     </li>
