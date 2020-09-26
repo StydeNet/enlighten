@@ -2,8 +2,8 @@
 
 namespace Tests\Suites\Unit;
 
+use Illuminate\Support\Collection;
 use Styde\Enlighten\ExampleGroup;
-use Styde\Enlighten\ExampleGroupCollection;
 use Styde\Enlighten\Module;
 use Styde\Enlighten\ModuleCollection;
 use Tests\TestCase;
@@ -32,7 +32,7 @@ class ModuleCollectionTest extends TestCase
             new Module('Search', ['Search*']),
         ]);
 
-        $groupCollection = ExampleGroupCollection::make([
+        $groupCollection = Collection::make([
             new ExampleGroup(['class_name' => 'ListUsersTest']),
             new ExampleGroup(['class_name' => 'UpdatePostsTest']),
             new ExampleGroup(['class_name' => 'ListProjectsTest']),

@@ -2,6 +2,8 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Support\Collection;
+
 class Module
 {
     public string $name;
@@ -10,7 +12,7 @@ class Module
      */
     public $pattern;
 
-    public ExampleGroupCollection $group;
+    public Collection $group;
 
     public static function all()
     {
@@ -39,12 +41,12 @@ class Module
         return $this->pattern;
     }
 
-    public function addGroup(ExampleGroupCollection $group): void
+    public function addGroup(Collection $group): void
     {
         $this->group = $group;
     }
 
-    public function getGroup(): ExampleGroupCollection
+    public function getGroup(): Collection
     {
         return $this->group;
     }

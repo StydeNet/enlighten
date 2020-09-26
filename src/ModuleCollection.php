@@ -2,14 +2,16 @@
 
 namespace Styde\Enlighten;
 
-class ModuleCollection extends \Illuminate\Support\Collection
+use Illuminate\Support\Collection;
+
+class ModuleCollection extends Collection
 {
     public function getByName($name)
     {
         return $this->firstWhere('name', $name);
     }
 
-    public function addGroups(ExampleGroupCollection $groups) : self
+    public function addGroups(Collection $groups) : self
     {
         return $this
             ->each(function ($module) use (&$groups) {
@@ -20,7 +22,7 @@ class ModuleCollection extends \Illuminate\Support\Collection
             ->addRemainingGroupsToTheDefaultModule($groups);
     }
 
-    private function addRemainingGroupsToTheDefaultModule(ExampleGroupCollection $groups): self
+    private function addRemainingGroupsToTheDefaultModule(Collection $groups): self
     {
         if ($groups->isEmpty()) {
             return $this;
