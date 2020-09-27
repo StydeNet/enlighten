@@ -1,3 +1,4 @@
+# Laravel Enlighten
 A seamless package to document your Laravel APIs.
 
 There is no need to add endless docblocks to each API method, maintain tens of readme files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
