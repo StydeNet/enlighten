@@ -8,9 +8,14 @@ class RequestInspector
 {
     private RouteInspector $routeInspector;
 
-    public function __construct(RouteInspector $routeInspector)
+    private Collection $excludeHeaders;
+    private Collection $overwriteHeaders;
+
+    public function __construct(RouteInspector $routeInspector, array $config = [])
     {
         $this->routeInspector = $routeInspector;
+        $this->excludeHeaders = Collection::make($config['headers']['exclude'] ?? []);
+        $this->overwriteHeaders = Collection::make($config['headers']['overwrite'] ?? []);
     }
 
     public function getInfoFrom(Request $request)
@@ -28,11 +33,10 @@ class RequestInspector
     // @TODO: allow users to allow or blocklist the request headers.
     protected function getHeadersFrom(Request $request): array
     {
-        return [
-            'accept' => $request->headers->get('accept'),
-            'accept-language' => $request->headers->get('accept-language'),
-            'accept-charset' => $request->headers->get('accept-charset'),
-        ];
+        return Collection::make($request->headers->all())
+            ->exclude($this->excludeHeaders)
+            ->overwrite($this->overwriteHeaders)
+            ->all();
     }
 
     protected function getInputFrom(Request $request)
