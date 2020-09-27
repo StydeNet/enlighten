@@ -12,6 +12,15 @@ You already invested enough time developing those amazing projects, you don't ne
 
 Just install and run your tests using `phpunit`, that's it! You'll find the entire API documentation in the following URL: `/enlighten/dashboard`
 
+## Usage
+After finishing the installation process, run your laravel-tests as usual.
+
+```bash
+phpunib
+```
+
+That's it! Now you can visit `/enlighten/dashboard` and find your documentation in there.
+
 ## Install
 Install using composer
 
@@ -41,6 +50,24 @@ Optionally, you can publish the config file and views for more customization.
 ```bash
 php artisan vendor:publish --tag=enlighten-config
 php artisan vendor:publish --tag=enlighten-views
+```
+
+## Database Setup
+`Enligthen` uses a secondary database to record the information from your test-suite and generate the documentation.
+
+Add a new database using the same name of your primary-database with an `_enlighten` suffix:
+
+```text
+DB_NAME=my_default_database
+# my_default_database_enlighten
+```
+
+> There no need to add any new entries on your `config/database.php`
+
+After creating the new database, run the migrations using artisan:
+
+```bash
+php artisan migrage
 ```
 
 ## Advanced configuration
