@@ -52,7 +52,7 @@ class RequestInspector
     protected function getInputFrom(Request $request)
     {
         return $this->replaceValues(
-            $request->input(), $this->excludeInput, $this->overwriteInput
+            $request->post(), $this->excludeInput, $this->overwriteInput
         );
     }
 
