@@ -6,11 +6,28 @@ use Illuminate\Http\Request;
 
 class RequestInspector
 {
-    private RouteInspector $routeInspector;
+    use ReplacesValues;
 
-    public function __construct(RouteInspector $routeInspector)
+    private RouteInspector $routeInspector;
+    /**
+     * @var array|mixed
+     */
+    private array $excludeHeaders;
+    private array $overwriteHeaders;
+    private array $overwriteQueryParameters;
+    private array $excludeQueryParameters;
+    private array $excludeInput;
+    private array $overwriteInput;
+
+    public function __construct(RouteInspector $routeInspector, array $config = [])
     {
         $this->routeInspector = $routeInspector;
+        $this->excludeHeaders = $config['headers']['exclude'] ?? [];
+        $this->overwriteHeaders = $config['headers']['overwrite'] ?? [];
+        $this->excludeQueryParameters = $config['query']['exclude'] ?? [];
+        $this->overwriteQueryParameters = $config['query']['overwrite'] ?? [];
+        $this->excludeInput = $config['input']['exclude'] ?? [];
+        $this->overwriteInput = $config['input']['overwrite'] ?? [];
     }
 
     public function getInfoFrom(Request $request)
@@ -25,30 +42,24 @@ class RequestInspector
         );
     }
 
-    // @TODO: allow users to allow or blocklist the request headers.
     protected function getHeadersFrom(Request $request): array
     {
-        return [
-            'accept' => $request->headers->get('accept'),
-            'accept-language' => $request->headers->get('accept-language'),
-            'accept-charset' => $request->headers->get('accept-charset'),
-        ];
+        return $this->replaceValues(
+            $request->headers->all(), $this->excludeHeaders, $this->overwriteHeaders
+        );
     }
 
     protected function getInputFrom(Request $request)
     {
-        return $request->input();
+        return $this->replaceValues(
+            $request->post(), $this->excludeInput, $this->overwriteInput
+        );
     }
 
-    // @TODO: allow users to allow or blocklist the request query parameters.
     protected function getQueryParametersFrom(Request $request): array
     {
-        return $request->query();
-    }
-
-    // @TODO: allow users to allow or blocklist the request input.
-    protected function exportRequestInput(Request $request): array
-    {
-        return $request->input();
+        return $this->replaceValues(
+            $request->query(), $this->excludeQueryParameters, $this->overwriteQueryParameters
+        );
     }
 }

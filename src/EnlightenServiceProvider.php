@@ -57,7 +57,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
             return new ExampleGenerator(
                 new TestInspector($config['tests']),
-                new RequestInspector(new RouteInspector),
+                new RequestInspector(new RouteInspector, $config['request']),
                 new ResponseInspector($config['response'])
             );
         });

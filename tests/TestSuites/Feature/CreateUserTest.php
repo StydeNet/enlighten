@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Suites\Feature;
+namespace Tests\TestSuites\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;

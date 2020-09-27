@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Suites\Unit;
+namespace Tests\TestSuites\Unit;
 
 use Styde\Enlighten\ResponseInspector;
 use Symfony\Component\HttpFoundation\Response;
