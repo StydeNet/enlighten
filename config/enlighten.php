@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'enable' => true,
+
     'tests' => [
         // Add expressions to exclude test class names and test method names.
         // i.e. Tests\Unit\* excludes all tests in the Tests\Unit\ suite,

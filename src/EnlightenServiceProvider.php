@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Config\Repository as Config;
+use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 
 class EnlightenServiceProvider extends ServiceProvider
@@ -14,6 +15,8 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->mergeConfigFrom(__DIR__.'/../config/enlighten.php', 'enlighten');
+
+        $this->registerExampleGeneratorMiddleware();
 
         if ($this->app->environment('local', 'testing')) {
             $this->loadroutesFrom(__DIR__ . '/../routes/web.php');
@@ -32,9 +35,16 @@ class EnlightenServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->publishes([
+                __DIR__.'/../config' => base_path('config'),
+            ], 'enlighten-config');
+
+            $this->publishes([
                 __DIR__.'/../dist' => public_path('enlighten'),
+            ], 'enlighten-build');
+
+            $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views/vendor/enlighten'),
-            ], 'enlighten');
+            ], 'enlighten-views');
         }
     }
 
@@ -50,6 +60,18 @@ class EnlightenServiceProvider extends ServiceProvider
     }
 
     public function register()
+    {
+        $this->registerExampleGeneratorClass();
+    }
+
+    protected function registerExampleGeneratorMiddleware()
+    {
+        if ($this->app->config->get('enlighten.enable')) {
+            $this->app[Kernel::class]->pushMiddleware(ExampleGeneratorMiddleware::class);
+        }
+    }
+
+    protected function registerExampleGeneratorClass()
     {
         $this->app->singleton(ExampleGenerator::class, function () {
             $config = $this->app->config->get('enlighten');

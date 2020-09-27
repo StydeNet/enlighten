@@ -35,7 +35,7 @@ class TestCase extends OrchestraTestCase
     {
         $this->configureDatabase($app['config']);
 
-        $app[Kernel::class]->pushMiddleware(ExampleGeneratorMiddleware::class);
+//        $app[Kernel::class]->pushMiddleware(ExampleGeneratorMiddleware::class);
     }
 
     protected function configureDatabase(Config $config): void
