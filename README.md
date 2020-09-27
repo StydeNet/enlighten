@@ -83,15 +83,18 @@ If you want to have more control on the titles and descriptions for classes and 
 
 ```php
 /**
-* @testdox User Module
-* @description Manage all the user-related petitions.
-**/
+ * @testdox User Module
+ *
+ * @description Manage all the user-related petitions.
+ **/
 class UsersTest extends TestCase {
     
     /**
-    * @testdox Create Users
-    * @description Register a new user via POST request. API credentials must be provided.
-    **/
+     *
+     * @testdox Create Users
+     *
+     * @description Register a new user via POST request. API credentials must be provided.
+     **/
     public function testRegisterNewUsers()
     {
         $this->assertTrue(true);
