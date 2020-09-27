@@ -1,7 +1,7 @@
 
 # Enlighten to-dos
 
--[ ] Mejorar la conversión de testsuite -> kebab to studly case
+-[x] Mejorar la conversión de testsuite -> kebab to studly case
 -[ ] Mostrar la lista de métodos en un ExampleGroup
 -[ ] Hacer la página de bienvenida con instrucciones de primeros pasos (opcional: video de bienvenida)
 -[ ] Escribir documentación
