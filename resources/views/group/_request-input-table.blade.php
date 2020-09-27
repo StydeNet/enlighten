@@ -9,7 +9,7 @@
         @foreach($codeExample->request_input as $name => $value)
             <tr>
                 <td class="py-2 px-4 font-thin text-gray-200">{{ $name }}</td>
-                <td class="py-2 px-4 font-thin text-teal-300 break-all">{{ $value }}</td>
+                <td class="py-2 px-4 font-thin text-teal-300 break-all">{{ is_array($value) ? implode(': ', $value) :  $value }}</td>
             </tr>
         @endforeach
     </tbody>

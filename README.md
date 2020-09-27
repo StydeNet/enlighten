@@ -9,3 +9,6 @@
 -[ ] Revisar qué otros tags nos hacen falta para agregar a las pruebas como docblocks
 -[ ] Renombrar clases de Enlighten
 -[ ] Botón de “Try it out”
+-[ ] Automatically add the middleware to the app using the service-provider
+-[ ] Do not publish "views" by default, use a tag for this
+-[ ] Test the implementation using sqlite
