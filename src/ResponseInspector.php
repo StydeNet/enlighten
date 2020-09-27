@@ -34,7 +34,6 @@ class ResponseInspector
         return $this->replaceValues($response->headers->all(), $this->excludeHeaders, $this->overwriteHeaders);
     }
 
-    // @TODO: revisit this.
     protected function getTemplate(Response $response): ?string
     {
         if (isset ($response->original) && $response->original instanceof View) {

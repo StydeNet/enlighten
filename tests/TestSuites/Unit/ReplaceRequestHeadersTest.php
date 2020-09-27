@@ -8,7 +8,7 @@ use Styde\Enlighten\RequestInspector;
 use Styde\Enlighten\RouteInspector;
 use Tests\TestCase;
 
-class RequestInspectorTest extends TestCase
+class ReplaceRequestHeadersTest extends TestCase
 {
     /** @test */
     function can_remove_headers()
