@@ -37,7 +37,7 @@ class ResponseInspector
     protected function getTemplate(Response $response): ?string
     {
         if (isset ($response->original) && $response->original instanceof View) {
-            return var_export(File::get($response->original->getPath()), true);
+            return File::get($response->original->getPath());
         }
 
         return null;
