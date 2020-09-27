@@ -129,6 +129,11 @@ class UsersTest extends TestCase {
 }
 ```
 
+## Customizing the intro page
+
+To customize the content of your dashboard page, you can add an `ENLIGHTEN.md` markdown file to the root path of your project.
+The content of this file will overwrite the default page provided by this package. 
+
 ## Credits
 - [Duilio Palacios](https://twitter.com/sileence)
 - [Jeff Ochoa](https://twitter.com/jeffer_8a)

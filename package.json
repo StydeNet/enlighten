@@ -34,5 +34,8 @@
     "less-loader": "^7.0.1",
     "tailwindcss": "^1.8.10",
     "vue-template-compiler": "^2.6.12"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.2.0"
   }
 }

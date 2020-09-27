@@ -12,5 +12,5 @@ Route::prefix('enlighten')
         Route::get('/{suite}/{group}', [EnlightenController::class, 'show'])
             ->name('enlighten.group.show');
 
-        Route::view('/intro', 'enlighten::intro')->name('enlighten.intro');
+        Route::get('/intro', [EnlightenController::class, 'intro'])->name('enlighten.intro');
     });
