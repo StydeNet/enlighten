@@ -8,13 +8,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResponseInspector
 {
-    private Collection $excludeHeaders;
-    private Collection $overwriteHeaders;
+    use ReplacesValues;
+
+    private array $excludeHeaders;
+    private array $overwriteHeaders;
 
     public function __construct(array $config)
     {
-        $this->excludeHeaders = Collection::make($config['headers']['exclude'] ?? []);
-        $this->overwriteHeaders = Collection::make($config['headers']['overwrite'] ?? []);
+        $this->excludeHeaders = $config['headers']['exclude'] ?? [];
+        $this->overwriteHeaders = $config['headers']['overwrite'] ?? [];
     }
 
     public function getInfoFrom(Response $response)
@@ -29,10 +31,7 @@ class ResponseInspector
 
     protected function getHeaders(Response $response): array
     {
-        return Collection::make($response->headers->all())
-            ->exclude($this->excludeHeaders)
-            ->overwrite($this->overwriteHeaders)
-            ->all();
+        return $this->replaceValues($response->headers->all(), $this->excludeHeaders, $this->overwriteHeaders);
     }
 
     // @TODO: revisit this.

@@ -6,16 +6,18 @@ use Illuminate\Http\Request;
 
 class RequestInspector
 {
+    use ReplacesValues;
+
     private RouteInspector $routeInspector;
 
-    private Collection $excludeHeaders;
-    private Collection $overwriteHeaders;
+    private array $excludeHeaders;
+    private array $overwriteHeaders;
 
     public function __construct(RouteInspector $routeInspector, array $config = [])
     {
         $this->routeInspector = $routeInspector;
-        $this->excludeHeaders = Collection::make($config['headers']['exclude'] ?? []);
-        $this->overwriteHeaders = Collection::make($config['headers']['overwrite'] ?? []);
+        $this->excludeHeaders = $config['headers']['exclude'] ?? [];
+        $this->overwriteHeaders = $config['headers']['overwrite'] ?? [];
     }
 
     public function getInfoFrom(Request $request)
@@ -33,10 +35,7 @@ class RequestInspector
     // @TODO: allow users to allow or blocklist the request headers.
     protected function getHeadersFrom(Request $request): array
     {
-        return Collection::make($request->headers->all())
-            ->exclude($this->excludeHeaders)
-            ->overwrite($this->overwriteHeaders)
-            ->all();
+        return $this->replaceValues($request->headers->all(), $this->excludeHeaders, $this->overwriteHeaders);
     }
 
     protected function getInputFrom(Request $request)

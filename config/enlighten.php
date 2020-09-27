@@ -8,7 +8,9 @@ return [
         'exclude' => [],
     ],
 
-    // 'request' => [...],
+     'request' => [
+
+     ],
 
     'response' => [
         'headers' => [
