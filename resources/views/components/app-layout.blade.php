@@ -105,7 +105,8 @@
             </div>
         </div>
 
-        <main class="flex-1 relative overflow-y-auto focus:outline-none   bg-gray-900" tabindex="0">
+        <main class="flex-1 relative overflow-y-auto focus:outline-none bg-gray-900" tabindex="0">
+            <span id="top"></span>
             <div class="pt-2 pb-6">
                 <div class="max-w-7xl mx-auto px-4">
                     <span class="block w-full border-b border-gray-300 py-4 mb-8">
