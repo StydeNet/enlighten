@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Suites\Api;
+namespace Tests\TestSuites\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
@@ -44,7 +44,7 @@ class ListUsersTest extends TestCase
             ]);
 
         tap($group = ExampleGroup::first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\Suites\Api\ListUsersTest', $exampleGroup->class_name);
+            $this->assertSame('Tests\TestSuites\Api\ListUsersTest', $exampleGroup->class_name);
             $this->assertSame('List Users', $exampleGroup->title);
             $this->assertNull($exampleGroup->description);
         });
