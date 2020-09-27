@@ -22,13 +22,12 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'enlighten');
 
         $this->loadViewComponentsAs('enlighten', [
-            'headline' => 'enlighten::components.headline',
             'html-response' => 'enlighten::components.html-response',
             'json-response' => 'enlighten::components.json-response',
             'key-value' => 'enlighten::components.key-value',
-            'sub-title' => 'enlighten::components.sub-title',
             'info-panel' => 'enlighten::components.info-panel',
             'app-layout' => 'enlighten::components.app-layout',
+            'scroll-to-top' => 'enlighten::components.scroll-to-top',
         ]);
 
         if ($this->app->runningInConsole()) {
