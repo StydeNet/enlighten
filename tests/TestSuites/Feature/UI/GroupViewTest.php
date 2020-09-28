@@ -22,7 +22,10 @@ class GroupViewTest extends TestCase
         $response->assertOk()
             ->assertViewIs('enlighten::group.show')
             ->assertViewHas('group', $exampleGroup)
+            // Group
             ->assertSeeText('Creates a new user')
+            ->assertSeeText('User module API')
+            // Example
             ->assertSeeText('register new users in the system.')
             ->assertSeeText($this->responseBody())
             // headers
@@ -40,6 +43,7 @@ class GroupViewTest extends TestCase
         return ExampleGroup::create([
             'class_name' => 'Tests\Feature\CreateUserTest',
             'title' => 'Create User',
+            'description' => 'User module API'
         ]);
     }
 
