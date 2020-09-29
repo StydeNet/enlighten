@@ -24,7 +24,7 @@ class Annotations
     public static function fromDocComment($docComment)
     {
         preg_match_all("#@(\w+)( (.*?))?\n#s", $docComment, $matches);
-        
+
         return collect($matches[1])
             ->combine($matches[3])
             ->map(function ($annotation) {
