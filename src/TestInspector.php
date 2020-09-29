@@ -4,33 +4,24 @@ namespace Styde\Enlighten;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class TestInspector
 {
     private static array $classes = [];
 
     protected array $exclude;
-    protected ExcludedTest $excludedTest;
 
     public function __construct(array $config)
     {
         $this->exclude = $config['exclude'];
-        $this->excludedTest = new ExcludedTest;
     }
 
     public function getInfo(): TestInfo
     {
         $trace = TestTrace::get();
 
-        if ($trace->isExcluded($this->exclude))  {
-            return $this->excludedTest;
-        }
-
         $testClassInfo = $this->makeTestClassInfo($trace->getClassName());
-
-        if ($testClassInfo->isExcluded()) {
-            return $this->excludedTest;
-        }
 
         return $this->makeTestMethodInfo($testClassInfo, $trace->getMethodName());
     }
@@ -43,36 +34,33 @@ class TestInspector
 
         $annotations = Annotations::fromClass($name);
 
-        $config = $this->getConfigFrom($annotations);
+        $options = $this->getOptionsFrom($annotations);
 
-        if ($this->isExcludedFromConfig($config)) {
-            return $this->excludedTest;
-        }
-
-        return static::$classes[$name] = new TestClassInfo($name, $this->getTextsFrom($annotations));
+        return static::$classes[$name] = new TestClassInfo($name, $this->getTextsFrom($annotations), $options);
     }
 
     protected function makeTestMethodInfo(TestClassInfo $testClassInfo, string $methodName)
     {
         $annotations = Annotations::fromMethod($testClassInfo->getClassName(), $methodName);
 
-        $config = $this->getConfigFrom($annotations);
+        $options = array_merge($testClassInfo->getOptions(), $this->getOptionsFrom($annotations));
 
-        if ($this->isExcludedFromConfig($config)) {
-            return $this->excludedTest;
+        if ($this->excludeTest($testClassInfo->getClassName(), $methodName, $options)) {
+            return new ExcludedTest;
         }
 
         return new TestMethodInfo($testClassInfo, $methodName, $this->getTextsFrom($annotations));
     }
 
-    protected function isExcludedFromConfig(array $config): bool
+    protected function getOptionsFrom($annotations): array
     {
-        return Arr::get($config, 'exclude', false);
-    }
+        if (! $annotations->has('enlighten')) {
+            return [];
+        }
 
-    protected function getConfigFrom($annotations): array
-    {
-        return json_decode($annotations->get('enlighten', '{}'), JSON_OBJECT_AS_ARRAY);
+        $options = json_decode($annotations->get('enlighten'), JSON_OBJECT_AS_ARRAY);
+
+        return array_merge(['include' => true], $options ?: []);
     }
 
     protected function getTextsFrom(Collection $annotations): array
@@ -81,5 +69,24 @@ class TestInspector
             'title' => $annotations->get('testdox'),
             'description' => $annotations->get('description'),
         ];
+    }
+
+    private function excludeTest(string $className, string $methodName, array $options): bool
+    {
+        // If the test has been explicitly excluded via the
+        // annotation options we need to exclude the test.
+        if (Arr::get($options, 'exclude', false)) {
+            return true;
+        }
+
+        // If the test has been explicitly included via the
+        // annotation options we need to include the test.
+        if (Arr::get($options, 'include', false)) {
+            return false;
+        }
+
+        // Otherwise check the excluded patterns we've got from the
+        // config to determine if the test should be excluded.
+        return Str::is($this->exclude, $className) || Str::is($this->exclude, $methodName);
     }
 }

@@ -32,9 +32,4 @@ class TestTrace
     {
         return $this->methodName;
     }
-
-    public function isExcluded(array $patterns)
-    {
-        return Str::is($patterns, $this->className) || Str::is($patterns, $this->methodName);
-    }
 }

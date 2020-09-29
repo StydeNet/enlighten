@@ -9,12 +9,14 @@ class TestClassInfo implements TestInfo
 {
     private string $className;
 
+    private array $options;
+
     private array $texts;
 
-    public function __construct(string $className, array $texts = [])
+    public function __construct(string $className, array $texts = [], array $options = [])
     {
         $this->className = $className;
-
+        $this->options = $options;
         $this->texts = $texts;
     }
 
@@ -57,5 +59,10 @@ class TestClassInfo implements TestInfo
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
         ]);
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }
