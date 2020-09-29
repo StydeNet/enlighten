@@ -10,11 +10,11 @@ class TestInspector
 {
     private static array $classes = [];
 
-    protected array $exclude;
+    protected array $ignore;
 
     public function __construct(array $config)
     {
-        $this->exclude = $config['exclude'];
+        $this->ignore = $config['ignore'];
     }
 
     public function getInfo(): TestInfo
@@ -45,7 +45,7 @@ class TestInspector
 
         $options = array_merge($testClassInfo->getOptions(), $this->getOptionsFrom($annotations));
 
-        if ($this->excludeTest($testClassInfo->getClassName(), $methodName, $options)) {
+        if ($this->ignoreTest($testClassInfo->getClassName(), $methodName, $options)) {
             return new ExcludedTest;
         }
 
@@ -71,11 +71,11 @@ class TestInspector
         ];
     }
 
-    private function excludeTest(string $className, string $methodName, array $options): bool
+    private function ignoreTest(string $className, string $methodName, array $options): bool
     {
-        // If the test has been explicitly excluded via the
-        // annotation options we need to exclude the test.
-        if (Arr::get($options, 'exclude', false)) {
+        // If the test has been explicitly ignored via the
+        // annotation options we need to ignore the test.
+        if (Arr::get($options, 'ignore', false)) {
             return true;
         }
 
@@ -85,8 +85,8 @@ class TestInspector
             return false;
         }
 
-        // Otherwise check the excluded patterns we've got from the
-        // config to determine if the test should be excluded.
-        return Str::is($this->exclude, $className) || Str::is($this->exclude, $methodName);
+        // Otherwise check the patterns to ignore we've got from the
+        // config to determine if the test should still be ignored.
+        return Str::is($this->ignore, $className) || Str::is($this->ignore, $methodName);
     }
 }

@@ -23,7 +23,7 @@ class ReplaceRequestHeadersTest extends TestCase
 
         $requestInspector = new RequestInspector(new RouteInspector, [
             'headers' => [
-                'exclude' => [
+                'ignore' => [
                     'host',
                 ],
             ]
@@ -64,7 +64,7 @@ class ReplaceRequestHeadersTest extends TestCase
     }
 
     /** @test */
-    function excluded_headers_take_precedence_over_overwritten_headers()
+    function ignored_headers_take_precedence_over_overwritten_headers()
     {
         $request = new Request([], [], [], [], [], [
             'HTTP_HOST' => 'localhost',
@@ -75,7 +75,7 @@ class ReplaceRequestHeadersTest extends TestCase
 
         $requestInspector = new RequestInspector(new RouteInspector, [
             'headers' => [
-                'exclude' => [
+                'ignore' => [
                     'host',
                 ],
                 'overwrite' => [

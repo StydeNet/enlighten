@@ -15,7 +15,7 @@ class IncludeClassWithAnnotationTest extends TestCase
 
         // @TODO: make sure the configuration is reset after the test.
         $this->app->config->set([
-            'enlighten.tests.exclude' => ['*'],
+            'enlighten.tests.ignore' => ['*'],
         ]);
     }
 

@@ -12,21 +12,21 @@ class RequestInspector
     /**
      * @var array|mixed
      */
-    private array $excludeHeaders;
+    private array $ignoreHeaders;
     private array $overwriteHeaders;
     private array $overwriteQueryParameters;
-    private array $excludeQueryParameters;
-    private array $excludeInput;
+    private array $ignoreQueryParameters;
+    private array $ignoreInput;
     private array $overwriteInput;
 
     public function __construct(RouteInspector $routeInspector, array $config = [])
     {
         $this->routeInspector = $routeInspector;
-        $this->excludeHeaders = $config['headers']['exclude'] ?? [];
+        $this->ignoreHeaders = $config['headers']['ignore'] ?? [];
         $this->overwriteHeaders = $config['headers']['overwrite'] ?? [];
-        $this->excludeQueryParameters = $config['query']['exclude'] ?? [];
+        $this->ignoreQueryParameters = $config['query']['ignore'] ?? [];
         $this->overwriteQueryParameters = $config['query']['overwrite'] ?? [];
-        $this->excludeInput = $config['input']['exclude'] ?? [];
+        $this->ignoreInput = $config['input']['ignore'] ?? [];
         $this->overwriteInput = $config['input']['overwrite'] ?? [];
     }
 
@@ -45,21 +45,21 @@ class RequestInspector
     protected function getHeadersFrom(Request $request): array
     {
         return $this->replaceValues(
-            $request->headers->all(), $this->excludeHeaders, $this->overwriteHeaders
+            $request->headers->all(), $this->ignoreHeaders, $this->overwriteHeaders
         );
     }
 
     protected function getInputFrom(Request $request)
     {
         return $this->replaceValues(
-            $request->post(), $this->excludeInput, $this->overwriteInput
+            $request->post(), $this->ignoreInput, $this->overwriteInput
         );
     }
 
     protected function getQueryParametersFrom(Request $request): array
     {
         return $this->replaceValues(
-            $request->query(), $this->excludeQueryParameters, $this->overwriteQueryParameters
+            $request->query(), $this->ignoreQueryParameters, $this->overwriteQueryParameters
         );
     }
 }

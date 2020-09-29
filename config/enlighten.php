@@ -4,19 +4,30 @@ return [
     'enable' => true,
 
     'tests' => [
-        // Add expressions to exclude test class names and test method names.
-        // i.e. Tests\Unit\* excludes all tests in the Tests\Unit\ suite,
-        // validates_* excludes all tests that start with validates_.
-        'exclude' => [],
+        // Add expressions to ignore test class names and test method names.
+        // i.e. Tests\Unit\* will ignore all tests in the Tests\Unit\ suite,
+        // validates_* will ignore all the tests that start with validates_.
+        'ignore' => [],
     ],
 
      'request' => [
-
+        'headers' => [
+            'ignore' => [],
+            'overwrite' => [],
+        ],
+        'query' => [
+            'ignore' => [],
+            'overwrite' => [],
+        ],
+        'input' => [
+            'ignore' => [],
+            'overwrite' => [],
+        ],
      ],
 
     'response' => [
         'headers' => [
-            'exclude' => [],
+            'ignore' => [],
             'overwrite' => [],
         ]
     ],

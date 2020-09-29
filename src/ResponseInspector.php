@@ -10,12 +10,12 @@ class ResponseInspector
 {
     use ReplacesValues;
 
-    private array $excludeHeaders;
+    private array $ignoreHeaders;
     private array $overwriteHeaders;
 
     public function __construct(array $config)
     {
-        $this->excludeHeaders = $config['headers']['exclude'] ?? [];
+        $this->ignoreHeaders = $config['headers']['ignore'] ?? [];
         $this->overwriteHeaders = $config['headers']['overwrite'] ?? [];
     }
 
@@ -31,7 +31,7 @@ class ResponseInspector
 
     protected function getHeaders(Response $response): array
     {
-        return $this->replaceValues($response->headers->all(), $this->excludeHeaders, $this->overwriteHeaders);
+        return $this->replaceValues($response->headers->all(), $this->ignoreHeaders, $this->overwriteHeaders);
     }
 
     protected function getTemplate(Response $response): ?string

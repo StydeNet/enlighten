@@ -23,7 +23,7 @@ class ReplaceRequestQueryParametersTest extends TestCase
 
         $requestInspector = new RequestInspector(new RouteInspector, [
             'query' => [
-                'exclude' => [
+                'ignore' => [
                     'token',
                 ],
                 'overwrite' => [

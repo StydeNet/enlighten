@@ -18,7 +18,7 @@ class ExampleGeneratorMiddleware
         $response = $next($request);
 
         // Allow users to create a whitelist or blacklist of status...
-        // @TODO: Add excluded status to a configuration option
+        // @TODO: Add ignored statuses to a configuration option
         if (app()->runningUnitTests() && $this->allowedStatus($response)) {
             app(ExampleGenerator::class)->generateExample($request, $response);
         }

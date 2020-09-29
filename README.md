@@ -97,10 +97,10 @@ If you want to include all the test-classes and methods in your documentation, y
 ```php
 [
     'tests' => [
-        // Add expressions to exclude test class names and test method names.
-        // i.e. Tests\Unit\* excludes all tests in the Tests\Unit\ suite,
-        // validates_* excludes all tests that start with validates_.
-        'exclude' => [],
+        // Add expressions to ignore test class names and test method names.
+        // i.e. Tests\Unit\* ignores all tests in the Tests\Unit\ suite,
+        // validates_* ignores all tests that start with validates_.
+        'ignore' => [],
     ],
 ];
 ```

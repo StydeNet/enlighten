@@ -25,7 +25,7 @@ class ReplaceRequestInputTest extends TestCase
 
         $requestInspector = new RequestInspector(new RouteInspector, [
             'input' => [
-                'exclude' => [
+                'ignore' => [
                     'password',
                 ],
                 'overwrite' => [

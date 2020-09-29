@@ -4,7 +4,7 @@ namespace Tests\TestSuites\Unit;
 
 use Tests\TestCase;
 
-class ExcludeClassWithConfigurationTest extends TestCase
+class IgnoreClassViaConfigurationTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -12,14 +12,14 @@ class ExcludeClassWithConfigurationTest extends TestCase
 
         // @TODO: make sure the configuration is reset after the test.
         $this->app->config->set([
-            'enlighten.tests.exclude' => [
-                '*ExcludeClassWithConfiguration*',
+            'enlighten.tests.ignore' => [
+                '*IgnoreClass*',
             ],
         ]);
     }
 
     /** @test */
-    function does_not_export_test_classes_with_the_enlighten_exclude_annotation()
+    function does_not_export_test_classes_ignored_in_the_configuration()
     {
         $this->assertExampleIsNotCreated();
     }

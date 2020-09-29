@@ -18,7 +18,7 @@ class ResponseInspectorTest extends TestCase
 
         $responseInspector = new ResponseInspector([
             'headers' => [
-                'exclude' => [
+                'ignore' => [
                     'secret-token'
                 ],
             ]
@@ -55,7 +55,7 @@ class ResponseInspectorTest extends TestCase
     }
 
     /** @test */
-    function excluded_headers_take_precedence_over_overwritten_headers()
+    function ignored_headers_take_precedence_over_overwritten_headers()
     {
         $response = new Response('', 200, [
             'token' => 'this-value-should-be-removed',
@@ -64,7 +64,7 @@ class ResponseInspectorTest extends TestCase
 
         $responseInspector = new ResponseInspector([
             'headers' => [
-                'exclude' => [
+                'ignore' => [
                     'token'
                 ],
                 'overwrite' => [

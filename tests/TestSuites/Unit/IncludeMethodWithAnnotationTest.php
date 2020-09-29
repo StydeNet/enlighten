@@ -12,7 +12,7 @@ class IncludeMethodWithAnnotationTest extends TestCase
 
         // @TODO: make sure the configuration is reset after the test.
         $this->app->config->set([
-            'enlighten.tests.exclude' => ['*']
+            'enlighten.tests.ignore' => ['*']
         ]);
     }
 
@@ -28,7 +28,7 @@ class IncludeMethodWithAnnotationTest extends TestCase
     /**
      * @test
      */
-    function it_does_not_export_test_method_excluded_with_the_config()
+    function it_does_not_export_test_method_ignored_with_the_config()
     {
         $this->assertExampleIsNotCreated();
     }
