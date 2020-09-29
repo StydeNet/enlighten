@@ -50,6 +50,10 @@ class EnlightenServiceProvider extends ServiceProvider
 
     protected function addDatabaseConnection(Config $config)
     {
+        if ($config->has('database.connections.enlighten')) {
+            return;
+        }
+
         $connection = $config->get('database.connections.'.$config->get('database.default'));
 
         if ($connection['driver'] !== 'sqlite') {
