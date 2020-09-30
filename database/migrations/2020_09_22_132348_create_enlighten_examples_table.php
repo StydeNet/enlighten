@@ -42,6 +42,8 @@ class CreateEnlightenExamplesTable extends Migration
             $table->text('response_body');
             $table->text('response_template')->nullable();
 
+            $table->text('session_data')->nullable();
+
             $table->timestamps();
         });
     }

@@ -78,12 +78,13 @@ class EnlightenServiceProvider extends ServiceProvider
     protected function registerExampleGeneratorClass()
     {
         $this->app->singleton(ExampleGenerator::class, function () {
-            $config = $this->app->config->get('enlighten');
+            $config = $this->app['config']->get('enlighten');
 
             return new ExampleGenerator(
                 new TestInspector($config['tests']),
                 new RequestInspector(new RouteInspector, $config['request']),
-                new ResponseInspector($config['response'])
+                new ResponseInspector($config['response']),
+                $this->app['session.store'],
             );
         });
     }

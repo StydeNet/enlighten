@@ -22,6 +22,8 @@ use Illuminate\Support\Str;
  * @property-read Example $response_template
  * @property-read Example $response_type
  * @property-read Example $full_path
+ * @property-read Example $has_redirection_status
+ * @property-read Example $redirection_location
  */
 class Example extends Model
 {
@@ -37,6 +39,7 @@ class Example extends Model
         'request_input' => 'array',
         'route_parameters' => 'array',
         'response_headers' => 'array',
+        'session_data' => 'array',
     ];
 
     // Relationships
@@ -55,6 +58,16 @@ class Example extends Model
         }
 
         return $this->request_path.'?'.http_build_query($this->request_query_parameters);
+    }
+
+    public function getHasRedirectionStatusAttribute()
+    {
+        return $this->response_status >= 300 && $this->response_status < 400;
+    }
+
+    public function getRedirectionLocationAttribute()
+    {
+        return $this->response_headers['location'] ?? null;
     }
 
     public function getResponseTypeAttribute()
@@ -77,5 +90,10 @@ class Example extends Model
         }
 
         return $this->attributes['response_body'];
+    }
+
+    public function getValidationErrorsAttribute()
+    {
+        return $this->session_data['errors'] ?? [];
     }
 }

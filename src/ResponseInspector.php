@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 

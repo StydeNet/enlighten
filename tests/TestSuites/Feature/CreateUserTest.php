@@ -40,7 +40,30 @@ class CreateUserTest extends TestCase
                 'password' => 'my-password',
             ], $example->request_input);
 
-            // @TODO: responseRedirect? responseBodyAsRedirect????
+            $this->assertTrue($example->has_redirection_status);
+        });
+    }
+
+    /** @test */
+    function the_email_must_be_required()
+    {
+        $response = $this->post('user', [
+            'name' => 'Duilio',
+            'password' => 'my-password',
+        ]);
+
+        $response->assertRedirect('/');
+
+        $this->assertDatabaseMissing('users', []);
+
+        tap(Example::first(), function (Example $example) {
+            $this->assertTrue($example->has_redirection_status);
+
+            $this->assertSame([
+                'default' => [
+                    'email' => ['The email field is required.'],
+                ],
+            ], $example->validation_errors);
         });
     }
 }

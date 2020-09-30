@@ -22,7 +22,7 @@ class TestMethodInfo implements TestInfo
         return false;
     }
 
-    public function save(RequestInfo $request, ResponseInfo $response): Model
+    public function save(RequestInfo $request, ResponseInfo $response, array $session): Model
     {
         $group = $this->classInfo->save();
 
@@ -46,6 +46,8 @@ class TestMethodInfo implements TestInfo
             'response_headers' => $response->getHeaders(),
             'response_body' => $response->getContent(),
             'response_template' => $response->getTemplate(),
+            // Session
+            'session_data' => $session,
         ]);
     }
 

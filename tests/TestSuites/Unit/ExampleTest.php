@@ -43,4 +43,46 @@ class ExampleTest extends TestCase
 
         $this->assertSame('HTML', $example->response_type);
     }
+
+    /** @test */
+    function checks_if_a_response_is_a_redirect()
+    {
+        $example = new Example([
+            'response_status' => 200,
+        ]);
+
+        $this->assertFalse($example->has_redirection_status);
+
+        $example = new Example([
+            'response_status' => 301,
+        ]);
+
+        $this->assertTrue($example->has_redirection_status);
+
+        $example = new Example([
+            'response_status' => 302,
+        ]);
+
+        $this->assertTrue($example->has_redirection_status);
+
+        $example = new Example([
+            'response_status' => 308,
+        ]);
+
+        $this->assertTrue($example->has_redirection_status);
+    }
+
+    /** @test */
+    function gets_redirection_location_from_the_response()
+    {
+        $example = new Example([
+            'response_headers' => ['location' => 'http://localhost/foo'],
+        ]);
+
+        $this->assertSame('http://localhost/foo', $example->redirection_location);
+
+        $example = new Example;
+
+        $this->assertNull($example->redirection_location);
+    }
 }
