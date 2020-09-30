@@ -1,11 +1,12 @@
 # Laravel Enlighten
+
 A seamless package to document your Laravel APIs.
 
-There is no need to add endless docblocks to each API method, maintain tens of readme files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
+There is no need to add endless docblocks to each API method, maintain dozens of readme files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
 
-"Enlighten" will bring some light to your Laravel projects, by creating beautiful documentation from your tests-suites, by doing so, your documentation will always be updated with the current version of your app.
+Enlighten your Laravel applications with beautiful documentation generated automatically from your test suites, by doing so, your documentation will always be updated with the current version of your app.
 
-You already invested enough time developing those amazing projects, you don't need to spend more time documenting them, we'll do that for you, you deserve it!
+If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
 
 ## Introducing Laravel Enlighten
 [DASHBOARD PREVIEW IMG]
@@ -13,16 +14,16 @@ You already invested enough time developing those amazing projects, you don't ne
 Just install and run your tests using `phpunit`, that's it! You'll find the entire API documentation in the following URL: `/enlighten/dashboard`
 
 ## Usage
-After finishing the installation process, run your laravel-tests as usual.
+After finishing the installation process, run your Laravel tests as usual.
 
 ```bash
-phpunib
+phpunit
 ```
 
 That's it! Now you can visit `/enlighten/dashboard` and find your documentation in there.
 
-## Install
-Install using composer
+## Installation
+Install using Composer
 
 ```bash
 composer install styde/enlighten
@@ -39,7 +40,7 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 ];
 ```
 
-Publish the package assets (css, javascript) to the public folder using artisan:
+Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
 
 ```bash
 php artisan vendor:publish --tag=enlighten-build
@@ -62,16 +63,26 @@ DB_NAME=my_default_database
 # my_default_database_enlighten
 ```
 
-> There no need to add any new entries on your `config/database.php`
+Alternatively add a new connection entry in `config/database.php` with the name `enlighten`:
 
-After creating the new database, run the migrations using artisan:
+```
+   'enlighten' => [
+       'driver' => 'mysql',
+       'host' => env('DB_HOST', '127.0.0.1'),
+       'port' => env('DB_PORT', '3306'),
+       'database' => 'styde_panel_tests_enlighten',
+       // ...
+    ],
+```
+
+After creating the new database, run the migrations using Artisan:
 
 ```bash
 php artisan migrage
 ```
 
 ## Advanced configuration
-To "group" your tests-classes as "modules", you can use a regular expression to find all he classes that matches with a given pattern:
+To "group" your tests-classes as "modules", you can use a regular expression to find all the classes that match with a given pattern:
 
 ```php
 // config/enlighten.php
@@ -80,6 +91,10 @@ To "group" your tests-classes as "modules", you can use a regular expression to 
         [
             'name' => 'Users',
             'pattern' => ['*Users*']
+        ],
+        [
+            'name' => 'Projects',
+            'pattern' => ['*Projects*', '*Project*']
         ],
         [
             'name' => 'Other Modules',
@@ -92,7 +107,7 @@ To "group" your tests-classes as "modules", you can use a regular expression to 
 > It is recommended to have a "catch all" group at the end to include all those files that didn't match with any of the other patterns.
 
 ## Excluding test-classes from the documentation
-If you want to include all the test-classes and methods in your documentation, you can skip these step, otherwise, you can add the following to the `/config/enlighten.php` file:
+If you want to include all the test-classes and methods in your documentation, you can skip this step, otherwise, you can add the following to the `/config/enlighten.php` file:
 
 ```php
 [
@@ -100,13 +115,15 @@ If you want to include all the test-classes and methods in your documentation, y
         // Add expressions to ignore test class names and test method names.
         // i.e. Tests\Unit\* ignores all tests in the Tests\Unit\ suite,
         // validates_* ignores all tests that start with validates_.
-        'ignore' => [],
+        'ignore' => [
+            'method_that_will_be_ignored',
+        ],
     ],
 ];
 ```
 
 ## Customizing titles and descriptions
-If you want to have more control on the titles and descriptions for classes and methods in your documentation, you can use the following annotation in your test files:
+If you want to have more control on the titles of the classes and methods, or add descriptions in your documentation, you can use the following annotations in your test files:
 
 ```php
 /**
@@ -131,7 +148,7 @@ class UsersTest extends TestCase {
 
 ## Customizing the intro page
 
-To customize the content of your dashboard page, you can add an `ENLIGHTEN.md` markdown file to the root path of your project.
+To customize the content of your Dashboard page, you can add an `ENLIGHTEN.md` markdown file to the root path of your project.
 The content of this file will overwrite the default page provided by this package. 
 
 ## Credits
