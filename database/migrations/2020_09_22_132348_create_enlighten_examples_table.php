@@ -24,7 +24,10 @@ class CreateEnlightenExamplesTable extends Migration
                 ->references('id')
                 ->on('enlighten_example_groups');
 
-            $table->string('method_name')->unique();
+            $table->string('method_name');
+
+            $table->unique(['group_id', 'method_name']);
+
             $table->string('title');
             $table->string('description')->nullable();
             $table->json('request_headers');
