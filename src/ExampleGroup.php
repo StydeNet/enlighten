@@ -28,7 +28,7 @@ class ExampleGroup extends Model
     // Relationships
     public function examples()
     {
-        return $this->hasMany(Example::class, 'group_id');
+        return $this->hasMany(Example::class, 'group_id')->orderBy('id');
     }
 
     // Helpers
