@@ -81,6 +81,9 @@ After creating the new database, run the migrations using Artisan:
 php artisan migrage
 ```
 
+> It's important to create a different connection for Enlighten to avoid having the info deleted or not persisted when
+> using the database migration traits included by Laravel. 
+
 ## Advanced configuration
 To "group" your tests-classes as "modules", you can use a regular expression to find all the classes that match with a given pattern:
 
