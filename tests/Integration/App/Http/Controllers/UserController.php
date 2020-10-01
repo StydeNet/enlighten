@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\App\Http\Controllers;
+namespace Tests\Integration\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Tests\App\Models\User;
+use Tests\Integration\App\Models\User;
 
 class UserController extends Controller
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\TestSuites\Integration;
+namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
 use Tests\TestCase;
 
-class CreateUserTest extends TestCase
+class PostRequestTest extends TestCase
 {
     use RefreshDatabase;
 

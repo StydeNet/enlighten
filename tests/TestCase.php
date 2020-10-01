@@ -3,11 +3,9 @@
 namespace Tests;
 
 use Illuminate\Config\Repository as Config;
-use Illuminate\Contracts\Http\Kernel;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Styde\Enlighten\EnlightenServiceProvider;
-use Styde\Enlighten\ExampleGeneratorMiddleware;
-use Tests\App\Providers\RouteServiceProvider;
+use Tests\Integration\App\Providers\RouteServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
@@ -17,10 +15,10 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/Integration/Database/migrations');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->loadViewsFrom(__DIR__ . '/resources/views');
+        $this->loadViewsFrom(__DIR__ . '/Integration/resources/views');
     }
 
     protected function getPackageProviders($app)
@@ -34,8 +32,6 @@ class TestCase extends OrchestraTestCase
     protected function getEnvironmentSetUp($app)
     {
         $this->configureDatabase($app['config']);
-
-//        $app[Kernel::class]->pushMiddleware(ExampleGeneratorMiddleware::class);
     }
 
     protected function configureDatabase(Config $config): void

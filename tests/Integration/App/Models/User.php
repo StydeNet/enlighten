@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\App\Models;
+namespace Tests\Integration\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tests\Database\Factories\UserFactory;
+use Tests\Integration\Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {

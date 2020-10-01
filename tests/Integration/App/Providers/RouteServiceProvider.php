@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Providers;
+namespace Tests\Integration\App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -39,11 +39,11 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             Route::middleware('web')
-                ->group(__DIR__.'/../../routes/web.php');
+                ->group(__DIR__ . '/../../routes/web.php');
 
             Route::prefix('api')
                 ->middleware('api')
-                ->group(__DIR__.'/../../routes/api.php');
+                ->group(__DIR__ . '/../../routes/api.php');
         });
     }
 

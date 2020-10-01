@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TestSuites\Integration;
+namespace Tests\Integration;
 
 use Tests\TestCase;
 

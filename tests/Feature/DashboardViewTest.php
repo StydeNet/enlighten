@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TestSuites\Feature;
+namespace Tests\Feature;
 
 use Styde\Enlighten\ExampleGroup;
 use Tests\TestCase;

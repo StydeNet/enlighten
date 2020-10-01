@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Database\Factories;
+namespace Tests\Integration\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use Tests\App\Models\User;
+use Tests\Integration\App\Models\User;
 
 class UserFactory extends Factory
 {

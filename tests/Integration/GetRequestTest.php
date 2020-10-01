@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\TestSuites\Integration;
+namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
 use Styde\Enlighten\ExampleGroup;
-use Tests\App\Models\User;
+use Tests\Integration\App\Models\User;
 use Tests\TestCase;
 
 /**
  * @testdox Shows the user's information
  * @description This endpoint allows you to get all the info from a specific user.
  */
-class ShowUserTest extends TestCase
+class GetRequestTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -39,7 +39,7 @@ class ShowUserTest extends TestCase
             ->assertSee('user@example.test');
 
         tap(ExampleGroup::first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\TestSuites\Integration\ShowUserTest', $exampleGroup->class_name);
+            $this->assertSame('Tests\Integration\GetRequestTest', $exampleGroup->class_name);
             $this->assertSame("Shows the user's information", $exampleGroup->title);
             $this->assertSame('This endpoint allows you to get all the info from a specific user', $exampleGroup->description);
         });

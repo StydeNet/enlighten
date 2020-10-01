@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\TestSuites\Api;
+namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
 use Styde\Enlighten\ExampleGroup;
-use Tests\App\Models\User;
+use Tests\Integration\App\Models\User;
 use Tests\TestCase;
 
-class ListUsersTest extends TestCase
+class ApiRequestTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -44,8 +44,8 @@ class ListUsersTest extends TestCase
             ]);
 
         tap($group = ExampleGroup::first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\TestSuites\Api\ListUsersTest', $exampleGroup->class_name);
-            $this->assertSame('List Users', $exampleGroup->title);
+            $this->assertSame('Tests\Integration\ApiRequestTest', $exampleGroup->class_name);
+            $this->assertSame('Api Request', $exampleGroup->title);
             $this->assertNull($exampleGroup->description);
         });
 
