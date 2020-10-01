@@ -21,7 +21,7 @@ class ShowUserTest extends TestCase
      * @testdox Get user data by ID
      * @description Retrieves the public-user data
      */
-    public function shows_user_data(): void
+    public function creates_an_example_of_a_get_request(): void
     {
         $this->withoutExceptionHandling();
 

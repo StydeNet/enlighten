@@ -9,3 +9,7 @@ Route::get('/user/{user}', [UserController::class, 'show'])
 
 Route::post('user', [UserController::class, 'store'])
     ->name('user.store');
+
+Route::get('server-error', function () {
+    abort(500);
+});

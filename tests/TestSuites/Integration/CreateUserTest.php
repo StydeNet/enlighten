@@ -11,7 +11,7 @@ class CreateUserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    function creates_a_new_user()
+    function creates_an_example_of_a_post_request()
     {
         $this->withoutExceptionHandling();
 

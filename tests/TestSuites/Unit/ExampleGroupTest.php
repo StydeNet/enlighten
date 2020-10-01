@@ -23,10 +23,7 @@ class ExampleGroupTest extends TestCase {
         $tests = ExampleGroup::findByTestSuite(new TestSuite('Api'));
 
         $this->assertSame(
-            [
-                'Tests\Api\UserTest',
-                'Tests\Api\PostTest'
-            ],
+            ['Tests\Api\UserTest', 'Tests\Api\PostTest'],
             $tests->pluck('class_name')->all()
         );
     }
