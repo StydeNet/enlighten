@@ -28,6 +28,6 @@ class ExampleGeneratorMiddleware
 
     protected function allowedStatus($response): bool
     {
-        return !in_array($response->status(), [404, 500, '...']);
+        return ! collect(config('enlighten.response.status.ignore'))->contains($response->status());
     }
 }

@@ -85,4 +85,16 @@ class ExampleTest extends TestCase
 
         $this->assertNull($example->redirection_location);
     }
+
+    /** @test */
+    function checks_if_the_related_test_passed()
+    {
+        $example = new Example(['test_status' => 'passed']);
+
+        $this->assertTrue($example->passed);
+
+        $example = new Example(['test_status' => 'failed']);
+
+        $this->assertFalse($example->passed);
+    }
 }

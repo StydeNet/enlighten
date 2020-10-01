@@ -44,6 +44,8 @@ class CreateEnlightenExamplesTable extends Migration
 
             $table->text('session_data')->nullable();
 
+            $table->string('test_status')->nullable();
+
             $table->timestamps();
         });
     }

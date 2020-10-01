@@ -26,6 +26,9 @@ return [
      ],
 
     'response' => [
+        'status' => [
+            'ignore' => [404],
+        ],
         'headers' => [
             'ignore' => [],
             'overwrite' => [],

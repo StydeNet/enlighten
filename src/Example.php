@@ -3,7 +3,6 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 
 /**
@@ -95,5 +94,10 @@ class Example extends Model
     public function getValidationErrorsAttribute()
     {
         return $this->session_data['errors'] ?? [];
+    }
+
+    public function getPassedAttribute()
+    {
+        return $this->test_status === 'passed';
     }
 }
