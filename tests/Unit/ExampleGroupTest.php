@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\TestSuites\Unit;
+namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\Example;
 use Styde\Enlighten\ExampleGroup;
 use Styde\Enlighten\TestSuite;
 use Tests\TestCase;

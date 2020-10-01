@@ -2,8 +2,6 @@
 
 namespace Tests\Integration;
 
-use Tests\TestCase;
-
 class FailedRequestTest extends TestCase
 {
     /** @test */

@@ -5,7 +5,6 @@ namespace Tests;
 use Illuminate\Config\Repository as Config;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Styde\Enlighten\EnlightenServiceProvider;
-use Tests\Integration\App\Providers\RouteServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
@@ -15,16 +14,12 @@ class TestCase extends OrchestraTestCase
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/Integration/Database/migrations');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-
-        $this->loadViewsFrom(__DIR__ . '/Integration/resources/views');
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            RouteServiceProvider::class,
             EnlightenServiceProvider::class,
         ];
     }
@@ -43,10 +38,5 @@ class TestCase extends OrchestraTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
-    }
-
-    protected function loadViewsFrom($dir): void
-    {
-        $this->app['view']->addLocation($dir);
     }
 }

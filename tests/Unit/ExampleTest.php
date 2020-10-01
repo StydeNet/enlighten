@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TestSuites\Unit;
+namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\Example;

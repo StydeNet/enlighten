@@ -4,7 +4,6 @@ namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
-use Tests\TestCase;
 
 class PostRequestTest extends TestCase
 {

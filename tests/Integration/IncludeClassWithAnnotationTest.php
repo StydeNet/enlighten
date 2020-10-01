@@ -1,14 +1,16 @@
 <?php
 
-namespace Tests\TestSuites\Unit;
+namespace Tests\Integration;
 
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * @enlighten
  */
 class IncludeClassWithAnnotationTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected function setUp(): void
     {
         parent::setUp();

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TestSuites\Unit;
+namespace Tests\Unit;
 
 use Illuminate\Support\Collection;
 use Styde\Enlighten\ExampleGroup;

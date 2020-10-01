@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
 use Styde\Enlighten\ExampleGroup;
 use Tests\Integration\App\Models\User;
-use Tests\TestCase;
 
 /**
  * @testdox Shows the user's information
