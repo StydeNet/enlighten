@@ -15,6 +15,9 @@
     <testsuite name="Feature">
       <directory suffix="Test.php">./tests/TestSuites/Feature</directory>
     </testsuite>
+      <testsuite name="Integration">
+          <directory suffix="Test.php">./tests/TestSuites/Integration</directory>
+      </testsuite>
   </testsuites>
     <php>
         <env name="APP_KEY" value="base64:CIjoXm7CcFbLOH9vTdexSSIJGB4tH8vNJ2jKbXcQI4w="/>

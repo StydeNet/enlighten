@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TestSuites\Feature;
+namespace Tests\TestSuites\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Example;
@@ -39,7 +39,7 @@ class ShowUserTest extends TestCase
             ->assertSee('user@example.test');
 
         tap(ExampleGroup::first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\TestSuites\Feature\ShowUserTest', $exampleGroup->class_name);
+            $this->assertSame('Tests\TestSuites\Integration\ShowUserTest', $exampleGroup->class_name);
             $this->assertSame("Shows the user's information", $exampleGroup->title);
             $this->assertSame('This endpoint allows you to get all the info from a specific user', $exampleGroup->description);
         });
