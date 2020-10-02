@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Example $title
  * @property-read Example $description
  * @property-read Example $http_data
+ * @property-read Example $test_status
  */
 class Example extends Model
 {

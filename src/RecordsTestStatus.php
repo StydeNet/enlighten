@@ -18,12 +18,20 @@ trait RecordsTestStatus
 
     private function saveTestStatus(string $className, string $methodName, string $statusText)
     {
-        DB::connection('enlighten')
-            ->table('enlighten_examples')
-            ->join('enlighten_example_groups', 'enlighten_examples.group_id', '=', 'enlighten_example_groups.id')
-            ->where('enlighten_example_groups.class_name', $className)
-            ->where('enlighten_examples.method_name', $methodName)
-            ->update(['test_status' => $statusText]);
+        // Create or update the example.
+        $group = ExampleGroup::firstOrCreate([
+            'class_name' => $className,
+        ], [
+            'title' => $className,
+        ]);
+
+        $example = Example::updateOrCreate([
+            'group_id' => $group->id,
+            'method_name' => $methodName,
+        ], [
+            'title' => $methodName,
+            'test_status' => $statusText,
+        ]);
     }
 
     private function getStatusAsText()
