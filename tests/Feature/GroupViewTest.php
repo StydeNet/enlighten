@@ -12,8 +12,7 @@ class GroupViewTest extends TestCase
     /** @test */
     public function get_code_example_view(): void
     {
-        $this->markTestIncomplete();
-
+        $this->withoutExceptionHandling();
         $exampleGroup = $this->createExampleGroup();
         $example = $this->createExampleInGroup($exampleGroup);
         $this->createHttpData($example);

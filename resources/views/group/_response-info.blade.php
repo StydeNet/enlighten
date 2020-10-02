@@ -2,9 +2,12 @@
     <x-slot name="title">Response</x-slot>
     <div class="p-4">
         <span class="p-1 bg-green-200 text-green-700">
-            {{ $codeExample->response_status }}
+            {{ $codeExample->http_data->response_status }}
         </span>
-        <span class="text-gray-100">{{ $codeExample->response_type }}</span>
+        <span class="text-gray-100">{{ $codeExample->http_data->response_type }}</span>
     </div>
-    <x-enlighten-key-value :items="$codeExample->response_headers" title="Response Headers"></x-enlighten-key-value>
+
+    @if($codeExample->http_data->response_headers)
+        <x-enlighten-key-value :items="$codeExample->http_data->response_headers" title="Response Headers"></x-enlighten-key-value>
+    @endif
 </x-enlighten-info-panel>

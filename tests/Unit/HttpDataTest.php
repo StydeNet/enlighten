@@ -66,6 +66,12 @@ class HttpDataTest extends TestCase
         ]);
 
         $this->assertSame('HTML', $data->response_type);
+
+        $data = new HttpData([
+           // without headers
+        ]);
+
+        $this->assertSame('UNDEFINED', $data->response_type);
     }
 
     /** @test */

@@ -61,6 +61,10 @@ class HttpData extends Model
 
     public function getResponseTypeAttribute()
     {
+        if (empty($this->response_headers['content-type'])) {
+            return 'UNDEFINED';
+        }
+
         $contentTypes = [
             'text/html' => 'HTML',
             '/json' => 'JSON',

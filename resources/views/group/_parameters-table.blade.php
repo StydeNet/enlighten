@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($codeExample->route_parameters as $parameter)
+        @foreach($codeExample->http_data->route_parameters as $parameter)
             <tr class="break-all">
                 <td class="py-2 px-4 font-thin text-gray-200">{{ $parameter['name'] }}</td>
                 <td class="py-2 px-4 font-thin text-teal-300">{{ $parameter['pattern'] }}</td>
