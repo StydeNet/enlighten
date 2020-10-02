@@ -46,22 +46,22 @@ class GetRequestTest extends TestCase
         tap(Example::first(), function (Example $example) use ($user) {
             $this->assertSame('Get user data by ID', $example->title);
             $this->assertSame('Retrieves the public-user data', $example->description);
-            $this->assertSame('GET', $example->request_method);
-            $this->assertSame("user/{$user->id}", $example->request_path);
-            $this->assertSame('user/{user}', $example->route);
+            $this->assertSame('GET', $example->http_data->request_method);
+            $this->assertSame("user/{$user->id}", $example->http_data->request_path);
+            $this->assertSame('user/{user}', $example->http_data->route);
             $this->assertSame([
                 [
                     'name' => 'user',
                     'pattern' => '\d+',
                     'optional' => false,
                 ]
-            ], $example->route_parameters);
+            ], $example->http_data->route_parameters);
 
-            $this->assertStringContainsString($user->name, $example->response_body);
-            $this->assertStringContainsString($user->email, $example->response_body);
+            $this->assertStringContainsString($user->name, $example->http_data->response_body);
+            $this->assertStringContainsString($user->email, $example->http_data->response_body);
 
-            $this->assertStringContainsString('{{ $user->name }}', $example->response_template);
-            $this->assertStringContainsString('{{ $user->email }}', $example->response_template);
+            $this->assertStringContainsString('{{ $user->name }}', $example->http_data->response_template);
+            $this->assertStringContainsString('{{ $user->email }}', $example->http_data->response_template);
         });
     }
 }

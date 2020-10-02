@@ -26,12 +26,15 @@ class TestMethodInfo implements TestInfo
     {
         $group = $this->classInfo->save();
 
-        return $group->examples()->updateOrCreate([
+        $example = $group->examples()->updateOrCreate([
             'method_name' => $this->methodName,
         ], [
             // Test
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
+        ]);
+
+        $example->http_data->fill([
             // Request
             'request_headers' => $request->getHeaders(),
             'request_method' => $request->getMethod(),
@@ -48,7 +51,9 @@ class TestMethodInfo implements TestInfo
             'response_template' => $response->getTemplate(),
             // Session
             'session_data' => $session,
-        ]);
+        ])->save();
+
+        return $example;
     }
 
     protected function getTitle(): string

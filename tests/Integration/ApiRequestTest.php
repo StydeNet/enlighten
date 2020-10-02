@@ -18,6 +18,8 @@ class ApiRequestTest extends TestCase
      */
     function gets_the_list_of_users()
     {
+        $this->withoutExceptionHandling();
+
         User::factory()->create([
             'name' => 'Duilio Palacios',
             'email' => 'duilio@example.com',
@@ -28,7 +30,8 @@ class ApiRequestTest extends TestCase
             'email' => 'jeff.ochoa@example.com',
         ]);
 
-        $response = $this->get('api/users')
+        $this->get('api/users')
+            ->assertOk()
             ->assertSimilarJson([
                 'data' => [
                     [
@@ -53,10 +56,10 @@ class ApiRequestTest extends TestCase
             $this->assertSame('gets_the_list_of_users', $example->method_name);
             $this->assertSame('Obtiene la lista de usuarios', $example->title);
             $this->assertSame('Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema', $example->description);
-            $this->assertSame('GET', $example->request_method);
-            $this->assertSame('api/users', $example->request_path);
+            $this->assertSame('GET', $example->http_data->request_method);
+            $this->assertSame('api/users', $example->http_data->request_path);
 
-            $this->assertSame('api/users/{status?}/{page?}', $example->route);
+            $this->assertSame('api/users/{status?}/{page?}', $example->http_data->route);
             $this->assertSame([
                 [
                     'name' => 'status',
@@ -68,7 +71,7 @@ class ApiRequestTest extends TestCase
                     'pattern' => '*',
                     'optional' => true,
                 ]
-            ], $example->route_parameters);
+            ], $example->http_data->route_parameters);
 
             $this->assertSame([
                 'data' => [
@@ -81,7 +84,7 @@ class ApiRequestTest extends TestCase
                         'email' => 'jeff.ochoa@example.com',
                     ],
                 ]
-            ], $example->response_body);
+            ], $example->http_data->response_body);
         });
     }
 }

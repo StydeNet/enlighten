@@ -61,12 +61,4 @@ class TestSuiteTest extends TestCase
         ];
         $this->assertSame($expected, TestSuite::all()->values()->toArray());
     }
-
-    protected function createExampleGroup($className)
-    {
-        return ExampleGroup::create([
-            'class_name' => $className,
-            'title' => $className,
-        ]);
-    }
 }

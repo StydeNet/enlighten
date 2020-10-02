@@ -29,17 +29,17 @@ class PostRequestTest extends TestCase
         ]);
 
         tap(Example::first(), function (Example $example) {
-            $this->assertSame('POST', $example->request_method);
-            $this->assertSame('user', $example->request_path);
-            $this->assertSame('user', $example->route);
+            $this->assertSame('POST', $example->http_data->request_method);
+            $this->assertSame('user', $example->http_data->request_path);
+            $this->assertSame('user', $example->http_data->route);
 
             $this->assertSame([
                 'name' => 'Duilio',
                 'email' => 'duilio@example.test',
                 'password' => 'my-password',
-            ], $example->request_input);
+            ], $example->http_data->request_input);
 
-            $this->assertTrue($example->has_redirection_status);
+            $this->assertTrue($example->http_data->has_redirection_status);
         });
     }
 
@@ -56,13 +56,13 @@ class PostRequestTest extends TestCase
         $this->assertDatabaseMissing('users', []);
 
         tap(Example::first(), function (Example $example) {
-            $this->assertTrue($example->has_redirection_status);
+            $this->assertTrue($example->http_data->has_redirection_status);
 
             $this->assertSame([
                 'default' => [
                     'email' => ['The email field is required.'],
                 ],
-            ], $example->validation_errors);
+            ], $example->http_data->validation_errors);
         });
     }
 }
