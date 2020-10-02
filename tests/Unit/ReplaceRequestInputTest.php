@@ -35,7 +35,7 @@ class ReplaceRequestInputTest extends TestCase
             ]
         ]);
 
-        $input = $requestInspector->getInfoFrom($request)->getInput();
+        $input = $requestInspector->getDataFrom($request)->getInput();
 
         $expected = [
             'username' => 'original_username',

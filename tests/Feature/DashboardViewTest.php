@@ -10,6 +10,8 @@ class DashboardViewTest extends TestCase {
     /** @test */
     public function get_dashboard_view(): void
     {
+        $this->markTestIncomplete();
+
         ExampleGroup::create(['class_name' => 'Tests\Api\UserTest', 'title' => 'User tests']);
 
         $response = $this->get(route('enlighten.dashboard'));
@@ -22,6 +24,8 @@ class DashboardViewTest extends TestCase {
     /** @test */
     public function redirect_to_intro_page_if_no_data_has_been_recorded_yet(): void
     {
+        $this->withoutExceptionHandling();
+
         $response = $this->get(route('enlighten.dashboard'));
 
         $response->assertRedirect(route('enlighten.intro'));

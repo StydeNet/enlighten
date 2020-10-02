@@ -33,7 +33,7 @@ class ReplaceRequestQueryParametersTest extends TestCase
             ]
         ]);
 
-        $parameters = $requestInspector->getInfoFrom($request)->getQueryParameters();
+        $parameters = $requestInspector->getDataFrom($request)->getQueryParameters();
 
         $this->assertSame(['page' => 2, 'host' => 'replaced_host'], $parameters);
     }

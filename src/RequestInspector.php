@@ -30,7 +30,7 @@ class RequestInspector
         $this->overwriteInput = $config['input']['overwrite'] ?? [];
     }
 
-    public function getInfoFrom(Request $request)
+    public function getDataFrom(Request $request)
     {
         return new RequestInfo(
             $request->method(),

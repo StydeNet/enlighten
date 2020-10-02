@@ -16,7 +16,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__.'/../config/enlighten.php', 'enlighten');
 
-        $this->registerExampleGeneratorMiddleware();
+        $this->registerHttpExampleGeneratorMiddleware();
 
         if ($this->app->environment('local', 'testing')) {
             $this->loadroutesFrom(__DIR__ . '/../routes/web.php');
@@ -65,26 +65,34 @@ class EnlightenServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->registerExampleGeneratorClass();
+        $this->registerTestInspector();
+        $this->registerHttpExampleGenerator();
     }
 
-    protected function registerExampleGeneratorMiddleware()
+    private function registerHttpExampleGeneratorMiddleware()
     {
         if ($this->app->config->get('enlighten.enable')) {
-            $this->app[Kernel::class]->pushMiddleware(ExampleGeneratorMiddleware::class);
+            $this->app[Kernel::class]->pushMiddleware(HttpExampleGeneratorMiddleware::class);
         }
     }
 
-    protected function registerExampleGeneratorClass()
+    private function registerTestInspector()
     {
-        $this->app->singleton(ExampleGenerator::class, function () {
+        $this->app->singleton(TestInspector::class, function () {
+            return new TestInspector($this->app['config']->get('enlighten.tests'));
+        });
+    }
+
+    private function registerHttpExampleGenerator()
+    {
+        $this->app->singleton(HttpExampleGenerator::class, function () {
             $config = $this->app['config']->get('enlighten');
 
-            return new ExampleGenerator(
-                new TestInspector($config['tests']),
+            return new HttpExampleGenerator(
+                $this->app[TestInspector::class],
                 new RequestInspector(new RouteInspector, $config['request']),
                 new ResponseInspector($config['response']),
-                $this->app['session.store'],
+                new SessionInspector($this->app['session.store']),
             );
         });
     }

@@ -29,7 +29,7 @@ class ReplaceRequestHeadersTest extends TestCase
             ]
         ]);
 
-        $headers = $requestInspector->getInfoFrom($request)->getHeaders();
+        $headers = $requestInspector->getDataFrom($request)->getHeaders();
 
         $this->assertSame([
             'accept' => ['application/json'],
@@ -55,7 +55,7 @@ class ReplaceRequestHeadersTest extends TestCase
             ]
         ]);
 
-        $headers = $requestInspector->getInfoFrom($request)->getHeaders();
+        $headers = $requestInspector->getDataFrom($request)->getHeaders();
 
         $this->assertSame([
             'host' => ['127.0.0.1'],
@@ -84,7 +84,7 @@ class ReplaceRequestHeadersTest extends TestCase
             ]
         ]);
 
-        $headers = $requestInspector->getInfoFrom($request)->getHeaders();
+        $headers = $requestInspector->getDataFrom($request)->getHeaders();
 
         $this->assertSame([
             'accept' => ['application/json'],
