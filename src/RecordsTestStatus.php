@@ -25,13 +25,19 @@ trait RecordsTestStatus
             'title' => $className,
         ]);
 
-        $example = Example::updateOrCreate([
+        $example = Example::where([
             'group_id' => $group->id,
             'method_name' => $methodName,
-        ], [
-            'title' => $methodName,
-            'test_status' => $statusText,
-        ]);
+        ])->firstOrNew();
+
+        if ($example->exists) {
+            $example->update(['test_status' => $statusText]);
+        } else {
+            $example->fill([
+                'title' => $methodName,
+                'test_status' => $statusText,
+            ])->save();
+        }
     }
 
     private function getStatusAsText()
