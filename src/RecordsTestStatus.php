@@ -25,10 +25,10 @@ trait RecordsTestStatus
             'title' => $className,
         ]);
 
-        $example = Example::where([
+        $example = Example::firstOrNew([
             'group_id' => $group->id,
             'method_name' => $methodName,
-        ])->firstOrNew();
+        ]);
 
         if ($example->exists) {
             $example->update(['test_status' => $statusText]);
