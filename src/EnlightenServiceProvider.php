@@ -31,6 +31,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'info-panel' => 'enlighten::components.info-panel',
             'app-layout' => 'enlighten::components.app-layout',
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
+            'status-badge' => 'enlighten::components.status-badge',
         ]);
 
         if ($this->app->runningInConsole()) {
@@ -39,7 +40,7 @@ class EnlightenServiceProvider extends ServiceProvider
             ], 'enlighten-config');
 
             $this->publishes([
-                __DIR__.'/../dist' => public_path('enlighten'),
+                __DIR__.'/../dist' => public_path('vendor/enlighten'),
             ], 'enlighten-build');
 
             $this->publishes([

@@ -11,7 +11,9 @@ trait RecordsTestStatus
     {
         $this->beforeApplicationDestroyed(function () {
             $this->saveTestStatus(
-                get_class($this), $this->getName(), $this->getStatusAsText()
+                get_class($this),
+                $this->getName(),
+                $this->getStatusAsText()
             );
         });
     }
