@@ -5,6 +5,7 @@ namespace Styde\Enlighten;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property-read Example $method_name
  * @property-read Example $title
  * @property-read Example $description
  * @property-read Example $http_data

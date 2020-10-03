@@ -8,13 +8,7 @@
     </div>
 
     <div class="w-full flex-1 rounded-lg overflow-hidden" x-show="active === 'preview'">
-        @if($httpData->has_redirection_status)
-            <span class="bg-white p-4 w-full flex rounded-lg">
-                Redirecting to {{ $httpData->redirection_location }}
-            </span>
-        @else
-            <iframe class="h-full w-full bg-white" srcdoc="{{ $httpData->response_body }}"></iframe>
-        @endif
+         <iframe class="h-full w-full bg-white" srcdoc="{{ $httpData->response_preview }}"></iframe>
     </div>
 
     <div class="w-full flex-1 rounded-lg overflow-hidden" x-show="active === 'html'">

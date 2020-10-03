@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
  * @property-read HttpData $response_headers
  * @property-read HttpData $response_status
  * @property-read HttpData $response_body
+ * @property-read HttpData $response_preview
  * @property-read HttpData $response_template
  * @property-read HttpData $response_type
  * @property-read HttpData $full_path
@@ -83,6 +84,15 @@ class HttpData extends Model
         }
 
         return $this->attributes['response_body'];
+    }
+
+    public function getResponsePreviewAttribute()
+    {
+        if ($this->has_redirection_status) {
+            return preg_replace('@<meta http-equiv="refresh" .*?>@', '<!--$0-->', $this->response_body);
+        }
+
+        return $this->response_body;
     }
 
     public function getValidationErrorsAttribute()
