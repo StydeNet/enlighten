@@ -20,7 +20,7 @@ class ResponseInspector
         $this->overwriteHeaders = $config['headers']['overwrite'] ?? [];
     }
 
-    public function getInfoFrom(Response $response)
+    public function getDataFrom(Response $response)
     {
         return new ResponseInfo(
             $response->getStatusCode(),

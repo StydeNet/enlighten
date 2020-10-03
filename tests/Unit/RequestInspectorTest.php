@@ -25,7 +25,7 @@ class RequestInspectorTest extends TestCase
 
         $requestInspector = new RequestInspector(new RouteInspector, []);
 
-        $input = $requestInspector->getInfoFrom($request)->getInput();
+        $input = $requestInspector->getDataFrom($request)->getInput();
 
         $this->assertSame(['input' => 'value'], $input);
     }

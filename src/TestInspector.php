@@ -17,13 +17,20 @@ class TestInspector
         $this->ignore = $config['ignore'];
     }
 
-    public function getInfo(): TestInfo
+    public function getCurrentTestInfo(): TestInfo
     {
         $trace = TestTrace::get();
 
         $testClassInfo = $this->makeTestClassInfo($trace->getClassName());
 
         return $this->makeTestMethodInfo($testClassInfo, $trace->getMethodName());
+    }
+
+    public function getInfo($className, $methodName): TestInfo
+    {
+        $testClassInfo = $this->makeTestClassInfo($className);
+
+        return $this->makeTestMethodInfo($testClassInfo, $methodName);
     }
 
     private function makeTestClassInfo($name)

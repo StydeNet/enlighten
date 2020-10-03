@@ -24,7 +24,7 @@ class ResponseInspectorTest extends TestCase
             ]
         ]);
 
-        $headers = $responseInspector->getInfoFrom($response)->getHeaders();
+        $headers = $responseInspector->getDataFrom($response)->getHeaders();
 
         $this->assertSame(['application/json'], $headers['content-type']);
         $this->assertArrayNotHasKey('secret-token', $headers);
@@ -47,7 +47,7 @@ class ResponseInspectorTest extends TestCase
             ]
         ]);
 
-        $headers = $responseInspector->getInfoFrom($response)->getHeaders();
+        $headers = $responseInspector->getDataFrom($response)->getHeaders();
 
         $this->assertSame(['application/json'], $headers['content-type']);
         $this->assertSame('******', $headers['token']);
@@ -73,7 +73,7 @@ class ResponseInspectorTest extends TestCase
             ]
         ]);
 
-        $headers = $responseInspector->getInfoFrom($response)->getHeaders();
+        $headers = $responseInspector->getDataFrom($response)->getHeaders();
 
         $this->assertSame(['application/json'], $headers['content-type']);
         $this->assertArrayNotHasKey('token', $headers);

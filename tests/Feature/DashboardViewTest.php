@@ -22,6 +22,8 @@ class DashboardViewTest extends TestCase {
     /** @test */
     public function redirect_to_intro_page_if_no_data_has_been_recorded_yet(): void
     {
+        $this->withoutExceptionHandling();
+
         $response = $this->get(route('enlighten.dashboard'));
 
         $response->assertRedirect(route('enlighten.intro'));

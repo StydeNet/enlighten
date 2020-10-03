@@ -9,12 +9,14 @@ class TestMethodInfo implements TestInfo
     public TestClassInfo $classInfo;
     private string $methodName;
     private array $texts;
+    private string $testStatus;
 
     public function __construct(TestClassInfo $classInfo, string $methodName, array $texts = [])
     {
         $this->classInfo = $classInfo;
         $this->methodName = $methodName;
         $this->texts = $texts;
+        $this->testStatus = 'unknown';
     }
 
     public function isExcluded(): bool
@@ -22,17 +24,30 @@ class TestMethodInfo implements TestInfo
         return false;
     }
 
-    public function save(RequestInfo $request, ResponseInfo $response, array $session): Model
+    public function addTestStatus(string $status): self
+    {
+        $this->testStatus = $status;
+
+        return $this;
+    }
+
+    public function save(): Model
     {
         $group = $this->classInfo->save();
 
-        $example = $group->examples()->updateOrCreate([
+        return $group->examples()->updateOrCreate([
             'method_name' => $this->methodName,
         ], [
             // Test
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
+            'test_status' => $this->testStatus,
         ]);
+    }
+
+    public function saveHttpExample(RequestInfo $request, ResponseInfo $response, array $session): Model
+    {
+        $example = $this->save();
 
         $example->http_data->fill([
             // Request
