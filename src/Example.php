@@ -41,4 +41,9 @@ class Example extends Model
     {
         return $this->test_status === 'passed';
     }
+
+    public function getFailedAttribute()
+    {
+        return in_array($this->test_status, ['failure', 'error']);
+    }
 }

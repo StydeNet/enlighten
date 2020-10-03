@@ -1,6 +1,11 @@
 <div class="flex items-center justify-between bg-gray-800 my-1 px-2 mb-4">
-    <h2 id="{{ $codeExample->method_name }}" class="text-xl text-gray-100 semibold block w-full my-3 px-2">{{ $codeExample->title }}</h2>
-    <x-enlighten-status-badge :status="$codeExample->test_status"/>
+    <x-enlighten-status-badge :example="$codeExample"/>
+    <h2 id="{{ $codeExample->method_name }}" class="text-xl text-gray-100 semibold block w-full my-3">
+        @unless($codeExample->passed)
+            {{ ucwords($codeExample->test_status) . ':' }}
+        @endunless
+            {{ $codeExample->title }}
+       </h2>
 </div>
 
 <div class="grid grid-cols-2 gap-4 w-full mb-12">
