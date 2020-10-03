@@ -106,7 +106,7 @@ class HttpDataTest extends TestCase
     function gets_redirection_location_from_the_response()
     {
         $data = new HttpData([
-            'response_headers' => ['location' => 'http://localhost/foo'],
+            'response_headers' => ['location' => ['http://localhost/foo']],
         ]);
 
         $this->assertSame('http://localhost/foo', $data->redirection_location);

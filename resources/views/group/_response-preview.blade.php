@@ -3,8 +3,7 @@
         <x-enlighten-json-response :json="$codeExample->http_data->response_body"></x-enlighten-json-response>
     @elseif($codeExample->http_data->response_type === 'HTML')
         <x-enlighten-html-response
-                :html="$codeExample->http_data->response_body"
-                :blade="$codeExample->http_data->response_template"
+                :http-data="$codeExample->http_data"
         ></x-enlighten-html-response>
     @endif
 </div>

@@ -2,11 +2,14 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\Example;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     function checks_if_the_related_test_passed()
     {

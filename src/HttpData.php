@@ -56,7 +56,7 @@ class HttpData extends Model
 
     public function getRedirectionLocationAttribute()
     {
-        return $this->response_headers['location'] ?? null;
+        return $this->response_headers['location'][0] ?? null;
     }
 
     public function getResponseTypeAttribute()

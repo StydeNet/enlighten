@@ -34,7 +34,10 @@ class EnlightenServiceProvider extends ServiceProvider
             'app-layout' => 'enlighten::components.app-layout',
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
             'status-badge' => StatusBadgeComponent::class,
-            'response-info' => ResponseInfoComponent::class
+            'response-info' => ResponseInfoComponent::class,
+            'request-info' => 'enlighten::components.request-info',
+            'parameters-table' => 'enlighten::components.parameters-table',
+            'request-input-table' => 'enlighten::components.request-input-table',
         ]);
 
         if ($this->app->runningInConsole()) {
