@@ -8,10 +8,12 @@ use Styde\Enlighten\Example;
 class StatusBadgeComponent extends Component
 {
     public Example $example;
+    public string $size;
 
-    public function __construct(Example $example)
+    public function __construct(Example $example, string $size = '8')
     {
         $this->example = $example;
+        $this->size = $size;
     }
 
     public function color()

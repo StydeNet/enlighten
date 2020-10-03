@@ -5,6 +5,7 @@ namespace Styde\Enlighten;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use Styde\Enlighten\View\ResponseInfoComponent;
 use Styde\Enlighten\View\StatusBadgeComponent;
 
 class EnlightenServiceProvider extends ServiceProvider
@@ -33,6 +34,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'app-layout' => 'enlighten::components.app-layout',
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
             'status-badge' => StatusBadgeComponent::class,
+            'response-info' => ResponseInfoComponent::class
         ]);
 
         if ($this->app->runningInConsole()) {

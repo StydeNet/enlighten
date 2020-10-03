@@ -1,5 +1,5 @@
 <div class="flex items-center justify-between bg-gray-800 my-1 px-2 mb-4">
-    <x-enlighten-status-badge :example="$codeExample"/>
+    <x-enlighten-status-badge size="8" :example="$codeExample"/>
     <h2 id="{{ $codeExample->method_name }}" class="text-xl text-gray-100 semibold block w-full my-3">
         @unless($codeExample->passed)
             {{ ucwords($codeExample->test_status) . ':' }}
@@ -15,7 +15,7 @@
 
         <span class="mb-8 w-full block"></span>
 
-        @include('enlighten::group._response-info')
+        <x-enlighten-response-info :example="$codeExample"></x-enlighten-response-info>
     </div>
 
     @include('enlighten::group._response-preview')
