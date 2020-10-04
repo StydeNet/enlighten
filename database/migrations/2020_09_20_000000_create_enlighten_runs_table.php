@@ -21,8 +21,10 @@ class CreateEnlightenRunsTable extends Migration
             $table->id();
 
             $table->string('branch');
-            $table->string('head')->unique();
+            $table->string('head');
             $table->boolean('modified');
+
+            $table->unique(['head', 'modified']);
 
             $table->timestamps();
         });

@@ -24,7 +24,10 @@ class CreateEnlightenExampleGroupsTable extends Migration
                 ->references('id')
                 ->on('enlighten_runs');
 
-            $table->string('class_name')->unique();
+            $table->string('class_name');
+
+            $table->unique(['run_id', 'class_name']);
+
             $table->string('title');
             $table->string('description')->nullable();
 
