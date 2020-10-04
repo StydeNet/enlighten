@@ -10,6 +10,8 @@ class DashboardViewTest extends TestCase {
     /** @test */
     public function get_dashboard_view(): void
     {
+        $this->withoutExceptionHandling();
+
         ExampleGroup::create(['class_name' => 'Tests\Api\UserTest', 'title' => 'User tests']);
 
         $response = $this->get(route('enlighten.dashboard'));

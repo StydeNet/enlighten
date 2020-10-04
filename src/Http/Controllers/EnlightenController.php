@@ -1,10 +1,12 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Module;
+use Styde\Enlighten\TestSuite;
 
 class EnlightenController {
 
@@ -55,7 +57,7 @@ class EnlightenController {
         if (file_exists(base_path('ENLIGHTEN.md'))) {
             $content = Markdown::parse(base_path('ENLIGHTEN.md'));
         } else {
-            $content = Markdown::parse(file_get_contents(__DIR__.'/../README.md'));
+            $content = Markdown::parse(file_get_contents(__DIR__ . '/../README.md'));
         }
 
         return view('enlighten::intro', [

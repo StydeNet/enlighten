@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten\View;
+namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
 use Styde\Enlighten\Models\Example;

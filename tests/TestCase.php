@@ -4,7 +4,7 @@ namespace Tests;
 
 use Illuminate\Config\Repository as Config;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Styde\Enlighten\EnlightenServiceProvider;
+use Styde\Enlighten\Providers\EnlightenServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {

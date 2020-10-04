@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Styde\Enlighten\EnlightenController;
+use Styde\Enlighten\Http\Controllers\EnlightenController;
 
 Route::prefix('enlighten')
     ->middleware('web')
