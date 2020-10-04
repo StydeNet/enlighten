@@ -35,6 +35,6 @@ class CreateEnlightenRunsTable extends Migration
      */
     public function down()
     {
-        Schema::connection('enlighten')->dropIfExists('enlighten_example_runs');
+        Schema::connection('enlighten')->dropIfExists('enlighten_runs');
     }
 }
