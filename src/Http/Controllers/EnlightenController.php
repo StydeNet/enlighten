@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Http\Controllers;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Module;
 use Styde\Enlighten\TestSuite;
 
@@ -28,7 +29,7 @@ class EnlightenController {
             return redirect(route('enlighten.dashboard'));
         }
 
-        $groups = ExampleGroup::findByTestSuite($suite);
+        $groups = Run::latest()->first()->groups()->bySuite($suite)->get();
 
         $modules = Module::all();
 
