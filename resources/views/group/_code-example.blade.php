@@ -4,7 +4,7 @@
         @unless($codeExample->passed)
             {{ ucwords($codeExample->test_status) . ':' }}
         @endunless
-            {{ $codeExample->title }}
+            {{ $codeExample->title }}   <a href="{{ $codeExample->file_link }}">[lapicito]</a>
        </h2>
 </div>
 

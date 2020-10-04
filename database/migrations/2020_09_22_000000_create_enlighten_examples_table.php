@@ -28,6 +28,7 @@ class CreateEnlightenExamplesTable extends Migration
 
             $table->unique(['group_id', 'method_name']);
 
+            $table->integer('line')->nullable();
             $table->string('title');
             $table->string('description')->nullable();
 

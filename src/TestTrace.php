@@ -21,5 +21,6 @@ class TestTrace
     {
         $this->className = $trace['class'];
         $this->methodName = $trace['function'];
+        $this->line = $trace['line'];
     }
 }

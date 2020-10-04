@@ -3,12 +3,21 @@
 namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Models\ExampleGroup;
 
-class ExampleTest extends TestCase
+class ExampleTest extends \Orchestra\Testbench\TestCase
 {
-    use RefreshDatabase;
+    /** @test */
+    function gets_the_path_to_the_file()
+    {
+        $example = new Example;
+        $example->group = new ExampleGroup([
+            'class_name' => 'Tests\Feature\Admin\CreateUsersTest',
+        ]);
+
+        $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php@', $example->file_link));
+    }
 
     /** @test */
     function checks_if_the_related_test_passed()

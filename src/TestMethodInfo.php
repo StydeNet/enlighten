@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TestMethodInfo implements TestInfo
 {
     public TestClassInfo $classInfo;
+    protected ?int $line;
     private string $methodName;
     private array $texts;
     private string $testStatus;
@@ -17,6 +18,7 @@ class TestMethodInfo implements TestInfo
         $this->methodName = $methodName;
         $this->texts = $texts;
         $this->testStatus = 'unknown';
+        $this->line = null;
     }
 
     public function isIgnored(): bool
@@ -31,6 +33,13 @@ class TestMethodInfo implements TestInfo
         return $this;
     }
 
+    public function addLine(int $line): self
+    {
+        $this->line = $line;
+
+        return $this;
+    }
+
     public function save(): Model
     {
         $group = $this->classInfo->save();
@@ -39,6 +48,7 @@ class TestMethodInfo implements TestInfo
             'method_name' => $this->methodName,
         ], [
             // Test
+            'line' => $this->line,
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
             'test_status' => $this->testStatus,

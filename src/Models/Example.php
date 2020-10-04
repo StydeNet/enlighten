@@ -33,6 +33,13 @@ class Example extends Model
 
     // Accessors
 
+    public function getFileLinkAttribute()
+    {
+        $path = str_replace('\\', '/', $this->group->class_name).'.php';
+
+        return 'phpstorm://open?file='.urlencode(base_path($path));
+    }
+
     public function getIsHttpAttribute()
     {
         return $this->http_data->exists;

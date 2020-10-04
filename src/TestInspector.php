@@ -22,7 +22,7 @@ class TestInspector
     {
         $trace = TestTrace::get();
 
-        return $this->getInfo($trace->className, $trace->methodName);
+        return $this->getInfo($trace->className, $trace->methodName)->addLine($trace->line);
     }
 
     public function getInfo($className, $methodName): TestInfo
