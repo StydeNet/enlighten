@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'enable' => true,
+    'enabled' => true,
 
     'tests' => [
         // Add expressions to ignore test class names and test method names.

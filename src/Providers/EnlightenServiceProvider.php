@@ -20,17 +20,19 @@ class EnlightenServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->mergeConfigFrom($this->componentPath('config/enlighten.php'), 'enlighten');
+
+        if (! $this->app['config']->get('enlighten.enabled')) {
+            return;
+        }
+
         $this->addDatabaseConnection($this->app['config']);
 
         $this->loadMigrationsFrom($this->componentPath('database/migrations'));
 
-        $this->mergeConfigFrom($this->componentPath('config/enlighten.php'), 'enlighten');
+        $this->registerMiddleware();
 
-        $this->registerMiddleware($this->app['config']);
-
-        if ($this->app->environment('local', 'testing')) {
-            $this->loadroutesFrom($this->componentPath('routes/web.php'));
-        }
+        $this->loadroutesFrom($this->componentPath('routes/web.php'));
 
         $this->loadViewsFrom($this->componentPath('resources/views'), 'enlighten');
 
@@ -60,11 +62,9 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerHttpExampleGenerator();
     }
 
-    private function registerMiddleware(Config $config)
+    private function registerMiddleware()
     {
-        if ($config->get('enlighten.enable')) {
-            $this->app[Kernel::class]->pushMiddleware(HttpExampleGeneratorMiddleware::class);
-        }
+        $this->app[Kernel::class]->pushMiddleware(HttpExampleGeneratorMiddleware::class);
     }
 
     private function registerTestInspector()

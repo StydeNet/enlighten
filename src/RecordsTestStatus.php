@@ -8,7 +8,9 @@ trait RecordsTestStatus
 {
     public function recordTestStatus()
     {
-        $this->beforeApplicationDestroyed(fn() => $this->saveTestExample());
+        if ($this->app->make('config')->get('enlighten.enabled')) {
+            $this->beforeApplicationDestroyed(fn() => $this->saveTestExample());
+        }
     }
 
     private function saveTestExample()
