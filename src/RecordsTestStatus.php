@@ -16,10 +16,10 @@ trait RecordsTestStatus
         $test = $this->app->make(TestInspector::class)
             ->getInfo(get_class($this), $this->getName());
 
-        if ($test->isExcluded()) {
+        if ($test->isIgnored()) {
             return;
         }
-        
+
         $test->addTestStatus($this->getStatusAsText())->save();
     }
 

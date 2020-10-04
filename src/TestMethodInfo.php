@@ -19,7 +19,7 @@ class TestMethodInfo implements TestInfo
         $this->testStatus = 'unknown';
     }
 
-    public function isExcluded(): bool
+    public function isIgnored(): bool
     {
         return false;
     }

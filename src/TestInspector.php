@@ -53,7 +53,7 @@ class TestInspector
         $options = array_merge($testClassInfo->getOptions(), $this->getOptionsFrom($annotations));
 
         if ($this->ignoreTest($testClassInfo->getClassName(), $methodName, $options)) {
-            return new ExcludedTest;
+            return new IgnoredTest;
         }
 
         return new TestMethodInfo($testClassInfo, $methodName, $this->getTextsFrom($annotations));

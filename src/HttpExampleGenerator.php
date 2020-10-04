@@ -30,7 +30,7 @@ class HttpExampleGenerator
     {
         $testMethodInfo = $this->testInspector->getCurrentTestInfo();
 
-        if ($testMethodInfo->isExcluded()) {
+        if ($testMethodInfo->isIgnored()) {
             return;
         }
 

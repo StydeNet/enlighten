@@ -4,5 +4,5 @@ namespace Styde\Enlighten;
 
 interface TestInfo
 {
-    public function isExcluded(): bool;
+    public function isIgnored(): bool;
 }

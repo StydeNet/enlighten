@@ -5,9 +5,9 @@ namespace Styde\Enlighten;
 use BadMethodCallException;
 use Illuminate\Database\Eloquent\Model;
 
-class ExcludedTest implements TestInfo
+class IgnoredTest implements TestInfo
 {
-    public function isExcluded(): bool
+    public function isIgnored(): bool
     {
         return true;
     }

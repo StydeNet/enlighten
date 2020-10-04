@@ -47,7 +47,7 @@ class TestClassInfo implements TestInfo
         return $result->replaceMatches('@([A-Z])@', ' $1')->trim();
     }
 
-    public function isExcluded(): bool
+    public function isIgnored(): bool
     {
         return false;
     }

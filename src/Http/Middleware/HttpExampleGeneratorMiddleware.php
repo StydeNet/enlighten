@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Http\Middleware;
 use Closure;
 use Styde\Enlighten\HttpExampleGenerator;
 
+// @TODO: rename class because it's not generating anything anymore.
 class HttpExampleGeneratorMiddleware
 {
     /**
