@@ -24,10 +24,10 @@ class RunController extends Controller
             return redirect(route('enlighten.intro'));
         }
 
-        if ($request->query('suite') === null) {
+        if ($request->route('suite') === null) {
             $suite = $tabs->first();
         } else {
-            $suite = $tabs->firstWhere('slug', $request->query('suite'));
+            $suite = $tabs->firstWhere('slug', $request->route('suite'));
         }
 
         if ($suite === null) {
