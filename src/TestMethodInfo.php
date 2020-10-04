@@ -46,13 +46,13 @@ class TestMethodInfo implements TestInfo
 
         return $group->examples()->updateOrCreate([
             'method_name' => $this->methodName,
-        ], [
+        ], array_filter([
             // Test
             'line' => $this->line,
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
             'test_status' => $this->testStatus,
-        ]);
+        ]));
     }
 
     public function saveHttpExample(RequestInfo $request, ResponseInfo $response, array $session): Model

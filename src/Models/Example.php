@@ -37,7 +37,7 @@ class Example extends Model
     {
         $path = str_replace('\\', '/', $this->group->class_name).'.php';
 
-        return 'phpstorm://open?file='.urlencode(base_path($path));
+        return 'phpstorm://open?file='.urlencode(base_path($path)).'&ampline='.$this->line;
     }
 
     public function getIsHttpAttribute()
