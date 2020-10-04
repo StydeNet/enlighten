@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Support\Collection;
-use Styde\Enlighten\ExampleGroup;
+use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Module;
 use Styde\Enlighten\ModuleCollection;
 use Tests\TestCase;

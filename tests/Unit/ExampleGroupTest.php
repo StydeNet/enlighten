@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\ExampleGroup;
+use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\TestSuite;
 use Tests\TestCase;
 

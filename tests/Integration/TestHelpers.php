@@ -2,7 +2,7 @@
 
 namespace Tests\Integration;
 
-use Styde\Enlighten\Example;
+use Styde\Enlighten\Models\Example;
 
 trait TestHelpers
 {

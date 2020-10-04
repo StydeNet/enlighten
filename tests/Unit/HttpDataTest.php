@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\HttpData;
+use Styde\Enlighten\Models\HttpData;
 use Tests\TestCase;
 
 class HttpDataTest extends TestCase

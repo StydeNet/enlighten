@@ -3,8 +3,8 @@
 namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\Example;
-use Styde\Enlighten\ExampleGroup;
+use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Models\ExampleGroup;
 use Tests\Integration\App\Models\User;
 
 class ApiRequestTest extends TestCase

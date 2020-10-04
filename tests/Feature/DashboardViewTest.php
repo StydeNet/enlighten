@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Styde\Enlighten\ExampleGroup;
+use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
 class DashboardViewTest extends TestCase {

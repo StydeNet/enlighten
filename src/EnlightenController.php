@@ -4,6 +4,7 @@ namespace Styde\Enlighten;
 
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Models\ExampleGroup;
 
 class EnlightenController {
 

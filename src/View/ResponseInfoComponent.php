@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\View;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Example;
+use Styde\Enlighten\Models\Example;
 
 class ResponseInfoComponent extends Component
 {

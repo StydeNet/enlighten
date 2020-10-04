@@ -3,7 +3,7 @@
 namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\Example;
+use Styde\Enlighten\Models\Example;
 
 class PostRequestTest extends TestCase
 {

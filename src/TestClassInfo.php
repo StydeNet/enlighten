@@ -4,6 +4,7 @@ namespace Styde\Enlighten;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Models\ExampleGroup;
 
 class TestClassInfo implements TestInfo
 {

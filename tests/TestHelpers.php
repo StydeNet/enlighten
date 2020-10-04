@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Styde\Enlighten\Example;
-use Styde\Enlighten\ExampleGroup;
+use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Models\ExampleGroup;
 
 trait TestHelpers
 {

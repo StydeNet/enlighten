@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\TestCase;
-use Styde\Enlighten\Example;
+use Styde\Enlighten\Models\Example;
 
 class ExampleTest extends TestCase
 {

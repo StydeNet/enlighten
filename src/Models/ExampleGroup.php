@@ -1,11 +1,13 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
+use Styde\Enlighten\Module;
+use Styde\Enlighten\TestSuite;
 
 class ExampleGroup extends Model
 {
