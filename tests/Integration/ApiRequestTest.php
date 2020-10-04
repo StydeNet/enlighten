@@ -5,6 +5,7 @@ namespace Tests\Integration;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Models\Run;
 use Tests\Integration\App\Models\User;
 
 class ApiRequestTest extends TestCase
@@ -45,13 +46,17 @@ class ApiRequestTest extends TestCase
                 ]
             ]);
 
-        tap($group = ExampleGroup::first(), function (ExampleGroup $exampleGroup) {
+        $run = Run::first();
+
+        $this->assertNotNull($run);
+
+        tap($group = $run->groups()->first(), function (ExampleGroup $exampleGroup) {
             $this->assertSame('Tests\Integration\ApiRequestTest', $exampleGroup->class_name);
             $this->assertSame('Api Request', $exampleGroup->title);
             $this->assertNull($exampleGroup->description);
         });
 
-        tap(Example::first(), function (Example $example) use ($group) {
+        tap($group->examples()->first(), function (Example $example) use ($group) {
             $this->assertTrue($example->group->is($group));
             $this->assertSame('gets_the_list_of_users', $example->method_name);
             $this->assertSame('Obtiene la lista de usuarios', $example->title);

@@ -71,17 +71,17 @@ class TestMethodInfo implements TestInfo
         return $example;
     }
 
-    protected function getTitle(): string
+    private function getTitle(): string
     {
         return $this->texts['title'] ?? $this->getDefaultTitle();
     }
 
-    protected function getDefaultTitle(): string
+    private function getDefaultTitle(): string
     {
         return ucfirst(str_replace('_', ' ', $this->methodName));
     }
 
-    protected function getDescription(): ?string
+    private function getDescription(): ?string
     {
         return $this->texts['description'] ?? null;
     }

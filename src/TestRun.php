@@ -2,6 +2,8 @@
 
 namespace Styde\Enlighten;
 
+use Styde\Enlighten\Models\Run;
+
 class TestRun
 {
     private static $instance;
@@ -15,26 +17,40 @@ class TestRun
         return self::$instance;
     }
 
-    protected $classes = [];
+    /**
+     * @var TestClassInfo[]
+     */
+    private $testClasses = [];
 
     private function __construct()
     {
     }
 
-    public function get($className)
+    public function save()
     {
-        return $this->classes[$className];
-    }
-
-    public function has($className): bool
-    {
-        return isset ($this->classes[$className]);
+        return Run::firstOrCreate([
+            'branch' => GitInfo::currentBranch(),
+            'head' => GitInfo::head(),
+            'modified' => GitInfo::modified(),
+        ]);
     }
 
     public function add($className, TestInfo $testInfo): TestInfo
     {
-        $this->classes[$className] = $testInfo;
+        $this->testClasses[$className] = $testInfo;
+
+        $this->testClasses[$className]->addTestRun($this);
 
         return $testInfo;
+    }
+
+    public function has($className): bool
+    {
+        return isset ($this->testClasses[$className]);
+    }
+
+    public function get($className)
+    {
+        return $this->testClasses[$className];
     }
 }

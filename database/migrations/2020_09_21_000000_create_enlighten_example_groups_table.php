@@ -20,6 +20,10 @@ class CreateEnlightenExampleGroupsTable extends Migration
         Schema::connection('enlighten')->create('enlighten_example_groups', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('run_id')
+                ->references('id')
+                ->on('enlighten_runs');
+
             $table->string('class_name')->unique();
             $table->string('title');
             $table->string('description')->nullable();

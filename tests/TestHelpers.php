@@ -4,6 +4,7 @@ namespace Tests;
 
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Models\Run;
 
 trait TestHelpers
 {
@@ -12,13 +13,32 @@ trait TestHelpers
         $this->app->config->set($config);
     }
 
-    protected function createExampleGroup(string $name = null): ExampleGroup
+    public function createRun(): Run
     {
-        return ExampleGroup::create([
-            'class_name' => $name ?: 'Tests\Feature\CreateUserTest',
-            'title' => $name ?: 'Create User',
-            'description' => 'User module API'
+        return Run::create([
+            'branch' => 'main',
+            'head' => 'abcde',
+            'modified' => false,
         ]);
+    }
+
+    protected function createExampleGroup(Run $run, $className = null, $title = null, $description = null): ExampleGroup
+    {
+        return ExampleGroup::create($this->getExampleGroupAttributes([
+            'run_id' => $run->id,
+            'class_name' => $className,
+            'title' => $title,
+            'description' => $description,
+        ]));
+    }
+
+    protected function getExampleGroupAttributes(array $customAttributes = [])
+    {
+        return array_merge([
+            'class_name' => 'Tests\Feature\CreateUserTest',
+            'title' => 'Create User',
+            'description' => 'User module API'
+        ], array_filter($customAttributes));
     }
 
     protected function createExampleInGroup(ExampleGroup $group): Example

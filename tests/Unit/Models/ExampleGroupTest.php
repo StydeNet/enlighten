@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\ExampleGroup;
@@ -14,10 +14,12 @@ class ExampleGroupTest extends TestCase {
     /** @test */
     public function get_example_groups_by_test_suite(): void
     {
-        ExampleGroup::create(['class_name' => 'Tests\Api\UserTest', 'title' => 'User tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Api\PostTest', 'title' => 'Post tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Feature\UserTest', 'title' => 'Users Feature tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Unit\FilterTest', 'title' => 'Filter tests']);
+        $run = $this->createRun();
+
+        $this->createExampleGroup($run, 'Tests\Api\UserTest');
+        $this->createExampleGroup($run, 'Tests\Api\PostTest');
+        $this->createExampleGroup($run, 'Tests\Feature\UserTest');
+        $this->createExampleGroup($run, 'Tests\Unit\FilterTest');
 
         $tests = ExampleGroup::findByTestSuite(new TestSuite('Api'));
 

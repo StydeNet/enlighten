@@ -11,10 +11,12 @@ class TestSuiteTest extends TestCase
     /** @test */
     function get_all_the_test_suites()
     {
-        $this->createExampleGroup('Tests\Api\ApiRequestTest');
-        $this->createExampleGroup('Tests\Feature\CreateUserTest');
-        $this->createExampleGroup('Tests\Feature\UpdateUserTest');
-        $this->createExampleGroup('Tests\Unit\UserTest');
+        $run = $this->createRun();
+
+        $this->createExampleGroup($run, 'Tests\Api\ApiRequestTest');
+        $this->createExampleGroup($run, 'Tests\Feature\CreateUserTest');
+        $this->createExampleGroup($run, 'Tests\Feature\UpdateUserTest');
+        $this->createExampleGroup($run, 'Tests\Unit\UserTest');
 
         $expected = [
             [

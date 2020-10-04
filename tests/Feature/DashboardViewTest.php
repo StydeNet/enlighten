@@ -12,7 +12,7 @@ class DashboardViewTest extends TestCase {
     {
         $this->withoutExceptionHandling();
 
-        ExampleGroup::create(['class_name' => 'Tests\Api\UserTest', 'title' => 'User tests']);
+        $this->createExampleGroup($this->createRun(), 'Tests\Api\UserTest', 'User tests');
 
         $response = $this->get(route('enlighten.dashboard'));
 
@@ -35,10 +35,13 @@ class DashboardViewTest extends TestCase {
     public function get_test_groups_by_test_suite(): void
     {
         $this->withoutExceptionHandling();
-        ExampleGroup::create(['class_name' => 'Tests\Api\UserTest', 'title' => 'User tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Api\PostTest', 'title' => 'Post tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Feature\UserTest', 'title' => 'Users Feature tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Unit\FilterTest', 'title' => 'Filter tests']);
+
+        $run = $this->createRun();
+
+        $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User tests');
+        $this->createExampleGroup($run, 'Tests\Api\PostTest', 'Post tests');
+        $this->createExampleGroup($run, 'Tests\Feature\UserTest', 'Users Feature tests');
+        $this->createExampleGroup($run, 'Tests\Unit\FilterTest', 'Filter tests');
 
         $response = $this->get(route('enlighten.dashboard', ['suite' => 'api']));
 
@@ -53,10 +56,12 @@ class DashboardViewTest extends TestCase {
     /** @test */
     public function return_first_test_suite_groups_if_no_suite_provided(): void
     {
-        ExampleGroup::create(['class_name' => 'Tests\Api\UserTest', 'title' => 'User tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Api\PostTest', 'title' => 'Post tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Feature\UserTest', 'title' => 'Users Feature tests']);
-        ExampleGroup::create(['class_name' => 'Tests\Unit\FilterTest', 'title' => 'Filter tests']);
+        $run = $this->createRun();
+
+        $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User tests');
+        $this->createExampleGroup($run, 'Tests\Api\PostTest', 'Post tests');
+        $this->createExampleGroup($run, 'Tests\Feature\UserTest', 'Users Feature tests');
+        $this->createExampleGroup($run, 'Tests\Unit\FilterTest', 'Filter tests');
 
         $response = $this->get(route('enlighten.dashboard'));
 

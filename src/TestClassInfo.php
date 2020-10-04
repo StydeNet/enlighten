@@ -14,11 +14,18 @@ class TestClassInfo implements TestInfo
 
     private array $texts;
 
+    private $testRun;
+
     public function __construct(string $className, array $texts = [], array $options = [])
     {
         $this->className = $className;
         $this->options = $options;
         $this->texts = $texts;
+    }
+
+    public function addTestRun(TestRun $testRun)
+    {
+        $this->testRun = $testRun;
     }
 
     public function getClassName()
@@ -54,7 +61,10 @@ class TestClassInfo implements TestInfo
 
     public function save(): Model
     {
+        $run = $this->testRun->save();
+
         return ExampleGroup::updateOrCreate([
+            'run_id' => $run->id,
             'class_name' => $this->getClassName(),
         ], [
             'title' => $this->getTitle(),

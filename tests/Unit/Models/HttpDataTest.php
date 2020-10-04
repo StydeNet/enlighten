@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +14,9 @@ class HttpDataTest extends TestCase
     /** @test */
     function a_example_has_an_http_data_relationship()
     {
-        $group = $this->createExampleGroup();
+        $run = $this->createRun();
+
+        $group = $this->createExampleGroup($run);
 
         $example = $this->createExampleInGroup($group);
 
