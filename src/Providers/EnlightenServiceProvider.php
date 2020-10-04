@@ -12,6 +12,7 @@ use Styde\Enlighten\ResponseInspector;
 use Styde\Enlighten\RouteInspector;
 use Styde\Enlighten\SessionInspector;
 use Styde\Enlighten\TestInspector;
+use Styde\Enlighten\TestRun;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
 use Styde\Enlighten\View\Components\StatusBadgeComponent;
 
@@ -69,7 +70,7 @@ class EnlightenServiceProvider extends ServiceProvider
     private function registerTestInspector()
     {
         $this->app->singleton(TestInspector::class, function () {
-            return new TestInspector($this->app['config']->get('enlighten.tests'));
+            return new TestInspector(TestRun::getInstance(), $this->app['config']->get('enlighten.tests'));
         });
     }
 

@@ -8,12 +8,13 @@ use Illuminate\Support\Str;
 
 class TestInspector
 {
-    private static array $classes = [];
+    private TestRun $testRun;
 
     protected array $ignore;
 
-    public function __construct(array $config)
+    public function __construct(TestRun $testRun, array $config)
     {
+        $this->testRun = $testRun;
         $this->ignore = $config['ignore'];
     }
 
@@ -21,9 +22,7 @@ class TestInspector
     {
         $trace = TestTrace::get();
 
-        $testClassInfo = $this->makeTestClassInfo($trace->getClassName());
-
-        return $this->makeTestMethodInfo($testClassInfo, $trace->getMethodName());
+        return $this->getInfo($trace->className, $trace->methodName);
     }
 
     public function getInfo($className, $methodName): TestInfo
@@ -35,15 +34,15 @@ class TestInspector
 
     private function makeTestClassInfo($name)
     {
-        if (isset(static::$classes[$name])) {
-            return static::$classes[$name];
+        if ($this->testRun->has($name)) {
+            return $this->testRun->get($name);
         }
 
         $annotations = Annotations::fromClass($name);
 
         $options = $this->getOptionsFrom($annotations);
 
-        return static::$classes[$name] = new TestClassInfo($name, $this->getTextsFrom($annotations), $options);
+        return $this->testRun->add($name, new TestClassInfo($name, $this->getTextsFrom($annotations), $options));
     }
 
     protected function makeTestMethodInfo(TestClassInfo $testClassInfo, string $methodName)

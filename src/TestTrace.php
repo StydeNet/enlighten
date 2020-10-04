@@ -22,14 +22,4 @@ class TestTrace
         $this->className = $trace['class'];
         $this->methodName = $trace['function'];
     }
-
-    public function getClassName(): string
-    {
-        return $this->className;
-    }
-
-    public function getMethodName(): string
-    {
-        return $this->methodName;
-    }
 }
