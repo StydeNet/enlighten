@@ -1,16 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Styde\Enlighten\Http\Controllers\EnlightenController;
+use Styde\Enlighten\Http\Controllers\RunController;
+use Styde\Enlighten\Http\Controllers\TestClassController;
+use Styde\Enlighten\Http\Controllers\WelcomeController;
 
 Route::prefix('enlighten')
     ->middleware('web')
     ->group(function () {
-        Route::get('/{suite?}', [EnlightenController::class, 'index'])
-            ->name('enlighten.dashboard');
 
-        Route::get('/{suite}/{group}', [EnlightenController::class, 'show'])
+        Route::get('/intro', [WelcomeController::class, 'intro'])->name('enlighten.intro');
+
+        Route::get('/', [RunController::class, 'index'])
+            ->name('enlighten.run.index');
+
+        Route::get('/run/{run?}/{suite?}', [RunController::class, 'show'])
+            ->name('enlighten.run.show');
+
+        Route::get('run/{run}/{suite}/{group}', [TestClassController::class, 'show'])
             ->name('enlighten.group.show');
-
-        Route::get('/intro', [EnlightenController::class, 'intro'])->name('enlighten.intro');
     });

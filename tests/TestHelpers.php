@@ -13,13 +13,13 @@ trait TestHelpers
         $this->app->config->set($config);
     }
 
-    public function createRun(): Run
+    public function createRun(array $attributes = []): Run
     {
-        return Run::create([
+        return Run::create(array_merge([
             'branch' => 'main',
             'head' => 'abcde',
             'modified' => false,
-        ]);
+        ], $attributes));
     }
 
     protected function createExampleGroup(Run $run, $className = null, $title = null, $description = null): ExampleGroup

@@ -19,7 +19,7 @@ class GroupViewTest extends TestCase
         $example = $this->createExampleInGroup($exampleGroup);
         $this->createHttpData($example);
 
-        $response = $this->get(route('enlighten.group.show', ['suite' => 'api', 'group' => $exampleGroup]));
+        $response = $this->get(route('enlighten.group.show', ['run' => $run->id, 'suite' => 'api', 'group' => $exampleGroup]));
 
         $response->assertOk()
             ->assertViewIs('enlighten::group.show')

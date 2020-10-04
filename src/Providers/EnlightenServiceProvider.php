@@ -13,6 +13,7 @@ use Styde\Enlighten\RouteInspector;
 use Styde\Enlighten\SessionInspector;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
+use Styde\Enlighten\View\Components\AppLayoutComponent;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
 use Styde\Enlighten\View\Components\StatusBadgeComponent;
 
@@ -97,7 +98,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'json-response' => 'enlighten::components.json-response',
             'key-value' => 'enlighten::components.key-value',
             'info-panel' => 'enlighten::components.info-panel',
-            'app-layout' => 'enlighten::components.app-layout',
+            'app-layout' => AppLayoutComponent::class,
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
             'request-info' => 'enlighten::components.request-info',
             'parameters-table' => 'enlighten::components.parameters-table',

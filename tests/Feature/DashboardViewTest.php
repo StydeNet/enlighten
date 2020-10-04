@@ -11,14 +11,14 @@ class DashboardViewTest extends TestCase {
     public function get_dashboard_view(): void
     {
         $this->withoutExceptionHandling();
+        $run = $this->createRun();
+        $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User tests');
 
-        $this->createExampleGroup($this->createRun(), 'Tests\Api\UserTest', 'User tests');
-
-        $response = $this->get(route('enlighten.dashboard'));
+        $response = $this->get(route('enlighten.run.show', ['run' => $run]));
 
         $response
             ->assertOk()
-            ->assertViewIs('enlighten::dashboard.index');
+            ->assertViewIs('enlighten::suite.show');
     }
 
     /** @test */
@@ -26,7 +26,7 @@ class DashboardViewTest extends TestCase {
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->get(route('enlighten.dashboard'));
+        $response = $this->get(route('enlighten.run.show'));
 
         $response->assertRedirect(route('enlighten.intro'));
     }
@@ -43,10 +43,9 @@ class DashboardViewTest extends TestCase {
         $this->createExampleGroup($run, 'Tests\Feature\UserTest', 'Users Feature tests');
         $this->createExampleGroup($run, 'Tests\Unit\FilterTest', 'Filter tests');
 
-        $response = $this->get(route('enlighten.dashboard', ['suite' => 'api']));
+        $response = $this->get(route('enlighten.run.show', ['run' => $run->id, 'suite' => 'api']));
 
         $response->assertOk()
-            ->assertViewHas('active')
             ->assertSeeText('User tests')
             ->assertSeeText('Post tests')
             ->assertDontSeeText('Users Feature tests')
@@ -63,14 +62,34 @@ class DashboardViewTest extends TestCase {
         $this->createExampleGroup($run, 'Tests\Feature\UserTest', 'Users Feature tests');
         $this->createExampleGroup($run, 'Tests\Unit\FilterTest', 'Filter tests');
 
-        $response = $this->get(route('enlighten.dashboard'));
+        $response = $this->get(route('enlighten.run.show', ['run' => $run->id]));
 
         $response->assertOk();
 
-        $response->assertViewHas('active')
+        $response
             ->assertSeeText('User tests')
             ->assertSeeText('Post tests')
             ->assertDontSeeText('Users Feature tests')
             ->assertDontSeeText('Filter tests');
+    }
+
+    /** @test */
+    public function filter_tests_by_run_id(): void
+    {
+        $firstRun = $this->createRun(['head' => 'abc123']);
+        $secondRun = $this->createRun(['head' => 'def456']);
+
+        $this->createExampleGroup($firstRun, 'Tests\Api\UserTest', 'First User tests');
+        $this->createExampleGroup($firstRun, 'Tests\Api\PostTest', 'First Post tests');
+        $this->createExampleGroup($secondRun, 'Tests\Api\NewUserTest', 'New Users tests');
+        $this->createExampleGroup($secondRun, 'Tests\Api\NewFilterTest', 'New Post tests');
+
+        $response = $this->get(route('enlighten.run.show', ['run' => $secondRun->id]));
+
+        $response->assertOk()
+            ->assertDontSeeText('First User tests')
+            ->assertDontSeeText('First Post tests')
+            ->assertSeeText('New Users tests')
+            ->assertSeeText('New Post tests');
     }
 }

@@ -10,7 +10,7 @@
 </head>
 <body class="bg-gray-900">
 
-    <x-enlighten-app-layout :tabs="$tabs ?? []" :active="$active ?? null">
+    <x-enlighten-app-layout>
         <x-slot name="title">{{ $title ?? 'Dashboard' }}</x-slot>
         @yield('content')
     </x-enlighten-app-layout>
