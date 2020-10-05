@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
-class DashboardViewTest extends TestCase {
+class ViewDashboardTest extends TestCase {
 
     /** @test */
     public function get_dashboard_view(): void

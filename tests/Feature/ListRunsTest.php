@@ -6,7 +6,7 @@ use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Tests\TestCase;
 
-class RunViewTest extends TestCase {
+class ListRunsTest extends TestCase {
 
     /** @test */
     public function get_dashboard_view(): void

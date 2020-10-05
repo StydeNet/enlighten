@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class GroupViewTest extends TestCase
+class ViewExampleGroup extends TestCase
 {
     use RefreshDatabase;
 
