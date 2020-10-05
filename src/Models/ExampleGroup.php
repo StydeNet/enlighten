@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
 use Styde\Enlighten\Module;
+use Styde\Enlighten\Statusable;
 use Styde\Enlighten\TestSuite;
 
-class ExampleGroup extends Model
+class ExampleGroup extends Model implements Statusable
 {
     protected $connection = 'enlighten';
 
@@ -65,6 +66,21 @@ class ExampleGroup extends Model
 
     public function getStatusAttribute() : string
     {
+        return $this->getStatus();
+    }
+
+    public function getPassedAttribute()
+    {
+        return $this->hasPassed();
+    }
+
+    public function getFailedAttribute()
+    {
+        return $this->hasFailed();
+    }
+
+    public function getStatus()
+    {
         if ($this->passing_tests_count === $this->tests_count) {
             return 'passed';
         }
@@ -76,12 +92,12 @@ class ExampleGroup extends Model
         return 'warned';
     }
 
-    public function getPassedAttribute()
+    public function hasPassed()
     {
         return $this->status === 'passed';
     }
 
-    public function getFailedAttribute()
+    public function hasFailed()
     {
         return $this->status === 'failed';
     }

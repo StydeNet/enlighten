@@ -8,7 +8,7 @@
                     <a href="#"
                        x-on:click.prevent="document.getElementById('{{ $codeExample->method_name }}').scrollIntoView({behavior: 'smooth'})"
                        class="py-2 ml-2 flex-1 flex items-center ">
-                        <x-enlighten-status-badge size="6" :example="$codeExample"/>
+                        <x-enlighten-status-badge size="6" :model="$codeExample"/>
                         {{ $codeExample->title }}
                     </a>
                 </span>

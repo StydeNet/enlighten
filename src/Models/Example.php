@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\Statusable;
 
 /**
  * @property-read Example $method_name
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read Example $http_data
  * @property-read Example $test_status
  */
-class Example extends Model
+class Example extends Model implements Statusable
 {
     protected $connection = 'enlighten';
 
@@ -49,12 +50,27 @@ class Example extends Model
         return $this->http_data->exists;
     }
 
+    public function getStatus()
+    {
+        return $this->test_status;
+    }
+
     public function getPassedAttribute()
+    {
+        return $this->hasPassed();
+    }
+
+    public function getFailedAttribute()
+    {
+        return $this->hasFailed();
+    }
+
+    public function hasPassed()
     {
         return $this->test_status === 'passed';
     }
 
-    public function getFailedAttribute()
+    public function hasFailed()
     {
         return in_array($this->test_status, ['failure', 'error']);
     }

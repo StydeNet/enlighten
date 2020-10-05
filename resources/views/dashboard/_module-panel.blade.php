@@ -13,15 +13,7 @@
         @foreach($module->groups as $group)
             <li>
                 <a href="{{ route('enlighten.group.show', ['suite' => $suite->slug, 'run' => request()->route('run'), 'group' => $group]) }}" class="block py-2 px-4 text-gray-700 hover:text-teal-500 hover:bg-gray-100 transition-all ease-in-out duration-100">
-                    @if ($group->passed)
-                        [checkmark icon]
-                    @elseif($group->failed)
-                        [x icon]
-                    @else
-                        [warning icon]
-                    @endif
-
-                    {{ $group->title }}
+                    <x-enlighten-status-badge size="6" :model="$group" /> {{ $group->title }}
                 </a>
             </li>
         @endforeach
