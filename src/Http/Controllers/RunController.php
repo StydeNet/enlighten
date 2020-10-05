@@ -34,7 +34,7 @@ class RunController extends Controller
             return redirect(route('enlighten.dashboard'));
         }
 
-        $groups = $run->groups()->bySuite($suite)->get();
+        $groups = $run->groups()->with('stats')->bySuite($suite)->get();
 
         $modules = Module::all();
 

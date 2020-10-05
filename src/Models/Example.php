@@ -19,6 +19,10 @@ class Example extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'count' => 'int'
+    ];
+
     // Relationships
 
     public function group()

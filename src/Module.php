@@ -7,12 +7,13 @@ use Illuminate\Support\Collection;
 class Module
 {
     public string $name;
+
     /**
      * @var string|array
      */
     public $pattern;
 
-    public Collection $group;
+    public Collection $groups;
 
     public static function all()
     {
@@ -41,13 +42,45 @@ class Module
         return $this->pattern;
     }
 
-    public function addGroup(Collection $group): void
+    public function addGroups(Collection $groups): void
     {
-        $this->group = $group;
+        $this->groups = $groups;
     }
 
-    public function getGroup(): Collection
+    public function getGroups(): Collection
     {
-        return $this->group;
+        return $this->groups;
+    }
+
+    public function getPassingTestsCount() : int
+    {
+       return $this->groups
+            ->pluck('stats')
+            ->flatten(1)
+            ->where('test_status', 'passed')
+            ->sum('count');
+    }
+
+    public function getTestsCount() : int
+    {
+        return $this->groups
+            ->pluck('stats')
+            ->flatten(1)
+            ->sum('count');
+    }
+
+    public function getStatus() : string
+    {
+        $groupStats = $this->groups->pluck('stats')->flatten(1);
+
+        if ($this->getPassingTestsCount() === $this->getTestsCount()) {
+            return 'passed';
+        }
+
+        if ($groupStats->whereIn('test_status', ['failed', 'error'])->isNotEmpty()) {
+            return 'failed';
+        }
+
+        return 'warned';
     }
 }

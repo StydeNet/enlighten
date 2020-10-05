@@ -17,7 +17,7 @@ class ModuleCollection extends Collection
             ->each(function ($module) use (&$groups) {
                 [$matches, $groups] = $groups->partition(fn($group) => $group->matches($module));
 
-                $module->addGroup($matches);
+                $module->addGroups($matches);
             })
             ->addRemainingGroupsToTheDefaultModule($groups);
     }
@@ -30,7 +30,7 @@ class ModuleCollection extends Collection
 
         $module = new Module(config('enlighten.default_module', 'Other Modules'));
 
-        $module->addGroup($groups);
+        $module->addGroups($groups);
 
         return $this->add($module);
     }
@@ -38,7 +38,7 @@ class ModuleCollection extends Collection
     public function whereHasGroups(): self
     {
         return $this->filter(function ($module) {
-            return $module->group->isNotEmpty();
+            return $module->groups->isNotEmpty();
         });
     }
 }

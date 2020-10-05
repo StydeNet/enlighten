@@ -22,6 +22,15 @@ trait TestHelpers
         ], $attributes));
     }
 
+    protected function createExampleTest(array $attributes = []) : Example
+    {
+        return Example::create(array_merge([
+            'method_name' => 'something_does_something',
+            'title' => 'Something Does something',
+            'test_status' => 'passed'
+        ], $attributes));
+    }
+
     protected function createExampleGroup(Run $run, $className = null, $title = null, $description = null): ExampleGroup
     {
         return ExampleGroup::create($this->getExampleGroupAttributes([
