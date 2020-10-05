@@ -11,7 +11,7 @@ class GitInfo
 
     public static function head()
     {
-        return exec('git rev-parse HEAD');
+        return exec('git rev-parse --short HEAD');
     }
 
     public static function modified()

@@ -42,6 +42,6 @@ class AppLayoutComponent extends Component
 
     public function runLabel()
     {
-        return $this->activeRun->branch . ' - ' . substr($this->activeRun->head, 0, 6);
+        return $this->activeRun->branch . ' - ' . substr($this->activeRun->head, 0, 8);
     }
 }

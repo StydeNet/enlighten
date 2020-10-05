@@ -11,7 +11,7 @@ class RunController extends Controller
     public function index()
     {
         return view('enlighten::dashboard.index', [
-            'runs' => Run::all()
+            'runs' => Run::latest()->get()
         ]);
     }
 
