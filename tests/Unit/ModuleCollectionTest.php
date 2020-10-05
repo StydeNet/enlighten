@@ -19,7 +19,7 @@ class ModuleCollectionTest extends TestCase
         ]);
 
         tap($modules->getByName('Users'), function (Module $userModule) {
-            $this->assertSame('Users', $userModule->getName());
+            $this->assertSame('Users', $userModule->name);
         });
     }
 
@@ -68,7 +68,7 @@ class ModuleCollectionTest extends TestCase
 
         $this->assertInstanceOf(Module::class, $module);
 
-        $this->assertSame($expectedGroups, $module->getGroups()->values()->toArray());
+        $this->assertSame($expectedGroups, $module->groups->values()->toArray());
     }
 
     /** @test */

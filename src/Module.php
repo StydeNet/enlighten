@@ -6,14 +6,7 @@ use Illuminate\Support\Collection;
 
 class Module
 {
-    public string $name;
-
-    /**
-     * @var string|array
-     */
-    public $pattern;
-
-    public Collection $groups;
+    use ReadsDynamicAttributes;
 
     public static function all()
     {
@@ -25,62 +18,42 @@ class Module
 
     public function __construct(string $name, $pattern = [])
     {
-        $this->name = $name;
-        $this->pattern = $pattern;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return array|string
-     */
-    public function getPattern()
-    {
-        return $this->pattern;
+        $this->setAttributes([
+            'name' => $name,
+            'pattern' => $pattern,
+        ]);
     }
 
     public function addGroups(Collection $groups): void
     {
-        $this->groups = $groups;
+        $this->attributes['groups'] = $groups;
     }
 
-    public function getGroups(): Collection
+    public function getPassingTestsCount(): int
     {
-        return $this->groups;
+       return $this->groups->pluck('passing_tests_count')->sum();
     }
 
-    public function getPassingTestsCount() : int
+    public function getTestsCount(): int
     {
-       return $this->groups
-            ->pluck('stats')
-            ->flatten(1)
-            ->where('test_status', 'passed')
-            ->sum('count');
+        return $this->groups->pluck('tests_count')->sum();
     }
 
-    public function getTestsCount() : int
+    public function getStatus(): string
     {
-        return $this->groups
-            ->pluck('stats')
-            ->flatten(1)
-            ->sum('count');
-    }
-
-    public function getStatus() : string
-    {
-        $groupStats = $this->groups->pluck('stats')->flatten(1);
-
         if ($this->getPassingTestsCount() === $this->getTestsCount()) {
             return 'passed';
         }
 
-        if ($groupStats->whereIn('test_status', ['failed', 'error'])->isNotEmpty()) {
+        if ($this->groups->whereIn('status', ['failed', 'error'])->isNotEmpty()) {
             return 'failed';
         }
 
         return 'warned';
+    }
+
+    public function getPassed(): bool
+    {
+        return $this->status === 'passed';
     }
 }

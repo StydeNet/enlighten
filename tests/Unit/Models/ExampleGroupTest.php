@@ -3,13 +3,12 @@
 namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\TestSuite;
 use Tests\TestCase;
 
-class ExampleGroupTest extends TestCase {
-
+class ExampleGroupTest extends TestCase
+{
     use RefreshDatabase;
 
     /** @test */
@@ -31,17 +30,32 @@ class ExampleGroupTest extends TestCase {
     }
 
     /** @test */
-    public function gets_the_test_stats_of_a_group(): void
+    public function get_the_stats_of_an_example_group(): void
     {
         $run = $this->createRun();
-        $group = $this->createExampleGroup($run, 'Tests\Api\UserTest');
+        $group = $this->createExampleGroup($run, 'FirstGroupTest');
 
-        $this->createExampleTest(['group_id' => $group->id, 'test_status' => 'passed']);
+        $this->createExample($group, 'first_test', 'passed');
+        $this->createExample($group, 'second_test', 'passed');
+        $this->createExample($group, 'third_test', 'passed');
+        $this->createExample($group, 'fourth_test', 'passed');
 
-        $group = ExampleGroup::with('stats')->first();
+        $this->assertSame(4, $group->passing_tests_count);
+        $this->assertSame(4, $group->tests_count);
+        $this->assertSame('passed', $group->status);
 
-        $this->assertSame(['passed' => 1], $group->stats->pluck('count', 'test_status')->toArray());
+        $this->createExample($group, 'sixth_test', 'skipped');
+        $group->load('stats');
 
-        $this->assertSame(1, $group->passing_tests_count);
+        $this->assertSame(4, $group->passing_tests_count);
+        $this->assertSame(5, $group->tests_count);
+        $this->assertSame('warned', $group->status);
+
+        $this->createExample($group, 'fifth_test', 'error');
+        $group->load('stats');
+
+        $this->assertSame(4, $group->passing_tests_count);
+        $this->assertSame(6, $group->tests_count);
+        $this->assertSame('failed', $group->status);
     }
 }

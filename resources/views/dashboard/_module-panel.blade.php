@@ -1,20 +1,28 @@
 <div class="rounded-lg bg-white overflow-hidden">
     <div class="flex p-4 justify-between items-center w-full border-b border-gray-300 bg-gray-200">
         <span class="font-semibold text-lg text-gray-700">{{ $module->name }}</span>
-        <span class="rounded-full text-xs text-{{ $module->getStatus() === 'passed' ? 'green' : ($module->getStatus() === 'warned' ? 'yellow' : 'red')  }}-800 bg-{{ $module->getStatus() === 'passed' ? 'green' : ($module->getStatus() === 'warned' ? 'yellow' : 'red')  }}-300 px-4 py-1 inline-flex">
-            @if ($module->getStatus() === 'passed')
-                {{ $module->getTestsCount() }}
+        <span class="rounded-full text-xs text-{{ $module->status === 'passed' ? 'green' : ($module->status === 'warned' ? 'yellow' : 'red')  }}-800 bg-{{ $module->status === 'passed' ? 'green' : ($module->status === 'warned' ? 'yellow' : 'red')  }}-300 px-3 py-1 inline-flex">
+            @if ($module->status === 'passed')
+                {{ $module->tests_count }}
             @else
-                {{ $module->getPassingTestsCount() }} / {{ $module->getTestsCount() }}
+                {{ $module->passing_tests_count }} / {{ $module->tests_count }}
             @endif
         </span>
     </div>
     <ul class="py-4">
         @foreach($module->groups as $group)
             <li>
-                <a href="{{ route('enlighten.group.show', ['suite' => $suite->slug, 'run' => request()->route('run'), 'group' => $group]) }}"
-                   class="block py-2 px-4 text-gray-700 hover:text-teal-500 hover:bg-gray-100 transition-all ease-in-out duration-100"
-                >{{ $group->title }}</a>
+                <a href="{{ route('enlighten.group.show', ['suite' => $suite->slug, 'run' => request()->route('run'), 'group' => $group]) }}" class="block py-2 px-4 text-gray-700 hover:text-teal-500 hover:bg-gray-100 transition-all ease-in-out duration-100">
+                    @if ($group->passed)
+                        [checkmark icon]
+                    @elseif($group->failed)
+                        [x icon]
+                    @else
+                        [warning icon]
+                    @endif
+
+                    {{ $group->title }}
+                </a>
             </li>
         @endforeach
     </ul>

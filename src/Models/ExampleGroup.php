@@ -4,7 +4,6 @@ namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
 use Styde\Enlighten\Module;
@@ -56,6 +55,34 @@ class ExampleGroup extends Model
     // Accessors
     public function getPassingTestsCountAttribute()
     {
-        return $this->stats->firstWhere('test_status', 'passed')->count;
+        return data_get($this->stats->firstWhere('test_status', 'passed'), 'count', 0);
+    }
+
+    public function getTestsCountAttribute()
+    {
+        return $this->stats->sum('count');
+    }
+
+    public function getStatusAttribute() : string
+    {
+        if ($this->passing_tests_count === $this->tests_count) {
+            return 'passed';
+        }
+
+        if ($this->stats->whereIn('test_status', ['failure', 'error'])->isNotEmpty()) {
+            return 'failed';
+        }
+
+        return 'warned';
+    }
+
+    public function getPassedAttribute()
+    {
+        return $this->status === 'passed';
+    }
+
+    public function getFailedAttribute()
+    {
+        return $this->status === 'failed';
     }
 }
