@@ -49,6 +49,19 @@ class TestMethodInfo implements TestInfo
 
     public function save(): Model
     {
+        return tap($this->firstOrNewExample(), function ($example) {
+            $example->fill(array_filter([
+                'line' => $this->line,
+                'title' => $this->getTitle(),
+                'description' => $this->getDescription(),
+                'test_status' => $this->testStatus,
+            ]))
+            ->save();
+        });
+    }
+
+    private function firstOrNewExample(): Model
+    {
         $group = $this->classInfo->save();
 
         if ($this->example == null) {
@@ -57,16 +70,6 @@ class TestMethodInfo implements TestInfo
                 'method_name' => $this->methodName,
             ]);
         }
-
-        $this->example->fill(array_filter([
-            // Test
-            'line' => $this->line,
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
-            'test_status' => $this->testStatus,
-        ]));
-
-        $this->example->save();
 
         return $this->example;
     }

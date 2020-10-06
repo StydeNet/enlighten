@@ -27,43 +27,23 @@ class TestClassInfo
         return $this->className === $name;
     }
 
-    public function addTestRun(TestRun $testRun)
-    {
-        $this->testRun = $testRun;
-    }
-
     public function getClassName()
     {
         return $this->className;
     }
 
-    public function getTitle()
-    {
-        return $this->texts['title'] ?? $this->getDefaultTitle();
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->texts['description'] ?? null;
-    }
-
-    protected function getDefaultTitle(): string
-    {
-        $result = Str::of(class_basename($this->className));
-
-        if ($result->endsWith('Test')) {
-            $result = $result->substr(0, -4);
-        }
-
-        return $result->replaceMatches('@([A-Z])@', ' $1')->trim();
-    }
-
-    public function isIgnored(): bool
-    {
-        return false;
-    }
-
     public function save(): Model
+    {
+        return tap($this->firstOrNewGroup(), function (ExampleGroup $group) {
+            $group->fill([
+                'title' => $this->getTitle(),
+                'description' => $this->getDescription(),
+            ])
+            ->save();
+        });
+    }
+
+    private function firstOrNewGroup()
     {
         $run = $this->testRun->save();
 
@@ -74,14 +54,28 @@ class TestClassInfo
             ]);
         }
 
-        $this->exampleGroup->fill([
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
-        ]);
-
-        $this->exampleGroup->save();
-
         return $this->exampleGroup;
+    }
+
+    public function getTitle()
+    {
+        return $this->texts['title'] ?? $this->getDefaultTitle();
+    }
+
+    private function getDescription(): ?string
+    {
+        return $this->texts['description'] ?? null;
+    }
+
+    public function getDefaultTitle(): string
+    {
+        $result = Str::of(class_basename($this->className));
+
+        if ($result->endsWith('Test')) {
+            $result = $result->substr(0, -4);
+        }
+
+        return $result->replaceMatches('@([A-Z])@', ' $1')->trim();
     }
 
     public function getOptions(): array
