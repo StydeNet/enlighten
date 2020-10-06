@@ -3,11 +3,13 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\Models\Example;
 
 class TestMethodInfo implements TestInfo
 {
     public TestClassInfo $classInfo;
     protected ?int $line;
+    protected ?Example $example = null;
     private string $methodName;
     private array $texts;
     private string $testStatus;
@@ -19,6 +21,11 @@ class TestMethodInfo implements TestInfo
         $this->texts = $texts;
         $this->testStatus = 'unknown';
         $this->line = null;
+    }
+
+    public function is(string $className, string $methodName): bool
+    {
+        return $this->classInfo->getClassName() == $className && $this->methodName == $methodName;
     }
 
     public function isIgnored(): bool
@@ -44,22 +51,31 @@ class TestMethodInfo implements TestInfo
     {
         $group = $this->classInfo->save();
 
-        return $group->examples()->updateOrCreate([
-            'method_name' => $this->methodName,
-        ], array_filter([
+        if ($this->example == null) {
+            $this->example = Example::firstOrNew([
+                'group_id' => $group->id,
+                'method_name' => $this->methodName,
+            ]);
+        }
+
+        $this->example->fill(array_filter([
             // Test
             'line' => $this->line,
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
             'test_status' => $this->testStatus,
         ]));
+
+        $this->example->save();
+
+        return $this->example;
     }
 
     public function saveHttpExample(RequestInfo $request, ResponseInfo $response, array $session): Model
     {
-        $example = $this->save();
+        $this->save();
 
-        $example->http_data->fill([
+        $this->example->http_data->fill([
             // Request
             'request_headers' => $request->getHeaders(),
             'request_method' => $request->getMethod(),
@@ -78,7 +94,7 @@ class TestMethodInfo implements TestInfo
             'session_data' => $session,
         ])->save();
 
-        return $example;
+        return $this->example;
     }
 
     private function getTitle(): string

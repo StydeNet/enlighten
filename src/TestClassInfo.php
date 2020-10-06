@@ -6,15 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\ExampleGroup;
 
-class TestClassInfo implements TestInfo
+class TestClassInfo
 {
     private TestRun $testRun;
-
     private string $className;
-
     private array $options;
-
     private array $texts;
+    protected ?ExampleGroup $exampleGroup = null;
 
     public function __construct(TestRun $testRun, string $className, array $texts = [], array $options = [])
     {
@@ -69,13 +67,21 @@ class TestClassInfo implements TestInfo
     {
         $run = $this->testRun->save();
 
-        return ExampleGroup::updateOrCreate([
-            'run_id' => $run->id,
-            'class_name' => $this->getClassName(),
-        ], [
+        if ($this->exampleGroup == null) {
+            $this->exampleGroup = ExampleGroup::firstOrNew([
+                'run_id' => $run->id,
+                'class_name' => $this->getClassName(),
+            ]);
+        }
+
+        $this->exampleGroup->fill([
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
         ]);
+
+        $this->exampleGroup->save();
+
+        return $this->exampleGroup;
     }
 
     public function getOptions(): array

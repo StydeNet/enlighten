@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class TestInspector
 {
     private static ?TestClassInfo $currentTestClass = null;
-    private static ?TestMethodInfo $currentTestMethod = null;
+    private static ?TestInfo $currentTestMethod = null;
 
     private TestRun $testRun;
 
@@ -35,7 +35,7 @@ class TestInspector
             return static::$currentTestMethod;
         }
 
-        return $this->makeTestMethodInfo($className, $methodName);
+        return static::$currentTestMethod = $this->makeTestMethodInfo($className, $methodName);
     }
 
     protected function makeTestMethodInfo(string $className, string $methodName)
@@ -47,7 +47,7 @@ class TestInspector
         $options = array_merge($testClassInfo->getOptions(), $this->getOptionsFrom($annotations));
 
         if ($this->ignoreTest($className, $methodName, $options)) {
-            return new IgnoredTest;
+            return new IgnoredTest($className, $methodName);
         }
 
         return new TestMethodInfo($testClassInfo, $methodName, $this->getTextsFrom($annotations));
@@ -59,14 +59,14 @@ class TestInspector
             return static::$currentTestClass;
         }
 
-        return $this->makeTestClassInfo($className);
+        return static::$currentTestClass = $this->makeTestClassInfo($className);
     }
 
     private function makeTestClassInfo($name)
     {
         $annotations = Annotations::fromClass($name);
 
-        return static::$currentTestClass = new TestClassInfo(
+        return new TestClassInfo(
             $this->testRun, $name, $this->getTextsFrom($annotations), $this->getOptionsFrom($annotations)
         );
     }

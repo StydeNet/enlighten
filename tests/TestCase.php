@@ -5,6 +5,7 @@ namespace Tests;
 use Illuminate\Config\Repository as Config;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Styde\Enlighten\Providers\EnlightenServiceProvider;
+use Styde\Enlighten\TestRun;
 
 class TestCase extends OrchestraTestCase
 {
@@ -15,6 +16,13 @@ class TestCase extends OrchestraTestCase
         parent::setUp();
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        TestRun::destroy();
     }
 
     protected function getPackageProviders($app)

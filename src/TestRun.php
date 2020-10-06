@@ -17,16 +17,26 @@ class TestRun
         return self::$instance;
     }
 
-    private function __construct()
+    public static function destroy()
     {
+        self::$instance = null;
     }
 
-    public function save()
+    private $run;
+
+    private function __construct()
     {
-        return Run::firstOrCreate([
+        $this->run = Run::firstOrNew([
             'branch' => GitInfo::currentBranch(),
             'head' => GitInfo::head(),
             'modified' => GitInfo::modified(),
         ]);
+    }
+
+    public function save()
+    {
+        $this->run->save();
+
+        return $this->run;
     }
 }

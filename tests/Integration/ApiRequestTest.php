@@ -48,7 +48,7 @@ class ApiRequestTest extends TestCase
 
         $run = Run::first();
 
-        $this->assertNotNull($run);
+        $this->assertNotNull($run, 'A Run record was not created in the database.');
 
         tap($group = $run->groups()->first(), function (ExampleGroup $exampleGroup) {
             $this->assertSame('Tests\Integration\ApiRequestTest', $exampleGroup->class_name);
