@@ -17,11 +17,6 @@ class TestRun
         return self::$instance;
     }
 
-    /**
-     * @var TestClassInfo[]
-     */
-    private $testClasses = [];
-
     private function __construct()
     {
     }
@@ -33,24 +28,5 @@ class TestRun
             'head' => GitInfo::head(),
             'modified' => GitInfo::modified(),
         ]);
-    }
-
-    public function add($className, TestInfo $testInfo): TestInfo
-    {
-        $this->testClasses[$className] = $testInfo;
-
-        $this->testClasses[$className]->addTestRun($this);
-
-        return $testInfo;
-    }
-
-    public function has($className): bool
-    {
-        return isset ($this->testClasses[$className]);
-    }
-
-    public function get($className)
-    {
-        return $this->testClasses[$className];
     }
 }

@@ -8,19 +8,25 @@ use Styde\Enlighten\Models\ExampleGroup;
 
 class TestClassInfo implements TestInfo
 {
+    private TestRun $testRun;
+
     private string $className;
 
     private array $options;
 
     private array $texts;
 
-    private $testRun;
-
-    public function __construct(string $className, array $texts = [], array $options = [])
+    public function __construct(TestRun $testRun, string $className, array $texts = [], array $options = [])
     {
+        $this->testRun = $testRun;
         $this->className = $className;
         $this->options = $options;
         $this->texts = $texts;
+    }
+
+    public function is(string $name): bool
+    {
+        return $this->className === $name;
     }
 
     public function addTestRun(TestRun $testRun)

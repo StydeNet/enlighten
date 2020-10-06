@@ -23,18 +23,4 @@ class TestRunTest extends TestCase
         $this->assertInstanceOf(TestRun::class, TestRun::getInstance());
         $this->assertSame(TestRun::getInstance(), TestRun::getInstance());
     }
-
-    /** @test */
-    function can_get_a_class_added_to_the_test_run()
-    {
-        $testRun = TestRun::getInstance();
-
-        $this->assertFalse($testRun->has('Test'));
-
-        $testRun->add('Test', $classInfo = new TestClassInfo('Test'));
-
-        $this->assertTrue($testRun->has('Test'));
-
-        $this->assertSame($classInfo, $testRun->get('Test'));
-    }
 }

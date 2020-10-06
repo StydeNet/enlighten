@@ -8,6 +8,9 @@ use Illuminate\Support\Str;
 
 class TestInspector
 {
+    private static ?TestClassInfo $currentTestClass = null;
+    private static ?TestMethodInfo $currentTestMethod = null;
+
     private TestRun $testRun;
 
     protected array $ignore;
@@ -22,40 +25,50 @@ class TestInspector
     {
         $trace = TestTrace::get();
 
-        return $this->getInfo($trace->className, $trace->methodName)->addLine($trace->line);
+        return $this->getInfo($trace->className, $trace->methodName)
+            ->addLine($trace->line);
     }
 
     public function getInfo($className, $methodName): TestInfo
     {
-        $testClassInfo = $this->makeTestClassInfo($className);
-
-        return $this->makeTestMethodInfo($testClassInfo, $methodName);
-    }
-
-    private function makeTestClassInfo($name)
-    {
-        if ($this->testRun->has($name)) {
-            return $this->testRun->get($name);
+        if (optional(static::$currentTestMethod)->is($className, $methodName)) {
+            return static::$currentTestMethod;
         }
 
-        $annotations = Annotations::fromClass($name);
-
-        $options = $this->getOptionsFrom($annotations);
-
-        return $this->testRun->add($name, new TestClassInfo($name, $this->getTextsFrom($annotations), $options));
+        return $this->makeTestMethodInfo($className, $methodName);
     }
 
-    protected function makeTestMethodInfo(TestClassInfo $testClassInfo, string $methodName)
+    protected function makeTestMethodInfo(string $className, string $methodName)
     {
-        $annotations = Annotations::fromMethod($testClassInfo->getClassName(), $methodName);
+        $testClassInfo = $this->getClassInfo($className);
+
+        $annotations = Annotations::fromMethod($className, $methodName);
 
         $options = array_merge($testClassInfo->getOptions(), $this->getOptionsFrom($annotations));
 
-        if ($this->ignoreTest($testClassInfo->getClassName(), $methodName, $options)) {
+        if ($this->ignoreTest($className, $methodName, $options)) {
             return new IgnoredTest;
         }
 
         return new TestMethodInfo($testClassInfo, $methodName, $this->getTextsFrom($annotations));
+    }
+
+    private function getClassInfo($className): TestClassInfo
+    {
+        if (optional(static::$currentTestClass)->is($className)) {
+            return static::$currentTestClass;
+        }
+
+        return $this->makeTestClassInfo($className);
+    }
+
+    private function makeTestClassInfo($name)
+    {
+        $annotations = Annotations::fromClass($name);
+
+        return static::$currentTestClass = new TestClassInfo(
+            $this->testRun, $name, $this->getTextsFrom($annotations), $this->getOptionsFrom($annotations)
+        );
     }
 
     protected function getOptionsFrom($annotations): array
