@@ -34,25 +34,20 @@ class TestClassInfo
 
     public function save(): Model
     {
-        return tap($this->firstOrNewGroup(), function (ExampleGroup $group) {
-            $group->fill([
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription(),
-            ])
-            ->save();
-        });
-    }
-
-    private function firstOrNewGroup()
-    {
-        $run = $this->testRun->save();
-
         if ($this->exampleGroup == null) {
+            $run = $this->testRun->save();
+
             $this->exampleGroup = ExampleGroup::firstOrNew([
                 'run_id' => $run->id,
                 'class_name' => $this->getClassName(),
             ]);
         }
+
+        $this->exampleGroup->fill([
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+        ])
+        ->save();
 
         return $this->exampleGroup;
     }

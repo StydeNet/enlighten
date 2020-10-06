@@ -6,7 +6,9 @@ use Styde\Enlighten\Models\Run;
 
 class TestRun
 {
-    private static $instance;
+    private static ?self $instance = null;
+
+    private Run $run;
 
     public static function getInstance(): self
     {
@@ -17,12 +19,10 @@ class TestRun
         return self::$instance;
     }
 
-    public static function destroy()
+    public static function destroy(): void
     {
         self::$instance = null;
     }
-
-    private $run;
 
     private function __construct()
     {
@@ -33,7 +33,7 @@ class TestRun
         ]);
     }
 
-    public function save()
+    public function save(): Run
     {
         $this->run->save();
 

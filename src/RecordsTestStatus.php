@@ -22,7 +22,8 @@ trait RecordsTestStatus
             return;
         }
 
-        $test->addTestStatus($this->getStatusAsText())->save();
+        $test->addStatus($this->getStatusAsText())
+            ->save();
     }
 
     private function getStatusAsText()

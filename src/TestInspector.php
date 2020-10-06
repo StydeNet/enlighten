@@ -25,8 +25,13 @@ class TestInspector
     {
         $trace = TestTrace::get();
 
-        return $this->getInfo($trace->className, $trace->methodName)
-            ->addLine($trace->line);
+        $info = $this->getInfo($trace->className, $trace->methodName);
+
+        if ($info->isIgnored()) {
+            return $info;
+        }
+
+        return $info->addLine($trace->line);
     }
 
     public function getInfo($className, $methodName): TestInfo
@@ -38,7 +43,7 @@ class TestInspector
         return static::$currentTestMethod = $this->makeTestMethodInfo($className, $methodName);
     }
 
-    protected function makeTestMethodInfo(string $className, string $methodName)
+    protected function makeTestMethodInfo(string $className, string $methodName): TestInfo
     {
         $testClassInfo = $this->getClassInfo($className);
 
@@ -62,7 +67,7 @@ class TestInspector
         return static::$currentTestClass = $this->makeTestClassInfo($className);
     }
 
-    private function makeTestClassInfo($name)
+    private function makeTestClassInfo($name): TestClassInfo
     {
         $annotations = Annotations::fromClass($name);
 

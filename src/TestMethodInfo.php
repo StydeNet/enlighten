@@ -12,14 +12,14 @@ class TestMethodInfo implements TestInfo
     protected ?Example $example = null;
     private string $methodName;
     private array $texts;
-    private string $testStatus;
+    private string $status;
 
     public function __construct(TestClassInfo $classInfo, string $methodName, array $texts = [])
     {
         $this->classInfo = $classInfo;
         $this->methodName = $methodName;
         $this->texts = $texts;
-        $this->testStatus = 'unknown';
+        $this->status = 'unknown';
         $this->line = null;
     }
 
@@ -33,9 +33,9 @@ class TestMethodInfo implements TestInfo
         return false;
     }
 
-    public function addTestStatus(string $status): self
+    public function addStatus(string $status): self
     {
-        $this->testStatus = $status;
+        $this->status = $status;
 
         return $this;
     }
@@ -49,27 +49,21 @@ class TestMethodInfo implements TestInfo
 
     public function save(): Model
     {
-        return tap($this->firstOrNewExample(), function ($example) {
-            $example->fill(array_filter([
-                'line' => $this->line,
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription(),
-                'test_status' => $this->testStatus,
-            ]))
-            ->save();
-        });
-    }
-
-    private function firstOrNewExample(): Model
-    {
-        $group = $this->classInfo->save();
-
         if ($this->example == null) {
+            $group = $this->classInfo->save();
+
             $this->example = Example::firstOrNew([
                 'group_id' => $group->id,
                 'method_name' => $this->methodName,
             ]);
         }
+
+        $this->example->fill(array_filter([
+            'line' => $this->line,
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'test_status' => $this->status,
+        ]))->save();
 
         return $this->example;
     }
