@@ -4,7 +4,7 @@ namespace Styde\Enlighten;
 
 use Illuminate\Support\Collection;
 
-class Module
+class Module implements Statusable, Statable
 {
     use ReadsDynamicAttributes, GetsStatsFromGroups;
 
@@ -29,8 +29,13 @@ class Module
         $this->attributes['groups'] = $groups;
     }
 
-    public function getPassed(): bool
+    public function hasPassed()
     {
-        return $this->status === 'passed';
+        return $this->passed;
+    }
+
+    public function hasFailed()
+    {
+        return $this->failed;
     }
 }

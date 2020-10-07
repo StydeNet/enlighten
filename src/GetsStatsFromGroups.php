@@ -26,4 +26,14 @@ trait GetsStatsFromGroups
 
         return 'warned';
     }
+
+    public function hasPassed(): bool
+    {
+        return $this->getStatus() === 'passed';
+    }
+
+    public function hasFailed(): bool
+    {
+        return $this->getStatus() === 'failed';
+    }
 }

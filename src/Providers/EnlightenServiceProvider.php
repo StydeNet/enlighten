@@ -16,6 +16,7 @@ use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
 use Styde\Enlighten\View\Components\AppLayoutComponent;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
+use Styde\Enlighten\View\Components\StatsBadgeComponent;
 use Styde\Enlighten\View\Components\StatusBadgeComponent;
 
 class EnlightenServiceProvider extends ServiceProvider
@@ -103,6 +104,7 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->loadViewComponentsAs('enlighten', [
             'status-badge' => StatusBadgeComponent::class,
             'response-info' => ResponseInfoComponent::class,
+            'stats-badge' => StatsBadgeComponent::class,
             'html-response' => 'enlighten::components.html-response',
             'json-response' => 'enlighten::components.json-response',
             'key-value' => 'enlighten::components.key-value',
@@ -112,7 +114,6 @@ class EnlightenServiceProvider extends ServiceProvider
             'request-info' => 'enlighten::components.request-info',
             'parameters-table' => 'enlighten::components.parameters-table',
             'request-input-table' => 'enlighten::components.request-input-table',
-            'stats-badge' => 'enlighten::components.stats-badge',
         ]);
     }
 

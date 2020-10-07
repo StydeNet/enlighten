@@ -5,10 +5,10 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\GetsStatsFromGroups;
 use Styde\Enlighten\Models\ExampleGroup;
-use Styde\Enlighten\Module;
+use Styde\Enlighten\ReadsDynamicAttributes;
 use Tests\TestCase;
 
-class HasGroupsTest extends TestCase
+class GetsStatsFromGroupsTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,10 +23,10 @@ class HasGroupsTest extends TestCase
         $this->createExample($group, 'third_test', 'passed');
         $this->createExample($group, 'fourth_test', 'passed');
 
-//        $module = new Module('All', ['*']);
-
         $module = new class {
             use GetsStatsFromGroups;
+
+            public $groups;
         };
 
         $module->groups = ExampleGroup::with('stats')->get();
