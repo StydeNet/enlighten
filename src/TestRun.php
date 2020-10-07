@@ -12,8 +12,6 @@ class TestRun
 
     public function __construct(GitInfo $gitInfo)
     {
-        dump('TestRun::__construct');
-
         $this->gitInfo = $gitInfo;
 
         $this->run = Run::firstOrNew([
