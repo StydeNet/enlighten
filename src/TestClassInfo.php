@@ -27,12 +27,12 @@ class TestClassInfo
         return $this->className === $name;
     }
 
-    public function getClassName()
+    public function getClassName(): string
     {
         return $this->className;
     }
 
-    public function save(): Model
+    public function save(): ExampleGroup
     {
         if ($this->exampleGroup == null) {
             $run = $this->testRun->save();
@@ -46,13 +46,12 @@ class TestClassInfo
         $this->exampleGroup->fill([
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
-        ])
-        ->save();
+        ])->save();
 
         return $this->exampleGroup;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->texts['title'] ?? $this->getDefaultTitle();
     }

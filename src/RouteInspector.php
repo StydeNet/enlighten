@@ -6,7 +6,7 @@ use Illuminate\Routing\Route;
 
 class RouteInspector
 {
-    public function getInfoFrom(Route $route)
+    public function getInfoFrom(Route $route): RouteInfo
     {
         return new RouteInfo($route->uri(), $this->getParameters($route));
     }

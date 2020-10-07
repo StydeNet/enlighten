@@ -64,7 +64,7 @@ class ExampleGroup extends Model implements Statusable
         return $this->stats->sum('count');
     }
 
-    public function getStatusAttribute() : string
+    public function getStatusAttribute(): string
     {
         return $this->getStatus();
     }
@@ -79,7 +79,8 @@ class ExampleGroup extends Model implements Statusable
         return $this->hasFailed();
     }
 
-    public function getStatus()
+    // Statusable
+    public function getStatus(): string
     {
         if ($this->passing_tests_count === $this->tests_count) {
             return 'passed';
@@ -92,13 +93,13 @@ class ExampleGroup extends Model implements Statusable
         return 'warned';
     }
 
-    public function hasPassed()
+    public function hasPassed(): bool
     {
-        return $this->status === 'passed';
+        return $this->getStatus() === 'passed';
     }
 
-    public function hasFailed()
+    public function hasFailed(): bool
     {
-        return $this->status === 'failed';
+        return $this->getStatus() === 'failed';
     }
 }

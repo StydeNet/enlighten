@@ -5,9 +5,8 @@ namespace Styde\Enlighten\Models;
 use Illuminate\Database\Eloquent\Model;
 use Styde\Enlighten\GetsStatsFromGroups;
 use Styde\Enlighten\Statable;
-use Styde\Enlighten\Statusable;
 
-class Run extends Model implements Statable, Statusable
+class Run extends Model implements Statable
 {
     use GetsStatsFromGroups;
 
@@ -20,15 +19,5 @@ class Run extends Model implements Statable, Statusable
     public function groups()
     {
         return $this->hasMany(ExampleGroup::class);
-    }
-
-    public function hasPassed()
-    {
-        return $this->passed;
-    }
-
-    public function hasFailed()
-    {
-        return $this->failed;
     }
 }

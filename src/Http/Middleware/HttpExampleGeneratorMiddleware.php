@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\Http\Middleware;
 
 use Closure;
-use Styde\Enlighten\HttpExampleGenerator;
+use Styde\Enlighten\HttpExampleCreator;
 
 // @TODO: rename class because it's not generating anything anymore.
 class HttpExampleGeneratorMiddleware
@@ -22,7 +22,7 @@ class HttpExampleGeneratorMiddleware
         // Allow users to create a whitelist or blacklist of status...
         // @TODO: Add ignored statuses to a configuration option
         if (app()->runningUnitTests() && $this->allowedStatus($response)) {
-            app(HttpExampleGenerator::class)->createHttpExample($request, $response);
+            app(HttpExampleCreator::class)->createHttpExample($request, $response);
         }
 
         return $response;

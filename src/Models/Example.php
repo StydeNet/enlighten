@@ -50,11 +50,6 @@ class Example extends Model implements Statusable
         return $this->http_data->exists;
     }
 
-    public function getStatus()
-    {
-        return $this->test_status;
-    }
-
     public function getPassedAttribute()
     {
         return $this->hasPassed();
@@ -65,12 +60,17 @@ class Example extends Model implements Statusable
         return $this->hasFailed();
     }
 
-    public function hasPassed()
+    public function getStatus(): string
+    {
+        return $this->test_status;
+    }
+
+    public function hasPassed(): bool
     {
         return $this->test_status === 'passed';
     }
 
-    public function hasFailed()
+    public function hasFailed(): bool
     {
         return in_array($this->test_status, ['failure', 'error']);
     }

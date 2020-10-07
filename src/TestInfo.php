@@ -2,9 +2,21 @@
 
 namespace Styde\Enlighten;
 
-interface TestInfo
+abstract class TestInfo
 {
-    public function is(string $className, string $methodName): bool;
+    protected string $className;
+    protected string $methodName;
 
-    public function isIgnored(): bool;
+    public function __construct(string $className, string $methodName)
+    {
+        $this->className = $className;
+        $this->methodName = $methodName;
+    }
+
+    public function is(string $className, string $methodName): bool
+    {
+        return $this->className == $className && $this->methodName == $methodName;
+    }
+
+    abstract public function isIgnored(): bool;
 }

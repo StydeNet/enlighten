@@ -24,18 +24,10 @@ class Module implements Statusable, Statable
         ]);
     }
 
-    public function addGroups(Collection $groups): void
+    public function addGroups(Collection $groups): self
     {
         $this->attributes['groups'] = $groups;
-    }
 
-    public function hasPassed()
-    {
-        return $this->passed;
-    }
-
-    public function hasFailed()
-    {
-        return $this->failed;
+        return $this;
     }
 }

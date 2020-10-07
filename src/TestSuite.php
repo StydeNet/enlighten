@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -12,7 +13,7 @@ class TestSuite implements Arrayable
     public string $title;
     public string $slug;
 
-    public static function all()
+    public static function all(): Collection
     {
         if (config()->has('enlighten.test-suites')) {
             return collect(config('enlighten.test-suites'))
@@ -40,7 +41,7 @@ class TestSuite implements Arrayable
         $this->slug = Str::slug($key);
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'key' => $this->key,

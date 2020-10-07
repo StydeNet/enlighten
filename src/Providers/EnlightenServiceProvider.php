@@ -7,7 +7,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Styde\Enlighten\GitInfo;
 use Styde\Enlighten\Http\Middleware\HttpExampleGeneratorMiddleware;
-use Styde\Enlighten\HttpExampleGenerator;
+use Styde\Enlighten\HttpExampleCreator;
 use Styde\Enlighten\RequestInspector;
 use Styde\Enlighten\ResponseInspector;
 use Styde\Enlighten\RouteInspector;
@@ -87,10 +87,10 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerHttpExampleGenerator()
     {
-        $this->app->singleton(HttpExampleGenerator::class, function () {
+        $this->app->singleton(HttpExampleCreator::class, function () {
             $config = $this->app['config']->get('enlighten');
 
-            return new HttpExampleGenerator(
+            return new HttpExampleCreator(
                 $this->app[TestInspector::class],
                 new RequestInspector(new RouteInspector, $config['request']),
                 new ResponseInspector($config['response']),

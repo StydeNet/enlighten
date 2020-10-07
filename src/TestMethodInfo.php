@@ -2,30 +2,24 @@
 
 namespace Styde\Enlighten;
 
-use Illuminate\Database\Eloquent\Model;
 use Styde\Enlighten\Models\Example;
 
-class TestMethodInfo implements TestInfo
+class TestMethodInfo extends TestInfo
 {
     public TestClassInfo $classInfo;
     protected ?int $line;
     protected ?Example $example = null;
-    private string $methodName;
     private array $texts;
     private string $status;
 
     public function __construct(TestClassInfo $classInfo, string $methodName, array $texts = [])
     {
+        parent::__construct($classInfo->getClassName(), $methodName);
+
         $this->classInfo = $classInfo;
-        $this->methodName = $methodName;
         $this->texts = $texts;
         $this->status = 'unknown';
         $this->line = null;
-    }
-
-    public function is(string $className, string $methodName): bool
-    {
-        return $this->classInfo->getClassName() == $className && $this->methodName == $methodName;
     }
 
     public function isIgnored(): bool
@@ -47,7 +41,7 @@ class TestMethodInfo implements TestInfo
         return $this;
     }
 
-    public function save(): Model
+    public function save(): Example
     {
         if ($this->example == null) {
             $group = $this->classInfo->save();
@@ -68,7 +62,7 @@ class TestMethodInfo implements TestInfo
         return $this->example;
     }
 
-    public function saveHttpExample(RequestInfo $request, ResponseInfo $response, array $session): Model
+    public function saveHttpExample(RequestInfo $request, ResponseInfo $response, array $session): Example
     {
         $this->save();
 

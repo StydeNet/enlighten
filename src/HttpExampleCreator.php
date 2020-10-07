@@ -5,9 +5,7 @@ namespace Styde\Enlighten;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-// @TODO: rename class because it's not generating anything anymore.
-// ExampleRepository? ExampleRecorder?
-class HttpExampleGenerator
+class HttpExampleCreator
 {
     private TestInspector $testInspector;
     private RequestInspector $requestInspector;

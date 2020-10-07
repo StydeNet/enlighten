@@ -2,16 +2,13 @@
 
 namespace Styde\Enlighten;
 
-use Illuminate\Session\Store;
+use Illuminate\Session\Store as SessionStore;
 
 class SessionInspector
 {
-    /**
-     * @var Store
-     */
-    private Store $session;
+    private SessionStore $session;
 
-    public function __construct(Store $session)
+    public function __construct(SessionStore $session)
     {
         $this->session = $session;
     }

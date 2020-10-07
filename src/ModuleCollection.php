@@ -30,15 +30,11 @@ class ModuleCollection extends Collection
 
         $module = new Module(config('enlighten.default_module', 'Other Modules'));
 
-        $module->addGroups($groups);
-
-        return $this->add($module);
+        return $this->add($module->addGroups($groups));
     }
 
     public function whereHasGroups(): self
     {
-        return $this->filter(function ($module) {
-            return $module->groups->isNotEmpty();
-        });
+        return $this->filter(fn($module) => $module->groups->isNotEmpty());
     }
 }
