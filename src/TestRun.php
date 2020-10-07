@@ -6,30 +6,20 @@ use Styde\Enlighten\Models\Run;
 
 class TestRun
 {
-    private static ?self $instance = null;
+    private GitInfo $gitInfo;
 
     private Run $run;
 
-    public static function getInstance(): self
+    public function __construct(GitInfo $gitInfo)
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new static;
-        }
+        dump('TestRun::__construct');
 
-        return self::$instance;
-    }
+        $this->gitInfo = $gitInfo;
 
-    public static function destroy(): void
-    {
-        self::$instance = null;
-    }
-
-    private function __construct()
-    {
         $this->run = Run::firstOrNew([
-            'branch' => GitInfo::currentBranch(),
-            'head' => GitInfo::head(),
-            'modified' => GitInfo::modified(),
+            'branch' => $this->gitInfo->currentBranch(),
+            'head' => $this->gitInfo->head(),
+            'modified' => $this->gitInfo->modified(),
         ]);
     }
 

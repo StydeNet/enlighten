@@ -2,12 +2,12 @@
 
 namespace Tests\Integration;
 
-use Styde\Enlighten\RecordsTestStatus;
+use Styde\Enlighten\Tests\EnlightenSetup;
 use Tests\Integration\App\Providers\RouteServiceProvider;
 
 class TestCase extends \Tests\TestCase
 {
-    use TestHelpers, RecordsTestStatus;
+    use TestHelpers, EnlightenSetup;
 
     protected function setUp(): void
     {
@@ -17,7 +17,7 @@ class TestCase extends \Tests\TestCase
 
         $this->loadViewsFrom(__DIR__ . '/resources/views');
 
-        $this->recordTestStatus();
+        $this->setUpEnlighten();
     }
 
     protected function getPackageProviders($app)

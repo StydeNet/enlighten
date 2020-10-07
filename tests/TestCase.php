@@ -21,8 +21,6 @@ class TestCase extends OrchestraTestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-
-        TestRun::destroy();
     }
 
     protected function getPackageProviders($app)

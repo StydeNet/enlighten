@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Providers;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use Styde\Enlighten\GitInfo;
 use Styde\Enlighten\Http\Middleware\HttpExampleGeneratorMiddleware;
 use Styde\Enlighten\HttpExampleGenerator;
 use Styde\Enlighten\RequestInspector;
@@ -59,6 +60,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->registerTestRun();
         $this->registerTestInspector();
         $this->registerHttpExampleGenerator();
     }
@@ -68,10 +70,17 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->app[Kernel::class]->pushMiddleware(HttpExampleGeneratorMiddleware::class);
     }
 
+    private function registerTestRun()
+    {
+        $this->app->singleton(TestRun::class, function () {
+            return new TestRun(new GitInfo);
+        });
+    }
+
     private function registerTestInspector()
     {
         $this->app->singleton(TestInspector::class, function () {
-            return new TestInspector(TestRun::getInstance(), $this->app['config']->get('enlighten.tests'));
+            return new TestInspector($this->app[TestRun::class], $this->app['config']->get('enlighten.tests'));
         });
     }
 

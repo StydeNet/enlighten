@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Styde\Enlighten\GitInfo;
 use Styde\Enlighten\TestClassInfo;
 use Styde\Enlighten\TestRun;
 use Tests\TestCase;
@@ -11,7 +12,7 @@ class TestClassInfoTest extends TestCase
     /** @test */
     function it_gets_a_default_title()
     {
-        $testRun = TestRun::getInstance();
+        $testRun = new TestRun(new GitInfo);
 
         $clasInfo = new TestClassInfo($testRun, 'ListUsersTest');
 

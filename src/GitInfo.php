@@ -5,17 +5,17 @@ namespace Styde\Enlighten;
 // @TODO: Make facade
 class GitInfo
 {
-    public static function currentBranch()
+    public function currentBranch()
     {
         return exec('git branch --show-current');
     }
 
-    public static function head()
+    public function head()
     {
         return exec('git rev-parse --short HEAD');
     }
 
-    public static function modified()
+    public function modified()
     {
         return exec('git status --porcelain') !== '';
     }

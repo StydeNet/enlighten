@@ -2,10 +2,13 @@
 
 namespace Tests\Integration;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 
 class FailedRequestTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     function creates_example_even_if_the_request_fails()
     {

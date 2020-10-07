@@ -2,10 +2,11 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionMethod;
 
-class Annotations
+class Annotations extends Collection
 {
     public static function fromClass($class)
     {
@@ -21,11 +22,11 @@ class Annotations
         return static::fromDocComment($reflectionMethod->getDocComment());
     }
 
-    public static function fromDocComment($docComment)
+    protected static function fromDocComment($docComment)
     {
         preg_match_all("#@(\w+)( (.*?))?\n#s", $docComment, $matches);
 
-        return collect($matches[1])
+        return static::make($matches[1])
             ->combine($matches[3])
             ->map(function ($annotation) {
                 return trim($annotation, '. ');
