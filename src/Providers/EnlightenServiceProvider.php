@@ -112,6 +112,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'request-info' => 'enlighten::components.request-info',
             'parameters-table' => 'enlighten::components.parameters-table',
             'request-input-table' => 'enlighten::components.request-input-table',
+            'stats-badge' => 'enlighten::components.stats-badge',
         ]);
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 
 class Module
 {
-    use ReadsDynamicAttributes;
+    use ReadsDynamicAttributes, GetsStatsFromGroups;
 
     public static function all()
     {
@@ -27,29 +27,6 @@ class Module
     public function addGroups(Collection $groups): void
     {
         $this->attributes['groups'] = $groups;
-    }
-
-    public function getPassingTestsCount(): int
-    {
-       return $this->groups->pluck('passing_tests_count')->sum();
-    }
-
-    public function getTestsCount(): int
-    {
-        return $this->groups->pluck('tests_count')->sum();
-    }
-
-    public function getStatus(): string
-    {
-        if ($this->getPassingTestsCount() === $this->getTestsCount()) {
-            return 'passed';
-        }
-
-        if ($this->groups->whereIn('status', ['failed', 'error'])->isNotEmpty()) {
-            return 'failed';
-        }
-
-        return 'warned';
     }
 
     public function getPassed(): bool

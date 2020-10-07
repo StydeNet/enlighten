@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\GetsStatsFromGroups;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Tests\TestCase;

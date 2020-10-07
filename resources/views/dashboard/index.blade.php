@@ -22,7 +22,7 @@
                     </td>
                     <td class=" px-6 py-4 ">{{ $run->created_at->toDateTimeString() }}</td>
                     <td class=" px-6 py-4 ">
-                        <span class="text-red-800 pr-2 bg-red-300 rounded-full py-1 px-2">{{ $run->passing_tests_count }}</span>
+                        <x-enlighten-stats-badge :status="$run->getStatus()" :tests-count="$run->getTestsCount()" :passing-tests="$run->getPassingTestsCount()"></x-enlighten-stats-badge>
                     </td>
                     <td class=" px-6 py-4 ">
                         <a href="{{ route('enlighten.run.show', $run->id) }}" class="text-teal-500 hover:text-teal-600">View</a>
