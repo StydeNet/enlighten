@@ -42,20 +42,20 @@ class ExampleGroupTest extends TestCase
 
         $this->assertSame(4, $group->passing_tests_count);
         $this->assertSame(4, $group->tests_count);
-        $this->assertSame('passed', $group->status);
+        $this->assertSame('success', $group->status);
 
         $this->createExample($group, 'sixth_test', 'skipped');
         $group->load('stats');
 
         $this->assertSame(4, $group->passing_tests_count);
         $this->assertSame(5, $group->tests_count);
-        $this->assertSame('warned', $group->status);
+        $this->assertSame('warning', $group->status);
 
         $this->createExample($group, 'fifth_test', 'error');
         $group->load('stats');
 
         $this->assertSame(4, $group->passing_tests_count);
         $this->assertSame(6, $group->tests_count);
-        $this->assertSame('failed', $group->status);
+        $this->assertSame('failure', $group->status);
     }
 }

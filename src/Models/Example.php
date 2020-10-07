@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\Status;
 use Styde\Enlighten\Statusable;
 
 /**
@@ -45,33 +46,26 @@ class Example extends Model implements Statusable
         return 'phpstorm://open?file='.urlencode(base_path($path)).'&ampline='.$this->line;
     }
 
+    public function getStatusAttribute()
+    {
+        return $this->getStatus();
+    }
+
     public function getIsHttpAttribute()
     {
         return $this->http_data->exists;
     }
 
-    public function getPassedAttribute()
-    {
-        return $this->hasPassed();
-    }
-
-    public function getFailedAttribute()
-    {
-        return $this->hasFailed();
-    }
-
     public function getStatus(): string
     {
-        return $this->test_status;
-    }
+        if ($this->test_status == 'passed') {
+            return Status::SUCCESS;
+        }
 
-    public function hasPassed(): bool
-    {
-        return $this->test_status === 'passed';
-    }
+        if (in_array($this->test_status, ['failure', 'error'])) {
+            return Status::FAILURE;
+        }
 
-    public function hasFailed(): bool
-    {
-        return in_array($this->test_status, ['failure', 'error']);
+        return Status::WARNING;
     }
 }

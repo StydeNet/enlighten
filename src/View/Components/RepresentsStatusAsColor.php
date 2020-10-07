@@ -9,12 +9,10 @@ trait RepresentsStatusAsColor
 {
     protected function getColor(Statusable $model)
     {
-        if ($model->hasPassed()) {
-            return 'green';
-        } elseif ($model->hasFailed()) {
-            return 'red';
-        } else {
-            return 'yellow';
-        }
+        return collect([
+            'success' => 'green',
+            'warning' => 'yellow',
+            'failure' => 'red'
+        ])->get($model->getStatus(), 'yellow');
     }
 }

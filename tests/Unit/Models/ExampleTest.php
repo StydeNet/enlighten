@@ -3,8 +3,10 @@
 namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\TextUI\TestRunner;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Status;
 
 class ExampleTest extends \Orchestra\Testbench\TestCase
 {
@@ -21,31 +23,27 @@ class ExampleTest extends \Orchestra\Testbench\TestCase
         $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php&ampline=3@', $example->file_link));
     }
 
-    /** @test */
-    function checks_if_the_related_test_passed()
+    /**
+     * @test
+     * @dataProvider getStatusEquivalences
+     */
+    function gets_a_simplified_status($testStatus, $expectedStatus)
     {
-        $data = new Example(['test_status' => 'passed']);
+        $data = new Example(['test_status' => $testStatus]);
 
-        $this->assertTrue($data->passed);
-
-        $data = new Example(['test_status' => 'failed']);
-
-        $this->assertFalse($data->passed);
+        $this->assertSame($expectedStatus, $data->getStatus());
     }
 
-    /** @test */
-    function checks_if_the_related_test_failed()
+    public function getStatusEquivalences(): array
     {
-        $data = new Example(['test_status' => 'failure']);
-
-        $this->assertTrue($data->failed);
-
-        $data = new Example(['test_status' => 'passed']);
-
-        $this->assertFalse($data->failed);
-
-        $data = new Example(['test_status' => 'error']);
-
-        $this->assertTrue($data->failed);
+        return [
+            ['passed', 'success'],
+            ['warning', 'warning'],
+            ['risky', 'warning'],
+            ['incomplete', 'warning'],
+            ['skipped', 'warning'],
+            ['error', 'failure'],
+            ['failure', 'failure'],
+        ];
     }
 }

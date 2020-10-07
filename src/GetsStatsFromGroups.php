@@ -17,23 +17,13 @@ trait GetsStatsFromGroups
     public function getStatus(): string
     {
         if ($this->getPassingTestsCount() === $this->getTestsCount()) {
-            return 'passed';
+            return Status::SUCCESS;
         }
 
-        if ($this->groups->whereIn('status', ['failed', 'error'])->isNotEmpty()) {
-            return 'failed';
+        if ($this->groups->firstWhere('status', Status::FAILURE)) {
+            return Status::FAILURE;
         }
 
-        return 'warned';
-    }
-
-    public function hasPassed(): bool
-    {
-        return $this->getStatus() === 'passed';
-    }
-
-    public function hasFailed(): bool
-    {
-        return $this->getStatus() === 'failed';
+        return Status::WARNING;
     }
 }
