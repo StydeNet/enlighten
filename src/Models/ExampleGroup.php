@@ -57,7 +57,7 @@ class ExampleGroup extends Model implements Statusable
     // Accessors
     public function getPassingTestsCountAttribute()
     {
-        return data_get($this->stats->firstWhere('test_status', 'passed'), 'count', 0);
+        return data_get($this->stats->where('status', Status::SUCCESS), 'count', 0);
     }
 
     public function getTestsCountAttribute()

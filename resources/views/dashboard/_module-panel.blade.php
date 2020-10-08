@@ -1,7 +1,7 @@
 <div class="rounded-lg bg-white overflow-hidden">
     <div class="flex p-4 justify-between items-center w-full border-b border-gray-300 bg-gray-200">
         <span class="font-semibold text-lg text-gray-700">{{ $module->name }}</span>
-        <x-enlighten-stats-badge :model="$module"></x-enlighten-stats-badge>
+        <x-enlighten-stats-badge :model="$module" />
     </div>
     <ul class="py-4">
         @foreach($module->groups as $group)
