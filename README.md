@@ -12,7 +12,7 @@ If you have already invested a lot of time developing and testing your API you d
 
 ![Enlighten preview](./preview.png "Enlighten Dashboard preview")
 
-Just install and run your tests using `phpunit`, that's it! You'll find the entire API documentation in the following URL: `/enlighten/dashboard`
+After installing the component, run `phpunit` and that's it! You'll find the entire API documentation in the following URL: `/enlighten/`
 
 ## Usage
 After finishing the installation process, run your Laravel tests as usual.
@@ -21,7 +21,7 @@ After finishing the installation process, run your Laravel tests as usual.
 phpunit
 ```
 
-That's it! Now you can visit `/enlighten/dashboard` and find your documentation in there.
+Now visit `/enlighten/dashboard` to navigate the documentation.
 
 ## Installation
 Install using Composer
@@ -54,8 +54,31 @@ php artisan vendor:publish --tag=enlighten-config
 php artisan vendor:publish --tag=enlighten-views
 ```
 
+To get information about the status of the tests, run `enlightenSetUp` in the `setUp` method of your `TestCase`, for example:
+
+```
+<?php
+
+namespace Tests;
+
+use Styde\Enlighten\Tests\EnlightenSetup;
+
+class TestCase extends \Tests\TestCase
+{
+    use EnlightenSetup;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUpEnlighten();
+    }
+```
+
+*Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
+
 ## Database Setup
-`Enligthen` uses a secondary database to record the information from your test-suite and generate the documentation.
+`Enligthen` uses a secondary database and database connection to record the information from your test-suite and generate the documentation.
 
 Add a new database using the same name of your primary-database with an `_enlighten` suffix:
 
@@ -64,7 +87,7 @@ DB_NAME=my_default_database
 # my_default_database_enlighten
 ```
 
-Alternatively add a new connection entry in `config/database.php` with the name `enlighten`:
+Alternatively, add a new connection entry in `config/database.php` with the name `enlighten`:
 
 ```
    'enlighten' => [
@@ -83,10 +106,10 @@ php artisan migrage
 ```
 
 > It's important to create a different connection for Enlighten to avoid having the info deleted or not persisted when
-> using the database migration traits included by Laravel. 
+> using the database migration traits included by Laravel and/or if you run the tests using SQLite.
 
-## Advanced configuration
-To "group" your tests-classes as "modules", you can use a regular expression to find all the classes that match with a given pattern:
+## Optional configuration
+To "group" your tests-classes as "modules", you can use a regular expression to find all the classes that match with the given pattern or patterns:
 
 ```php
 // config/enlighten.php
@@ -108,10 +131,10 @@ To "group" your tests-classes as "modules", you can use a regular expression to 
 ];
 ```
 
-> It is recommended to have a "catch all" group at the end to include all those files that didn't match with any of the other patterns.
+> You can add a "catch all" group at the end to include all those files that didn't match with any of the other patterns, otherwise Enlighten will do this automatically for you.
 
 ## Excluding test-classes from the documentation
-If you want to include all the test-classes and methods in your documentation, you can skip this step, otherwise, you can add the following to the `/config/enlighten.php` file:
+If you want to include all the test-classes and methods in your documentation, you can skip this step, otherwise, you can add the following key to the `/config/enlighten.php` file:
 
 ```php
 [
@@ -127,11 +150,17 @@ If you want to include all the test-classes and methods in your documentation, y
 ```
 
 ## Customizing titles and descriptions
-If you want to have more control on the titles of the classes and methods, or add descriptions in your documentation, you can use the following annotations in your test files:
+If you want to have more control on the titles of the classes and methods, or add descriptions to each group or example, you can add the following annotations in your test classes and methods:
 
 ```php
 /**
+ * @title User Module
+ *
+ * or if you prefer:
+ *
  * @testdox User Module
+ *
+ *  and you can also use:
  *
  * @description Manage all the user-related petitions.
  **/
@@ -153,7 +182,7 @@ class UsersTest extends TestCase {
 ## Customizing the intro page
 
 To customize the content of your Dashboard page, you can add an `ENLIGHTEN.md` markdown file to the root path of your project.
-The content of this file will overwrite the default page provided by this package. 
+The content of this file will overwrite the default page provided by this package.
 
 ## Credits
 - [Duilio Palacios](https://twitter.com/sileence)
