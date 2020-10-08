@@ -38,7 +38,7 @@ class TestInspector
             return $info;
         }
 
-        return $info->addLine($trace['line']);
+        return $info->addLine($trace['start_line']);
     }
 
     public function getInfo($className, $methodName): TestInfo
