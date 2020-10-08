@@ -15,26 +15,30 @@ class TestInspector
     protected array $classOptions = [];
 
     private TestRun $testRun;
+    private TestTrace $testTrace;
+    private Annotations $annotations;
 
     protected array $ignore;
 
-    public function __construct(TestRun $testRun, array $config)
+    public function __construct(TestRun $testRun, TestTrace $testTrace, Annotations $annotations, array $config)
     {
         $this->testRun = $testRun;
+        $this->testTrace = $testTrace;
+        $this->annotations = $annotations;
         $this->ignore = $config['ignore'];
     }
 
     public function getCurrentTestInfo(): TestInfo
     {
-        $trace = TestTrace::get();
+        $trace = $this->testTrace->get();
 
-        $info = $this->getInfo($trace->className, $trace->methodName);
+        $info = $this->getInfo($trace['class'], $trace['function']);
 
         if ($info->isIgnored()) {
             return $info;
         }
 
-        return $info->addLine($trace->line);
+        return $info->addLine($trace['line']);
     }
 
     public function getInfo($className, $methodName): TestInfo
@@ -50,7 +54,7 @@ class TestInspector
     {
         $testClassInfo = $this->getClassInfo($className);
 
-        $annotations = Annotations::fromMethod($className, $methodName);
+        $annotations = $this->annotations->getFromMethod($className, $methodName);
 
         if ($this->ignoreTest($className, $methodName, $annotations->get('enlighten', []))) {
             return new IgnoredTest($className, $methodName);
@@ -70,7 +74,7 @@ class TestInspector
 
     private function makeTestClassInfo($name): TestClassInfo
     {
-        $annotations = Annotations::fromClass($name);
+        $annotations = $this->annotations->getFromClass($name);
 
         $this->classOptions = $annotations->get('enlighten', []);
 
@@ -80,7 +84,7 @@ class TestInspector
     protected function getTextsFrom(Collection $annotations): array
     {
         return [
-            'title' => $annotations->get('testdox'),
+            'title' => $annotations->get('title') ?: $annotations->get('testdox'),
             'description' => $annotations->get('description'),
         ];
     }

@@ -15,6 +15,7 @@ use Styde\Enlighten\RouteInspector;
 use Styde\Enlighten\SessionInspector;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
+use Styde\Enlighten\Utils\TestTrace;
 use Styde\Enlighten\View\Components\AppLayoutComponent;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
 use Styde\Enlighten\View\Components\StatsBadgeComponent;
@@ -26,7 +27,7 @@ class EnlightenServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom($this->componentPath('config/enlighten.php'), 'enlighten');
 
-        if (! $this->app['config']->get('enlighten.enabled')) {
+        if (!$this->app['config']->get('enlighten.enabled')) {
             return;
         }
 
@@ -43,12 +44,6 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerViewComponents();
 
         $this->registerPublishing();
-
-        Annotations::addCast('enlighten', function ($value) {
-            $options = json_decode($value, JSON_OBJECT_AS_ARRAY);
-
-            return array_merge(['include' => true], $options ?: []);
-        });
     }
 
     protected function addDatabaseConnection(Config $config)
@@ -88,7 +83,20 @@ class EnlightenServiceProvider extends ServiceProvider
     private function registerTestInspector()
     {
         $this->app->singleton(TestInspector::class, function () {
-            return new TestInspector($this->app[TestRun::class], $this->app['config']->get('enlighten.tests'));
+            $annotations = new Annotations;
+
+            $annotations->addCast('enlighten', function ($value) {
+                $options = json_decode($value, JSON_OBJECT_AS_ARRAY);
+
+                return array_merge(['include' => true], $options ?: []);
+            });
+
+            return new TestInspector(
+                $this->app[TestRun::class],
+                new TestTrace,
+                $annotations,
+                $this->app['config']->get('enlighten.tests')
+            );
         });
     }
 

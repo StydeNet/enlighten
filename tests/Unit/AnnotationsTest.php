@@ -16,7 +16,7 @@ class AnnotationsTest extends TestCase
     /** @test */
     function gets_annotations_from_class()
     {
-        $annotations = Annotations::fromClass(AnnotationsTest::class);
+        $annotations = (new Annotations)->getFromClass(AnnotationsTest::class);
 
         $this->assertInstanceOf(Collection::class, $annotations);
         $this->assertCount(3, $annotations);
@@ -32,7 +32,7 @@ class AnnotationsTest extends TestCase
      */
     function gets_annotations_from_methods()
     {
-        $annotations = Annotations::fromMethod(AnnotationsTest::class, 'gets_annotations_from_methods');
+        $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'gets_annotations_from_methods');
 
         $this->assertInstanceOf(Collection::class, $annotations);
         $this->assertCount(3, $annotations);

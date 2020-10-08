@@ -16,14 +16,14 @@ class Annotations
         static::$casts[$key] = $callback;
     }
 
-    public static function fromClass($class): Collection
+    public function getFromClass($class): Collection
     {
         $reflectionClass = new ReflectionClass($class);
 
         return static::fromDocComment($reflectionClass->getDocComment());
     }
 
-    public static function fromMethod($class, $method): Collection
+    public function getFromMethod($class, $method): Collection
     {
         $reflectionMethod = new ReflectionMethod($class, $method);
 
