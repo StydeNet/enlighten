@@ -20,7 +20,7 @@ class ExampleTest extends \Orchestra\Testbench\TestCase
             'class_name' => 'Tests\Feature\Admin\CreateUsersTest',
         ]);
 
-        $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php&ampline=3@', $example->file_link));
+        $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php&line=3@', $example->file_link));
     }
 
     /**
