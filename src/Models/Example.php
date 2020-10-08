@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\Utils\FileLink;
 
 class Example extends Model implements Statusable
 {
@@ -32,9 +33,7 @@ class Example extends Model implements Statusable
 
     public function getFileLinkAttribute()
     {
-        $path = str_replace('\\', '/', $this->group->class_name).'.php';
-
-        return 'phpstorm://open?file='.urlencode(base_path($path)).'&ampline='.$this->line;
+        return FileLink::get(str_replace('\\', '/', $this->group->class_name).'.php', $this->line);
     }
 
     public function getStatusAttribute()
