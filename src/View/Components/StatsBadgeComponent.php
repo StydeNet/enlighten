@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Statable;
+use Styde\Enlighten\Models\Statable;
 
 class StatsBadgeComponent extends Component
 {

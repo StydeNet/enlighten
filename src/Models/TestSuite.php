@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Models;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Annotations;
+use Styde\Enlighten\Utils\Annotations;
 use Tests\TestCase;
 
 /**

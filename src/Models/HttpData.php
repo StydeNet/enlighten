@@ -5,25 +5,6 @@ namespace Styde\Enlighten\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-/**
- * @property-read HttpData $request_headers
- * @property-read HttpData $request_method
- * @property-read HttpData $request_path
- * @property-read HttpData $request_query_parameters
- * @property-read HttpData $request_input
- * @property-read HttpData $route
- * @property-read HttpData $route_parameters
- * @property-read HttpData $response_headers
- * @property-read HttpData $response_status
- * @property-read HttpData $response_body
- * @property-read HttpData $response_preview
- * @property-read HttpData $response_template
- * @property-read HttpData $response_type
- * @property-read HttpData $full_path
- * @property-read HttpData $has_redirection_status
- * @property-read HttpData $redirection_location
- * @property-read HttpData $session_data
- */
 class HttpData extends Model
 {
     protected $connection = 'enlighten';

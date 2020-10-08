@@ -3,16 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Styde\Enlighten\Status;
-use Styde\Enlighten\Statusable;
 
-/**
- * @property-read Example $method_name
- * @property-read Example $title
- * @property-read Example $description
- * @property-read Example $http_data
- * @property-read Example $test_status
- */
 class Example extends Model implements Statusable
 {
     protected $connection = 'enlighten';

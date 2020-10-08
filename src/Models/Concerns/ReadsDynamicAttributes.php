@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Models\Concerns;
 
 use Illuminate\Support\Str;
 

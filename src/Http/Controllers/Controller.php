@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Support\Str;
-use Styde\Enlighten\TestSuite;
+use Styde\Enlighten\Models\TestSuite;
 
 class Controller
 {

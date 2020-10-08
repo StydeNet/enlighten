@@ -3,8 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Styde\Enlighten\GetsStatsFromGroups;
-use Styde\Enlighten\Statable;
+use Styde\Enlighten\Models\Concerns\GetsStatsFromGroups;
 
 class Run extends Model implements Statable
 {

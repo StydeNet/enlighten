@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use Illuminate\Support\Collection;
 use Styde\Enlighten\Models\ExampleGroup;
-use Styde\Enlighten\Module;
-use Styde\Enlighten\ModuleCollection;
+use Styde\Enlighten\Models\Module;
+use Styde\Enlighten\Models\ModuleCollection;
 use Tests\TestCase;
 
 class ModuleCollectionTest extends TestCase

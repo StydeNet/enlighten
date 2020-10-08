@@ -5,7 +5,7 @@ namespace Styde\Enlighten\View\Components;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\TestSuite;
+use Styde\Enlighten\Models\TestSuite;
 
 class AppLayoutComponent extends Component
 {

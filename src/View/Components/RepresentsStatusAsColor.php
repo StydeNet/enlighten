@@ -3,7 +3,7 @@
 
 namespace Styde\Enlighten\View\Components;
 
-use Styde\Enlighten\Statusable;
+use Styde\Enlighten\Models\Statusable;
 
 trait RepresentsStatusAsColor
 {

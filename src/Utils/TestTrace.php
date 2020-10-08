@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Utils;
 
 use Illuminate\Support\Str;
 

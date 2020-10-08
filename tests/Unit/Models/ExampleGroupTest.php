@@ -4,7 +4,7 @@ namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\ExampleGroup;
-use Styde\Enlighten\TestSuite;
+use Styde\Enlighten\Models\TestSuite;
 use Tests\TestCase;
 
 class ExampleGroupTest extends TestCase

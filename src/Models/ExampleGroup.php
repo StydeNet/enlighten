@@ -6,10 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
-use Styde\Enlighten\Module;
-use Styde\Enlighten\Status;
-use Styde\Enlighten\Statusable;
-use Styde\Enlighten\TestSuite;
 
 class ExampleGroup extends Model implements Statusable
 {
@@ -57,7 +53,9 @@ class ExampleGroup extends Model implements Statusable
     // Accessors
     public function getPassingTestsCountAttribute()
     {
-        return data_get($this->stats->where('status', Status::SUCCESS), 'count', 0);
+        return $this->stats
+            ->filter(fn($stat) => $stat->getStatus() === Status::SUCCESS)
+            ->sum('count', 0);
     }
 
     public function getTestsCountAttribute()
@@ -77,7 +75,7 @@ class ExampleGroup extends Model implements Statusable
             return Status::SUCCESS;
         }
 
-        if ($this->stats->firstWhere('status', Status::FAILURE)) {
+        if ($this->stats->first(fn($stat) => $stat->getStatus() === Status::FAILURE)) {
             return Status::FAILURE;
         }
 

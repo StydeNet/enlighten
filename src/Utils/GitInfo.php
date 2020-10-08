@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Utils;
 
 // @TODO: Make facade
 class GitInfo

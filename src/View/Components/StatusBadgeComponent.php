@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Statusable;
+use Styde\Enlighten\Models\Statusable;
 
 class StatusBadgeComponent extends Component
 {

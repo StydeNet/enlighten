@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\GetsStatsFromGroups;
+use Styde\Enlighten\Models\Concerns\GetsStatsFromGroups;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 

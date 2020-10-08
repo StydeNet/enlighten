@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\ExampleGroup;
-use Styde\Enlighten\TestSuite;
+use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Models\TestSuite;
 use Tests\TestCase;
 
 class TestSuiteTest extends TestCase

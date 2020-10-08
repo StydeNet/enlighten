@@ -5,6 +5,8 @@ namespace Styde\Enlighten;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Utils\Annotations;
+use Styde\Enlighten\Utils\TestTrace;
 
 class TestInspector
 {

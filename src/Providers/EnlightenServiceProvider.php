@@ -5,8 +5,8 @@ namespace Styde\Enlighten\Providers;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
-use Styde\Enlighten\GitInfo;
-use Styde\Enlighten\Http\Middleware\HttpExampleGeneratorMiddleware;
+use Styde\Enlighten\Utils\GitInfo;
+use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExampleCreator;
 use Styde\Enlighten\RequestInspector;
 use Styde\Enlighten\ResponseInspector;
@@ -68,7 +68,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerMiddleware()
     {
-        $this->app[Kernel::class]->pushMiddleware(HttpExampleGeneratorMiddleware::class);
+        $this->app[Kernel::class]->pushMiddleware(HttpExampleCreatorMiddleware::class);
     }
 
     private function registerTestRun()

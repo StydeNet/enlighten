@@ -1,6 +1,8 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Models\Concerns;
+
+use Styde\Enlighten\Models\Status;
 
 trait GetsStatsFromGroups
 {

@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Styde\Enlighten\Models\Run;
+use Styde\Enlighten\Utils\GitInfo;
 
 class TestRun
 {

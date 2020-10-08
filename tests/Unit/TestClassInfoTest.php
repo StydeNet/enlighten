@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\GitInfo;
+use Styde\Enlighten\Utils\GitInfo;
 use Styde\Enlighten\TestClassInfo;
 use Styde\Enlighten\TestRun;
 use Tests\TestCase;

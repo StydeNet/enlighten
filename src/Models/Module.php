@@ -1,8 +1,10 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Models;
 
 use Illuminate\Support\Collection;
+use Styde\Enlighten\Models\Concerns\GetsStatsFromGroups;
+use Styde\Enlighten\Models\Concerns\ReadsDynamicAttributes;
 
 class Module implements Statusable, Statable
 {
