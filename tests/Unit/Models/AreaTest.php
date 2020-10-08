@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
-use Styde\Enlighten\Models\ExampleGroup;
-use Styde\Enlighten\Models\TestSuite;
+use Styde\Enlighten\Models\Area;
 use Tests\TestCase;
 
-class TestSuiteTest extends TestCase
+class AreaTest extends TestCase
 {
     /** @test */
-    function get_all_the_test_suites()
+    function guesses_all_the_areas_from_the_current_groups()
     {
         $run = $this->createRun();
 
@@ -36,14 +35,36 @@ class TestSuiteTest extends TestCase
             ],
         ];
 
-        $this->assertSame($expected, TestSuite::all()->values()->toArray());
+        $this->assertSame($expected, Area::all()->values()->toArray());
     }
 
     /** @test */
-    function get_test_suites_from_config()
+    function gets_all_the_areas_from_the_configuration()
     {
         $this->setConfig([
-            'enlighten.test-suites' => [
+            'enlighten.areas' => ['Feature', 'Unit'],
+        ]);
+
+        $expected = [
+            [
+                'key' => 'Feature',
+                'title' => 'Feature',
+                'slug' => 'feature',
+            ],
+            [
+                'key' => 'Unit',
+                'title' => 'Unit',
+                'slug' => 'unit',
+            ],
+        ];
+        $this->assertSame($expected, Area::all()->values()->toArray());
+    }
+
+    /** @test */
+    function gets_all_the_areas_from_the_configuration_as_an_associative_array()
+    {
+        $this->setConfig([
+            'enlighten.areas' => [
                 'Api' => 'API',
                 'Feature' => 'Features',
             ],
@@ -61,6 +82,6 @@ class TestSuiteTest extends TestCase
                 'slug' => 'feature',
             ],
         ];
-        $this->assertSame($expected, TestSuite::all()->values()->toArray());
+        $this->assertSame($expected, Area::all()->values()->toArray());
     }
 }

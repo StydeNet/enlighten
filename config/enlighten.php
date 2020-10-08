@@ -10,7 +10,7 @@ return [
         'ignore' => [],
     ],
 
-     'request' => [
+    'request' => [
         'headers' => [
             'ignore' => [],
             'overwrite' => [],
@@ -23,7 +23,7 @@ return [
             'ignore' => [],
             'overwrite' => [],
         ],
-     ],
+    ],
 
     'response' => [
         'status' => [
@@ -35,8 +35,11 @@ return [
         ]
     ],
 
-    // Configure the test suites that will be shown in the frontend.
-    // 'test-suites' => [...],
+    // - PRESENTATION OPTIONS:
+
+    // Configure all the areas that will be shown in the frontend.
+    // Each area represents a "test suite" in the tests/ folder.
+    // 'areas' => [...],
 
     'modules' => [
         [

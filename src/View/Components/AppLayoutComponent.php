@@ -5,7 +5,7 @@ namespace Styde\Enlighten\View\Components;
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\Models\TestSuite;
+use Styde\Enlighten\Models\Area;
 
 class AppLayoutComponent extends Component
 {
@@ -35,7 +35,7 @@ class AppLayoutComponent extends Component
 
     public function tabs()
     {
-        return TestSuite::all()->mapWithKeys(function ($value, $key) {
+        return Area::all()->mapWithKeys(function ($value, $key) {
             return [Str::slug($key) => $value];
         });
     }

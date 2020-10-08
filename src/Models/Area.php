@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class TestSuite implements Arrayable
+class Area implements Arrayable
 {
     public string $key;
     public string $title;
@@ -15,10 +15,14 @@ class TestSuite implements Arrayable
 
     public static function all(): Collection
     {
-        if (config()->has('enlighten.test-suites')) {
-            return collect(config('enlighten.test-suites'))
+        if (config()->has('enlighten.areas')) {
+            return collect(config('enlighten.areas'))
                 ->map(function ($title, $key) {
-                    return new static($key, $title);
+                    if (is_int($key)) {
+                        return new static($title);
+                    } else {
+                        return new static($key, $title);
+                    }
                 });
         }
 

@@ -16,7 +16,7 @@ class ExampleGroup extends Model implements Statusable
     protected $guarded = [];
 
     // Query methods
-    public  static function findByTestSuite(TestSuite $suite) : Collection
+    public  static function findByTestSuite(Area $suite) : Collection
     {
         if (empty($suite)) {
             return Collection::make();
@@ -45,7 +45,7 @@ class ExampleGroup extends Model implements Statusable
     }
 
     // Scopes
-    public function scopeBySuite($query, TestSuite $suite) : Builder
+    public function scopeBySuite($query, Area $suite) : Builder
     {
         return $query->where('class_name', 'like', "Tests%{$suite->key}%");
     }
