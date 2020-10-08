@@ -3,6 +3,9 @@
 return [
     'enabled' => true,
 
+    // Display/hide quick access links to open your IDE from the UI
+    'developer_mode' => true,
+
     'tests' => [
         // Add expressions to ignore test class names and test method names.
         // i.e. Tests\Unit\* will ignore all tests in the Tests\Unit\ suite,
