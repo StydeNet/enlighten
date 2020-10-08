@@ -2,20 +2,28 @@
 
 namespace Styde\Enlighten\Utils;
 
+use Closure;
 use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionMethod;
 
-class Annotations extends Collection
+class Annotations
 {
-    public static function fromClass($class)
+    protected static $casts = [];
+
+    public static function addCast(string $key, Closure $callback)
+    {
+        static::$casts[$key] = $callback;
+    }
+
+    public static function fromClass($class): Collection
     {
         $reflectionClass = new ReflectionClass($class);
 
         return static::fromDocComment($reflectionClass->getDocComment());
     }
 
-    public static function fromMethod($class, $method)
+    public static function fromMethod($class, $method): Collection
     {
         $reflectionMethod = new ReflectionMethod($class, $method);
 
@@ -26,10 +34,22 @@ class Annotations extends Collection
     {
         preg_match_all("#@(\w+)( (.*?))?\n#s", $docComment, $matches);
 
-        return static::make($matches[1])
+        return Collection::make($matches[1])
             ->combine($matches[3])
-            ->map(function ($annotation) {
-                return trim($annotation, '. ');
+            ->map(function ($value) {
+                return trim($value, '. ');
+            })
+            ->map(function ($value, $name) {
+                return static::applyCast($name, $value);
             });
+    }
+
+    private static function applyCast($name, $value)
+    {
+        if (empty (static::$casts[$name])) {
+            return $value;
+        }
+
+        return call_user_func(static::$casts[$name], $value);
     }
 }

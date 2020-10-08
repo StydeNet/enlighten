@@ -2,7 +2,6 @@
 
 namespace Styde\Enlighten;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\ExampleGroup;
 
@@ -10,15 +9,13 @@ class TestClassInfo
 {
     private TestRun $testRun;
     private string $className;
-    private array $options;
     private array $texts;
     protected ?ExampleGroup $exampleGroup = null;
 
-    public function __construct(TestRun $testRun, string $className, array $texts = [], array $options = [])
+    public function __construct(TestRun $testRun, string $className, array $texts = [])
     {
         $this->testRun = $testRun;
         $this->className = $className;
-        $this->options = $options;
         $this->texts = $texts;
     }
 
@@ -70,10 +67,5 @@ class TestClassInfo
         }
 
         return $result->replaceMatches('@([A-Z])@', ' $1')->trim();
-    }
-
-    public function getOptions(): array
-    {
-        return $this->options;
     }
 }

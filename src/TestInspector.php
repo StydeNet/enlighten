@@ -12,6 +12,7 @@ class TestInspector
 {
     private static ?TestClassInfo $currentTestClass = null;
     private static ?TestInfo $currentTestMethod = null;
+    protected array $classOptions = [];
 
     private TestRun $testRun;
 
@@ -51,9 +52,7 @@ class TestInspector
 
         $annotations = Annotations::fromMethod($className, $methodName);
 
-        $options = array_merge($testClassInfo->getOptions(), $this->getOptionsFrom($annotations));
-
-        if ($this->ignoreTest($className, $methodName, $options)) {
+        if ($this->ignoreTest($className, $methodName, $annotations->get('enlighten', []))) {
             return new IgnoredTest($className, $methodName);
         }
 
@@ -73,20 +72,9 @@ class TestInspector
     {
         $annotations = Annotations::fromClass($name);
 
-        return new TestClassInfo(
-            $this->testRun, $name, $this->getTextsFrom($annotations), $this->getOptionsFrom($annotations)
-        );
-    }
+        $this->classOptions = $annotations->get('enlighten', []);
 
-    protected function getOptionsFrom($annotations): array
-    {
-        if (! $annotations->has('enlighten')) {
-            return [];
-        }
-
-        $options = json_decode($annotations->get('enlighten'), JSON_OBJECT_AS_ARRAY);
-
-        return array_merge(['include' => true], $options ?: []);
+        return new TestClassInfo($this->testRun, $name, $this->getTextsFrom($annotations));
     }
 
     protected function getTextsFrom(Collection $annotations): array
@@ -99,6 +87,8 @@ class TestInspector
 
     private function ignoreTest(string $className, string $methodName, array $options): bool
     {
+        $options = array_merge($this->classOptions, $options);
+
         // If the test has been explicitly ignored via the
         // annotation options we need to ignore the test.
         if (Arr::get($options, 'ignore', false)) {

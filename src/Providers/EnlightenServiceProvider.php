@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Providers;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Utils\GitInfo;
 use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExampleCreator;
@@ -42,6 +43,12 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerViewComponents();
 
         $this->registerPublishing();
+
+        Annotations::addCast('enlighten', function ($value) {
+            $options = json_decode($value, JSON_OBJECT_AS_ARRAY);
+
+            return array_merge(['include' => true], $options ?: []);
+        });
     }
 
     protected function addDatabaseConnection(Config $config)

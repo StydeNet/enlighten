@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Support\Collection;
 use Styde\Enlighten\Utils\Annotations;
 use Tests\TestCase;
 
@@ -17,7 +18,7 @@ class AnnotationsTest extends TestCase
     {
         $annotations = Annotations::fromClass(AnnotationsTest::class);
 
-        $this->assertInstanceOf(Annotations::class, $annotations);
+        $this->assertInstanceOf(Collection::class, $annotations);
         $this->assertCount(3, $annotations);
         $this->assertSame('AnnotationsTest', $annotations->get('Class'));
         $this->assertSame('Annotations Test', $annotations->get('title'));
@@ -33,7 +34,7 @@ class AnnotationsTest extends TestCase
     {
         $annotations = Annotations::fromMethod(AnnotationsTest::class, 'gets_annotations_from_methods');
 
-        $this->assertInstanceOf(Annotations::class, $annotations);
+        $this->assertInstanceOf(Collection::class, $annotations);
         $this->assertCount(3, $annotations);
 
         $this->assertSame('', $annotations->get('test'));
