@@ -2,14 +2,15 @@
 
 A seamless package to document your Laravel APIs.
 
-There is no need to add endless docblocks to each API method, maintain dozens of readme files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
+There is no need to add endless docblocks to each API method, maintain dozens of read   me files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
 
-Enlighten your Laravel applications with beautiful documentation generated automatically from your test suites, by doing so, your documentation will always be updated with the current version of your app.
+Enlighten your Laravel applications with a beautiful documentation generated automatically from your test suites, by doing so, your documentation will always be updated with the current version of your app.
 
 If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
 
 ## Introducing Laravel Enlighten
-[DASHBOARD PREVIEW IMG]
+
+![Enlighten preview](./preview.png "Enlighten Dashboard preview")
 
 Just install and run your tests using `phpunit`, that's it! You'll find the entire API documentation in the following URL: `/enlighten/dashboard`
 
@@ -35,7 +36,7 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 [
     'providers' => [
         // ...
-        Styde\Enlighten\EnlightenServiceProvider::class,
+        Styde\Enlighten\Providers\EnlightenServiceProvider::class,
     ]
 ];
 ```
