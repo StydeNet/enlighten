@@ -6,7 +6,7 @@
         </tr>
     </thead>
     <tbody class="block py-4">
-        @foreach($example->http_data->request_input as $name => $value)
+        @foreach($input as $name => $value)
             <tr>
                 <td class="px-4 font-thin text-gray-200">{{ $name }}</td>
                 <td class="px-4 font-thin text-teal-300 break-all">{{ is_array($value) ? implode(': ', $value) :  $value }}</td>
