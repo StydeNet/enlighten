@@ -7,7 +7,7 @@
         @foreach($module->groups as $group)
             <li>
                 <a href="{{ route('enlighten.group.show', ['suite' => $suite->slug, 'run' => request()->route('run'), 'group' => $group]) }}"
-                   class="flex items-center py-2 px-4 text-gray-700 hover:text-teal-500 hover:bg-gray-100 transition-all ease-in-out duration-100">
+                   class="flex items-start py-2 px-4 text-gray-700 hover:text-teal-500 hover:bg-gray-100 transition-all ease-in-out duration-100">
                     <x-enlighten-status-badge size="6" :model="$group" /> {{ $group->title }}
                 </a>
             </li>
