@@ -21,7 +21,7 @@ After finishing the installation process, run your Laravel tests as usual.
 phpunit
 ```
 
-Now visit `/enlighten/dashboard` to navigate the documentation.
+Now visit `/enlighten/` to navigate the documentation.
 
 ## Installation
 Install using Composer
