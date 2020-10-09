@@ -12,7 +12,6 @@ class IncludeMethodWithAnnotationTest extends TestCase
     {
         parent::setUp();
 
-        // @TODO: make sure the configuration is reset after the test.
         $this->app->config->set([
             'enlighten.tests.ignore' => ['*']
         ]);

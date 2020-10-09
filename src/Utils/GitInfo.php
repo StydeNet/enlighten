@@ -2,7 +2,6 @@
 
 namespace Styde\Enlighten\Utils;
 
-// @TODO: Make facade
 class GitInfo
 {
     public function currentBranch()
