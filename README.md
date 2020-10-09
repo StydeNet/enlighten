@@ -27,7 +27,7 @@ Now visit `/enlighten/` to navigate the documentation.
 Install using Composer
 
 ```bash
-composer install styde/enlighten
+composer require styde/enlighten --dev
 ```
 
 If you are not using the Laravel package auto-discovery feature, please add the following service-provider to `config/app.php`
