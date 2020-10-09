@@ -37,24 +37,23 @@ class TestMethodInfo extends TestInfo
 
     public function save(): Example
     {
-        if ($this->example == null) {
-            $group = $this->classInfo->save();
+        if ($this->example != null) {
+            $this->example->update(['test_status' => $this->status]);
 
-            $this->example = Example::firstOrNew([
-                'group_id' => $group->id,
-                'method_name' => $this->methodName,
-            ], [
-                'line' => $this->getStartLine(),
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription(),
-            ]);
+            return $this->example;
         }
 
-        $this->example->fill([
-            'test_status' => $this->status,
-        ])->save();
+        $group = $this->classInfo->save();
 
-        return $this->example;
+        return $this->example = Example::updateOrCreate([
+            'group_id' => $group->id,
+            'method_name' => $this->methodName,
+        ], [
+            'line' => $this->getStartLine(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'test_status' => $this->status,
+        ]);
     }
 
     public function saveHttpExample(RequestInfo $request, ResponseInfo $response, array $session): Example

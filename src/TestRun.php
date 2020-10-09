@@ -18,15 +18,15 @@ class TestRun
 
     public function save(): Run
     {
-        if ($this->run == null) {
-            $this->run = Run::firstOrNew([
-                'branch' => $this->gitInfo->currentBranch(),
-                'head' => $this->gitInfo->head(),
-                'modified' => $this->gitInfo->modified(),
-            ]);
+        if ($this->run != null) {
+            return $this->run;
         }
 
-        $this->run->save();
+        $this->run = Run::firstOrCreate([
+            'branch' => $this->gitInfo->currentBranch(),
+            'head' => $this->gitInfo->head(),
+            'modified' => $this->gitInfo->modified(),
+        ]);
 
         return $this->run;
     }
