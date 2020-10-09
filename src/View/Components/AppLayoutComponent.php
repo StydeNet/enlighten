@@ -33,12 +33,7 @@ class AppLayoutComponent extends Component
     {
         return view('enlighten::components.app-layout');
     }
-
-    public function activeRun()
-    {
-        return $this->activeRun;
-    }
-
+    
     public function tabs()
     {
         return Area::all()->mapWithKeys(function ($value, $key) {
