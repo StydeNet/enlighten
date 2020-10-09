@@ -31,21 +31,19 @@ class TestClassInfo
 
     public function save(): ExampleGroup
     {
-        if ($this->exampleGroup == null) {
-            $run = $this->testRun->save();
-
-            $this->exampleGroup = ExampleGroup::firstOrNew([
-                'run_id' => $run->id,
-                'class_name' => $this->getClassName(),
-            ], [
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription(),
-            ]);
+        if ($this->exampleGroup != null) {
+            return $this->exampleGroup;
         }
 
-        $this->exampleGroup->save();
+        $run = $this->testRun->save();
 
-        return $this->exampleGroup;
+        return $this->exampleGroup = ExampleGroup::updateOrCreate([
+            'run_id' => $run->id,
+            'class_name' => $this->getClassName(),
+        ], [
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+        ]);
     }
 
     public function getTitle(): string
