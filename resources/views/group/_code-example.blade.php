@@ -19,9 +19,9 @@
     <div>
         <p class="text-gray-100 mb-4">{{ $codeExample->description }}</p>
         @if($codeExample->is_http)
-            <x-enlighten-request-info :example="$codeExample"></x-enlighten-request-info>
+            <x-enlighten-request-info :example="$codeExample" />
             <span class="mb-8 w-full block"></span>
-            <x-enlighten-response-info :example="$codeExample"></x-enlighten-response-info>
+            <x-enlighten-response-info :example="$codeExample" />
         @endif
     </div>
 

@@ -13,7 +13,20 @@ class AppLayoutComponent extends Component
 
     public function __construct()
     {
-        $this->activeRun = $this->activeRun();
+        $this->activeRun = $this->getRunFromRequest();
+    }
+
+    private function getRunFromRequest()
+    {
+        $run = request()->route('run');
+
+        if ($run instanceof Run) {
+            return $run;
+        } elseif (is_numeric($run)) {
+            return Run::find($run);
+        } else {
+            return Run::latest()->first();
+        }
     }
 
     public function render()
@@ -23,14 +36,7 @@ class AppLayoutComponent extends Component
 
     public function activeRun()
     {
-        $run = request()->route('run');
-        if ($run instanceof Run) {
-            return $run;
-        } elseif (is_numeric($run)) {
-            return Run::find($run);
-        } else {
-            return Run::latest()->first();
-        }
+        return $this->activeRun;
     }
 
     public function tabs()
@@ -42,6 +48,6 @@ class AppLayoutComponent extends Component
 
     public function runLabel()
     {
-        return $this->activeRun->branch . ' - ' . substr($this->activeRun->head, 0, 8);
+        return $this->activeRun->branch.'-'.substr($this->activeRun->head, 0, 8);
     }
 }
