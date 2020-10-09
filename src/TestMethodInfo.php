@@ -2,6 +2,7 @@
 
 namespace Styde\Enlighten;
 
+use ReflectionMethod;
 use Styde\Enlighten\Models\Example;
 
 class TestMethodInfo extends TestInfo
@@ -49,15 +50,16 @@ class TestMethodInfo extends TestInfo
             $this->example = Example::firstOrNew([
                 'group_id' => $group->id,
                 'method_name' => $this->methodName,
+            ], [
+                'line' => $this->getStartLine(),
+                'title' => $this->getTitle(),
+                'description' => $this->getDescription(),
             ]);
         }
 
-        $this->example->fill(array_filter([
-            'line' => $this->line,
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
+        $this->example->fill([
             'test_status' => $this->status,
-        ]))->save();
+        ])->save();
 
         return $this->example;
     }
@@ -101,5 +103,12 @@ class TestMethodInfo extends TestInfo
     private function getDescription(): ?string
     {
         return $this->texts['description'] ?? null;
+    }
+
+    private function getStartLine()
+    {
+        $reflection = new ReflectionMethod($this->className, $this->methodName);
+
+        return $reflection->getStartLine();
     }
 }

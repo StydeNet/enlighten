@@ -35,7 +35,8 @@ trait EnlightenSetup
 
     private function saveTestExample()
     {
-        $test = $this->app->make(TestInspector::class)->getInfo(get_class($this), $this->getName());
+        $test = $this->app->make(TestInspector::class)
+            ->getInfo(get_class($this), $this->getName());
 
         if ($test->isIgnored()) {
             return;

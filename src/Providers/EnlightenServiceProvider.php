@@ -82,7 +82,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerTestInspector()
     {
-        $this->app->singleton(TestInspector::class, function () {
+        $this->app->singleton(TestInspector::class, function ($app) {
             $annotations = new Annotations;
 
             $annotations->addCast('enlighten', function ($value) {
@@ -92,24 +92,22 @@ class EnlightenServiceProvider extends ServiceProvider
             });
 
             return new TestInspector(
-                $this->app[TestRun::class],
+                $app[TestRun::class],
                 new TestTrace,
                 $annotations,
-                $this->app['config']->get('enlighten.tests')
+                $app['config']->get('enlighten.tests')
             );
         });
     }
 
     private function registerHttpExampleGenerator()
     {
-        $this->app->singleton(HttpExampleCreator::class, function () {
-            $config = $this->app['config']->get('enlighten');
-
+        $this->app->singleton(HttpExampleCreator::class, function ($app) {
             return new HttpExampleCreator(
-                $this->app[TestInspector::class],
-                new RequestInspector(new RouteInspector, $config['request']),
-                new ResponseInspector($config['response']),
-                new SessionInspector($this->app['session.store']),
+                $app[TestInspector::class],
+                new RequestInspector(new RouteInspector),
+                new ResponseInspector,
+                new SessionInspector($app['session.store']),
             );
         });
     }

@@ -37,13 +37,13 @@ class TestClassInfo
             $this->exampleGroup = ExampleGroup::firstOrNew([
                 'run_id' => $run->id,
                 'class_name' => $this->getClassName(),
+            ], [
+                'title' => $this->getTitle(),
+                'description' => $this->getDescription(),
             ]);
         }
 
-        $this->exampleGroup->fill([
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
-        ])->save();
+        $this->exampleGroup->save();
 
         return $this->exampleGroup;
     }

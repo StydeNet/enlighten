@@ -32,13 +32,7 @@ class TestInspector
     {
         $trace = $this->testTrace->get();
 
-        $info = $this->getInfo($trace['class'], $trace['function']);
-
-        if ($info->isIgnored()) {
-            return $info;
-        }
-
-        return $info->addLine($trace['start_line']);
+        return $this->getInfo($trace['class'], $trace['function']);
     }
 
     public function getInfo($className, $methodName): TestInfo
