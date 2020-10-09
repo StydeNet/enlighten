@@ -35,13 +35,6 @@ class TestMethodInfo extends TestInfo
         return $this;
     }
 
-    public function addLine(int $line): self
-    {
-        $this->line = $line;
-
-        return $this;
-    }
-
     public function save(): Example
     {
         if ($this->example == null) {
