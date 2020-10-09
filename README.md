@@ -21,13 +21,13 @@ After finishing the installation process, run your Laravel tests as usual.
 phpunit
 ```
 
-Now visit `/enlighten/dashboard` to navigate the documentation.
+Now visit `/enlighten/` to navigate the documentation.
 
 ## Installation
 Install using Composer
 
 ```bash
-composer install styde/enlighten
+composer require styde/enlighten --dev
 ```
 
 If you are not using the Laravel package auto-discovery feature, please add the following service-provider to `config/app.php`
@@ -54,7 +54,7 @@ php artisan vendor:publish --tag=enlighten-config
 php artisan vendor:publish --tag=enlighten-views
 ```
 
-To get information about the status of the tests, run `enlightenSetUp` in the `setUp` method of your `TestCase`, for example:
+To get information about the status of the tests, import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
 
 ```
 <?php
@@ -102,7 +102,7 @@ Alternatively, add a new connection entry in `config/database.php` with the name
 After creating the new database, run the migrations using Artisan:
 
 ```bash
-php artisan migrage
+php artisan migrate
 ```
 
 > It's important to create a different connection for Enlighten to avoid having the info deleted or not persisted when
