@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class HttpData extends Model
 {
+    use ReplacesValues;
+
     protected $connection = 'enlighten';
 
     protected $table = 'enlighten_http_data';
@@ -29,6 +31,26 @@ class HttpData extends Model
         }
 
         return $this->request_path.'?'.http_build_query($this->request_query_parameters);
+    }
+
+    public function getRequestHeadersAttribute($value)
+    {
+        return $this->replaceValues($value, config('enlighten.request.headers'));
+    }
+
+    public function getRequestInputAttribute($value)
+    {
+        return $this->replaceValues($value, config('enlighten.request.input'));
+    }
+
+    public function getRequestQueryParametersAttribute($value)
+    {
+        return $this->replaceValues($value, config('enlighten.request.query'));
+    }
+
+    public function getResponseHeadersAttribute($value)
+    {
+        return $this->replaceValues($value, config('enlighten.response.headers'));
     }
 
     public function getHasRedirectionStatusAttribute()

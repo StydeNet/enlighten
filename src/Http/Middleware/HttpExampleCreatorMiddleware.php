@@ -11,15 +11,10 @@ class HttpExampleCreatorMiddleware
     {
         $response = $next($request);
 
-        if (app()->runningUnitTests() && $this->allowedStatus($response)) {
+        if (app()->runningUnitTests()) {
             app(HttpExampleCreator::class)->createHttpExample($request, $response);
         }
 
         return $response;
-    }
-
-    protected function allowedStatus($response): bool
-    {
-        return ! collect(config('enlighten.response.status.ignore'))->contains($response->status());
     }
 }
