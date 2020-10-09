@@ -15,6 +15,10 @@ class RunController extends Controller
             ->latest()
             ->get();
 
+        if ($runs->isEmpty()) {
+            return redirect(route('enlighten.intro'));
+        }
+
         return view('enlighten::dashboard.index', [
             'runs' => $runs
         ]);
@@ -23,10 +27,6 @@ class RunController extends Controller
     public function show(Request $request, ?Run $run = null)
     {
         $tabs = $this->getTabs();
-
-        if (empty($run) || $tabs->isEmpty()) {
-            return redirect(route('enlighten.intro'));
-        }
 
         if ($request->route('suite') === null) {
             $suite = $tabs->first();
