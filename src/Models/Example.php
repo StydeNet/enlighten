@@ -28,7 +28,7 @@ class Example extends Model implements Statusable
     {
 //        return $this->hasMany(HttpData::class)->withDefault();
 //        return $this->hasMany(HttpRequests::class)->withDefault();
-        return $this->hasOne(HttpData::class)->withDefault();
+        return $this->hasMany(HttpData::class);
     }
 
     public function exception()
@@ -50,7 +50,7 @@ class Example extends Model implements Statusable
 
     public function getIsHttpAttribute()
     {
-        return $this->http_data->exists;
+        return $this->http_data->isNotEmpty();
     }
 
     public function getStatus(): string

@@ -36,7 +36,9 @@ class FailedRequestTest extends TestCase
 
             $this->assertNotNull($example);
 
-            tap($example->http_data, function (?HttpData $httpData) {
+            tap($example->http_data->first(), function (?HttpData $httpData) {
+                $this->assertNotNull($httpData);
+
                 $this->assertSame('GET', $httpData->request_method);
                 $this->assertSame('server-error', $httpData->request_path);
 
@@ -63,7 +65,7 @@ class FailedRequestTest extends TestCase
 
         $this->assertNotNull($example);
 
-        tap($example->http_data, function (HttpData $httpData) {
+        tap($example->http_data->first(), function (HttpData $httpData) {
             $this->assertEquals(500, $httpData->response_status);
         });
 
@@ -96,7 +98,7 @@ class FailedRequestTest extends TestCase
 
             $this->assertNotNull($example);
 
-            tap($example->http_data, function (HttpData $httpData) {
+            tap($example->http_data->first(), function (?HttpData $httpData) {
                 $this->assertNull($httpData->response_status);
             });
 
