@@ -23,11 +23,15 @@
         <p class="text-gray-100 mb-4">{{ $example->description }}</p>
 
         @if($example->is_http)
-            <x-enlighten-request-info :example="$example" />
-            <span class="mb-8 w-full block"></span>
-            <x-enlighten-response-info :example="$example" />
+            @foreach($example->http_data as $http_data)
+                <x-enlighten-request-info :http-data="$http_data" />
+                <span class="mb-8 w-full block"></span>
+                <x-enlighten-response-info :http-data="$http_data" />
+            @endforeach
         @endif
     </div>
 
-    <x-enlighten-response-preview :code-example="$example"/>
+    @foreach($example->http_data as $http_data)
+        <x-enlighten-response-preview :http-data="$http_data"/>
+    @endforeach
 </div>
