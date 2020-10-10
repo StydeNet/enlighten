@@ -165,7 +165,7 @@ If you want to have more control on the titles of the classes and methods, or ad
  * @description Manage all the user-related petitions.
  **/
 class UsersTest extends TestCase {
-    
+
     /**
      *
      * @testdox Create Users
@@ -187,7 +187,7 @@ The content of this file will overwrite the default page provided by this packag
 ## Credits
 - [Duilio Palacios](https://twitter.com/sileence)
 - [Jeff Ochoa](https://twitter.com/jeffer_8a)
-- [All contributors](https://github.com/styde/enlighten/graphs/contributors)
+- [All contributors](https://github.com/StydeNet/enlighten/graphs/contributors)
 
 ## License
 The MIT License (MIT). Please see [License](https://github.com/styde/enlighten/blob/master/LICENSE.md) File for more information.
