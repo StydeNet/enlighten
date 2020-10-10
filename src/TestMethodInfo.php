@@ -2,7 +2,9 @@
 
 namespace Styde\Enlighten;
 
-use Exception;
+use Illuminate\Validation\ValidationException;
+use Styde\Enlighten\Models\Status;
+use Throwable;
 use ReflectionMethod;
 use Styde\Enlighten\Models\Example;
 
@@ -12,7 +14,7 @@ class TestMethodInfo extends TestInfo
     protected ?int $line;
     protected ?Example $example = null;
     private array $texts;
-    private string $status;
+    private ?Throwable $exception = null;
 
     public function __construct(TestClassInfo $classInfo, string $methodName, array $texts = [])
     {
@@ -29,17 +31,10 @@ class TestMethodInfo extends TestInfo
         return false;
     }
 
-    public function addStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function save()
     {
         if ($this->example != null) {
-            $this->example->update(['test_status' => $this->status]);
+            return;
         }
 
         $group = $this->classInfo->save();
@@ -53,6 +48,17 @@ class TestMethodInfo extends TestInfo
             'description' => $this->getDescription(),
             'test_status' => $this->status,
         ]);
+    }
+
+    public function saveTestStatus(string $testStatus)
+    {
+        $this->save();
+
+        $this->example->update(['test_status' => $testStatus]);
+
+        if ($this->example->getStatus() !== Status::SUCCESS) {
+            $this->saveExceptionData($this->exception);
+        }
     }
 
     public function createHttpExample(RequestInfo $request)
@@ -87,21 +93,37 @@ class TestMethodInfo extends TestInfo
         ])->save();
     }
 
-    public function saveExceptionData(?Exception $exception)
+    public function setException(?Throwable $exception)
     {
-        $this->save();
+        $this->exception = $exception;
+    }
 
+    private function saveExceptionData(?Throwable $exception)
+    {
         if (is_null($exception)) {
             return;
         }
 
         $this->example->exception->fill([
+            'class_name' => get_class($exception),
             'code' => $exception->getCode(),
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
             'trace' => $exception->getTrace(),
+            'extra' => $this->getExtraExceptionData($exception),
         ])->save();
+    }
+
+    private function getExtraExceptionData(?Throwable $exception): array
+    {
+        if ($exception instanceof ValidationException) {
+            return [
+                'errors' => $exception->errors(),
+            ];
+        }
+
+        return [];
     }
 
     private function getTitle(): string

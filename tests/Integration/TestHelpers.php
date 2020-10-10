@@ -27,8 +27,6 @@ trait TestHelpers
 
     protected function sendPostRequest()
     {
-        $this->withoutExceptionHandling();
-
         $response = $this->post('user', [
             'name' => 'Duilio',
             'email' => 'duilio@example.test',

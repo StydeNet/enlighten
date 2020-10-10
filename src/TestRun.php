@@ -11,23 +11,34 @@ class TestRun
 
     private ?Run $run = null;
 
+    static bool $hasBeenReset = false;
+
     public function __construct(GitInfo $gitInfo)
     {
         $this->gitInfo = $gitInfo;
-    }
 
-    public function save(): Run
-    {
-        if ($this->run != null) {
-            return $this->run;
-        }
-
-        $this->run = Run::firstOrCreate([
+        $this->run = Run::firstOrNew([
             'branch' => $this->gitInfo->currentBranch(),
             'head' => $this->gitInfo->head(),
             'modified' => $this->gitInfo->modified(),
         ]);
+    }
+
+    public function save(): Run
+    {
+        $this->run->save();
 
         return $this->run;
+    }
+
+    public function reset()
+    {
+        if (static::$hasBeenReset) {
+            return;
+        }
+
+        $this->run->delete();
+
+        static::$hasBeenReset = true;
     }
 }

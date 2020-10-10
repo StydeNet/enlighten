@@ -5,6 +5,8 @@ namespace Tests\Integration;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\HttpData;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Throwable;
 
 class FailedRequestTest extends TestCase
 {
@@ -29,7 +31,7 @@ class FailedRequestTest extends TestCase
 
         try {
             $this->get('/server-error');
-        } catch (\Throwable $throwable) {
+        } catch (Throwable $throwable) {
             $example = Example::first();
 
             $this->assertNotNull($example);
@@ -50,7 +52,7 @@ class FailedRequestTest extends TestCase
     }
 
     /** @test */
-    function saves_the_information_from_the_http_exceptions()
+    function saves_the_information_from_the_http_exceptions_with_exception_handling()
     {
         $this->get('/server-error')
             ->assertStatus(500);
@@ -65,6 +67,8 @@ class FailedRequestTest extends TestCase
 
         tap($example->exception, function ($exception) {
             $this->assertNotNull($exception);
+
+            $this->assertSame(HttpException::class, $exception->class_name);
             $this->assertSame(0, $exception->code);
             $this->assertSame('Server error', $exception->message);
             $this->assertIsArray($exception->trace);
@@ -74,5 +78,34 @@ class FailedRequestTest extends TestCase
 
             // $exception->trace ?
         });
+    }
+
+    /** @test */
+    function saves_the_information_from_the_http_exceptions_without_exception_handling()
+    {
+        $this->withoutExceptionHandling();
+
+        try {
+            $this->get('/server-error');
+        } catch (Throwable $exception) {
+            $this->saveTestExample();
+
+            $example = Example::first();
+
+            $this->assertNotNull($example);
+
+            tap($example->http_data, function (HttpData $httpData) {
+                $this->assertNull($httpData->response_status);
+            });
+
+            tap($example->exception, function ($exception) {
+                $this->assertNotNull($exception);
+                $this->assertSame('Server error', $exception->message);
+            });
+
+            return;
+        }
+
+        $this->fail("The HTTP request (/server-error) didn't fail as expected.");
     }
 }

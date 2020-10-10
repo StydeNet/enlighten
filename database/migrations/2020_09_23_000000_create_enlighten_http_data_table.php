@@ -23,7 +23,8 @@ class CreateEnlightenHttpDataTable extends Migration
             $table->foreignId('example_id')
                 ->unique()
                 ->references('id')
-                ->on('enlighten_examples');
+                ->on('enlighten_examples')
+                ->cascadeOnDelete();
 
             $table->json('request_headers');
             $table->string('request_method');

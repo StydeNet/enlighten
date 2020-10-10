@@ -54,7 +54,5 @@ class HttpExampleCreator
             $this->routeInspector->getInfoFrom($request->route()),
             $this->sessionInspector->getData()
         );
-
-        $testMethodInfo->saveExceptionData($response->exception);
     }
 }

@@ -23,13 +23,16 @@ class CreateEnlightenExceptionsTable extends Migration
             $table->foreignId('example_id')
                 ->unique()
                 ->references('id')
-                ->on('enlighten_examples');
+                ->on('enlighten_examples')
+                ->cascadeOnDelete();
 
             $table->string('code');
+            $table->string('class_name');
             $table->string('message');
             $table->string('file');
             $table->unsignedSmallInteger('line');
             $table->longText('trace');
+            $table->longText('extra');
 
             $table->timestamps();
         });

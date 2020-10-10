@@ -15,5 +15,6 @@ class ExampleException extends Model
     protected $casts = [
         'code' => 'int',
         'trace' => 'array',
+        'extra' => 'array',
     ];
 }
