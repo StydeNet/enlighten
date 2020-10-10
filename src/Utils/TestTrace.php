@@ -9,8 +9,8 @@ class TestTrace
     public function get(): array
     {
         return collect(debug_backtrace())->first(function ($trace) {
-            return Str::contains($trace['file'], '/phpunit/')
-                && Str::endsWith($trace['file'], '/Framework/TestCase.php');
+            return Str::contains($trace['file'], DIRECTORY_SEPARATOR.'phpunit'.DIRECTORY_SEPARATOR)
+                && Str::endsWith($trace['file'], DIRECTORY_SEPARATOR.'Framework'.DIRECTORY_SEPARATOR.'TestCase.php');
         });
     }
 }
