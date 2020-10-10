@@ -35,17 +35,15 @@ class TestMethodInfo extends TestInfo
         return $this;
     }
 
-    public function save(): Example
+    public function save()
     {
         if ($this->example != null) {
             $this->example->update(['test_status' => $this->status]);
-
-            return $this->example;
         }
 
         $group = $this->classInfo->save();
 
-        return $this->example = Example::updateOrCreate([
+        $this->example = Example::updateOrCreate([
             'group_id' => $group->id,
             'method_name' => $this->methodName,
         ], [
@@ -56,7 +54,7 @@ class TestMethodInfo extends TestInfo
         ]);
     }
 
-    public function saveHttpExample(RequestInfo $request, ResponseInfo $response, array $session): Example
+    public function createHttpExample(RequestInfo $request)
     {
         $this->save();
 
@@ -67,9 +65,17 @@ class TestMethodInfo extends TestInfo
             'request_path' => $request->getPath(),
             'request_query_parameters' => $request->getQueryParameters(),
             'request_input' => $request->getInput(),
+        ])->save();
+    }
+
+    public function saveResponseData(ResponseInfo $response, RouteInfo $routeInfo, array $session)
+    {
+        $this->save();
+
+        $this->example->http_data->fill([
             // Route
-            'route' => $request->routeInfo->getUri(),
-            'route_parameters' => $request->routeInfo->getParameters(),
+            'route' => $routeInfo->getUri(),
+            'route_parameters' => $routeInfo->getParameters(),
             // Response
             'response_status' => $response->getStatusCode(),
             'response_headers' => $response->getHeaders(),
@@ -78,8 +84,6 @@ class TestMethodInfo extends TestInfo
             // Session
             'session_data' => $session,
         ])->save();
-
-        return $this->example;
     }
 
     private function getTitle(): string

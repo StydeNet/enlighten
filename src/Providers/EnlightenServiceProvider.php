@@ -106,7 +106,8 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->app->singleton(HttpExampleCreator::class, function ($app) {
             return new HttpExampleCreator(
                 $app[TestInspector::class],
-                new RequestInspector(new RouteInspector),
+                new RequestInspector,
+                new RouteInspector,
                 new ResponseInspector,
                 new SessionInspector($app['session.store']),
             );

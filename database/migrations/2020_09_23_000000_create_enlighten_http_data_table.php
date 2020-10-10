@@ -30,11 +30,11 @@ class CreateEnlightenHttpDataTable extends Migration
             $table->string('request_path');
             $table->json('request_query_parameters');
             $table->json('request_input');
-            $table->string('route');
-            $table->json('route_parameters');
-            $table->char('response_status', 3);
-            $table->json('response_headers');
-            $table->text('response_body');
+            $table->string('route')->nullable();
+            $table->json('route_parameters')->nullable();
+            $table->char('response_status', 3)->nullable();
+            $table->json('response_headers')->nullable();
+            $table->longText('response_body')->nullable();
             $table->text('response_template')->nullable();
 
             $table->text('session_data')->nullable();

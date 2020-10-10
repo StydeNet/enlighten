@@ -9,16 +9,14 @@ class RequestInfo
     private array $headers;
     private array $queryParameters;
     private array $input;
-    public RouteInfo $routeInfo;
 
-    public function __construct(string $method, string $path, array $headers, array $queryParameters, array $input, RouteInfo $routeInfo)
+    public function __construct(string $method, string $path, array $headers, array $queryParameters, array $input)
     {
         $this->method = $method;
         $this->path = $path;
         $this->headers = $headers;
         $this->queryParameters = $queryParameters;
         $this->input = $input;
-        $this->routeInfo = $routeInfo;
     }
 
     public function getMethod(): string

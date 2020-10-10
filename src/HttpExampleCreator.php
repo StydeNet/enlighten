@@ -11,30 +11,43 @@ class HttpExampleCreator
     private RequestInspector $requestInspector;
     private ResponseInspector $responseInspector;
     private SessionInspector $sessionInspector;
+    private RouteInspector $routeInspector;
 
     public function __construct(
         TestInspector $testInspector,
         RequestInspector $requestInspector,
+        RouteInspector $routeInspector,
         ResponseInspector $responseInspector,
         SessionInspector $sessionInspector
     ) {
         $this->testInspector = $testInspector;
         $this->requestInspector = $requestInspector;
+        $this->routeInspector = $routeInspector;
         $this->responseInspector = $responseInspector;
         $this->sessionInspector = $sessionInspector;
     }
 
-    public function createHttpExample(Request $request, Response $response)
+    public function createHttpExample(Request $request): TestInfo
     {
         $testMethodInfo = $this->testInspector->getCurrentTestInfo();
 
         if ($testMethodInfo->isIgnored()) {
-            return;
+            return $testMethodInfo;
         }
 
-        $testMethodInfo->saveHttpExample(
-            $this->requestInspector->getDataFrom($request),
+        $testMethodInfo->createHttpExample(
+            $this->requestInspector->getDataFrom($request)
+        );
+
+        return $testMethodInfo;
+    }
+
+    // @TODO: rename method.
+    public function saveHttpResponseData(TestMethodInfo $testMethodInfo, Request $request, Response $response)
+    {
+        $testMethodInfo->saveResponseData(
             $this->responseInspector->getDataFrom($response),
+            $this->routeInspector->getInfoFrom($request->route()),
             $this->sessionInspector->getData()
         );
     }
