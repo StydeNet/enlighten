@@ -2,6 +2,7 @@
 
 namespace Styde\Enlighten;
 
+use Exception;
 use ReflectionMethod;
 use Styde\Enlighten\Models\Example;
 
@@ -83,6 +84,23 @@ class TestMethodInfo extends TestInfo
             'response_template' => $response->getTemplate(),
             // Session
             'session_data' => $session,
+        ])->save();
+    }
+
+    public function saveExceptionData(?Exception $exception)
+    {
+        $this->save();
+
+        if (is_null($exception)) {
+            return;
+        }
+
+        $this->example->exception->fill([
+            'code' => $exception->getCode(),
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'trace' => $exception->getTrace(),
         ])->save();
     }
 

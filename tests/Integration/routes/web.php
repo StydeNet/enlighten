@@ -11,5 +11,5 @@ Route::post('user', [UserController::class, 'store'])
     ->name('user.store');
 
 Route::get('server-error', function () {
-    abort(500);
+    abort(500, 'Server error');
 });

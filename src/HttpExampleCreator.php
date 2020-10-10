@@ -43,12 +43,18 @@ class HttpExampleCreator
     }
 
     // @TODO: rename method.
-    public function saveHttpResponseData(TestMethodInfo $testMethodInfo, Request $request, Response $response)
+    public function saveHttpResponseData(TestInfo $testMethodInfo, Request $request, Response $response)
     {
+        if ($testMethodInfo->isIgnored()) {
+            return;
+        }
+
         $testMethodInfo->saveResponseData(
             $this->responseInspector->getDataFrom($response),
             $this->routeInspector->getInfoFrom($request->route()),
             $this->sessionInspector->getData()
         );
+
+        $testMethodInfo->saveExceptionData($response->exception);
     }
 }

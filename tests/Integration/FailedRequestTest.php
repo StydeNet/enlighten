@@ -32,9 +32,7 @@ class FailedRequestTest extends TestCase
         } catch (\Throwable $throwable) {
             $example = Example::first();
 
-            tap($example, function (?Example $example) {
-                $this->assertNotNull($example);
-            });
+            $this->assertNotNull($example);
 
             tap($example->http_data, function (?HttpData $httpData) {
                 $this->assertSame('GET', $httpData->request_method);
@@ -49,5 +47,32 @@ class FailedRequestTest extends TestCase
         }
 
         $this->fail("The HTTP request (/server-error) didn't fail as expected.");
+    }
+
+    /** @test */
+    function saves_the_information_from_the_http_exceptions()
+    {
+        $this->get('/server-error')
+            ->assertStatus(500);
+
+        $example = Example::first();
+
+        $this->assertNotNull($example);
+
+        tap($example->http_data, function (HttpData $httpData) {
+            $this->assertEquals(500, $httpData->response_status);
+        });
+
+        tap($example->exception, function ($exception) {
+            $this->assertNotNull($exception);
+            $this->assertSame(0, $exception->code);
+            $this->assertSame('Server error', $exception->message);
+            $this->assertIsArray($exception->trace);
+
+            $this->assertStringEndsWith('src/Illuminate/Foundation/helpers.php', $exception->trace[0]['file']);
+            $this->assertSame('Illuminate\Foundation\Application', $exception->trace[0]['class']);
+
+            // $exception->trace ?
+        });
     }
 }
