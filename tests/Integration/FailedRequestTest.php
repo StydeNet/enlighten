@@ -57,6 +57,8 @@ class FailedRequestTest extends TestCase
         $this->get('/server-error')
             ->assertStatus(500);
 
+        $this->saveTestExample();
+
         $example = Example::first();
 
         $this->assertNotNull($example);
