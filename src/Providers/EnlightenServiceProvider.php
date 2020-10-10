@@ -88,7 +88,6 @@ class EnlightenServiceProvider extends ServiceProvider
 
             $annotations->addCast('enlighten', function ($value) {
                 $options = json_decode($value, JSON_OBJECT_AS_ARRAY);
-
                 return array_merge(['include' => true], $options ?: []);
             });
 

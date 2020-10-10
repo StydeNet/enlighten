@@ -11,7 +11,7 @@ class Annotations
 {
     protected static $casts = [];
 
-    public static function addCast(string $key, Closure $callback)
+    public function addCast(string $key, Closure $callback)
     {
         static::$casts[$key] = $callback;
     }
