@@ -35,7 +35,7 @@ class RunController extends Controller
         }
 
         if ($suite === null) {
-            return redirect(route('enlighten.dashboard'));
+            return redirect(route('enlighten.run.index'));
         }
 
         $groups = $run->groups()->with('stats')->bySuite($suite)->get();

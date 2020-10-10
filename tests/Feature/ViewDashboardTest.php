@@ -2,31 +2,30 @@
 
 namespace Tests\Feature;
 
-use Styde\Enlighten\Models\ExampleGroup;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ViewDashboardTest extends TestCase {
+class ViewDashboardTest extends TestCase
+{
+    use RefreshDatabase;
 
     /** @test */
     public function get_dashboard_view(): void
     {
-        $this->withoutExceptionHandling();
         $run = $this->createRun();
+
         $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User tests');
 
         $response = $this->get(route('enlighten.run.show', ['run' => $run]));
 
-        $response
-            ->assertOk()
+        $response->assertOk()
             ->assertViewIs('enlighten::suite.show');
     }
 
     /** @test */
     public function redirect_to_intro_page_if_no_data_has_been_recorded_yet(): void
     {
-        $this->withoutExceptionHandling();
-
-        $response = $this->get(route('enlighten.run.show'));
+        $response = $this->get(route('enlighten.run.index'));
 
         $response->assertRedirect(route('enlighten.intro'));
     }
