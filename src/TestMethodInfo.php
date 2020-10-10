@@ -129,14 +129,20 @@ class TestMethodInfo extends TestInfo
         return [];
     }
 
-    private function getTitle(): string
+    public function getTitle(): string
     {
         return $this->texts['title'] ?? $this->getDefaultTitle();
     }
 
     private function getDefaultTitle(): string
     {
-        return ucfirst(str_replace('_', ' ', $this->methodName));
+        $str = $this->methodName;
+
+        if (strpos($str, 'test_') === 0) {
+            $str = substr($str, 5);
+        }
+
+        return ucfirst(str_replace('_', ' ', $str));
     }
 
     private function getDescription(): ?string
