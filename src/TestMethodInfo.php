@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Validation\ValidationException;
+use Styde\Enlighten\Models\HttpData;
 use Styde\Enlighten\Models\Status;
 use Throwable;
 use ReflectionMethod;
@@ -15,6 +16,8 @@ class TestMethodInfo extends TestInfo
     protected ?Example $example = null;
     private array $texts;
     private ?Throwable $exception = null;
+
+    private HttpData $currentHttpData;
 
     public function __construct(TestClassInfo $classInfo, string $methodName, array $texts = [])
     {
@@ -65,21 +68,21 @@ class TestMethodInfo extends TestInfo
     {
         $this->save();
 
-        $this->example->http_data->fill([
-            // Request
+        $this->currentHttpData = $this->example->http_data()->create([
+            'example_id' => $this->example->id,
             'request_headers' => $request->getHeaders(),
             'request_method' => $request->getMethod(),
             'request_path' => $request->getPath(),
             'request_query_parameters' => $request->getQueryParameters(),
             'request_input' => $request->getInput(),
-        ])->save();
+        ]);
     }
 
     public function saveResponseData(ResponseInfo $response, RouteInfo $routeInfo, array $session)
     {
         $this->save();
 
-        $this->example->http_data->fill([
+        $this->currentHttpData->update([
             // Route
             'route' => $routeInfo->getUri(),
             'route_parameters' => $routeInfo->getParameters(),
@@ -90,7 +93,7 @@ class TestMethodInfo extends TestInfo
             'response_template' => $response->getTemplate(),
             // Session
             'session_data' => $session,
-        ])->save();
+        ]);
     }
 
     public function setException(?Throwable $exception)

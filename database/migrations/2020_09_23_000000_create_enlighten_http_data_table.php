@@ -21,7 +21,6 @@ class CreateEnlightenHttpDataTable extends Migration
             $table->id();
 
             $table->foreignId('example_id')
-                ->unique()
                 ->references('id')
                 ->on('enlighten_examples')
                 ->cascadeOnDelete();

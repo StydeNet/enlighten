@@ -4,6 +4,7 @@ namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Models\HttpData;
 
 class PostRequestTest extends TestCase
 {
@@ -29,22 +30,27 @@ class PostRequestTest extends TestCase
         ]);
 
         tap(Example::first(), function (Example $example) {
-            $this->assertSame('POST', $example->http_data->request_method);
-            $this->assertSame('user', $example->http_data->request_path);
-            $this->assertSame('user', $example->http_data->route);
 
-            $this->assertSame([
-                'name' => 'Duilio',
-                'email' => 'duilio@example.test',
-                'password' => 'my-password',
-            ], $example->http_data->request_input);
+            tap($example->http_data->first(), function (?HttpData $httpData) {
+                $this->assertNotNull($httpData);
 
-            $this->assertTrue($example->http_data->has_redirection_status);
+                $this->assertSame('POST', $httpData->request_method);
+                $this->assertSame('user', $httpData->request_path);
+                $this->assertSame('user', $httpData->route);
+
+                $this->assertSame([
+                    'name' => 'Duilio',
+                    'email' => 'duilio@example.test',
+                    'password' => 'my-password',
+                ], $httpData->request_input);
+
+                $this->assertTrue($httpData->has_redirection_status);
+            });
         });
     }
 
     /** @test */
-    function the_email_must_be_required()
+    function saves_validation_errors()
     {
         $response = $this->post('user', [
             'name' => 'Duilio',
@@ -55,14 +61,14 @@ class PostRequestTest extends TestCase
 
         $this->assertDatabaseMissing('users', []);
 
-        tap(Example::first(), function (Example $example) {
-            $this->assertTrue($example->http_data->has_redirection_status);
+        tap(Example::first()->http_data->first(), function (?HttpData $httpData) {
+            $this->assertTrue($httpData->has_redirection_status);
 
             $this->assertSame([
                 'default' => [
                     'email' => ['The email field is required.'],
                 ],
-            ], $example->http_data->validation_errors);
+            ], $httpData->validation_errors);
         });
     }
 }
