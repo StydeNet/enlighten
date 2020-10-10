@@ -4,7 +4,7 @@
     <x-enlighten-key-value :items="$routeInfo"></x-enlighten-key-value>
 
     @if($example->http_data->route_parameters)
-        <x-enlighten-parameters-table :parameters="$example->http_data->route_parameters"></x-enlighten-parameters-table>
+        <x-enlighten-route-parameters-table :parameters="$example->http_data->route_parameters"></x-enlighten-route-parameters-table>
     @endif
 
     @if($example->http_data->request_input)

@@ -17,6 +17,12 @@ use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
 use Styde\Enlighten\Utils\TestTrace;
 use Styde\Enlighten\View\Components\AppLayoutComponent;
+use Styde\Enlighten\View\Components\CodeExampleComponent;
+use Styde\Enlighten\View\Components\HtmlResponseComponent;
+use Styde\Enlighten\View\Components\JsonResponseComponent;
+use Styde\Enlighten\View\Components\KeyValueComponent;
+use Styde\Enlighten\View\Components\RequestInputTableComponent;
+use Styde\Enlighten\View\Components\RouteParametersTableComponent;
 use Styde\Enlighten\View\Components\RequestInfoComponent;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
 use Styde\Enlighten\View\Components\StatsBadgeComponent;
@@ -118,14 +124,23 @@ class EnlightenServiceProvider extends ServiceProvider
             'response-info' => ResponseInfoComponent::class,
             'request-info' => RequestInfoComponent::class,
             'stats-badge' => StatsBadgeComponent::class,
-            'html-response' => 'enlighten::components.html-response',
-            'json-response' => 'enlighten::components.json-response',
-            'key-value' => 'enlighten::components.key-value',
-            'info-panel' => 'enlighten::components.info-panel',
+            'html-response' => HtmlResponseComponent::class,
+            'key-value' => KeyValueComponent::class,
             'app-layout' => AppLayoutComponent::class,
+            'route-parameters-table' => RouteParametersTableComponent::class,
+            'request-input-table' => RequestInputTableComponent::class,
+
+            // group
+            'code-example' => CodeExampleComponent::class,
+            'content-table' => 'enlighten::group._content-table',
+            'response-preview' => 'enlighten::group._response-preview',
+
+            // layout components
+            'info-panel' => 'enlighten::components.info-panel',
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
-            'parameters-table' => 'enlighten::components.parameters-table',
-            'request-input-table' => 'enlighten::components.request-input-table',
+            'pre' => 'enlighten::components.pre',
+            'main-layout' => 'enlighten::layout.main',
+            'module-panel' => 'enlighten::dashboard._module-panel'
         ]);
     }
 
