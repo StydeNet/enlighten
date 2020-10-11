@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="robots" content="noindex,nofollow">
     <title>Laravel Enlighten</title>
-    <link rel="stylesheet" href="/vendor/enlighten/css/app.css">
+    <link rel="stylesheet" href="/vendor/enlighten/css/app.css?0.1.3">
 </head>
-<body class="bg-gray-900">
+<body class="bg-gray-900 h-screen overflow-hidden">
 
     <x-enlighten-app-layout>
         <x-slot name="title">{{ $title ?? 'Dashboard' }}</x-slot>
