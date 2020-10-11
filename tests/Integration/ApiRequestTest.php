@@ -7,6 +7,7 @@ use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Tests\Integration\App\Models\User;
+use Tests\Integration\Database\Factories\UserFactory;
 
 class ApiRequestTest extends TestCase
 {
@@ -21,12 +22,12 @@ class ApiRequestTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        User::factory()->create([
+        (new UserFactory)->create([
             'name' => 'Duilio Palacios',
             'email' => 'duilio@example.com',
         ]);
 
-        User::factory()->create([
+        (new UserFactory)->create([
             'name' => 'Jeffer Ochoa',
             'email' => 'jeff.ochoa@example.com',
         ]);
