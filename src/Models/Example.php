@@ -36,6 +36,11 @@ class Example extends Model implements Statusable
         return $this->hasOne(ExampleException::class)->withDefault();
     }
 
+    public function queries()
+    {
+        return $this->hasMany(ExampleQuery::class);
+    }
+
     // Accessors
 
     public function getFileLinkAttribute()

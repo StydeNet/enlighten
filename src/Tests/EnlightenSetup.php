@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\Tests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Foundation\Testing\Concerns\InteractsWithExceptionHandling;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
@@ -14,23 +14,67 @@ trait EnlightenSetup
 
     private ?ExceptionRecorder $exceptionRecorder = null;
 
+    private $captureQueries = true;
+
     public function setUpEnlighten()
     {
-        if (! $this->app->make('config')->get('enlighten.enabled')) {
-            return;
-        }
-
-        $this->beforeApplicationDestroyed(fn() => $this->saveTestExample());
-
-        $this->beforeApplicationDestroyed(fn() => $this->preserveTestRun());
-
         $this->afterApplicationCreated(function () {
+            if ($this->enlightenIsDisabled()) {
+                return;
+            }
+
             $this->restoreTestRun();
 
-            $this->app->make(TestRun::class)->reset();
+            $this->resetRunData();
+
+            $this->captureExceptions();
+
+            $this->captureQueries();
         });
 
-        $this->captureExceptions();
+        $this->beforeApplicationDestroyed(function () {
+            if ($this->enlightenIsDisabled()) {
+                return;
+            }
+
+            $this->stopCapturingQueries();
+
+            $this->saveTestExample();
+
+            $this->preserveTestRun();
+        });
+    }
+
+    private function captureQueries()
+    {
+        DB::listen(function ($query) {
+            if (! $this->captureQueries) {
+                return;
+            }
+
+            if ($query->connectionName == 'enlighten') {
+                return;
+            }
+
+            $test = $this->app->make(TestInspector::class)
+                ->getInfo(get_class($this), $this->getName());
+
+            if ($test->isIgnored()) {
+                return;
+            }
+
+            $test->saveQuery($query);
+        });
+    }
+
+    private function stopCapturingQueries()
+    {
+        $this->captureQueries = false;
+    }
+
+    private function enlightenIsDisabled()
+    {
+        return ! $this->app->make('config')->get('enlighten.enabled');
     }
 
     private function captureExceptions()
@@ -46,12 +90,6 @@ trait EnlightenSetup
         $this->app->instance(ExceptionHandler::class, $this->exceptionRecorder);
     }
 
-    /**
-     * Disable exception handling for the test.
-     *
-     * @param  array  $except
-     * @return $this
-     */
     protected function withoutExceptionHandling(array $except = [])
     {
         $this->captureExceptions();
@@ -85,6 +123,11 @@ trait EnlightenSetup
         if (static::$testRun) {
             $this->app->instance(TestRun::class, static::$testRun);
         }
+    }
+
+    private function resetRunData()
+    {
+        $this->app->make(TestRun::class)->reset();
     }
 
     protected function saveTestExample()

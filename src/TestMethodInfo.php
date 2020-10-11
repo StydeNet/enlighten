@@ -2,6 +2,7 @@
 
 namespace Styde\Enlighten;
 
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Validation\ValidationException;
 use Styde\Enlighten\Models\HttpData;
 use Styde\Enlighten\Models\Status;
@@ -127,6 +128,17 @@ class TestMethodInfo extends TestInfo
         }
 
         return [];
+    }
+
+    public function saveQuery(QueryExecuted $queryExecuted)
+    {
+        $this->save();
+
+        $this->example->queries()->create([
+            'sql' => $queryExecuted->sql,
+            'bindings' => $queryExecuted->bindings,
+            'time' => $queryExecuted->time,
+        ]);
     }
 
     public function getTitle(): string
