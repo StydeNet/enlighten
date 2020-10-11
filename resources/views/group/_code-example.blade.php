@@ -23,15 +23,13 @@
     @if($example->is_http)
         <div class="space-y-4 w-full">
             @foreach($example->http_data as $http_data)
-                <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full">
+                <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                     <div>
                         <x-enlighten-request-info :http-data="$http_data" />
                         <span class="mb-8 w-full block"></span>
                         <x-enlighten-response-info :http-data="$http_data" />
                     </div>
-                    <div>
-                        <x-enlighten-response-preview :http-data="$http_data"/>
-                    </div>
+                    <x-enlighten-response-preview :http-data="$http_data"/>
                 </div>
             @endforeach
         </div>

@@ -1,4 +1,4 @@
-<div>
+<div class="h-full">
     @if($httpData->response_type === 'JSON')
         <x-enlighten-pre
                 language="json"
