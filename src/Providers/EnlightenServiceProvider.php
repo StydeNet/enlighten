@@ -45,6 +45,7 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerMiddleware();
 
         $this->loadroutesFrom($this->componentPath('routes/web.php'));
+        $this->loadroutesFrom($this->componentPath('routes/api.php'));
 
         $this->loadViewsFrom($this->componentPath('resources/views'), 'enlighten');
 

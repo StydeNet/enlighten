@@ -1,8 +1,10 @@
+<span id="{{ $example->method_name }}"></span>
+
 <div class="flex items-center bg-gray-800 my-1 px-2 mb-4">
 
     <x-enlighten-status-badge size="8" :model="$example"/>
 
-    <h2 id="{{ $example->method_name }}" class="text-xl text-gray-100 semibold block w-full my-3 flex items-center">
+    <h2 class="text-xl text-gray-100 semibold block w-full my-3 flex items-center">
         @if($failed)
             {{ ucwords($example->test_status) . ':' }}
         @endif

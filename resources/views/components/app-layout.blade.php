@@ -92,7 +92,22 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
                 </svg>
             </button>
-            <div class="flex-1 px-4 flex justify-end bg-gray-800">
+            <div class="flex-1 px-4 flex justify-end items-center bg-gray-800">
+                @if($activeRun)
+                    <div class="relative flex-1" x-data="{open: true}">
+                        <input
+                                x-on:input.debounce="fetch(`{{ route('enlighten.api.search', ['run' => $activeRun]) }}?search=${$event.target.value}`)
+                                    .then(response => response.text())
+                                    .then(html => { $refs.dropdown.innerHTML = html; open = true })"
+                                class="bg-gray-900 w-full text-sm placeholder-gray-300 text-gray-300 rounded-md focus:outline-none focus:bg-gray-100 focus:text-gray-800 px-3 py-3"
+                                placeholder="Search"
+                                type="text"
+                                role="search"
+                                name="search"
+                                value="{{request()->query('q')}}">
+                        <div x-cloak x-ref="dropdown" x-show-="open" x-on:click.away="open = false"class="absolute block w-full my-1"></div>
+                    </div>
+                @endif
                 <div class="ml-4 flex items-center md:ml-6">
                     @if($activeRun)
                         <div class="text-gray-200 font-light px-4 flex justify-center">
