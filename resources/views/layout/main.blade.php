@@ -9,13 +9,14 @@
     <title>Laravel Enlighten</title>
     <link rel="stylesheet" href="/vendor/enlighten/css/app.css?0.1.3">
 </head>
-<body class="bg-gray-900 h-screen overflow-hidden">
+<body class="bg-gray-900 overflow-hidden flex absolute">
 
-    <x-enlighten-app-layout>
-        <x-slot name="title">{{ $title ?? 'Dashboard' }}</x-slot>
-        {{ $slot }}
-    </x-enlighten-app-layout>
-
+    <div class="w-screen h-screen block  overflow-hidden top-0 ">
+        <x-enlighten-app-layout>
+            <x-slot name="title">{{ $title ?? 'Dashboard' }}</x-slot>
+            {{ $slot }}
+        </x-enlighten-app-layout>
+    </div>
     <script src="/vendor/enlighten/js/build.js"></script>\
 
 </body>
