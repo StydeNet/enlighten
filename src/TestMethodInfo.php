@@ -18,7 +18,7 @@ class TestMethodInfo extends TestInfo
     private array $texts;
     private ?Throwable $exception = null;
 
-    private HttpData $currentHttpData;
+    private ?HttpData $currentHttpData = null;
 
     public function __construct(TestClassInfo $classInfo, string $methodName, array $texts = [])
     {
@@ -95,6 +95,8 @@ class TestMethodInfo extends TestInfo
             // Session
             'session_data' => $session,
         ]);
+
+        $this->currentHttpData = null;
     }
 
     public function setException(?Throwable $exception)
@@ -138,7 +140,7 @@ class TestMethodInfo extends TestInfo
             'sql' => $queryExecuted->sql,
             'bindings' => $queryExecuted->bindings,
             'time' => $queryExecuted->time,
-            'context' => $context,
+            'http_data_id' => optional($this->currentHttpData)->id,
         ]);
     }
 

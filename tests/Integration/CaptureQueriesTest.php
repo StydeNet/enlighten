@@ -41,14 +41,16 @@ class CaptureQueriesTest extends TestCase
             $this->assertSame('Duilio', $exampleQuery->bindings[0]);
             $this->assertSame('duilio@styde.net', $exampleQuery->bindings[1]);
             $this->assertSame('password', $exampleQuery->bindings[2]);
+            $this->assertNull($exampleQuery->http_data_id);
             $this->assertSame('test', $exampleQuery->context);
         });
 
-        tap($example->queries->shift(), function (ExampleQuery $exampleQuery) {
+        tap($example->queries->shift(), function (ExampleQuery $exampleQuery) use ($example) {
             $this->assertNotNull($exampleQuery);
 
             $this->assertSame('select * from "users" where "id" = ? limit 1', $exampleQuery->sql);
             $this->assertSame([0 => '1'], $exampleQuery->bindings);
+            $this->assertTrue($exampleQuery->http_data->is($example->http_data->first()));
             $this->assertSame('request', $exampleQuery->context);
         });
 
@@ -57,6 +59,7 @@ class CaptureQueriesTest extends TestCase
 
             $this->assertSame('select * from "users" limit 1', $exampleQuery->sql);
             $this->assertSame([], $exampleQuery->bindings);
+            $this->assertNull($exampleQuery->http_data_id);
             $this->assertSame('test', $exampleQuery->context);
         });
     }

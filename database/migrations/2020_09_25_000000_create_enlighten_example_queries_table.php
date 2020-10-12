@@ -31,7 +31,10 @@ class CreateEnlightenExampleQueriesTable extends Migration
 
             $table->string('time');
 
-            $table->string('context');
+            $table->foreignId('http_data_id')
+                ->nullable()
+                ->references('id')
+                ->on('enlighten_http_data');
 
             $table->timestamps();
         });

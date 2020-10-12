@@ -26,18 +26,11 @@ class HttpExampleCreatorMiddleware
         // we will at least have information about the request.
         app(HttpExampleCreator::class)->createHttpExample($request);
 
-        // Set the context of the Test Run to "request", so any info
-        // stored during the HTTP calls will be marked under that
-        // context, this will help developers debug the tests.
-        app(TestRun::class)->setContext('request');
-
         return $next($request);
     }
 
     public function terminate($request, $response)
     {
-        app(TestRun::class)->setContext('test');
-
         app(HttpExampleCreator::class)->saveHttpResponseData($request, $response);
     }
 }

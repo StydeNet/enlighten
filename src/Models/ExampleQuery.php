@@ -15,4 +15,16 @@ class ExampleQuery extends Model
     protected $casts = [
         'bindings' => 'array',
     ];
+
+    public function http_data()
+    {
+        return $this->belongsTo(HttpData::class);
+    }
+
+    // Accessors
+
+    public function getContextAttribute($value)
+    {
+        return is_null($this->http_data_id) ? 'test' : 'request';
+    }
 }
