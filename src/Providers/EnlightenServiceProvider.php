@@ -39,19 +39,16 @@ class EnlightenServiceProvider extends ServiceProvider
         }
 
         $this->addDatabaseConnection($this->app['config']);
-
-        $this->loadMigrationsFrom($this->componentPath('database/migrations'));
-
-        $this->registerMiddleware();
-
         $this->loadroutesFrom($this->componentPath('routes/web.php'));
         $this->loadroutesFrom($this->componentPath('routes/api.php'));
-
         $this->loadViewsFrom($this->componentPath('resources/views'), 'enlighten');
-
         $this->registerViewComponents();
 
-        $this->registerPublishing();
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom($this->componentPath('database/migrations'));
+            $this->registerMiddleware();
+            $this->registerPublishing();
+        }
     }
 
     protected function addDatabaseConnection(Config $config)
