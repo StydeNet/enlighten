@@ -7,11 +7,13 @@ use Styde\Enlighten\Utils\GitInfo;
 
 class TestRun
 {
+    private static bool $hasBeenReset = false;
+
     private GitInfo $gitInfo;
 
     private ?Run $run = null;
 
-    static bool $hasBeenReset = false;
+    private string $context = 'test';
 
     public function __construct(GitInfo $gitInfo)
     {
@@ -22,6 +24,18 @@ class TestRun
             'head' => $this->gitInfo->head(),
             'modified' => $this->gitInfo->modified(),
         ]);
+    }
+
+    public function getContext(): string
+    {
+        return $this->context;
+    }
+
+    public function setContext(string $context): self
+    {
+        $this->context = $context;
+
+        return $this;
     }
 
     public function save(): Run

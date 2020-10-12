@@ -130,7 +130,7 @@ class TestMethodInfo extends TestInfo
         return [];
     }
 
-    public function saveQuery(QueryExecuted $queryExecuted)
+    public function saveQuery(QueryExecuted $queryExecuted, string $context)
     {
         $this->save();
 
@@ -138,6 +138,7 @@ class TestMethodInfo extends TestInfo
             'sql' => $queryExecuted->sql,
             'bindings' => $queryExecuted->bindings,
             'time' => $queryExecuted->time,
+            'context' => $context,
         ]);
     }
 

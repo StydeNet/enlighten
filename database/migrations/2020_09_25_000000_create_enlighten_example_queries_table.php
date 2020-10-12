@@ -31,6 +31,8 @@ class CreateEnlightenExampleQueriesTable extends Migration
 
             $table->string('time');
 
+            $table->string('context');
+
             $table->timestamps();
         });
     }

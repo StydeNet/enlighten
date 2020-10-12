@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Http\Middleware;
 use Closure;
 use Illuminate\Http\Response;
 use Styde\Enlighten\HttpExampleCreator;
+use Styde\Enlighten\TestRun;
 use Throwable;
 
 class HttpExampleCreatorMiddleware
@@ -12,23 +13,31 @@ class HttpExampleCreatorMiddleware
     public function handle($request, Closure $next)
     {
         if (app()->runningUnitTests()) {
-            return $this->recordExample(app(HttpExampleCreator::class), $next, $request);
+            return $this->recordRequestData($next, $request);
         }
 
         return $next($request);
     }
 
-    private function recordExample(HttpExampleCreator $httpExampleCreator, Closure $next, $request)
+    private function recordRequestData(Closure $next, $request)
     {
         // Create the example and persist the request data before
-        // running the actual request, so if the request fails
-        // we'll at least have information about the request.
-        $testMethodInfo = $httpExampleCreator->createHttpExample($request);
+        // running the actual request, so if the HTTP call fails
+        // we will at least have information about the request.
+        app(HttpExampleCreator::class)->createHttpExample($request);
 
-        $response = $next($request);
+        // Set the context of the Test Run to "request", so any info
+        // stored during the HTTP calls will be marked under that
+        // context, this will help developers debug the tests.
+        app(TestRun::class)->setContext('request');
 
-        $httpExampleCreator->saveHttpResponseData($testMethodInfo, $request, $response);
+        return $next($request);
+    }
 
-        return $response;
+    public function terminate($request, $response)
+    {
+        app(TestRun::class)->setContext('test');
+
+        app(HttpExampleCreator::class)->saveHttpResponseData($request, $response);
     }
 }

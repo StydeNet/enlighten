@@ -8,6 +8,11 @@ use Tests\Integration\App\Models\User;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+
+    }
+
     public function show(User $user)
     {
         return view('user.show', ['user' => $user]);

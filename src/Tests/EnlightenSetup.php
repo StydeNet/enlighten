@@ -63,7 +63,7 @@ trait EnlightenSetup
                 return;
             }
 
-            $test->saveQuery($query);
+            $test->saveQuery($query, $this->app->make(TestRun::class)->getContext());
         });
     }
 

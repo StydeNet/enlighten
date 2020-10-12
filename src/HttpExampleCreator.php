@@ -42,9 +42,10 @@ class HttpExampleCreator
         return $testMethodInfo;
     }
 
-    // @TODO: rename method.
-    public function saveHttpResponseData(TestInfo $testMethodInfo, Request $request, Response $response)
+    public function saveHttpResponseData(Request $request, Response $response)
     {
+        $testMethodInfo = $this->testInspector->getCurrentTestInfo();
+
         if ($testMethodInfo->isIgnored()) {
             return;
         }
