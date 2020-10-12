@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
+use Styde\Enlighten\Models\Status;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
 
@@ -140,6 +141,10 @@ trait EnlightenSetup
         }
 
         $test->saveTestStatus($this->getStatusAsText());
+
+        if ($this->getStatus() !== TestRunner::STATUS_PASSED) {
+            TestRun::saveFailedTestLink($test);
+        }
     }
 
     private function getStatusAsText()

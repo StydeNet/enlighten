@@ -32,7 +32,7 @@ class ApiRequestTest extends TestCase
             'email' => 'jeff.ochoa@example.com',
         ]);
 
-        $this->get('api/users')
+        $this->get('api/user')
             ->assertOk()
             ->assertSimilarJson([
                 'data' => [

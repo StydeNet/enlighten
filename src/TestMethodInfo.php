@@ -30,6 +30,24 @@ class TestMethodInfo extends TestInfo
         $this->line = null;
     }
 
+    public function getSignature()
+    {
+        return $this->classInfo->getClassName().'::'.$this->methodName;
+    }
+
+    public function getLink()
+    {
+        if ($this->example->group == null) {
+            return null;
+        }
+
+        return route('enlighten.group.show', [
+            'run' => $this->example->group->run_id,
+            'suite' => $this->example->group->suite ?: 'feature', //@TODO: fix this link
+            'group' => $this->example->group->id,
+        ]).'#'.$this->example->method_name;
+    }
+
     public function isIgnored(): bool
     {
         return false;

@@ -3,7 +3,8 @@
          bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true"
          convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false"
          stopOnError="false" stopOnFailure="false" verbose="true"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         printerClass="Styde\Enlighten\Tests\ResultPrinter">
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./src</directory>

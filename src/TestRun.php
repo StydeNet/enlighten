@@ -15,6 +15,18 @@ class TestRun
 
     private string $context = 'test';
 
+    private static $failedTestLinks = [];
+
+    public static function saveFailedTestLink(TestMethodInfo $testMethodInfo)
+    {
+        static::$failedTestLinks[$testMethodInfo->getSignature()] = $testMethodInfo->getLink();
+    }
+
+    public static function getFailedTestLink(string $signature): string
+    {
+        return static::$failedTestLinks[$signature];
+    }
+
     public function __construct(GitInfo $gitInfo)
     {
         $this->gitInfo = $gitInfo;

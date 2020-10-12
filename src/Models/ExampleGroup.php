@@ -51,6 +51,11 @@ class ExampleGroup extends Model implements Statusable
     }
 
     // Accessors
+    public function getSuiteAttribute()
+    {
+        return Str::slug(explode('\\', $this->class_name)[1]);
+    }
+
     public function getPassingTestsCountAttribute()
     {
         return $this->stats
