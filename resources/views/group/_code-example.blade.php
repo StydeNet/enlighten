@@ -30,6 +30,14 @@
                         <x-enlighten-request-info :http-data="$http_data" />
                         <span class="mb-8 w-full block"></span>
                         <x-enlighten-response-info :http-data="$http_data" />
+                        <span class="mb-8 w-full block"></span>
+                        <x-enlighten-info-panel>
+                            <x-slot name="title">Database Queries</x-slot>
+                            @foreach($example->queries as $query)
+                                <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
+                                <x-enlighten-key-value :items="$query->bindings"></x-enlighten-key-value>
+                            @endforeach
+                        </x-enlighten-info-panel>
                     </div>
                     <x-enlighten-response-preview :http-data="$http_data"/>
                 </div>
