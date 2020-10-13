@@ -6,15 +6,15 @@ use PHPUnit\Framework\TestFailure;
 use PHPUnit\TextUI\DefaultResultPrinter;
 use Styde\Enlighten\TestRun;
 
-class ResultPrinter extends DefaultResultPrinter
+class BasicResultPrinter extends DefaultResultPrinter
 {
     protected function printDefectTrace(TestFailure $defect): void
     {
         parent::printDefectTrace($defect);
 
         if ($link = TestRun::getFailedTestLink($defect->getTestName())) {
-            $this->write("\n⚡See in Enlighten: ");
-            $this->writeWithColor('fg-yellow, bold', "{$link}\n");
+            $this->writeWithColor('fg-white, bg-black, bold', "\n 💡️ See in Enlighten:", false);
+            $this->writeWithColor('fg-yellow, bg-black', " {$link} \n");
         }
     }
 }
