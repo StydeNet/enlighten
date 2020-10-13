@@ -18,6 +18,9 @@ use Styde\Enlighten\TestRun;
 use Styde\Enlighten\Utils\TestTrace;
 use Styde\Enlighten\View\Components\AppLayoutComponent;
 use Styde\Enlighten\View\Components\CodeExampleComponent;
+use Styde\Enlighten\View\Components\DynamicTabsComponent;
+use Styde\Enlighten\View\Components\EditButtonComponent;
+use Styde\Enlighten\View\Components\ExceptionInfoComponent;
 use Styde\Enlighten\View\Components\HtmlResponseComponent;
 use Styde\Enlighten\View\Components\JsonResponseComponent;
 use Styde\Enlighten\View\Components\KeyValueComponent;
@@ -127,6 +130,9 @@ class EnlightenServiceProvider extends ServiceProvider
             'app-layout' => AppLayoutComponent::class,
             'route-parameters-table' => RouteParametersTableComponent::class,
             'request-input-table' => RequestInputTableComponent::class,
+            'dynamic-tabs' => DynamicTabsComponent::class,
+            'exception-info' => ExceptionInfoComponent::class,
+            'edit-button' => EditButtonComponent::class,
 
             // group
             'code-example' => CodeExampleComponent::class,
@@ -139,7 +145,9 @@ class EnlightenServiceProvider extends ServiceProvider
             'pre' => 'enlighten::components.pre',
             'main-layout' => 'enlighten::layout.main',
             'module-panel' => 'enlighten::dashboard._module-panel',
-            'queries-info' => 'enlighten::components.queries-info'
+            'queries-info' => 'enlighten::components.queries-info',
+            'iframe' => 'enlighten::components.iframe',
+
         ]);
     }
 

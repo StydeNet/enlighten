@@ -11,33 +11,45 @@
 
         {{ $example->title }}
 
-        @if($developer_mode)
-            <a href="{{ $example->file_link }}" class="hidden md:block rounded-full text-teal-700 hover:text-teal-500 transition-al ease-in-out duration-200 p-1 mx-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-            </a>
-        @endif
+        <x-enlighten-edit-button :file="$example->file_link"/>
     </h2>
 
 </div>
 
-<div class="w-full mb-12">
+<div class="w-full mb-12" x-data="{active: 'requests'}">
     <p class="text-gray-100 mb-4">{{ $example->description }}</p>
-    @if($example->is_http)
-        <div class="space-y-4 w-full">
-            @foreach($example->http_data as $http_data)
-                <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
-                    <div>
-                        <x-enlighten-request-info :http-data="$http_data" />
-                        <span class="mb-8 w-full block"></span>
+    <x-enlighten-dynamic-tabs :tabs="['Requests', 'SQL', 'Exceptions', 'Jobs']">
+        <x-slot name="requests">
+            @if($example->is_http)
+                @foreach($example->http_data as $http_data)
+                    <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
+                        <div>
+                            <x-enlighten-request-info :http-data="$http_data" />
+                            <span class="mb-8 w-full block"></span>
 
-                        <x-enlighten-response-info :http-data="$http_data" />
-                        <span class="mb-8 w-full block"></span>
-
-                        <x-enlighten-queries-info :example="$example" />
+                            <x-enlighten-response-info :http-data="$http_data" />
+                            <span class="mb-8 w-full block"></span>
+                        </div>
+                        <div>
+                            @if($example->exception)
+                                <x-enlighten-iframe srcdoc="{{ $http_data->response_preview }}"/>
+                            @else
+                                <x-enlighten-response-preview :http-data="$http_data"/>
+                            @endif
+                        </div>
                     </div>
-                    <x-enlighten-response-preview :http-data="$http_data"/>
-                </div>
-            @endforeach
-        </div>
-    @endif
+                @endforeach
+            @endif
+        </x-slot>
+        @if($example->queries->isNotEmpty())
+            <x-slot name="sql">
+                <x-enlighten-queries-info :example="$example" />
+            </x-slot>
+        @endif
+        @if($example->exception)
+            <x-slot name="exceptions">
+                <x-enlighten-exception-info :exception="$example->exception"/>
+            </x-slot>
+        @endif
+    </x-enlighten-dynamic-tabs>
 </div>

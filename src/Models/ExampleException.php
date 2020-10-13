@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\Utils\FileLink;
 
 class ExampleException extends Model
 {
@@ -17,4 +18,13 @@ class ExampleException extends Model
         'trace' => 'array',
         'extra' => 'array',
     ];
+
+    public function getFileLinkAttribute()
+    {
+        if (empty($this->file)) {
+            return '';
+        }
+
+        return FileLink::get($this->file);
+    }
 }
