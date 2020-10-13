@@ -5,7 +5,7 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
-use Styde\Enlighten\Models\Status;
+use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
 
@@ -19,6 +19,10 @@ trait EnlightenSetup
 
     public function setUpEnlighten()
     {
+        if (! $this instanceof \Illuminate\Foundation\Testing\TestCase) {
+            throw new LaravelNotPresent;
+        }
+
         $this->afterApplicationCreated(function () {
             if ($this->enlightenIsDisabled()) {
                 return;
