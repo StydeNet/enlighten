@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Providers;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Utils\GitInfo;
 use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
@@ -59,11 +60,26 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $connection = $config->get('database.connections.'.$config->get('database.default'));
 
-        if ($connection['driver'] !== 'sqlite') {
-            $connection['database'] = $connection['database'].'_enlighten';
+        $config->set('database.connections.enlighten', array_merge($connection, [
+            'database' => $this->guessDatabaseName($connection),
+        ]));
+    }
+
+    public function guessDatabaseName(array $connection)
+    {
+        if ($connection['driver'] === 'sqlite') {
+            return $connection['database'];
         }
 
-        $config->set('database.connections.enlighten', $connection);
+        $result = $connection['database'];
+
+        if (Str::endsWith($result, '_tests')) {
+            $result = Str::substr($result, 0, -6);
+        } elseif (Str::endsWith($result, '_test')) {
+            $result = Str::substr($result, 0, -5);
+        }
+
+        return "{$result}_enlighten";
     }
 
     public function register()
