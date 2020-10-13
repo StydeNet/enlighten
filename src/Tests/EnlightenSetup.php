@@ -19,7 +19,7 @@ trait EnlightenSetup
 
     public function setUpEnlighten()
     {
-        if (! $this instanceof \Illuminate\Foundation\Testing\TestCase) {
+        if (is_null($this->app)) {
             throw new LaravelNotPresent;
         }
 
