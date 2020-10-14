@@ -2,13 +2,11 @@
 
 namespace Tests\Unit\Models;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\TextUI\TestRunner;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
-use Styde\Enlighten\Status;
+use Tests\TestCase;
 
-class ExampleTest extends \Orchestra\Testbench\TestCase
+class ExampleTest extends TestCase
 {
     /** @test */
     function gets_the_path_to_the_file()
@@ -45,5 +43,22 @@ class ExampleTest extends \Orchestra\Testbench\TestCase
             ['error', 'failure'],
             ['failure', 'failure'],
         ];
+    }
+
+    /** @test */
+    function get_the_example_url()
+    {
+        $exampleGroup = new ExampleGroup([
+            'id' => 1,
+            'run_id' => 1,
+            'class_name' => 'Tests\Feature\ApiRequestTest',
+        ]);
+
+        $example = new Example([
+            'group' => $exampleGroup,
+            'method_name' => 'test_list_users'
+        ]);
+
+        $this->assertSame('http://localhost/enlighten/run/1/feature/1#test_list_users', $example->url);
     }
 }

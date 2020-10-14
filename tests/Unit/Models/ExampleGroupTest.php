@@ -58,4 +58,24 @@ class ExampleGroupTest extends TestCase
         $this->assertSame(6, $group->tests_count);
         $this->assertSame('failure', $group->status);
     }
+
+    /** @test */
+    function get_the_example_group_url()
+    {
+        $exampleGroup = new ExampleGroup([
+            'id' => 1,
+            'run_id' => 1,
+            'class_name' => 'Tests\Feature\ApiRequestTest',
+        ]);
+
+        $this->assertSame('http://localhost/enlighten/run/1/feature/1', $exampleGroup->url);
+
+        $exampleGroup = new ExampleGroup([
+            'id' => 3,
+            'run_id' => 2,
+            'class_name' => 'Tests\Unit\UserTest',
+        ]);
+
+        $this->assertSame('http://localhost/enlighten/run/2/unit/3', $exampleGroup->url);
+    }
 }

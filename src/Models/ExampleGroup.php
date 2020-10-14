@@ -28,7 +28,8 @@ class ExampleGroup extends Model implements Statusable
     // Relationships
     public function examples()
     {
-        return $this->hasMany(Example::class, 'group_id')->orderBy('id');
+        return $this->hasMany(Example::class, 'group_id')
+            ->orderBy('id');
     }
 
     public function stats()
@@ -47,7 +48,7 @@ class ExampleGroup extends Model implements Statusable
     // Scopes
     public function scopeBySuite($query, Area $suite) : Builder
     {
-        return $query->where('class_name', 'like', "Tests%{$suite->key}%");
+        return $query->where('class_name', 'like', "Tests\\{$suite->key}\\%");
     }
 
     // Accessors
