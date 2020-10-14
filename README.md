@@ -24,7 +24,8 @@ phpunit
 Now visit `/enlighten/` to navigate the documentation.
 
 ## Installation
-Install using Composer
+
+1. Require the package with Composer:
 
 ```bash
 composer require styde/enlighten --dev
@@ -41,7 +42,7 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 ];
 ```
 
-Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
+2. Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
 
 ```bash
 php artisan vendor:publish --tag=enlighten-build
@@ -54,7 +55,7 @@ php artisan vendor:publish --tag=enlighten-config
 php artisan vendor:publish --tag=enlighten-views
 ```
 
-To get information about the status of the tests, import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
+3. Import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
 
 ```
 <?php
