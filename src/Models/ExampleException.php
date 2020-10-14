@@ -27,4 +27,9 @@ class ExampleException extends Model
 
         return FileLink::get($this->file);
     }
+
+    public function getValidationErrorsAttribute()
+    {
+        return $this->extra['errors'] ?? [];
+    }
 }
