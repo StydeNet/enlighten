@@ -48,7 +48,7 @@ class ExampleGroup extends Model implements Statusable
     // Scopes
     public function scopeBySuite($query, Area $suite) : Builder
     {
-        return $query->where('class_name', 'like', "Tests\\{$suite->key}\\%");
+        return $query->where('class_name', 'like', "Tests%{$suite->key}%");
     }
 
     // Accessors
