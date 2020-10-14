@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\Models\Example;
-use Tests\TestCase;
 
 class ViewDashboardTest extends TestCase
 {

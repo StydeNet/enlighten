@@ -11,14 +11,16 @@ class IgnoreMethodsTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
+        $this->afterApplicationCreated(function () {
+            $this->app->config->set([
+                'enlighten.tests.ignore' => [
+                    'does_not_export_test_methods_ignored_in_the_configuration',
+                    '*use_wildcards_to_ignore*',
+                ],
+            ]);
+        });
 
-        $this->app->config->set([
-            'enlighten.tests.ignore' => [
-                'does_not_export_test_methods_ignored_in_the_configuration',
-                '*use_wildcards_to_ignore*',
-            ],
-        ]);
+        parent::setUp();
     }
 
     /** @test */

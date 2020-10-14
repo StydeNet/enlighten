@@ -115,10 +115,7 @@ class EnlightenServiceProvider extends ServiceProvider
                 return array_merge(['include' => true], $options ?: []);
             });
 
-            return new TestInspector(
-                $app[TestRun::class], new TestTrace, $annotations,
-                $app['config']->get('enlighten.tests')
-            );
+            return new TestInspector($app[TestRun::class], $annotations, $app['config']->get('enlighten.tests'));
         });
     }
 

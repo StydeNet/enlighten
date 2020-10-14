@@ -72,7 +72,7 @@ trait TestHelpers
 
     protected function createHttpData(Example $example)
     {
-        $example->http_data->fill($this->getHttpDataAttributes())->save();
+        $example->http_data()->create($this->getHttpDataAttributes());
 
         return $example->http_data;
     }

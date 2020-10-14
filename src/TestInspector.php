@@ -6,42 +6,33 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Utils\Annotations;
-use Styde\Enlighten\Utils\TestTrace;
 
 class TestInspector
 {
     private static ?TestExampleGroup $currentTestClass = null;
-    private static ?TestInfo $currentTestMethod = null;
+    private ?TestInfo $currentTestExample = null;
     protected array $classOptions = [];
 
     private TestRun $testRun;
-    private TestTrace $testTrace;
     private Annotations $annotations;
 
     protected array $ignore;
 
-    public function __construct(TestRun $testRun, TestTrace $testTrace, Annotations $annotations, array $config)
+    public function __construct(TestRun $testRun, Annotations $annotations, array $config)
     {
         $this->testRun = $testRun;
-        $this->testTrace = $testTrace;
         $this->annotations = $annotations;
         $this->ignore = $config['ignore'];
     }
 
-    public function getCurrentTestInfo(): TestInfo
+    public function createTestExample($className, $methodName): TestInfo
     {
-        $trace = $this->testTrace->get();
-
-        return $this->getTestExample($trace['class'], $trace['function']);
+        return $this->currentTestExample = $this->makeTestExample($className, $methodName);
     }
 
-    public function getTestExample($className, $methodName): TestInfo
+    public function getCurrentTestExample()
     {
-        if (optional(static::$currentTestMethod)->is($className, $methodName)) {
-            return static::$currentTestMethod;
-        }
-
-        return static::$currentTestMethod = $this->makeTestExample($className, $methodName);
+        return $this->currentTestExample;
     }
 
     protected function makeTestExample(string $className, string $methodName): TestInfo

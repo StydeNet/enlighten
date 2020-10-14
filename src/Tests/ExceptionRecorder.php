@@ -11,15 +11,13 @@ use Throwable;
 
 class ExceptionRecorder implements ExceptionHandler
 {
-    private TestCase $testCase;
     private ExceptionHandler $originalHandler;
 
     private $forwardToOriginalHandler = true;
     private array $except = [];
 
-    public function __construct(TestCase $testCase, ExceptionHandler $originalHandler)
+    public function __construct(ExceptionHandler $originalHandler)
     {
-        $this->testCase = $testCase;
         $this->originalHandler = $originalHandler;
     }
 
@@ -46,9 +44,7 @@ class ExceptionRecorder implements ExceptionHandler
 
     private function captureException(Throwable $e): void
     {
-        $testMethodInfo = app(TestInspector::class)->getTestExample(
-            get_class($this->testCase), $this->testCase->getName()
-        );
+        $testMethodInfo = app(TestInspector::class)->getCurrentTestExample();
 
         // We will save the exception in memory without persiting it to the DB
         // until we get the final result from test. So, we will only persist

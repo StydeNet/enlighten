@@ -29,28 +29,28 @@ class HttpExampleCreator
 
     public function createHttpExample(Request $request): TestInfo
     {
-        $testMethodInfo = $this->testInspector->getCurrentTestInfo();
+        $testExample = $this->testInspector->getCurrentTestExample();
 
-        if ($testMethodInfo->isIgnored()) {
-            return $testMethodInfo;
+        if ($testExample->isIgnored()) {
+            return $testExample;
         }
 
-        $testMethodInfo->createHttpExample(
+        $testExample->createHttpExample(
             $this->requestInspector->getDataFrom($request)
         );
 
-        return $testMethodInfo;
+        return $testExample;
     }
 
     public function saveHttpResponseData(Request $request, Response $response)
     {
-        $testMethodInfo = $this->testInspector->getCurrentTestInfo();
+        $testExample = $this->testInspector->getCurrentTestExample();
 
-        if ($testMethodInfo->isIgnored()) {
+        if ($testExample->isIgnored()) {
             return;
         }
 
-        $testMethodInfo->saveResponseData(
+        $testExample->saveResponseData(
             $this->responseInspector->getDataFrom($response),
             $this->routeInspector->getInfoFrom($request->route()),
             $this->sessionInspector->getData()

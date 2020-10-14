@@ -30,6 +30,8 @@ trait EnlightenSetup
 
             $this->resetRunData();
 
+            $this->createTestExample();
+
             $this->captureExceptions();
 
             $this->captureQueries();
@@ -46,6 +48,21 @@ trait EnlightenSetup
         });
     }
 
+    private function enlightenIsDisabled()
+    {
+        return ! $this->app->make('config')->get('enlighten.enabled');
+    }
+
+    private function resetRunData()
+    {
+        TestRun::getInstance()->reset();
+    }
+
+    private function createTestExample()
+    {
+        $this->app->make(TestInspector::class)->createTestExample(get_class($this), $this->getName());
+    }
+
     private function captureQueries()
     {
         DB::listen(function ($query) {
@@ -57,20 +74,15 @@ trait EnlightenSetup
                 return;
             }
 
-            $test = $this->app->make(TestInspector::class)->getTestExample(get_class($this), $this->getName());
-
-            $test->saveQuery($query, $this->app->make(TestRun::class)->getContext());
+            $this->app->make(TestInspector::class)
+                ->getCurrentTestExample()
+                ->saveQuery($query);
         });
     }
 
     private function stopCapturingQueries()
     {
         $this->captureQueries = false;
-    }
-
-    private function enlightenIsDisabled()
-    {
-        return ! $this->app->make('config')->get('enlighten.enabled');
     }
 
     private function captureExceptions()
@@ -82,7 +94,7 @@ trait EnlightenSetup
 
         $originalExceptionHandler = $this->app->make(ExceptionHandler::class);
 
-        $this->exceptionRecorder = new ExceptionRecorder($this, $originalExceptionHandler);
+        $this->exceptionRecorder = new ExceptionRecorder($originalExceptionHandler);
 
         $this->app->instance(ExceptionHandler::class, $this->exceptionRecorder);
     }
@@ -110,14 +122,9 @@ trait EnlightenSetup
         return $this;
     }
 
-    private function resetRunData()
-    {
-        $this->app->make(TestRun::class)->reset();
-    }
-
     protected function saveTestExample()
     {
-        $test = $this->app->make(TestInspector::class)->getTestExample(get_class($this), $this->getName());
+        $test = $this->app->make(TestInspector::class)->getCurrentTestExample();
 
         $test->saveTestStatus($this->getStatusAsText());
 

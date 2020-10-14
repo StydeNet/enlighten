@@ -7,6 +7,13 @@ use Styde\Enlighten\HttpExampleCreator;
 
 class HttpExampleCreatorMiddleware
 {
+    private HttpExampleCreator $httpExampleCreator;
+
+    public function __construct(HttpExampleCreator $httpExampleCreator)
+    {
+        $this->httpExampleCreator = $httpExampleCreator;
+    }
+
     public function handle($request, Closure $next)
     {
         if (app()->runningUnitTests()) {
@@ -21,13 +28,13 @@ class HttpExampleCreatorMiddleware
         // Create the example and persist the request data before
         // running the actual request, so if the HTTP call fails
         // we will at least have information about the request.
-        app(HttpExampleCreator::class)->createHttpExample($request);
+        $this->httpExampleCreator->createHttpExample($request);
 
         return $next($request);
     }
 
     public function terminate($request, $response)
     {
-        app(HttpExampleCreator::class)->saveHttpResponseData($request, $response);
+        $this->httpExampleCreator->saveHttpResponseData($request, $response);
     }
 }

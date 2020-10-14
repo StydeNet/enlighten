@@ -3,9 +3,8 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-class ViewExampleGroup extends TestCase
+class ViewExampleGroupTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -29,7 +28,6 @@ class ViewExampleGroup extends TestCase
             ->assertSeeText('User module API')
             // Example
             ->assertSeeText('register new users in the system.')
-            ->assertSeeText($this->redirectResponseBody())
             // headers
             ->assertSeeText('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
             ->assertSeeText('ISO-8859-1,utf-8;q=0.7,*;q=0.7')
