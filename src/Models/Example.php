@@ -26,8 +26,6 @@ class Example extends Model implements Statusable
 
     public function http_data()
     {
-//        return $this->hasMany(HttpData::class)->withDefault();
-//        return $this->hasMany(HttpRequests::class)->withDefault();
         return $this->hasMany(HttpData::class);
     }
 
