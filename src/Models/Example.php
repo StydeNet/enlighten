@@ -70,4 +70,9 @@ class Example extends Model implements Statusable
 
         return Status::WARNING;
     }
+
+    public function getUrlAttribute()
+    {
+        return $this->group->url.'#'.$this->method_name;
+    }
 }

@@ -86,4 +86,13 @@ class ExampleGroup extends Model implements Statusable
 
         return Status::WARNING;
     }
+
+    public function getUrlAttribute()
+    {
+        return route('enlighten.group.show', [
+            'run' => $this->group->run_id,
+            'suite' => $this->group->suite,
+            'group' => $this->group->id,
+        ]);
+    }
 }

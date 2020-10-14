@@ -17,7 +17,6 @@ class TestExample extends TestInfo
     protected ?Example $example = null;
     private array $texts;
     private ?Throwable $exception = null;
-
     private ?HttpData $currentHttpData = null;
 
     public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
@@ -41,11 +40,7 @@ class TestExample extends TestInfo
             return null;
         }
 
-        return route('enlighten.group.show', [
-            'run' => $this->example->group->run_id,
-            'suite' => $this->example->group->suite ?: 'feature', //@TODO: fix this link
-            'group' => $this->example->group->id,
-        ]).'#'.$this->example->method_name;
+        return $this->example->url;
     }
 
     public function isIgnored(): bool

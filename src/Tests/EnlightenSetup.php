@@ -15,7 +15,7 @@ trait EnlightenSetup
 
     private ?ExceptionRecorder $exceptionRecorder = null;
 
-    private $captureQueries = true;
+    private bool $captureQueries = true;
 
     public function setUpEnlighten()
     {
