@@ -18,7 +18,7 @@
 
 <div class="w-full mb-12" x-data="{active: 'requests'}">
     <p class="text-gray-100 mb-4">{{ $example->description }}</p>
-    <x-enlighten-dynamic-tabs :tabs="['Requests', 'SQL', 'Exceptions', 'Jobs']">
+    <x-enlighten-dynamic-tabs :tabs="['Requests', 'SQL', 'Exception']">
         <x-slot name="requests">
             @if($example->is_http)
                 @foreach($example->http_data as $http_data)
@@ -47,7 +47,7 @@
             </x-slot>
         @endif
         @if($example->exception)
-            <x-slot name="exceptions">
+            <x-slot name="exception">
                 <x-enlighten-exception-info :exception="$example->exception"/>
             </x-slot>
         @endif

@@ -23,16 +23,24 @@ class ExceptionInfoComponent extends Component
             return collect();
         }
 
-        return collect($this->exception->trace)->filter(function ($trace) {
-            return !@Str::contains($trace['file'], DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR);
-        })->map(function ($data) {
-            return [
-                'file' => $data['file'] ?? '',
-                'line' => $data['line'] ?? '',
-                'function' => $data['function'],
-                'args' => json_encode($data['args'])
-            ];
-        });
+        return collect($this->exception->trace)
+            ->map(function ($data) {
+                return [
+                    'file' => $data['file'] ?? '',
+                    'line' => $data['line'] ?? '',
+                    'function' => $this->getFunctionSignature($data),
+                    'args' => $data['args']
+                ];
+            });
+    }
+
+    private function getFunctionSignature(array $data): string
+    {
+        if (empty($data['class'])) {
+            return $data['function'];
+        }
+
+        return $data['class'].$data['type'].$data['function'];
     }
 
     public function render()
