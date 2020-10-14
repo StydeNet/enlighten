@@ -99,8 +99,18 @@ trait EnlightenSetup
         $this->app->instance(ExceptionHandler::class, $this->exceptionRecorder);
     }
 
+    /**
+     * Only handle the given exceptions via the exception handler.
+     *
+     * @param  array  $except
+     * @return $this
+     */
     protected function withoutExceptionHandling(array $except = [])
     {
+        if ($this->enlightenIsDisabled()) {
+            return parent::withoutExceptionHandling($except);
+        }
+
         $this->captureExceptions();
 
         $this->exceptionRecorder->forceThrow($except);
@@ -115,6 +125,10 @@ trait EnlightenSetup
      */
     protected function withExceptionHandling()
     {
+        if ($this->enlightenIsDisabled()) {
+            return parent::withExceptionHandling();
+        }
+
         $this->captureExceptions();
 
         $this->exceptionRecorder->forwardToOriginal();
@@ -125,7 +139,7 @@ trait EnlightenSetup
     protected function saveTestExample()
     {
         $test = $this->app->make(TestInspector::class)->getCurrentTestExample();
-        
+
         $test->saveTestStatus($this->getStatusAsText());
 
         if ($this->getStatus() !== TestRunner::STATUS_PASSED) {
