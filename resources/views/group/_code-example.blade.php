@@ -29,6 +29,13 @@
 
                             <x-enlighten-response-info :http-data="$http_data" />
                             <span class="mb-8 w-full block"></span>
+
+                            @if($http_data->session_data)
+                                <x-enlighten-info-panel>
+                                    <x-slot name="title">Session data</x-slot>
+                                    <x-enlighten-pre language="json" :code="json_encode($http_data->session_data, JSON_PRETTY_PRINT)"/>
+                                </x-enlighten-info-panel>
+                            @endif
                         </div>
                         <div>
                             @if($example->exception)
