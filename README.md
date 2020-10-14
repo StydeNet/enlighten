@@ -118,6 +118,14 @@ php artisan migrate
 > It's important to create a different connection for Enlighten to avoid having the info deleted or not persisted when
 > using any of the database migration traits included by Laravel or if you run the tests using SQLite.
 
+## "See in Enlighten" link
+
+Add the `printerClass` attribute with the value `Styde\Enlighten\Tests\BasicResultPrinter` to the `phpunit` tag in `phpunit.xml` like in the example below. Don't delete the other attributes!
+
+```
+<phpunit [...] printerClass="Styde\Enlighten\Tests\BasicResultPrinter">
+```
+
 ## Optional configuration
 To "group" your tests-classes as "modules", you can use a regular expression to find all the classes that match with the given pattern or patterns:
 
