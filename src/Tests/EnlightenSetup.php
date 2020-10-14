@@ -19,7 +19,7 @@ trait EnlightenSetup
 
     public function setUpEnlighten()
     {
-        if (is_null($this->app)) {
+        if (empty($this->app)) {
             throw new LaravelNotPresent;
         }
 
