@@ -147,13 +147,11 @@ class EnlightenServiceProvider extends ServiceProvider
             'dynamic-tabs' => DynamicTabsComponent::class,
             'exception-info' => ExceptionInfoComponent::class,
             'edit-button' => EditButtonComponent::class,
-
-            // group
+            // Group
             'code-example' => CodeExampleComponent::class,
             'content-table' => 'enlighten::group._content-table',
             'response-preview' => 'enlighten::group._response-preview',
-
-            // layout components
+            // Layout components
             'info-panel' => 'enlighten::components.info-panel',
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
             'pre' => 'enlighten::components.pre',
