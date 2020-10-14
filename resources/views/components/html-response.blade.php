@@ -1,3 +1,4 @@
+
 <x-enlighten-dynamic-tabs :tabs="['preview', 'html', 'blade']">
     <x-slot name="preview">
         <x-enlighten-iframe srcdoc="{{ $httpData->response_preview }}"/>

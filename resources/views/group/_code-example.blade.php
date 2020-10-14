@@ -38,7 +38,7 @@
                             @endif
                         </div>
                         <div>
-                            @if($example->exception)
+                            @if($example->exception->exists)
                                 <x-enlighten-iframe srcdoc="{{ $http_data->response_preview }}"/>
                             @else
                                 <x-enlighten-response-preview :http-data="$http_data"/>
