@@ -90,9 +90,9 @@ class ExampleGroup extends Model implements Statusable
     public function getUrlAttribute()
     {
         return route('enlighten.group.show', [
-            'run' => $this->group->run_id,
-            'suite' => $this->group->suite,
-            'group' => $this->group->id,
+            'run' => $this->run_id,
+            'suite' => $this->suite,
+            'group' => $this->id,
         ]);
     }
 }

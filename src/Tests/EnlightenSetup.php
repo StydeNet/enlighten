@@ -129,7 +129,7 @@ trait EnlightenSetup
         $test->saveTestStatus($this->getStatusAsText());
 
         if ($this->getStatus() !== TestRunner::STATUS_PASSED) {
-            TestRun::saveFailedTestLink($test);
+            TestRun::getInstance()->saveFailedTestLink($test);
         }
     }
 

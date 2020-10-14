@@ -12,7 +12,7 @@ class BasicResultPrinter extends DefaultResultPrinter
     {
         parent::printDefectTrace($defect);
 
-        if ($link = TestRun::getFailedTestLink($defect->getTestName())) {
+        if ($link = TestRun::getInstance()->getFailedTestLink($defect->getTestName())) {
             $this->writeWithColor('fg-white, bg-black, bold', "\n 💡️ See in Enlighten:", false);
             $this->writeWithColor('fg-yellow, bg-black', " {$link} \n");
         }
