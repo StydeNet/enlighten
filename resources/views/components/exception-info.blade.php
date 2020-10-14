@@ -5,8 +5,13 @@
             <x-enlighten-edit-button :file="$exception->file_link"/>
         </span>
     </x-slot>
+
+    @if($exception->extra)
+        <x-enlighten-pre language="json" :code="json_encode($exception->extra['errors'], JSON_PRETTY_PRINT)"/>
+        <span class="border-b border-gray-900 block w-full"></span>
+    @endif
+
     @foreach($trace as $data)
-{{--        <x-enlighten-key-value :items="$data"/>--}}
         <div>
             @if(!empty($title))
                 <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
