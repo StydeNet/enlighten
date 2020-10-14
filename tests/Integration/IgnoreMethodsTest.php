@@ -3,6 +3,7 @@
 namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\Models\Example;
 
 class IgnoreMethodsTest extends TestCase
 {
@@ -39,5 +40,22 @@ class IgnoreMethodsTest extends TestCase
     function does_not_export_test_methods_with_the_enlighten_ignore_annotation()
     {
         $this->assertExampleIsNotCreated();
+    }
+
+    /**
+     * @test
+     * @enlighten {"ignore": true}
+     */
+    function can_ignore_test_methods_that_throw_an_http_exception()
+    {
+        $response = $this->post('not-found', [
+            'name' => 'Duilio',
+            'email' => 'duilio@example.test',
+            'password' => 'my-password',
+        ]);
+
+        $response->assertNotFound();
+
+        $this->assertSame(0, Example::count(), 'An unexpected example was created.');
     }
 }

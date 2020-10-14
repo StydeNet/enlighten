@@ -57,11 +57,7 @@ trait EnlightenSetup
                 return;
             }
 
-            $test = $this->app->make(TestInspector::class)->getInfo(get_class($this), $this->getName());
-
-            if ($test->isIgnored()) {
-                return;
-            }
+            $test = $this->app->make(TestInspector::class)->getTestExample(get_class($this), $this->getName());
 
             $test->saveQuery($query, $this->app->make(TestRun::class)->getContext());
         });
@@ -79,6 +75,7 @@ trait EnlightenSetup
 
     private function captureExceptions()
     {
+        // This setup only needs to run once.
         if ($this->exceptionRecorder) {
             return;
         }
@@ -120,12 +117,7 @@ trait EnlightenSetup
 
     protected function saveTestExample()
     {
-        $test = $this->app->make(TestInspector::class)
-            ->getInfo(get_class($this), $this->getName());
-
-        if ($test->isIgnored()) {
-            return;
-        }
+        $test = $this->app->make(TestInspector::class)->getTestExample(get_class($this), $this->getName());
 
         $test->saveTestStatus($this->getStatusAsText());
 

@@ -46,13 +46,9 @@ class ExceptionRecorder implements ExceptionHandler
 
     private function captureException(Throwable $e): void
     {
-        $testMethodInfo = app(TestInspector::class)->getInfo(
+        $testMethodInfo = app(TestInspector::class)->getTestExample(
             get_class($this->testCase), $this->testCase->getName()
         );
-
-        if ($testMethodInfo->isIgnored()) {
-            return;
-        }
 
         // We will save the exception in memory without persiting it to the DB
         // until we get the final result from test. So, we will only persist

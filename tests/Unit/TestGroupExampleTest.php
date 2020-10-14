@@ -2,26 +2,24 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Utils\GitInfo;
-use Styde\Enlighten\TestClassInfo;
-use Styde\Enlighten\TestRun;
+use Styde\Enlighten\TestExampleGroup;
 use Tests\TestCase;
 
-class TestClassInfoTest extends TestCase
+class TestGroupExampleTest extends TestCase
 {
     /** @test */
     function it_gets_a_default_title()
     {
-        $clasInfo = new TestClassInfo('ListUsersTest');
+        $clasInfo = new TestExampleGroup('ListUsersTest');
         $this->assertSame('List Users', $clasInfo->getTitle());
 
-        $clasInfo = new TestClassInfo('ListTestsTest');
+        $clasInfo = new TestExampleGroup('ListTestsTest');
         $this->assertSame('List Tests', $clasInfo->getTitle());
 
-        $clasInfo = new TestClassInfo('ShowUsers');
+        $clasInfo = new TestExampleGroup('ShowUsers');
         $this->assertSame('Show Users', $clasInfo->getTitle());
 
-        $clasInfo = new TestClassInfo('CreateTestTest');
+        $clasInfo = new TestExampleGroup('CreateTestTest');
         $this->assertSame('Create Test', $clasInfo->getTitle());
     }
 }

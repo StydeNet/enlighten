@@ -5,7 +5,7 @@ namespace Styde\Enlighten;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\ExampleGroup;
 
-class TestClassInfo
+class TestExampleGroup
 {
     private TestRun $testRun;
     private string $className;

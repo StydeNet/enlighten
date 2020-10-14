@@ -8,4 +8,9 @@ class IgnoredTest extends TestInfo
     {
         return true;
     }
+
+    public function __call($name, $arguments)
+    {
+        // Does nothing.
+    }
 }

@@ -17,7 +17,7 @@ class TestRun
 
     private static $failedTestLinks = [];
 
-    public static function saveFailedTestLink(TestMethodInfo $testMethodInfo)
+    public static function saveFailedTestLink(TestExample $testMethodInfo)
     {
         static::$failedTestLinks[$testMethodInfo->getSignature()] = $testMethodInfo->getLink();
     }

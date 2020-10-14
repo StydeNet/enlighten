@@ -10,9 +10,9 @@ use Throwable;
 use ReflectionMethod;
 use Styde\Enlighten\Models\Example;
 
-class TestMethodInfo extends TestInfo
+class TestExample extends TestInfo
 {
-    public TestClassInfo $classInfo;
+    public TestExampleGroup $classInfo;
     protected ?int $line;
     protected ?Example $example = null;
     private array $texts;
@@ -20,7 +20,7 @@ class TestMethodInfo extends TestInfo
 
     private ?HttpData $currentHttpData = null;
 
-    public function __construct(TestClassInfo $classInfo, string $methodName, array $texts = [])
+    public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
     {
         parent::__construct($classInfo->getClassName(), $methodName);
 
@@ -150,7 +150,7 @@ class TestMethodInfo extends TestInfo
         return [];
     }
 
-    public function saveQuery(QueryExecuted $queryExecuted, string $context)
+    public function saveQuery(QueryExecuted $queryExecuted)
     {
         $this->save();
 
