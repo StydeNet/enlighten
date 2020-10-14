@@ -3,10 +3,7 @@
 namespace Styde\Enlighten\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Response;
 use Styde\Enlighten\HttpExampleCreator;
-use Styde\Enlighten\TestRun;
-use Throwable;
 
 class HttpExampleCreatorMiddleware
 {

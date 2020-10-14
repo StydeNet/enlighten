@@ -3,15 +3,15 @@
 namespace Styde\Enlighten;
 
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\Utils\GitInfo;
+use Styde\Enlighten\Facades\GitInfo;
 
 class TestRun
 {
-    private static bool $hasBeenReset = false;
+    private static ?self $instance = null;
 
-    private GitInfo $gitInfo;
+    private Run $run;
 
-    private ?Run $run = null;
+    private bool $hasBeenReset = false;
 
     private string $context = 'test';
 
@@ -27,14 +27,26 @@ class TestRun
         return static::$failedTestLinks[$signature];
     }
 
-    public function __construct(GitInfo $gitInfo)
+    public static function getInstance(): self
     {
-        $this->gitInfo = $gitInfo;
+        if (is_null(static::$instance)) {
+            static::$instance = new self;
+        }
 
+        return static::$instance;
+    }
+
+    public static function resetInstance()
+    {
+        static::$instance = null;
+    }
+
+    private function __construct()
+    {
         $this->run = Run::firstOrNew([
-            'branch' => $this->gitInfo->currentBranch(),
-            'head' => $this->gitInfo->head(),
-            'modified' => $this->gitInfo->modified(),
+            'branch' => GitInfo::currentBranch(),
+            'head' => GitInfo::head(),
+            'modified' => GitInfo::modified(),
         ]);
     }
 
@@ -59,12 +71,12 @@ class TestRun
 
     public function reset()
     {
-        if (static::$hasBeenReset) {
+        if ($this->hasBeenReset) {
             return;
         }
 
         $this->run->delete();
 
-        static::$hasBeenReset = true;
+        $this->hasBeenReset = true;
     }
 }

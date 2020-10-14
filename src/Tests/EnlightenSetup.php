@@ -28,8 +28,6 @@ trait EnlightenSetup
                 return;
             }
 
-            $this->restoreTestRun();
-
             $this->resetRunData();
 
             $this->captureExceptions();
@@ -45,8 +43,6 @@ trait EnlightenSetup
             $this->stopCapturingQueries();
 
             $this->saveTestExample();
-
-            $this->preserveTestRun();
         });
     }
 
@@ -61,8 +57,7 @@ trait EnlightenSetup
                 return;
             }
 
-            $test = $this->app->make(TestInspector::class)
-                ->getInfo(get_class($this), $this->getName());
+            $test = $this->app->make(TestInspector::class)->getInfo(get_class($this), $this->getName());
 
             if ($test->isIgnored()) {
                 return;
@@ -116,18 +111,6 @@ trait EnlightenSetup
         $this->exceptionRecorder->forwardToOriginal();
 
         return $this;
-    }
-
-    private function preserveTestRun()
-    {
-        static::$testRun = $this->app->make(TestRun::class);
-    }
-
-    private function restoreTestRun()
-    {
-        if (static::$testRun) {
-            $this->app->instance(TestRun::class, static::$testRun);
-        }
     }
 
     private function resetRunData()

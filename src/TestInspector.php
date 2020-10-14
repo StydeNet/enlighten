@@ -72,7 +72,7 @@ class TestInspector
 
         $this->classOptions = $annotations->get('enlighten', []);
 
-        return new TestClassInfo($this->testRun, $name, $this->getTextsFrom($annotations));
+        return new TestClassInfo($name, $this->getTextsFrom($annotations));
     }
 
     protected function getTextsFrom(Collection $annotations): array

@@ -12,22 +12,16 @@ class TestClassInfoTest extends TestCase
     /** @test */
     function it_gets_a_default_title()
     {
-        $testRun = new TestRun(new GitInfo);
-
-        $clasInfo = new TestClassInfo($testRun, 'ListUsersTest');
-
+        $clasInfo = new TestClassInfo('ListUsersTest');
         $this->assertSame('List Users', $clasInfo->getTitle());
 
-        $clasInfo = new TestClassInfo($testRun, 'ListTestsTest');
-
+        $clasInfo = new TestClassInfo('ListTestsTest');
         $this->assertSame('List Tests', $clasInfo->getTitle());
 
-        $clasInfo = new TestClassInfo($testRun, 'ShowUsers');
-
+        $clasInfo = new TestClassInfo('ShowUsers');
         $this->assertSame('Show Users', $clasInfo->getTitle());
 
-        $clasInfo = new TestClassInfo($testRun, 'CreateTestTest');
-
+        $clasInfo = new TestClassInfo('CreateTestTest');
         $this->assertSame('Create Test', $clasInfo->getTitle());
     }
 }

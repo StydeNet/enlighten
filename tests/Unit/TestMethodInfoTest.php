@@ -14,7 +14,7 @@ class TestMethodInfoTest extends TestCase
     function generated_titles_do_not_include_the_test_prefix()
     {
         $testMethodInfo = new TestMethodInfo(
-            new TestClassInfo(new TestRun(new GitInfo), 'TestClass'),
+            new TestClassInfo('TestClass'),
             'test_it_removes_the_test_prefix'
         );
 

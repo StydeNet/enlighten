@@ -7,7 +7,6 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Utils\Annotations;
-use Styde\Enlighten\Utils\GitInfo;
 use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExampleCreator;
 use Styde\Enlighten\RequestInspector;
@@ -23,7 +22,6 @@ use Styde\Enlighten\View\Components\DynamicTabsComponent;
 use Styde\Enlighten\View\Components\EditButtonComponent;
 use Styde\Enlighten\View\Components\ExceptionInfoComponent;
 use Styde\Enlighten\View\Components\HtmlResponseComponent;
-use Styde\Enlighten\View\Components\JsonResponseComponent;
 use Styde\Enlighten\View\Components\KeyValueComponent;
 use Styde\Enlighten\View\Components\RequestInputTableComponent;
 use Styde\Enlighten\View\Components\RouteParametersTableComponent;
@@ -38,7 +36,7 @@ class EnlightenServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom($this->componentPath('config/enlighten.php'), 'enlighten');
 
-        if (!$this->app['config']->get('enlighten.enabled')) {
+        if (! $this->app['config']->get('enlighten.enabled')) {
             return;
         }
 
@@ -50,8 +48,11 @@ class EnlightenServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom($this->componentPath('database/migrations'));
-            $this->registerMiddleware();
             $this->registerPublishing();
+        }
+
+        if ($this->app->runningUnitTests()) {
+            $this->registerMiddleware();
         }
     }
 
@@ -100,7 +101,7 @@ class EnlightenServiceProvider extends ServiceProvider
     private function registerTestRun()
     {
         $this->app->singleton(TestRun::class, function () {
-            return new TestRun(new GitInfo);
+            return TestRun::getInstance();
         });
     }
 

@@ -30,7 +30,9 @@ class CaptureQueriesTest extends TestCase
 
         $example = Example::first();
 
-        $this->assertNotNull($example);
+        $this->assertNotNull($example, 'The Example was not recorded as expected');
+
+        $this->assertNotNull($example->http_data->first(), 'The Example HTTP data was not recorded as expected');
 
         tap($example->queries->shift(), function (ExampleQuery $exampleQuery) {
             $this->assertNotNull($exampleQuery);
