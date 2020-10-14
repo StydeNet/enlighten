@@ -125,7 +125,7 @@ trait EnlightenSetup
     protected function saveTestExample()
     {
         $test = $this->app->make(TestInspector::class)->getCurrentTestExample();
-
+        
         $test->saveTestStatus($this->getStatusAsText());
 
         if ($this->getStatus() !== TestRunner::STATUS_PASSED) {

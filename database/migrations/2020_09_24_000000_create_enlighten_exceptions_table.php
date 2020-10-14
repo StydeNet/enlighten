@@ -28,7 +28,7 @@ class CreateEnlightenExceptionsTable extends Migration
 
             $table->string('code');
             $table->string('class_name');
-            $table->string('message');
+            $table->longText('message');
             $table->string('file');
             $table->unsignedSmallInteger('line');
             $table->longText('trace');
