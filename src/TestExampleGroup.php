@@ -5,16 +5,16 @@ namespace Styde\Enlighten;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\ExampleGroup;
 
-class TestClassInfo
+class TestExampleGroup
 {
     private TestRun $testRun;
     private string $className;
     private array $texts;
     protected ?ExampleGroup $exampleGroup = null;
 
-    public function __construct(TestRun $testRun, string $className, array $texts = [])
+    public function __construct(string $className, array $texts = [])
     {
-        $this->testRun = $testRun;
+        $this->testRun = TestRun::getInstance();
         $this->className = $className;
         $this->texts = $texts;
     }

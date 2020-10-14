@@ -22,8 +22,12 @@ trait TestHelpers
         ], $attributes));
     }
 
-    protected function createExample(ExampleGroup $group, string $methodName, string $testStatus = 'passed', string $title = 'Something does something'): Example
+    protected function createExample(?ExampleGroup $group = null, string $methodName = 'test_method', string $testStatus = 'passed', string $title = 'Something does something'): Example
     {
+        if (is_null($group)) {
+            $group = $this->createExampleGroup();
+        }
+
         return Example::create([
             'group_id' => $group->id,
             'method_name' => $methodName,
@@ -41,8 +45,12 @@ trait TestHelpers
         ], $attributes));
     }
 
-    protected function createExampleGroup(Run $run, $className = null, $title = null, $description = null): ExampleGroup
+    protected function createExampleGroup(?Run $run = null, $className = null, $title = null, $description = null): ExampleGroup
     {
+        if (is_null($run)) {
+            $run = $this->createRun();
+        }
+
         return ExampleGroup::create($this->getExampleGroupAttributes([
             'run_id' => $run->id,
             'class_name' => $className,
@@ -70,16 +78,16 @@ trait TestHelpers
         ]);
     }
 
-    protected function createHttpData(Example $example)
+    protected function createHttpData(Example $example, array $customAttributes = [])
     {
-        $example->http_data->fill($this->getHttpDataAttributes())->save();
+        $example->http_data()->create($this->getHttpDataAttributes($customAttributes));
 
         return $example->http_data;
     }
 
-    protected function getHttpDataAttributes()
+    protected function getHttpDataAttributes(array $customAttributes = [])
     {
-        return [
+        return array_merge([
             'request_path' => 'user',
             'request_headers' => [
                 "accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
@@ -112,7 +120,7 @@ trait TestHelpers
             ],
             'response_body' => $this->redirectResponseBody(),
             'response_template' => null
-        ];
+        ], $customAttributes);
     }
 
     protected function redirectResponseBody()

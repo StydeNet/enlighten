@@ -28,7 +28,8 @@ class ExampleGroup extends Model implements Statusable
     // Relationships
     public function examples()
     {
-        return $this->hasMany(Example::class, 'group_id')->orderBy('id');
+        return $this->hasMany(Example::class, 'group_id')
+            ->orderBy('id');
     }
 
     public function stats()
@@ -51,6 +52,11 @@ class ExampleGroup extends Model implements Statusable
     }
 
     // Accessors
+    public function getSuiteAttribute()
+    {
+        return Str::slug(explode('\\', $this->class_name)[1]);
+    }
+
     public function getPassingTestsCountAttribute()
     {
         return $this->stats
@@ -80,5 +86,14 @@ class ExampleGroup extends Model implements Statusable
         }
 
         return Status::WARNING;
+    }
+
+    public function getUrlAttribute()
+    {
+        return route('enlighten.group.show', [
+            'run' => $this->run_id,
+            'suite' => $this->suite,
+            'group' => $this->id,
+        ]);
     }
 }

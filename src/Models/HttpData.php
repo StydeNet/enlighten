@@ -53,6 +53,11 @@ class HttpData extends Model
         return $this->replaceValues($value, config('enlighten.response.headers'));
     }
 
+    public function getSessionDataAttribute($value)
+    {
+        return $this->replaceValues($value, config('enlighten.session'));
+    }
+
     public function getHasRedirectionStatusAttribute()
     {
         return $this->response_status >= 300 && $this->response_status < 400;
@@ -91,6 +96,9 @@ class HttpData extends Model
 
     public function getResponsePreviewAttribute()
     {
+        // If the response has a redirection status, we should comment
+        // the meta http-equiv HTML tag to avoid triggering any HTML
+        // redirection, when displaying the previews to the users.
         if ($this->has_redirection_status) {
             return preg_replace('@<meta http-equiv="refresh" .*?>@', '<!--$0-->', $this->response_body);
         }

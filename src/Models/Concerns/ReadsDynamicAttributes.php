@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait ReadsDynamicAttributes
 {
-    protected $attributes = [];
+    protected array $attributes = [];
 
     public function setAttributes(array $attributes)
     {
@@ -15,7 +15,11 @@ trait ReadsDynamicAttributes
 
     public function __isset($name)
     {
-        return method_exists($this, 'get'.Str::studly($name)) || array_key_exists($name, $this->attributes);
+        if (method_exists($this, 'get'.Str::studly($name))) {
+            return true;
+        }
+
+        return array_key_exists($name, $this->attributes);
     }
 
     public function __get($name)

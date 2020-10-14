@@ -14,7 +14,7 @@ class FileLink
 
     public static $template;
 
-    public static function get(string $path, int $line)
+    public static function get(string $path, ?int $line = 1)
     {
         if (static::$template == null) {
             static::$template = Arr::get(

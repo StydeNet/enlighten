@@ -7,6 +7,7 @@ use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Tests\Integration\App\Models\User;
+use Tests\Integration\Database\Factories\UserFactory;
 
 class ApiRequestTest extends TestCase
 {
@@ -21,12 +22,12 @@ class ApiRequestTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        User::factory()->create([
+        (new UserFactory)->create([
             'name' => 'Duilio Palacios',
             'email' => 'duilio@example.com',
         ]);
 
-        User::factory()->create([
+        (new UserFactory)->create([
             'name' => 'Jeffer Ochoa',
             'email' => 'jeff.ochoa@example.com',
         ]);
@@ -61,35 +62,40 @@ class ApiRequestTest extends TestCase
             $this->assertSame('gets_the_list_of_users', $example->method_name);
             $this->assertSame('Obtiene la lista de usuarios', $example->title);
             $this->assertSame('Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema', $example->description);
-            $this->assertSame('GET', $example->http_data->request_method);
-            $this->assertSame('api/users', $example->http_data->request_path);
 
-            $this->assertSame('api/users/{status?}/{page?}', $example->http_data->route);
-            $this->assertSame([
-                [
-                    'name' => 'status',
-                    'pattern' => '*',
-                    'optional' => true,
-                ],
-                [
-                    'name' => 'page',
-                    'pattern' => '*',
-                    'optional' => true,
-                ]
-            ], $example->http_data->route_parameters);
+            tap($example->http_data->first(), function ($httpData) {
+                $this->assertNotNull($httpData);
 
-            $this->assertSame([
-                'data' => [
+                $this->assertSame('GET', $httpData->request_method);
+                $this->assertSame('api/users', $httpData->request_path);
+
+                $this->assertSame('api/users/{status?}/{page?}', $httpData->route);
+                $this->assertSame([
                     [
-                        'name' => 'Duilio Palacios',
-                        'email' => 'duilio@example.com',
+                        'name' => 'status',
+                        'pattern' => '*',
+                        'optional' => true,
                     ],
                     [
-                        'name' => 'Jeffer Ochoa',
-                        'email' => 'jeff.ochoa@example.com',
-                    ],
-                ]
-            ], $example->http_data->response_body);
+                        'name' => 'page',
+                        'pattern' => '*',
+                        'optional' => true,
+                    ]
+                ], $httpData->route_parameters);
+
+                $this->assertSame([
+                    'data' => [
+                        [
+                            'name' => 'Duilio Palacios',
+                            'email' => 'duilio@example.com',
+                        ],
+                        [
+                            'name' => 'Jeffer Ochoa',
+                            'email' => 'jeff.ochoa@example.com',
+                        ],
+                    ]
+                ], $httpData->response_body);
+            });
         });
     }
 }

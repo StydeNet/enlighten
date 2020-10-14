@@ -22,7 +22,8 @@ class CreateEnlightenExamplesTable extends Migration
 
             $table->foreignId('group_id')
                 ->references('id')
-                ->on('enlighten_example_groups');
+                ->on('enlighten_example_groups')
+                ->cascadeOnDelete();
 
             $table->string('method_name');
 

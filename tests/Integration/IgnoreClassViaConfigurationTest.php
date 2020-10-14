@@ -10,13 +10,15 @@ class IgnoreClassViaConfigurationTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
+        $this->afterApplicationCreated(function () {
+            $this->app->config->set([
+                'enlighten.tests.ignore' => [
+                    '*IgnoreClass*',
+                ],
+            ]);
+        });
 
-        $this->app->config->set([
-            'enlighten.tests.ignore' => [
-                '*IgnoreClass*',
-            ],
-        ]);
+        parent::setUp();
     }
 
     /** @test */

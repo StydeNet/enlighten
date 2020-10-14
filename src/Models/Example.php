@@ -26,7 +26,17 @@ class Example extends Model implements Statusable
 
     public function http_data()
     {
-        return $this->hasOne(HttpData::class)->withDefault();
+        return $this->hasMany(HttpData::class);
+    }
+
+    public function exception()
+    {
+        return $this->hasOne(ExampleException::class)->withDefault();
+    }
+
+    public function queries()
+    {
+        return $this->hasMany(ExampleQuery::class);
     }
 
     // Accessors
@@ -43,7 +53,7 @@ class Example extends Model implements Statusable
 
     public function getIsHttpAttribute()
     {
-        return $this->http_data->exists;
+        return $this->http_data->isNotEmpty();
     }
 
     public function getStatus(): string
@@ -57,5 +67,10 @@ class Example extends Model implements Statusable
         }
 
         return Status::WARNING;
+    }
+
+    public function getUrlAttribute()
+    {
+        return $this->group->url.'#'.$this->method_name;
     }
 }

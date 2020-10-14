@@ -5,8 +5,8 @@ namespace Styde\Enlighten;
 trait ReplacesValues
 {
     /**
-     * Returns an array of values without the ignored keys and
-     * overwriting the given $values with the $overwrite values.
+     * Returns an array of values without the $ignored keys and
+     * overwriting the given values with the $overwrite values.
      *
      * @param array $values
      * @param array $ignored

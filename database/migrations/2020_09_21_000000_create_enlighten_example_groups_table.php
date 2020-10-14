@@ -22,7 +22,8 @@ class CreateEnlightenExampleGroupsTable extends Migration
 
             $table->foreignId('run_id')
                 ->references('id')
-                ->on('enlighten_runs');
+                ->on('enlighten_runs')
+                ->cascadeOnDelete();
 
             $table->string('class_name');
 

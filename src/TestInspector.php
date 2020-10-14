@@ -6,73 +6,64 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Utils\Annotations;
-use Styde\Enlighten\Utils\TestTrace;
 
 class TestInspector
 {
-    private static ?TestClassInfo $currentTestClass = null;
-    private static ?TestInfo $currentTestMethod = null;
+    private static ?TestExampleGroup $currentTestClass = null;
+    private ?TestInfo $currentTestExample = null;
     protected array $classOptions = [];
 
     private TestRun $testRun;
-    private TestTrace $testTrace;
     private Annotations $annotations;
 
     protected array $ignore;
 
-    public function __construct(TestRun $testRun, TestTrace $testTrace, Annotations $annotations, array $config)
+    public function __construct(TestRun $testRun, Annotations $annotations, array $config)
     {
         $this->testRun = $testRun;
-        $this->testTrace = $testTrace;
         $this->annotations = $annotations;
         $this->ignore = $config['ignore'];
     }
 
-    public function getCurrentTestInfo(): TestInfo
+    public function createTestExample($className, $methodName): TestInfo
     {
-        $trace = $this->testTrace->get();
-
-        return $this->getInfo($trace['class'], $trace['function']);
+        return $this->currentTestExample = $this->makeTestExample($className, $methodName);
     }
 
-    public function getInfo($className, $methodName): TestInfo
+    public function getCurrentTestExample()
     {
-        if (optional(static::$currentTestMethod)->is($className, $methodName)) {
-            return static::$currentTestMethod;
-        }
-
-        return static::$currentTestMethod = $this->makeTestMethodInfo($className, $methodName);
+        return $this->currentTestExample;
     }
 
-    protected function makeTestMethodInfo(string $className, string $methodName): TestInfo
+    protected function makeTestExample(string $className, string $methodName): TestInfo
     {
-        $testClassInfo = $this->getClassInfo($className);
+        $testClassInfo = $this->getTestExampleGroup($className);
 
         $annotations = $this->annotations->getFromMethod($className, $methodName);
 
-        if ($this->ignoreTest($className, $methodName, $annotations->get('enlighten', []))) {
+        if ($this->ignoreTestExample($className, $methodName, $annotations->get('enlighten', []))) {
             return new IgnoredTest($className, $methodName);
         }
 
-        return new TestMethodInfo($testClassInfo, $methodName, $this->getTextsFrom($annotations));
+        return new TestExample($testClassInfo, $methodName, $this->getTextsFrom($annotations));
     }
 
-    private function getClassInfo($className): TestClassInfo
+    private function getTestExampleGroup($className): TestExampleGroup
     {
         if (optional(static::$currentTestClass)->is($className)) {
             return static::$currentTestClass;
         }
 
-        return static::$currentTestClass = $this->makeTestClassInfo($className);
+        return static::$currentTestClass = $this->makeTestExampleGroup($className);
     }
 
-    private function makeTestClassInfo($name): TestClassInfo
+    private function makeTestExampleGroup($name): TestExampleGroup
     {
         $annotations = $this->annotations->getFromClass($name);
 
         $this->classOptions = $annotations->get('enlighten', []);
 
-        return new TestClassInfo($this->testRun, $name, $this->getTextsFrom($annotations));
+        return new TestExampleGroup($name, $this->getTextsFrom($annotations));
     }
 
     protected function getTextsFrom(Collection $annotations): array
@@ -83,7 +74,7 @@ class TestInspector
         ];
     }
 
-    private function ignoreTest(string $className, string $methodName, array $options): bool
+    private function ignoreTestExample(string $className, string $methodName, array $options): bool
     {
         $options = array_merge($this->classOptions, $options);
 

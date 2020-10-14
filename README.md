@@ -24,7 +24,8 @@ phpunit
 Now visit `/enlighten/` to navigate the documentation.
 
 ## Installation
-Install using Composer
+
+1. Require the package with Composer:
 
 ```bash
 composer require styde/enlighten --dev
@@ -41,7 +42,7 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 ];
 ```
 
-Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
+2. Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
 
 ```bash
 php artisan vendor:publish --tag=enlighten-build
@@ -54,7 +55,7 @@ php artisan vendor:publish --tag=enlighten-config
 php artisan vendor:publish --tag=enlighten-views
 ```
 
-To get information about the status of the tests, import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
+3. Import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
 
 ```
 <?php
@@ -78,23 +79,32 @@ class TestCase extends \Tests\TestCase
 *Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
 
 ## Database Setup
-`Enligthen` uses a secondary database and database connection to record the information from your test-suite and generate the documentation.
+`Enligthen` uses a secondary database and database connection to record and present the information from your test-suite.
 
-Add a new database using the same name of your primary-database with an `_enlighten` suffix:
+If you use the following convention: 
+
+* A non-sqlite default database for your local enviroment (i.e. `my_db`)
+* A non-sqlite database for your test enviroment with the `_test` or `_tests` suffix (i.e. `my_db_tests`) 
+
+Just add a new database using the same name of your default database with the `_enlighten` suffix:
 
 ```text
+# .env
 DB_NAME=my_default_database
+# phpunit.xml
+# <env name="DB_DATABASE" value="my_default_database_tests"/>
+# Enlighten auto configuration:
 # my_default_database_enlighten
 ```
 
-Alternatively, add a new connection entry in `config/database.php` with the name `enlighten`:
+If you're not following the convention above, add a new connection entry in `config/database.php` with the name `enlighten` and your custom configuration:
 
 ```
    'enlighten' => [
        'driver' => 'mysql',
        'host' => env('DB_HOST', '127.0.0.1'),
        'port' => env('DB_PORT', '3306'),
-       'database' => 'styde_panel_tests_enlighten',
+       'database' => 'my_enlighten_database',
        // ...
     ],
 ```
@@ -106,7 +116,7 @@ php artisan migrate
 ```
 
 > It's important to create a different connection for Enlighten to avoid having the info deleted or not persisted when
-> using the database migration traits included by Laravel and/or if you run the tests using SQLite.
+> using any of the database migration traits included by Laravel or if you run the tests using SQLite.
 
 ## Optional configuration
 To "group" your tests-classes as "modules", you can use a regular expression to find all the classes that match with the given pattern or patterns:

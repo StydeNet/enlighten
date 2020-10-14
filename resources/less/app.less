@@ -1,11 +1,18 @@
+/* purgecss start ignore */
 @import "tailwindcss/base";
-
 @import "tailwindcss/components";
+/* purgecss end ignore */
 
 @import "tailwindcss/utilities";
 
+/* purgecss start ignore */
 @import "./prism";
 
 @media (min-width: 640px) {
   .md\:columns-2 { columns: 2 }
 }
+
+[x-cloak] {
+  display: none;
+}
+/* purgecss end ignore */

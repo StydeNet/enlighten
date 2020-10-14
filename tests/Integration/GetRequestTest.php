@@ -5,7 +5,8 @@ namespace Tests\Integration;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
-use Tests\Integration\App\Models\User;
+use Styde\Enlighten\Models\HttpData;
+use Tests\Integration\Database\Factories\UserFactory;
 
 /**
  * @testdox Shows the user's information
@@ -24,7 +25,7 @@ class GetRequestTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = User::factory()->create([
+        $user = (new UserFactory)->create([
             'name' => 'Duilio Palacios',
             'email' => 'user@example.test'
         ]);
@@ -44,24 +45,30 @@ class GetRequestTest extends TestCase
         });
 
         tap(Example::first(), function (Example $example) use ($user) {
+
             $this->assertSame('Get user data by ID', $example->title);
             $this->assertSame('Retrieves the public-user data', $example->description);
-            $this->assertSame('GET', $example->http_data->request_method);
-            $this->assertSame("user/{$user->id}", $example->http_data->request_path);
-            $this->assertSame('user/{user}', $example->http_data->route);
-            $this->assertSame([
-                [
-                    'name' => 'user',
-                    'pattern' => '\d+',
-                    'optional' => false,
-                ]
-            ], $example->http_data->route_parameters);
 
-            $this->assertStringContainsString($user->name, $example->http_data->response_body);
-            $this->assertStringContainsString($user->email, $example->http_data->response_body);
+            tap($example->http_data->first(), function (?HttpData $httpData) use ($user) {
+                $this->assertNotNull($httpData);
 
-            $this->assertStringContainsString('{{ $user->name }}', $example->http_data->response_template);
-            $this->assertStringContainsString('{{ $user->email }}', $example->http_data->response_template);
+                $this->assertSame('GET', $httpData->request_method);
+                $this->assertSame("user/{$user->id}", $httpData->request_path);
+                $this->assertSame('user/{user}', $httpData->route);
+                $this->assertSame([
+                    [
+                        'name' => 'user',
+                        'pattern' => '\d+',
+                        'optional' => false,
+                    ]
+                ], $httpData->route_parameters);
+
+                $this->assertStringContainsString($user->name, $httpData->response_body);
+                $this->assertStringContainsString($user->email, $httpData->response_body);
+
+                $this->assertStringContainsString('{{ $user->name }}', $httpData->response_template);
+                $this->assertStringContainsString('{{ $user->email }}', $httpData->response_template);
+            });
         });
     }
 }

@@ -3,31 +3,66 @@
 namespace Styde\Enlighten;
 
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\Utils\GitInfo;
+use Styde\Enlighten\Facades\GitInfo;
 
 class TestRun
 {
-    private GitInfo $gitInfo;
+    private static ?self $instance = null;
 
-    private ?Run $run = null;
+    private Run $run;
 
-    public function __construct(GitInfo $gitInfo)
+    private bool $hasBeenReset = false;
+
+    private $failedTestLinks = [];
+
+    public static function getInstance(): self
     {
-        $this->gitInfo = $gitInfo;
+        if (is_null(static::$instance)) {
+            static::$instance = new self;
+        }
+
+        return static::$instance;
+    }
+
+    public static function resetInstance()
+    {
+        static::$instance = null;
+    }
+
+    private function __construct()
+    {
+        $this->run = Run::firstOrNew([
+            'branch' => GitInfo::currentBranch(),
+            'head' => GitInfo::head(),
+            'modified' => GitInfo::modified(),
+        ]);
     }
 
     public function save(): Run
     {
-        if ($this->run != null) {
-            return $this->run;
-        }
-
-        $this->run = Run::firstOrCreate([
-            'branch' => $this->gitInfo->currentBranch(),
-            'head' => $this->gitInfo->head(),
-            'modified' => $this->gitInfo->modified(),
-        ]);
+        $this->run->save();
 
         return $this->run;
+    }
+
+    public function reset()
+    {
+        if ($this->hasBeenReset) {
+            return;
+        }
+
+        $this->run->delete();
+
+        $this->hasBeenReset = true;
+    }
+
+    public function saveFailedTestLink(TestExample $testExample)
+    {
+        $this->failedTestLinks[$testExample->getSignature()] = $testExample->getLink();
+    }
+
+    public function getFailedTestLink(string $signature): string
+    {
+        return $this->failedTestLinks[$signature];
     }
 }

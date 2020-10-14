@@ -3,31 +3,31 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Models\HttpData;
 
 class ResponseInfoComponent extends Component
 {
-    public Example $example;
+    public HttpData $httpData;
 
-    public function __construct(Example $example)
+    public function __construct(HttpData $httpData)
     {
-        $this->example = $example;
+        $this->httpData = $httpData;
     }
 
-    public function status()
+    private function status()
     {
-        return $this->example->http_data->response_status ?? 'UNKNOWN';
+        return $this->httpData->response_status ?? 'UNKNOWN';
     }
 
-    public function color()
+    private function color()
     {
-        if ($this->example->http_data->response_status == 200) {
+        if ($this->httpData->response_status == 200) {
             return 'green';
-        } elseif ($this->example->http_data->response_status > 200 && $this->example->http_data->response_status < 400) {
+        } elseif ($this->httpData->response_status > 200 && $this->httpData->response_status < 400) {
             return 'blue';
-        } elseif ($this->example->http_data->response_status > 400 && $this->example->http_data->response_status < 500) {
+        } elseif ($this->httpData->response_status > 400 && $this->httpData->response_status < 500) {
             return 'yellow';
-        } elseif ($this->example->http_data->response_status > 500) {
+        } elseif ($this->httpData->response_status > 500) {
             return 'red';
         } else {
             return 'gray';
@@ -36,6 +36,10 @@ class ResponseInfoComponent extends Component
 
     public function render()
     {
-        return view('enlighten::components.response-info');
+        return view('enlighten::components.response-info', [
+            'http_data' => $this->httpData,
+            'color' => $this->color(),
+            'status' => $this->status()
+        ]);
     }
 }
