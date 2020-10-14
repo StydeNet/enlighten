@@ -2,6 +2,8 @@
 
 ## v0.2 - 2020-10-14
 
+**To upgrade from v1 to v2, please delete all the Enlighten tables and re-run the migrations**
+
 ### New features
 
 - Support tests with multiple HTTP requests
