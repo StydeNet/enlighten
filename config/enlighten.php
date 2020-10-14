@@ -39,6 +39,11 @@ return [
         ]
     ],
 
+    'session' => [
+        'hide' => [],
+        'overwrite' => [],
+    ],
+
     // Configure all the areas that will be shown in the frontend.
     // Each area represents a "test suite" in the tests/ folder.
     // 'areas' => [...],
