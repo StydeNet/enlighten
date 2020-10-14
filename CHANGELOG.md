@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2 - 2020-10-14
+## v0.2 - 2020-10-14
 
 - Support tests with multiple HTTP requests
 - Show exceptions and stack trace on failed / error tests
