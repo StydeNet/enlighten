@@ -9,7 +9,7 @@ class TestRun
 {
     private static ?self $instance = null;
 
-    private Run $run;
+    private ?Run $run = null;
 
     private bool $hasBeenReset = false;
 
@@ -31,7 +31,16 @@ class TestRun
 
     private function __construct()
     {
-        $this->run = Run::firstOrNew([
+        // Use Singleton Pattern
+    }
+
+    public function getRun()
+    {
+        if ($this->run) {
+            return $this->run;
+        }
+
+        return $this->run = Run::firstOrNew([
             'branch' => GitInfo::currentBranch(),
             'head' => GitInfo::head(),
             'modified' => GitInfo::modified(),
@@ -40,9 +49,11 @@ class TestRun
 
     public function save(): Run
     {
-        $this->run->save();
+        $run = $this->getRun();
 
-        return $this->run;
+        $run->save();
+
+        return $run;
     }
 
     public function reset()
@@ -51,7 +62,7 @@ class TestRun
             return;
         }
 
-        $this->run->delete();
+        $this->getRun()->delete();
 
         $this->hasBeenReset = true;
     }
@@ -61,8 +72,8 @@ class TestRun
         $this->failedTestLinks[$testExample->getSignature()] = $testExample->getLink();
     }
 
-    public function getFailedTestLink(string $signature): string
+    public function getFailedTestLink(string $signature): ?string
     {
-        return $this->failedTestLinks[$signature];
+        return $this->failedTestLinks[$signature] ?? null;
     }
 }
