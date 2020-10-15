@@ -4,11 +4,11 @@ module.exports = {
     // purgeLayersByDefault: true,
   },
   purge: {
-    content: [
+    // content: [
       // 'resources/views/**/**/*.blade.php',
       // 'resources/views/**/*.blade.php',
       // 'resources/views/*.blade.php'
-    ]
+    // ]
   },
   theme: {
     extend: {},
