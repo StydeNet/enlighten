@@ -1,5 +1,11 @@
 # Laravel Enlighten
 
+<p align="center">
+![](https://github.com/StydeNet/enlighten/workflows/run-tests/badge.svg)
+<a href="https://packagist.org/packages/styde/enlighten"><img src="https://poser.pugx.org/styde/enlighten/d/total.svg" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/styde/enlighten"><img src="https://poser.pugx.org/styde/enlighten/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/styde/enlighten"><img src="https://poser.pugx.org/styde/enlighten/license.svg" alt="License"></a>
+</p>
 A seamless package to document your Laravel APIs.
 
 There is no need to add endless docblocks to each API method, maintain dozens of read   me files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
