@@ -1,10 +1,7 @@
 <?php
 
-
 namespace Styde\Enlighten\View\Components;
 
-
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Styde\Enlighten\Models\ExampleException;
 
@@ -29,7 +26,7 @@ class ExceptionInfoComponent extends Component
                     'file' => $data['file'] ?? '',
                     'line' => $data['line'] ?? '',
                     'function' => $this->getFunctionSignature($data),
-                    'args' => $data['args']
+                    'args' => $data['args'] ?? [],
                 ];
             });
     }
