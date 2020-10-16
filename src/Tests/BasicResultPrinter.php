@@ -16,7 +16,7 @@ class BasicResultPrinter extends DefaultResultPrinter
 
         if ($link) {
             $this->writeWithColor('fg-white, bg-black, bold', "\n 💡️ See in Enlighten:", false);
-            $this->writeWithColor('fg-yellow, bg-black', " {$link} \n");
+            $this->writeWithColor('fg-yellow, bg-black, bold', " {$link} \n");
         }
     }
 }
