@@ -15,6 +15,7 @@ class TestExample extends TestInfo
     public TestExampleGroup $classInfo;
     protected ?int $line;
     protected ?Example $example = null;
+    protected string $status;
     private array $texts;
     private ?Throwable $exception = null;
     private ?HttpData $currentHttpData = null;
