@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.2.7 - 2020-10-16
+## v0.2.8 - 2020-10-16
 
 **To upgrade from v0.2.5 to v0.2.6, please delete all the Enlighten tables and re-run the migrations in your local environment** 
 
