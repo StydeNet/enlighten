@@ -7,6 +7,7 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
         'strict_param' => true,
