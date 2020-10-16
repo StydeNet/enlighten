@@ -31,6 +31,7 @@ class CreateEnlightenExampleGroupsTable extends Migration
 
             $table->string('title');
             $table->string('description')->nullable();
+            $table->string('area');
 
             $table->timestamps();
         });

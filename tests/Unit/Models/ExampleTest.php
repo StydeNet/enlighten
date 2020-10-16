@@ -52,6 +52,7 @@ class ExampleTest extends TestCase
             'id' => 1,
             'run_id' => 1,
             'class_name' => 'Tests\Feature\ApiRequestTest',
+            'area' => 'feature'
         ]);
 
         $example = new Example([

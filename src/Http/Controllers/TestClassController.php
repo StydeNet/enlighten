@@ -7,7 +7,7 @@ use Styde\Enlighten\Models\Run;
 
 class TestClassController extends Controller
 {
-    public function show(Run $run, string $suite, ExampleGroup $group)
+    public function show(Run $run, string $area, ExampleGroup $group)
     {
         $group->load(['examples', 'examples.http_data']);
 

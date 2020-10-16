@@ -12,7 +12,7 @@ class ExampleGroupTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function get_example_groups_by_test_suite(): void
+    public function get_example_groups_by_test_area(): void
     {
         $run = $this->createRun();
 
@@ -21,7 +21,7 @@ class ExampleGroupTest extends TestCase
         $this->createExampleGroup($run, 'Tests\Feature\UserTest');
         $this->createExampleGroup($run, 'Tests\Unit\FilterTest');
 
-        $tests = ExampleGroup::findByTestSuite(new Area('Api'));
+        $tests = ExampleGroup::filterByArea(new Area('api'))->get();
 
         $this->assertSame(
             ['Tests\Api\UserTest', 'Tests\Api\PostTest'],
@@ -33,7 +33,7 @@ class ExampleGroupTest extends TestCase
     public function get_the_stats_of_an_example_group(): void
     {
         $run = $this->createRun();
-        $group = $this->createExampleGroup($run, 'FirstGroupTest');
+        $group = $this->createExampleGroup($run, 'Tests\Feature\FirstGroupTest');
 
         $this->createExample($group, 'first_test', 'passed');
         $this->createExample($group, 'second_test', 'passed');
@@ -66,6 +66,7 @@ class ExampleGroupTest extends TestCase
             'id' => 1,
             'run_id' => 1,
             'class_name' => 'Tests\Feature\ApiRequestTest',
+            'area' => 'feature'
         ]);
 
         $this->assertSame('http://localhost/enlighten/run/1/feature/1', $exampleGroup->url);
@@ -74,8 +75,9 @@ class ExampleGroupTest extends TestCase
             'id' => 3,
             'run_id' => 2,
             'class_name' => 'Tests\Unit\UserTest',
+            'area' => 'feature'
         ]);
 
-        $this->assertSame('http://localhost/enlighten/run/2/unit/3', $exampleGroup->url);
+        $this->assertSame('http://localhost/enlighten/run/2/feature/3', $exampleGroup->url);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Support\Str;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
@@ -55,16 +56,23 @@ trait TestHelpers
             'run_id' => $run->id,
             'class_name' => $className,
             'title' => $title,
-            'description' => $description,
+            'description' => $description
         ]));
     }
 
     protected function getExampleGroupAttributes(array $customAttributes = [])
     {
+        if (!empty($customAttributes['class_name'])) {
+            $className = $customAttributes['class_name'];
+        } else {
+            $className = 'Tests\Feature\CreateUserTest';
+        }
+
         return array_merge([
-            'class_name' => 'Tests\Feature\CreateUserTest',
+            'class_name' => $className,
             'title' => 'Create User',
-            'description' => 'User module API'
+            'description' => 'User module API',
+            'area' => Str::slug(explode('\\', $className)[1]),
         ], array_filter($customAttributes));
     }
 

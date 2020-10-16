@@ -43,6 +43,7 @@ class TestExampleGroup
         ], [
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
+            'area' => $this->getArea()
         ]);
     }
 
@@ -56,9 +57,14 @@ class TestExampleGroup
         return $this->texts['description'] ?? null;
     }
 
+    private function getArea(): string
+    {
+        return Str::slug(explode('\\', $this->getClassName())[1]);
+    }
+
     public function getDefaultTitle(): string
     {
-        $result = Str::of(class_basename($this->className));
+        $result = Str::of(class_basename($this->getClassName()));
 
         if ($result->endsWith('Test')) {
             $result = $result->substr(0, -4);

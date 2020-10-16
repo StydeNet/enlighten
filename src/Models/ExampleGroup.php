@@ -16,13 +16,13 @@ class ExampleGroup extends Model implements Statusable
     protected $guarded = [];
 
     // Query methods
-    public  static function findByTestSuite(Area $suite) : Collection
+    public  static function findByTestArea(Area $area) : Collection
     {
-        if (empty($suite)) {
+        if (empty($area)) {
             return Collection::make();
         }
 
-        return static::bySuite($suite)->get();
+        return static::filterByArea($area)->get();
     }
 
     // Relationships
@@ -46,16 +46,12 @@ class ExampleGroup extends Model implements Statusable
     }
 
     // Scopes
-    public function scopeBySuite($query, Area $suite) : Builder
+    public function scopeFilterByArea($query, Area $area) : Builder
     {
-        return $query->where('class_name', 'like', "Tests%{$suite->key}%");
+        return $query->where('area', $area->slug);
     }
 
     // Accessors
-    public function getSuiteAttribute()
-    {
-        return Str::slug(explode('\\', $this->class_name)[1]);
-    }
 
     public function getPassingTestsCountAttribute()
     {
@@ -92,7 +88,7 @@ class ExampleGroup extends Model implements Statusable
     {
         return route('enlighten.group.show', [
             'run' => $this->run_id,
-            'suite' => $this->suite,
+            'area' => $this->area,
             'group' => $this->id,
         ]);
     }

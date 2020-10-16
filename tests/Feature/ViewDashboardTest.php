@@ -18,7 +18,7 @@ class ViewDashboardTest extends TestCase
         $response = $this->get(route('enlighten.run.show', ['run' => $run]));
 
         $response->assertOk()
-            ->assertViewIs('enlighten::suite.show');
+            ->assertViewIs('enlighten::area.show');
     }
 
     /** @test */
@@ -30,7 +30,7 @@ class ViewDashboardTest extends TestCase
     }
 
     /** @test */
-    public function get_test_groups_by_test_suite(): void
+    public function get_test_groups_by_test_area(): void
     {
         $this->withoutExceptionHandling();
 
@@ -41,7 +41,7 @@ class ViewDashboardTest extends TestCase
         $this->createExampleGroup($run, 'Tests\Feature\UserTest', 'Users Feature tests');
         $this->createExampleGroup($run, 'Tests\Unit\FilterTest', 'Filter tests');
 
-        $response = $this->get(route('enlighten.run.show', ['run' => $run->id, 'suite' => 'api']));
+        $response = $this->get(route('enlighten.run.show', ['run' => $run->id, 'area' => 'api']));
 
         $response->assertOk()
             ->assertSeeText('User tests')
@@ -51,7 +51,7 @@ class ViewDashboardTest extends TestCase
     }
 
     /** @test */
-    public function return_first_test_suite_groups_if_no_suite_provided(): void
+    public function return_first_test_area_groups_if_no_area_provided(): void
     {
         $run = $this->createRun();
 

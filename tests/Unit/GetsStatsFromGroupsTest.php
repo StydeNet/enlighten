@@ -15,7 +15,7 @@ class GetsStatsFromGroupsTest extends TestCase
     public function get_stats_from_an_example_group_collection(): void
     {
         $run = $this->createRun();
-        $group = $this->createExampleGroup($run, 'FirstGroupTest');
+        $group = $this->createExampleGroup($run, 'Tests\Feature\FirstGroupTest');
 
         $this->createExample($group, 'first_test', 'passed');
         $this->createExample($group, 'second_test', 'passed');
@@ -34,7 +34,7 @@ class GetsStatsFromGroupsTest extends TestCase
         $this->assertSame(4, $parent->getTestsCount());
         $this->assertSame('success', $parent->getStatus());
 
-        $group2 = $this->createExampleGroup($run, 'SecondGroupTest');
+        $group2 = $this->createExampleGroup($run, 'Tests\Feature\SecondGroupTest');
         $this->createExample($group2, 'sixth_test', 'skipped');
         $parent->groups = ExampleGroup::with('stats')->get();
 

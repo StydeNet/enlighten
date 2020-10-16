@@ -28,26 +28,26 @@ class RunController extends Controller
     {
         $tabs = $this->getTabs();
 
-        if ($request->route('suite') === null) {
-            $suite = $tabs->first();
+        if ($request->route('area') === null) {
+            $area = $tabs->first();
         } else {
-            $suite = $tabs->firstWhere('slug', $request->route('suite'));
+            $area = $tabs->firstWhere('slug', $request->route('area'));
         }
 
-        if ($suite === null) {
+        if ($area === null) {
             return redirect(route('enlighten.run.index'));
         }
 
-        $groups = $run->groups()->with('stats')->bySuite($suite)->get();
+        $groups = $run->groups()->with('stats')->filterByArea($area)->get();
 
         $modules = Module::all();
 
         $modules->addGroups($groups);
 
-        return view('enlighten::suite.show', [
+        return view('enlighten::area.show', [
             'modules' => $modules->whereHasGroups(),
             'title' => 'Dashboard',
-            'suite' => $suite
+            'area' => $area
         ]);
     }
 }
