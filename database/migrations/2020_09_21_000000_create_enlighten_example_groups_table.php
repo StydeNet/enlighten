@@ -30,6 +30,8 @@ class CreateEnlightenExampleGroupsTable extends Migration
             $table->unique(['run_id', 'class_name']);
 
             $table->string('title');
+            $table->string('slug');
+
             $table->string('description')->nullable();
             $table->string('area');
 

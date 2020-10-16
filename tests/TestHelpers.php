@@ -56,7 +56,7 @@ trait TestHelpers
             'run_id' => $run->id,
             'class_name' => $className,
             'title' => $title,
-            'description' => $description
+            'description' => $description,
         ]));
     }
 
@@ -73,6 +73,7 @@ trait TestHelpers
             'title' => 'Create User',
             'description' => 'User module API',
             'area' => Str::slug(explode('\\', $className)[1]),
+            'slug' => Str::slug(class_basename($className)),
         ], array_filter($customAttributes));
     }
 

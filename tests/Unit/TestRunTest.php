@@ -42,7 +42,7 @@ class TestRunTest extends TestCase
     /** @test */
     function can_reset_a_test_run()
     {
-        $testExampleGroup = new TestExampleGroup('TestClass');
+        $testExampleGroup = new TestExampleGroup('Tests\Unit\TestClass');
         $testExampleGroup->save();
 
         $this->assertSame(1, Run::count());
@@ -59,7 +59,7 @@ class TestRunTest extends TestCase
     {
         TestRun::getInstance()->reset();
 
-        $testExampleGroup = new TestExampleGroup('TestClass');
+        $testExampleGroup = new TestExampleGroup('Tests\Unit\TestClass');
         $testExampleGroup->save();
 
         // Does nothing because the test run was already reset before.

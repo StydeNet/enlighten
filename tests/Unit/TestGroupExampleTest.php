@@ -25,7 +25,7 @@ class TestGroupExampleTest extends TestCase
     }
 
     /** @test */
-    public function it_saves_a_example_group_with_a_suite_name(): void
+    public function it_saves_an_example_group_with_a_suite_name(): void
     {
         $testExampleGroup = new TestExampleGroup('Tests\Feature\ListUsersTest');
         $testExampleGroup->save();

@@ -37,13 +37,13 @@ class TestExampleGroup
 
         $run = $this->testRun->save();
 
-        return $this->exampleGroup = ExampleGroup::updateOrCreate([
+        return $this->exampleGroup = ExampleGroup::create([
             'run_id' => $run->id,
             'class_name' => $this->getClassName(),
-        ], [
             'title' => $this->getTitle(),
             'description' => $this->getDescription(),
-            'area' => $this->getArea()
+            'area' => $this->getArea(),
+            'slug' => $this->getSlug()
         ]);
     }
 
@@ -60,6 +60,11 @@ class TestExampleGroup
     private function getArea(): string
     {
         return Str::slug(explode('\\', $this->getClassName())[1]);
+    }
+
+    private function getSlug(): string
+    {
+        return Str::slug($this->getDefaultTitle());
     }
 
     public function getDefaultTitle(): string
