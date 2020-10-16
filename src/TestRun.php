@@ -62,7 +62,7 @@ class TestRun
             return;
         }
 
-        $this->getRun()->delete();
+        $this->getRun()->groups()->delete();
 
         $this->hasBeenReset = true;
     }

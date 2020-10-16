@@ -3,7 +3,9 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
+use Styde\Enlighten\TestExampleGroup;
 use Styde\Enlighten\TestRun;
 use Tests\TestCase;
 
@@ -40,26 +42,30 @@ class TestRunTest extends TestCase
     /** @test */
     function can_reset_a_test_run()
     {
-        TestRun::getInstance()->save();
+        $testExampleGroup = new TestExampleGroup('TestClass');
+        $testExampleGroup->save();
 
-        $this->assertNotNull(Run::first());
+        $this->assertSame(1, Run::count());
+        $this->assertSame(1, ExampleGroup::count());
 
         TestRun::getInstance()->reset();
 
-        $this->assertNull(Run::first());
+        $this->assertSame(1, Run::count());
+        $this->assertSame(0, ExampleGroup::count());
     }
 
     /** @test */
     function a_test_run_can_only_be_reset_once()
     {
-        TestRun::getInstance()->save();
         TestRun::getInstance()->reset();
 
-        $this->assertNull(Run::first());
+        $testExampleGroup = new TestExampleGroup('TestClass');
+        $testExampleGroup->save();
 
-        TestRun::getInstance()->save();
+        // Does nothing because the test run was already reset before.
         TestRun::getInstance()->reset();
 
-        $this->assertNotNull(Run::first());
+        $this->assertSame(1, Run::count());
+        $this->assertSame(1, ExampleGroup::count());
     }
 }
