@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: Main
+name: lint
 jobs:
   php-cs-fixer:
     name: PHP-CS-Fixer
