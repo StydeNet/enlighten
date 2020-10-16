@@ -8,7 +8,7 @@
     @endif
 
     @if($http_data->request_input)
-        <x-enlighten-request-input-table :input="$http_data->request_input"></x-enlighten-request-input-table>
+        <x-enlighten-request-input-table :input="$request_input"></x-enlighten-request-input-table>
     @endif
 
     @if($http_data->request_headers)

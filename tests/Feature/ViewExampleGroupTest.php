@@ -11,8 +11,6 @@ class ViewExampleGroupTest extends TestCase
     /** @test */
     public function get_code_example_view(): void
     {
-        $this->withoutExceptionHandling();
-
         $run = $this->createRun();
         $exampleGroup = $this->createExampleGroup($run);
         $example = $this->createExampleInGroup($exampleGroup);
@@ -36,5 +34,29 @@ class ViewExampleGroupTest extends TestCase
             ->assertSeeText("http://localhost")
             ->assertSeeText("text/html; charset=UTF-8")
             ->assertSeeText("no-cache, private");
+    }
+
+    /** @test */
+    public function displays_full_json_input_on_the_request_info_section(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $run = $this->createRun();
+        $exampleGroup = $this->createExampleGroup($run);
+        $example = $this->createExampleInGroup($exampleGroup);
+        $this->createHttpData($example, [
+            'request_input' => [
+                'key_1' => 'value_1',
+                'key_2' => [
+                    'key_3' => [1, 3],
+                ],
+            ]
+        ]);
+
+        $response = $this->get(route('enlighten.group.show', ['run' => $run->id, 'suite' => 'api', 'group' => $exampleGroup]));
+
+        $response->assertOk()
+            ->assertSeeText('key_1')
+            ->assertSeeText('key_2');
     }
 }
