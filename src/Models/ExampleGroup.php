@@ -15,16 +15,6 @@ class ExampleGroup extends Model implements Statusable
 
     protected $guarded = [];
 
-    // Query methods
-    public  static function findByTestArea(Area $area) : Collection
-    {
-        if (empty($area)) {
-            return Collection::make();
-        }
-
-        return static::filterByArea($area)->get();
-    }
-
     // Relationships
     public function examples()
     {
