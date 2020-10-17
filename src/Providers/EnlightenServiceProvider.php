@@ -6,6 +6,7 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExampleCreator;
@@ -15,7 +16,7 @@ use Styde\Enlighten\RouteInspector;
 use Styde\Enlighten\SessionInspector;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
-use Styde\Enlighten\Utils\TestTrace;
+use Styde\Enlighten\Utils\Git;
 use Styde\Enlighten\View\Components\AppLayoutComponent;
 use Styde\Enlighten\View\Components\CodeExampleComponent;
 use Styde\Enlighten\View\Components\DynamicTabsComponent;
@@ -41,9 +42,12 @@ class EnlightenServiceProvider extends ServiceProvider
         }
 
         $this->addDatabaseConnection($this->app['config']);
+
         $this->loadroutesFrom($this->componentPath('routes/web.php'));
         $this->loadroutesFrom($this->componentPath('routes/api.php'));
+
         $this->loadViewsFrom($this->componentPath('resources/views'), 'enlighten');
+
         $this->registerViewComponents();
 
         if ($this->app->runningInConsole()) {
@@ -90,6 +94,7 @@ class EnlightenServiceProvider extends ServiceProvider
     {
         $this->registerTestRun();
         $this->registerTestInspector();
+        $this->registerVersionControlSystem();
         $this->registerHttpExampleGenerator();
     }
 
@@ -117,6 +122,11 @@ class EnlightenServiceProvider extends ServiceProvider
 
             return new TestInspector($app[TestRun::class], $annotations, $app['config']->get('enlighten.tests'));
         });
+    }
+
+    private function registerVersionControlSystem()
+    {
+        $this->app->singleton(VersionControl::class, Git::class);
     }
 
     private function registerHttpExampleGenerator()

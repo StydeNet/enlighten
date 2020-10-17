@@ -3,7 +3,7 @@
 namespace Styde\Enlighten;
 
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\Facades\GitInfo;
+use Styde\Enlighten\Facades\VersionControl;
 
 class TestRun
 {
@@ -41,9 +41,9 @@ class TestRun
         }
 
         return $this->run = Run::firstOrNew([
-            'branch' => GitInfo::currentBranch(),
-            'head' => GitInfo::head(),
-            'modified' => GitInfo::modified(),
+            'branch' => VersionControl::currentBranch(),
+            'head' => VersionControl::head(),
+            'modified' => VersionControl::modified(),
         ]);
     }
 

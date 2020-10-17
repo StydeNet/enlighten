@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\TestExampleGroup;
@@ -24,7 +25,7 @@ class TestRunTest extends TestCase
     }
 
     /** @test */
-    function can_only_create_an_instance_of_test_run()
+    function can_only_create_one_instance_of_test_run()
     {
         $reflection = new \ReflectionClass(TestRun::class);
 
@@ -67,5 +68,32 @@ class TestRunTest extends TestCase
 
         $this->assertSame(1, Run::count());
         $this->assertSame(1, ExampleGroup::count());
+    }
+
+    /** @test */
+    function can_get_info_from_a_custom_version_control_system()
+    {
+        $this->app->instance(VersionControl::class, new class implements VersionControl {
+            public function currentBranch(): string
+            {
+                return 'my-branch';
+            }
+
+            public function head(): string
+            {
+                return 'abc123';
+            }
+
+            public function modified(): bool
+            {
+                return true;
+            }
+        });
+
+        $run = TestRun::getInstance()->getRun();
+
+        $this->assertSame('my-branch', $run->branch);
+        $this->assertSame('abc123', $run->head);
+        $this->assertTrue($run->modified);
     }
 }
