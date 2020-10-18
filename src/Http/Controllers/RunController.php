@@ -10,18 +10,7 @@ class RunController extends Controller
 {
     public function index()
     {
-        $runs = Run::query()
-            ->with('groups', 'groups.stats')
-            ->latest()
-            ->get();
-
-        if ($runs->isEmpty()) {
-            return redirect(route('enlighten.intro'));
-        }
-
-        return view('enlighten::dashboard.index', [
-            'runs' => $runs
-        ]);
+        return view('enlighten::dashboard.index');
     }
 
     public function show(Request $request, ?Run $run = null)

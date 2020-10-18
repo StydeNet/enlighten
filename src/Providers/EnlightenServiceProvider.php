@@ -159,6 +159,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'module-panel' => 'enlighten::dashboard._module-panel',
             'queries-info' => 'enlighten::components.queries-info',
             'iframe' => 'enlighten::components.iframe',
+            'widget' => 'enlighten::components.widget',
 
         ]);
     }
