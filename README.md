@@ -85,7 +85,7 @@ class TestCase extends \Tests\TestCase
 *Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
 
 ## Database Setup
-`Enligthen` uses a secondary database and database connection to record and present the information from your test-suite.
+`Enlighten` uses a secondary database and database connection to record and present the information from your test-suite.
 
 If you use the following convention: 
 
