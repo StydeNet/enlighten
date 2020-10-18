@@ -10,6 +10,9 @@ class RunController extends Controller
 {
     public function index()
     {
+        if (Run::count() === 0) {
+            return redirect(route('enlighten.intro'));
+        }
         return view('enlighten::dashboard.index');
     }
 

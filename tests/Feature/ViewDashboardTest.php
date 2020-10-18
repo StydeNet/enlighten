@@ -11,7 +11,6 @@ class ViewDashboardTest extends TestCase
     /** @test */
     public function get_dashboard_view(): void
     {
-        $this->withoutExceptionHandling();
         $run = $this->createRun();
 
         $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User tests');

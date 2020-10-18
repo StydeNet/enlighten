@@ -3,6 +3,7 @@
 namespace Tests\Feature\Widgets;
 
 use Illuminate\Contracts\Support\Responsable;
+use Tests\Feature\TestCase;
 
 class WidgetControllerTest extends TestCase
 {
