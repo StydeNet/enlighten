@@ -5,6 +5,7 @@ namespace Tests;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Models\ExampleQuery;
 use Styde\Enlighten\Models\Run;
 
 trait TestHelpers
@@ -43,6 +44,15 @@ trait TestHelpers
             'method_name' => 'something_does_something',
             'title' => 'Something Does something',
             'test_status' => 'passed'
+        ], $attributes));
+    }
+
+    protected function createExampleQuery(array $attributes = []) : ExampleQuery
+    {
+        return ExampleQuery::create(array_merge([
+            'sql' => 'select * from users',
+            'bindings' => [],
+            'time' => '1.06'
         ], $attributes));
     }
 

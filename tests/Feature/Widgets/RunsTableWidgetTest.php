@@ -2,10 +2,13 @@
 
 namespace Tests\Feature\Widgets;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\TestCase;
 
 class RunsTableWidgetTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function get_all_the_runs_registered(): void
     {

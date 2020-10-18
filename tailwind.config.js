@@ -11,7 +11,14 @@ module.exports = {
     // ]
   },
   theme: {
-    extend: {},
+    maxHeight: {
+      '120': '30rem'
+    },
+    extend: {
+        spacing:  {
+            '120': '30rem'
+        }
+    },
   },
   variants: {},
   plugins: [

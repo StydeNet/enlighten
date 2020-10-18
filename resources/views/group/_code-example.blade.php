@@ -5,12 +5,7 @@
     <x-enlighten-status-badge size="8" :model="$example"/>
 
     <h2 class="text-xl text-gray-100 semibold block w-full my-3 flex items-center">
-        @if($failed)
-            {{ ucwords($example->test_status) . ':' }}
-        @endif
-
-        {{ $example->title }}
-
+        {{ $failed ? ucwords($example->test_status) . ':' : '' }} {{ $example->title }}
         <x-enlighten-edit-button :file="$example->file_link"/>
     </h2>
 
@@ -18,6 +13,7 @@
 
 <div class="w-full mb-12" x-data="{active: 'requests'}">
     <p class="text-gray-100 mb-4">{{ $example->description }}</p>
+
     <x-enlighten-dynamic-tabs :tabs="['Requests', 'SQL', 'Exception']">
         <x-slot name="requests">
             @if($example->is_http)
@@ -50,7 +46,12 @@
         </x-slot>
         @if($example->queries->isNotEmpty())
             <x-slot name="sql">
-                <x-enlighten-queries-info :example="$example" />
+                <x-enlighten-widget
+                    title="Database Queries"
+                    name="sql-queries"
+                    :query="['example' => $example->id]"
+                    after="Prism.highlightAllUnder($refs.content)"
+                    :expansible="true" :collapsed="true"></x-enlighten-widget>
             </x-slot>
         @endif
         @if($example->exception)

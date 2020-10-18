@@ -2061,6 +2061,18 @@ video {
   margin-left: calc(16rem * calc(1 - var(--space-x-reverse)));
 }
 
+.space-y-120 > :not(template) ~ :not(template) {
+  --space-y-reverse: 0;
+  margin-top: calc(30rem * calc(1 - var(--space-y-reverse)));
+  margin-bottom: calc(30rem * var(--space-y-reverse));
+}
+
+.space-x-120 > :not(template) ~ :not(template) {
+  --space-x-reverse: 0;
+  margin-right: calc(30rem * var(--space-x-reverse));
+  margin-left: calc(30rem * calc(1 - var(--space-x-reverse)));
+}
+
 .space-y-px > :not(template) ~ :not(template) {
   --space-y-reverse: 0;
   margin-top: calc(1px * calc(1 - var(--space-y-reverse)));
@@ -2275,6 +2287,18 @@ video {
   --space-x-reverse: 0;
   margin-right: calc(-16rem * var(--space-x-reverse));
   margin-left: calc(-16rem * calc(1 - var(--space-x-reverse)));
+}
+
+.-space-y-120 > :not(template) ~ :not(template) {
+  --space-y-reverse: 0;
+  margin-top: calc(-30rem * calc(1 - var(--space-y-reverse)));
+  margin-bottom: calc(-30rem * var(--space-y-reverse));
+}
+
+.-space-x-120 > :not(template) ~ :not(template) {
+  --space-x-reverse: 0;
+  margin-right: calc(-30rem * var(--space-x-reverse));
+  margin-left: calc(-30rem * calc(1 - var(--space-x-reverse)));
 }
 
 .-space-y-px > :not(template) ~ :not(template) {
@@ -11604,6 +11628,10 @@ video {
   height: 16rem;
 }
 
+.h-120 {
+  height: 30rem;
+}
+
 .h-auto {
   height: auto;
 }
@@ -11808,6 +11836,10 @@ video {
   margin: 16rem;
 }
 
+.m-120 {
+  margin: 30rem;
+}
+
 .m-auto {
   margin: auto;
 }
@@ -11882,6 +11914,10 @@ video {
 
 .-m-64 {
   margin: -16rem;
+}
+
+.-m-120 {
+  margin: -30rem;
 }
 
 .-m-px {
@@ -12066,6 +12102,16 @@ video {
 .mx-64 {
   margin-left: 16rem;
   margin-right: 16rem;
+}
+
+.my-120 {
+  margin-top: 30rem;
+  margin-bottom: 30rem;
+}
+
+.mx-120 {
+  margin-left: 30rem;
+  margin-right: 30rem;
 }
 
 .my-auto {
@@ -12256,6 +12302,16 @@ video {
 .-mx-64 {
   margin-left: -16rem;
   margin-right: -16rem;
+}
+
+.-my-120 {
+  margin-top: -30rem;
+  margin-bottom: -30rem;
+}
+
+.-mx-120 {
+  margin-left: -30rem;
+  margin-right: -30rem;
 }
 
 .-my-px {
@@ -12554,6 +12610,22 @@ video {
 
 .ml-64 {
   margin-left: 16rem;
+}
+
+.mt-120 {
+  margin-top: 30rem;
+}
+
+.mr-120 {
+  margin-right: 30rem;
+}
+
+.mb-120 {
+  margin-bottom: 30rem;
+}
+
+.ml-120 {
+  margin-left: 30rem;
 }
 
 .mt-auto {
@@ -12860,6 +12932,22 @@ video {
   margin-left: -16rem;
 }
 
+.-mt-120 {
+  margin-top: -30rem;
+}
+
+.-mr-120 {
+  margin-right: -30rem;
+}
+
+.-mb-120 {
+  margin-bottom: -30rem;
+}
+
+.-ml-120 {
+  margin-left: -30rem;
+}
+
 .-mt-px {
   margin-top: -1px;
 }
@@ -12876,12 +12964,8 @@ video {
   margin-left: -1px;
 }
 
-.max-h-full {
-  max-height: 100%;
-}
-
-.max-h-screen {
-  max-height: 100vh;
+.max-h-120 {
+  max-height: 30rem;
 }
 
 .max-w-none {
@@ -13273,6 +13357,10 @@ video {
   padding: 16rem;
 }
 
+.p-120 {
+  padding: 30rem;
+}
+
 .p-px {
   padding: 1px;
 }
@@ -13455,6 +13543,16 @@ video {
 .px-64 {
   padding-left: 16rem;
   padding-right: 16rem;
+}
+
+.py-120 {
+  padding-top: 30rem;
+  padding-bottom: 30rem;
+}
+
+.px-120 {
+  padding-left: 30rem;
+  padding-right: 30rem;
 }
 
 .py-px {
@@ -13753,6 +13851,22 @@ video {
 
 .pl-64 {
   padding-left: 16rem;
+}
+
+.pt-120 {
+  padding-top: 30rem;
+}
+
+.pr-120 {
+  padding-right: 30rem;
+}
+
+.pb-120 {
+  padding-bottom: 30rem;
+}
+
+.pl-120 {
+  padding-left: 30rem;
 }
 
 .pt-px {
@@ -19576,6 +19690,10 @@ video {
   width: 16rem;
 }
 
+.w-120 {
+  width: 30rem;
+}
+
 .w-auto {
   width: auto;
 }
@@ -19814,6 +19932,11 @@ video {
   gap: 16rem;
 }
 
+.gap-120 {
+  grid-gap: 30rem;
+  gap: 30rem;
+}
+
 .gap-px {
   grid-gap: 1px;
   gap: 1px;
@@ -19925,6 +20048,12 @@ video {
   grid-column-gap: 16rem;
   -moz-column-gap: 16rem;
        column-gap: 16rem;
+}
+
+.col-gap-120 {
+  grid-column-gap: 30rem;
+  -moz-column-gap: 30rem;
+       column-gap: 30rem;
 }
 
 .col-gap-px {
@@ -20041,6 +20170,12 @@ video {
        column-gap: 16rem;
 }
 
+.gap-x-120 {
+  grid-column-gap: 30rem;
+  -moz-column-gap: 30rem;
+       column-gap: 30rem;
+}
+
 .gap-x-px {
   grid-column-gap: 1px;
   -moz-column-gap: 1px;
@@ -20137,6 +20272,11 @@ video {
   row-gap: 16rem;
 }
 
+.row-gap-120 {
+  grid-row-gap: 30rem;
+  row-gap: 30rem;
+}
+
 .row-gap-px {
   grid-row-gap: 1px;
   row-gap: 1px;
@@ -20230,6 +20370,11 @@ video {
 .gap-y-64 {
   grid-row-gap: 16rem;
   row-gap: 16rem;
+}
+
+.gap-y-120 {
+  grid-row-gap: 30rem;
+  row-gap: 30rem;
 }
 
 .gap-y-px {
@@ -21186,6 +21331,10 @@ video {
   --transform-translate-x: 16rem;
 }
 
+.translate-x-120 {
+  --transform-translate-x: 30rem;
+}
+
 .translate-x-px {
   --transform-translate-x: 1px;
 }
@@ -21256,6 +21405,10 @@ video {
 
 .-translate-x-64 {
   --transform-translate-x: -16rem;
+}
+
+.-translate-x-120 {
+  --transform-translate-x: -30rem;
 }
 
 .-translate-x-px {
@@ -21350,6 +21503,10 @@ video {
   --transform-translate-y: 16rem;
 }
 
+.translate-y-120 {
+  --transform-translate-y: 30rem;
+}
+
 .translate-y-px {
   --transform-translate-y: 1px;
 }
@@ -21420,6 +21577,10 @@ video {
 
 .-translate-y-64 {
   --transform-translate-y: -16rem;
+}
+
+.-translate-y-120 {
+  --transform-translate-y: -30rem;
 }
 
 .-translate-y-px {
@@ -21514,6 +21675,10 @@ video {
   --transform-translate-x: 16rem;
 }
 
+.hover\:translate-x-120:hover {
+  --transform-translate-x: 30rem;
+}
+
 .hover\:translate-x-px:hover {
   --transform-translate-x: 1px;
 }
@@ -21584,6 +21749,10 @@ video {
 
 .hover\:-translate-x-64:hover {
   --transform-translate-x: -16rem;
+}
+
+.hover\:-translate-x-120:hover {
+  --transform-translate-x: -30rem;
 }
 
 .hover\:-translate-x-px:hover {
@@ -21678,6 +21847,10 @@ video {
   --transform-translate-y: 16rem;
 }
 
+.hover\:translate-y-120:hover {
+  --transform-translate-y: 30rem;
+}
+
 .hover\:translate-y-px:hover {
   --transform-translate-y: 1px;
 }
@@ -21748,6 +21921,10 @@ video {
 
 .hover\:-translate-y-64:hover {
   --transform-translate-y: -16rem;
+}
+
+.hover\:-translate-y-120:hover {
+  --transform-translate-y: -30rem;
 }
 
 .hover\:-translate-y-px:hover {
@@ -21842,6 +22019,10 @@ video {
   --transform-translate-x: 16rem;
 }
 
+.focus\:translate-x-120:focus {
+  --transform-translate-x: 30rem;
+}
+
 .focus\:translate-x-px:focus {
   --transform-translate-x: 1px;
 }
@@ -21912,6 +22093,10 @@ video {
 
 .focus\:-translate-x-64:focus {
   --transform-translate-x: -16rem;
+}
+
+.focus\:-translate-x-120:focus {
+  --transform-translate-x: -30rem;
 }
 
 .focus\:-translate-x-px:focus {
@@ -22006,6 +22191,10 @@ video {
   --transform-translate-y: 16rem;
 }
 
+.focus\:translate-y-120:focus {
+  --transform-translate-y: 30rem;
+}
+
 .focus\:translate-y-px:focus {
   --transform-translate-y: 1px;
 }
@@ -22076,6 +22265,10 @@ video {
 
 .focus\:-translate-y-64:focus {
   --transform-translate-y: -16rem;
+}
+
+.focus\:-translate-y-120:focus {
+  --transform-translate-y: -30rem;
 }
 
 .focus\:-translate-y-px:focus {
@@ -24225,6 +24418,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: calc(16rem * calc(1 - var(--space-x-reverse)));
   }
 
+  .sm\:space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(30rem * var(--space-y-reverse));
+  }
+
+  .sm\:space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(30rem * var(--space-x-reverse));
+    margin-left: calc(30rem * calc(1 - var(--space-x-reverse)));
+  }
+
   .sm\:space-y-px > :not(template) ~ :not(template) {
     --space-y-reverse: 0;
     margin-top: calc(1px * calc(1 - var(--space-y-reverse)));
@@ -24439,6 +24644,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --space-x-reverse: 0;
     margin-right: calc(-16rem * var(--space-x-reverse));
     margin-left: calc(-16rem * calc(1 - var(--space-x-reverse)));
+  }
+
+  .sm\:-space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(-30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(-30rem * var(--space-y-reverse));
+  }
+
+  .sm\:-space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(-30rem * var(--space-x-reverse));
+    margin-left: calc(-30rem * calc(1 - var(--space-x-reverse)));
   }
 
   .sm\:-space-y-px > :not(template) ~ :not(template) {
@@ -33768,6 +33985,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     height: 16rem;
   }
 
+  .sm\:h-120 {
+    height: 30rem;
+  }
+
   .sm\:h-auto {
     height: auto;
   }
@@ -33972,6 +34193,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin: 16rem;
   }
 
+  .sm\:m-120 {
+    margin: 30rem;
+  }
+
   .sm\:m-auto {
     margin: auto;
   }
@@ -34046,6 +34271,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:-m-64 {
     margin: -16rem;
+  }
+
+  .sm\:-m-120 {
+    margin: -30rem;
   }
 
   .sm\:-m-px {
@@ -34230,6 +34459,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .sm\:mx-64 {
     margin-left: 16rem;
     margin-right: 16rem;
+  }
+
+  .sm\:my-120 {
+    margin-top: 30rem;
+    margin-bottom: 30rem;
+  }
+
+  .sm\:mx-120 {
+    margin-left: 30rem;
+    margin-right: 30rem;
   }
 
   .sm\:my-auto {
@@ -34420,6 +34659,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .sm\:-mx-64 {
     margin-left: -16rem;
     margin-right: -16rem;
+  }
+
+  .sm\:-my-120 {
+    margin-top: -30rem;
+    margin-bottom: -30rem;
+  }
+
+  .sm\:-mx-120 {
+    margin-left: -30rem;
+    margin-right: -30rem;
   }
 
   .sm\:-my-px {
@@ -34718,6 +34967,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:ml-64 {
     margin-left: 16rem;
+  }
+
+  .sm\:mt-120 {
+    margin-top: 30rem;
+  }
+
+  .sm\:mr-120 {
+    margin-right: 30rem;
+  }
+
+  .sm\:mb-120 {
+    margin-bottom: 30rem;
+  }
+
+  .sm\:ml-120 {
+    margin-left: 30rem;
   }
 
   .sm\:mt-auto {
@@ -35024,6 +35289,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -16rem;
   }
 
+  .sm\:-mt-120 {
+    margin-top: -30rem;
+  }
+
+  .sm\:-mr-120 {
+    margin-right: -30rem;
+  }
+
+  .sm\:-mb-120 {
+    margin-bottom: -30rem;
+  }
+
+  .sm\:-ml-120 {
+    margin-left: -30rem;
+  }
+
   .sm\:-mt-px {
     margin-top: -1px;
   }
@@ -35040,12 +35321,8 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -1px;
   }
 
-  .sm\:max-h-full {
-    max-height: 100%;
-  }
-
-  .sm\:max-h-screen {
-    max-height: 100vh;
+  .sm\:max-h-120 {
+    max-height: 30rem;
   }
 
   .sm\:max-w-none {
@@ -35437,6 +35714,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     padding: 16rem;
   }
 
+  .sm\:p-120 {
+    padding: 30rem;
+  }
+
   .sm\:p-px {
     padding: 1px;
   }
@@ -35619,6 +35900,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .sm\:px-64 {
     padding-left: 16rem;
     padding-right: 16rem;
+  }
+
+  .sm\:py-120 {
+    padding-top: 30rem;
+    padding-bottom: 30rem;
+  }
+
+  .sm\:px-120 {
+    padding-left: 30rem;
+    padding-right: 30rem;
   }
 
   .sm\:py-px {
@@ -35917,6 +36208,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:pl-64 {
     padding-left: 16rem;
+  }
+
+  .sm\:pt-120 {
+    padding-top: 30rem;
+  }
+
+  .sm\:pr-120 {
+    padding-right: 30rem;
+  }
+
+  .sm\:pb-120 {
+    padding-bottom: 30rem;
+  }
+
+  .sm\:pl-120 {
+    padding-left: 30rem;
   }
 
   .sm\:pt-px {
@@ -41740,6 +42047,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     width: 16rem;
   }
 
+  .sm\:w-120 {
+    width: 30rem;
+  }
+
   .sm\:w-auto {
     width: auto;
   }
@@ -41978,6 +42289,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     gap: 16rem;
   }
 
+  .sm\:gap-120 {
+    grid-gap: 30rem;
+    gap: 30rem;
+  }
+
   .sm\:gap-px {
     grid-gap: 1px;
     gap: 1px;
@@ -42089,6 +42405,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     grid-column-gap: 16rem;
     -moz-column-gap: 16rem;
          column-gap: 16rem;
+  }
+
+  .sm\:col-gap-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
   }
 
   .sm\:col-gap-px {
@@ -42205,6 +42527,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
          column-gap: 16rem;
   }
 
+  .sm\:gap-x-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
+  }
+
   .sm\:gap-x-px {
     grid-column-gap: 1px;
     -moz-column-gap: 1px;
@@ -42301,6 +42629,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     row-gap: 16rem;
   }
 
+  .sm\:row-gap-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
+  }
+
   .sm\:row-gap-px {
     grid-row-gap: 1px;
     row-gap: 1px;
@@ -42394,6 +42727,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .sm\:gap-y-64 {
     grid-row-gap: 16rem;
     row-gap: 16rem;
+  }
+
+  .sm\:gap-y-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
   }
 
   .sm\:gap-y-px {
@@ -43350,6 +43688,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .sm\:translate-x-120 {
+    --transform-translate-x: 30rem;
+  }
+
   .sm\:translate-x-px {
     --transform-translate-x: 1px;
   }
@@ -43420,6 +43762,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:-translate-x-64 {
     --transform-translate-x: -16rem;
+  }
+
+  .sm\:-translate-x-120 {
+    --transform-translate-x: -30rem;
   }
 
   .sm\:-translate-x-px {
@@ -43514,6 +43860,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .sm\:translate-y-120 {
+    --transform-translate-y: 30rem;
+  }
+
   .sm\:translate-y-px {
     --transform-translate-y: 1px;
   }
@@ -43584,6 +43934,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:-translate-y-64 {
     --transform-translate-y: -16rem;
+  }
+
+  .sm\:-translate-y-120 {
+    --transform-translate-y: -30rem;
   }
 
   .sm\:-translate-y-px {
@@ -43678,6 +44032,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .sm\:hover\:translate-x-120:hover {
+    --transform-translate-x: 30rem;
+  }
+
   .sm\:hover\:translate-x-px:hover {
     --transform-translate-x: 1px;
   }
@@ -43748,6 +44106,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:hover\:-translate-x-64:hover {
     --transform-translate-x: -16rem;
+  }
+
+  .sm\:hover\:-translate-x-120:hover {
+    --transform-translate-x: -30rem;
   }
 
   .sm\:hover\:-translate-x-px:hover {
@@ -43842,6 +44204,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .sm\:hover\:translate-y-120:hover {
+    --transform-translate-y: 30rem;
+  }
+
   .sm\:hover\:translate-y-px:hover {
     --transform-translate-y: 1px;
   }
@@ -43912,6 +44278,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:hover\:-translate-y-64:hover {
     --transform-translate-y: -16rem;
+  }
+
+  .sm\:hover\:-translate-y-120:hover {
+    --transform-translate-y: -30rem;
   }
 
   .sm\:hover\:-translate-y-px:hover {
@@ -44006,6 +44376,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .sm\:focus\:translate-x-120:focus {
+    --transform-translate-x: 30rem;
+  }
+
   .sm\:focus\:translate-x-px:focus {
     --transform-translate-x: 1px;
   }
@@ -44076,6 +44450,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:focus\:-translate-x-64:focus {
     --transform-translate-x: -16rem;
+  }
+
+  .sm\:focus\:-translate-x-120:focus {
+    --transform-translate-x: -30rem;
   }
 
   .sm\:focus\:-translate-x-px:focus {
@@ -44170,6 +44548,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .sm\:focus\:translate-y-120:focus {
+    --transform-translate-y: 30rem;
+  }
+
   .sm\:focus\:translate-y-px:focus {
     --transform-translate-y: 1px;
   }
@@ -44240,6 +44622,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .sm\:focus\:-translate-y-64:focus {
     --transform-translate-y: -16rem;
+  }
+
+  .sm\:focus\:-translate-y-120:focus {
+    --transform-translate-y: -30rem;
   }
 
   .sm\:focus\:-translate-y-px:focus {
@@ -46036,6 +46422,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: calc(16rem * calc(1 - var(--space-x-reverse)));
   }
 
+  .md\:space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(30rem * var(--space-y-reverse));
+  }
+
+  .md\:space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(30rem * var(--space-x-reverse));
+    margin-left: calc(30rem * calc(1 - var(--space-x-reverse)));
+  }
+
   .md\:space-y-px > :not(template) ~ :not(template) {
     --space-y-reverse: 0;
     margin-top: calc(1px * calc(1 - var(--space-y-reverse)));
@@ -46250,6 +46648,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --space-x-reverse: 0;
     margin-right: calc(-16rem * var(--space-x-reverse));
     margin-left: calc(-16rem * calc(1 - var(--space-x-reverse)));
+  }
+
+  .md\:-space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(-30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(-30rem * var(--space-y-reverse));
+  }
+
+  .md\:-space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(-30rem * var(--space-x-reverse));
+    margin-left: calc(-30rem * calc(1 - var(--space-x-reverse)));
   }
 
   .md\:-space-y-px > :not(template) ~ :not(template) {
@@ -55579,6 +55989,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     height: 16rem;
   }
 
+  .md\:h-120 {
+    height: 30rem;
+  }
+
   .md\:h-auto {
     height: auto;
   }
@@ -55783,6 +56197,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin: 16rem;
   }
 
+  .md\:m-120 {
+    margin: 30rem;
+  }
+
   .md\:m-auto {
     margin: auto;
   }
@@ -55857,6 +56275,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:-m-64 {
     margin: -16rem;
+  }
+
+  .md\:-m-120 {
+    margin: -30rem;
   }
 
   .md\:-m-px {
@@ -56041,6 +56463,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .md\:mx-64 {
     margin-left: 16rem;
     margin-right: 16rem;
+  }
+
+  .md\:my-120 {
+    margin-top: 30rem;
+    margin-bottom: 30rem;
+  }
+
+  .md\:mx-120 {
+    margin-left: 30rem;
+    margin-right: 30rem;
   }
 
   .md\:my-auto {
@@ -56231,6 +56663,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .md\:-mx-64 {
     margin-left: -16rem;
     margin-right: -16rem;
+  }
+
+  .md\:-my-120 {
+    margin-top: -30rem;
+    margin-bottom: -30rem;
+  }
+
+  .md\:-mx-120 {
+    margin-left: -30rem;
+    margin-right: -30rem;
   }
 
   .md\:-my-px {
@@ -56529,6 +56971,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:ml-64 {
     margin-left: 16rem;
+  }
+
+  .md\:mt-120 {
+    margin-top: 30rem;
+  }
+
+  .md\:mr-120 {
+    margin-right: 30rem;
+  }
+
+  .md\:mb-120 {
+    margin-bottom: 30rem;
+  }
+
+  .md\:ml-120 {
+    margin-left: 30rem;
   }
 
   .md\:mt-auto {
@@ -56835,6 +57293,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -16rem;
   }
 
+  .md\:-mt-120 {
+    margin-top: -30rem;
+  }
+
+  .md\:-mr-120 {
+    margin-right: -30rem;
+  }
+
+  .md\:-mb-120 {
+    margin-bottom: -30rem;
+  }
+
+  .md\:-ml-120 {
+    margin-left: -30rem;
+  }
+
   .md\:-mt-px {
     margin-top: -1px;
   }
@@ -56851,12 +57325,8 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -1px;
   }
 
-  .md\:max-h-full {
-    max-height: 100%;
-  }
-
-  .md\:max-h-screen {
-    max-height: 100vh;
+  .md\:max-h-120 {
+    max-height: 30rem;
   }
 
   .md\:max-w-none {
@@ -57248,6 +57718,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     padding: 16rem;
   }
 
+  .md\:p-120 {
+    padding: 30rem;
+  }
+
   .md\:p-px {
     padding: 1px;
   }
@@ -57430,6 +57904,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .md\:px-64 {
     padding-left: 16rem;
     padding-right: 16rem;
+  }
+
+  .md\:py-120 {
+    padding-top: 30rem;
+    padding-bottom: 30rem;
+  }
+
+  .md\:px-120 {
+    padding-left: 30rem;
+    padding-right: 30rem;
   }
 
   .md\:py-px {
@@ -57728,6 +58212,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:pl-64 {
     padding-left: 16rem;
+  }
+
+  .md\:pt-120 {
+    padding-top: 30rem;
+  }
+
+  .md\:pr-120 {
+    padding-right: 30rem;
+  }
+
+  .md\:pb-120 {
+    padding-bottom: 30rem;
+  }
+
+  .md\:pl-120 {
+    padding-left: 30rem;
   }
 
   .md\:pt-px {
@@ -63551,6 +64051,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     width: 16rem;
   }
 
+  .md\:w-120 {
+    width: 30rem;
+  }
+
   .md\:w-auto {
     width: auto;
   }
@@ -63789,6 +64293,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     gap: 16rem;
   }
 
+  .md\:gap-120 {
+    grid-gap: 30rem;
+    gap: 30rem;
+  }
+
   .md\:gap-px {
     grid-gap: 1px;
     gap: 1px;
@@ -63900,6 +64409,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     grid-column-gap: 16rem;
     -moz-column-gap: 16rem;
          column-gap: 16rem;
+  }
+
+  .md\:col-gap-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
   }
 
   .md\:col-gap-px {
@@ -64016,6 +64531,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
          column-gap: 16rem;
   }
 
+  .md\:gap-x-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
+  }
+
   .md\:gap-x-px {
     grid-column-gap: 1px;
     -moz-column-gap: 1px;
@@ -64112,6 +64633,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     row-gap: 16rem;
   }
 
+  .md\:row-gap-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
+  }
+
   .md\:row-gap-px {
     grid-row-gap: 1px;
     row-gap: 1px;
@@ -64205,6 +64731,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .md\:gap-y-64 {
     grid-row-gap: 16rem;
     row-gap: 16rem;
+  }
+
+  .md\:gap-y-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
   }
 
   .md\:gap-y-px {
@@ -65161,6 +65692,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .md\:translate-x-120 {
+    --transform-translate-x: 30rem;
+  }
+
   .md\:translate-x-px {
     --transform-translate-x: 1px;
   }
@@ -65231,6 +65766,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:-translate-x-64 {
     --transform-translate-x: -16rem;
+  }
+
+  .md\:-translate-x-120 {
+    --transform-translate-x: -30rem;
   }
 
   .md\:-translate-x-px {
@@ -65325,6 +65864,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .md\:translate-y-120 {
+    --transform-translate-y: 30rem;
+  }
+
   .md\:translate-y-px {
     --transform-translate-y: 1px;
   }
@@ -65395,6 +65938,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:-translate-y-64 {
     --transform-translate-y: -16rem;
+  }
+
+  .md\:-translate-y-120 {
+    --transform-translate-y: -30rem;
   }
 
   .md\:-translate-y-px {
@@ -65489,6 +66036,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .md\:hover\:translate-x-120:hover {
+    --transform-translate-x: 30rem;
+  }
+
   .md\:hover\:translate-x-px:hover {
     --transform-translate-x: 1px;
   }
@@ -65559,6 +66110,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:hover\:-translate-x-64:hover {
     --transform-translate-x: -16rem;
+  }
+
+  .md\:hover\:-translate-x-120:hover {
+    --transform-translate-x: -30rem;
   }
 
   .md\:hover\:-translate-x-px:hover {
@@ -65653,6 +66208,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .md\:hover\:translate-y-120:hover {
+    --transform-translate-y: 30rem;
+  }
+
   .md\:hover\:translate-y-px:hover {
     --transform-translate-y: 1px;
   }
@@ -65723,6 +66282,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:hover\:-translate-y-64:hover {
     --transform-translate-y: -16rem;
+  }
+
+  .md\:hover\:-translate-y-120:hover {
+    --transform-translate-y: -30rem;
   }
 
   .md\:hover\:-translate-y-px:hover {
@@ -65817,6 +66380,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .md\:focus\:translate-x-120:focus {
+    --transform-translate-x: 30rem;
+  }
+
   .md\:focus\:translate-x-px:focus {
     --transform-translate-x: 1px;
   }
@@ -65887,6 +66454,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:focus\:-translate-x-64:focus {
     --transform-translate-x: -16rem;
+  }
+
+  .md\:focus\:-translate-x-120:focus {
+    --transform-translate-x: -30rem;
   }
 
   .md\:focus\:-translate-x-px:focus {
@@ -65981,6 +66552,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .md\:focus\:translate-y-120:focus {
+    --transform-translate-y: 30rem;
+  }
+
   .md\:focus\:translate-y-px:focus {
     --transform-translate-y: 1px;
   }
@@ -66051,6 +66626,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .md\:focus\:-translate-y-64:focus {
     --transform-translate-y: -16rem;
+  }
+
+  .md\:focus\:-translate-y-120:focus {
+    --transform-translate-y: -30rem;
   }
 
   .md\:focus\:-translate-y-px:focus {
@@ -67847,6 +68426,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: calc(16rem * calc(1 - var(--space-x-reverse)));
   }
 
+  .lg\:space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(30rem * var(--space-y-reverse));
+  }
+
+  .lg\:space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(30rem * var(--space-x-reverse));
+    margin-left: calc(30rem * calc(1 - var(--space-x-reverse)));
+  }
+
   .lg\:space-y-px > :not(template) ~ :not(template) {
     --space-y-reverse: 0;
     margin-top: calc(1px * calc(1 - var(--space-y-reverse)));
@@ -68061,6 +68652,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --space-x-reverse: 0;
     margin-right: calc(-16rem * var(--space-x-reverse));
     margin-left: calc(-16rem * calc(1 - var(--space-x-reverse)));
+  }
+
+  .lg\:-space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(-30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(-30rem * var(--space-y-reverse));
+  }
+
+  .lg\:-space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(-30rem * var(--space-x-reverse));
+    margin-left: calc(-30rem * calc(1 - var(--space-x-reverse)));
   }
 
   .lg\:-space-y-px > :not(template) ~ :not(template) {
@@ -77390,6 +77993,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     height: 16rem;
   }
 
+  .lg\:h-120 {
+    height: 30rem;
+  }
+
   .lg\:h-auto {
     height: auto;
   }
@@ -77594,6 +78201,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin: 16rem;
   }
 
+  .lg\:m-120 {
+    margin: 30rem;
+  }
+
   .lg\:m-auto {
     margin: auto;
   }
@@ -77668,6 +78279,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:-m-64 {
     margin: -16rem;
+  }
+
+  .lg\:-m-120 {
+    margin: -30rem;
   }
 
   .lg\:-m-px {
@@ -77852,6 +78467,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .lg\:mx-64 {
     margin-left: 16rem;
     margin-right: 16rem;
+  }
+
+  .lg\:my-120 {
+    margin-top: 30rem;
+    margin-bottom: 30rem;
+  }
+
+  .lg\:mx-120 {
+    margin-left: 30rem;
+    margin-right: 30rem;
   }
 
   .lg\:my-auto {
@@ -78042,6 +78667,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .lg\:-mx-64 {
     margin-left: -16rem;
     margin-right: -16rem;
+  }
+
+  .lg\:-my-120 {
+    margin-top: -30rem;
+    margin-bottom: -30rem;
+  }
+
+  .lg\:-mx-120 {
+    margin-left: -30rem;
+    margin-right: -30rem;
   }
 
   .lg\:-my-px {
@@ -78340,6 +78975,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:ml-64 {
     margin-left: 16rem;
+  }
+
+  .lg\:mt-120 {
+    margin-top: 30rem;
+  }
+
+  .lg\:mr-120 {
+    margin-right: 30rem;
+  }
+
+  .lg\:mb-120 {
+    margin-bottom: 30rem;
+  }
+
+  .lg\:ml-120 {
+    margin-left: 30rem;
   }
 
   .lg\:mt-auto {
@@ -78646,6 +79297,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -16rem;
   }
 
+  .lg\:-mt-120 {
+    margin-top: -30rem;
+  }
+
+  .lg\:-mr-120 {
+    margin-right: -30rem;
+  }
+
+  .lg\:-mb-120 {
+    margin-bottom: -30rem;
+  }
+
+  .lg\:-ml-120 {
+    margin-left: -30rem;
+  }
+
   .lg\:-mt-px {
     margin-top: -1px;
   }
@@ -78662,12 +79329,8 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -1px;
   }
 
-  .lg\:max-h-full {
-    max-height: 100%;
-  }
-
-  .lg\:max-h-screen {
-    max-height: 100vh;
+  .lg\:max-h-120 {
+    max-height: 30rem;
   }
 
   .lg\:max-w-none {
@@ -79059,6 +79722,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     padding: 16rem;
   }
 
+  .lg\:p-120 {
+    padding: 30rem;
+  }
+
   .lg\:p-px {
     padding: 1px;
   }
@@ -79241,6 +79908,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .lg\:px-64 {
     padding-left: 16rem;
     padding-right: 16rem;
+  }
+
+  .lg\:py-120 {
+    padding-top: 30rem;
+    padding-bottom: 30rem;
+  }
+
+  .lg\:px-120 {
+    padding-left: 30rem;
+    padding-right: 30rem;
   }
 
   .lg\:py-px {
@@ -79539,6 +80216,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:pl-64 {
     padding-left: 16rem;
+  }
+
+  .lg\:pt-120 {
+    padding-top: 30rem;
+  }
+
+  .lg\:pr-120 {
+    padding-right: 30rem;
+  }
+
+  .lg\:pb-120 {
+    padding-bottom: 30rem;
+  }
+
+  .lg\:pl-120 {
+    padding-left: 30rem;
   }
 
   .lg\:pt-px {
@@ -85362,6 +86055,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     width: 16rem;
   }
 
+  .lg\:w-120 {
+    width: 30rem;
+  }
+
   .lg\:w-auto {
     width: auto;
   }
@@ -85600,6 +86297,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     gap: 16rem;
   }
 
+  .lg\:gap-120 {
+    grid-gap: 30rem;
+    gap: 30rem;
+  }
+
   .lg\:gap-px {
     grid-gap: 1px;
     gap: 1px;
@@ -85711,6 +86413,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     grid-column-gap: 16rem;
     -moz-column-gap: 16rem;
          column-gap: 16rem;
+  }
+
+  .lg\:col-gap-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
   }
 
   .lg\:col-gap-px {
@@ -85827,6 +86535,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
          column-gap: 16rem;
   }
 
+  .lg\:gap-x-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
+  }
+
   .lg\:gap-x-px {
     grid-column-gap: 1px;
     -moz-column-gap: 1px;
@@ -85923,6 +86637,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     row-gap: 16rem;
   }
 
+  .lg\:row-gap-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
+  }
+
   .lg\:row-gap-px {
     grid-row-gap: 1px;
     row-gap: 1px;
@@ -86016,6 +86735,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .lg\:gap-y-64 {
     grid-row-gap: 16rem;
     row-gap: 16rem;
+  }
+
+  .lg\:gap-y-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
   }
 
   .lg\:gap-y-px {
@@ -86972,6 +87696,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .lg\:translate-x-120 {
+    --transform-translate-x: 30rem;
+  }
+
   .lg\:translate-x-px {
     --transform-translate-x: 1px;
   }
@@ -87042,6 +87770,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:-translate-x-64 {
     --transform-translate-x: -16rem;
+  }
+
+  .lg\:-translate-x-120 {
+    --transform-translate-x: -30rem;
   }
 
   .lg\:-translate-x-px {
@@ -87136,6 +87868,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .lg\:translate-y-120 {
+    --transform-translate-y: 30rem;
+  }
+
   .lg\:translate-y-px {
     --transform-translate-y: 1px;
   }
@@ -87206,6 +87942,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:-translate-y-64 {
     --transform-translate-y: -16rem;
+  }
+
+  .lg\:-translate-y-120 {
+    --transform-translate-y: -30rem;
   }
 
   .lg\:-translate-y-px {
@@ -87300,6 +88040,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .lg\:hover\:translate-x-120:hover {
+    --transform-translate-x: 30rem;
+  }
+
   .lg\:hover\:translate-x-px:hover {
     --transform-translate-x: 1px;
   }
@@ -87370,6 +88114,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:hover\:-translate-x-64:hover {
     --transform-translate-x: -16rem;
+  }
+
+  .lg\:hover\:-translate-x-120:hover {
+    --transform-translate-x: -30rem;
   }
 
   .lg\:hover\:-translate-x-px:hover {
@@ -87464,6 +88212,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .lg\:hover\:translate-y-120:hover {
+    --transform-translate-y: 30rem;
+  }
+
   .lg\:hover\:translate-y-px:hover {
     --transform-translate-y: 1px;
   }
@@ -87534,6 +88286,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:hover\:-translate-y-64:hover {
     --transform-translate-y: -16rem;
+  }
+
+  .lg\:hover\:-translate-y-120:hover {
+    --transform-translate-y: -30rem;
   }
 
   .lg\:hover\:-translate-y-px:hover {
@@ -87628,6 +88384,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .lg\:focus\:translate-x-120:focus {
+    --transform-translate-x: 30rem;
+  }
+
   .lg\:focus\:translate-x-px:focus {
     --transform-translate-x: 1px;
   }
@@ -87698,6 +88458,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:focus\:-translate-x-64:focus {
     --transform-translate-x: -16rem;
+  }
+
+  .lg\:focus\:-translate-x-120:focus {
+    --transform-translate-x: -30rem;
   }
 
   .lg\:focus\:-translate-x-px:focus {
@@ -87792,6 +88556,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .lg\:focus\:translate-y-120:focus {
+    --transform-translate-y: 30rem;
+  }
+
   .lg\:focus\:translate-y-px:focus {
     --transform-translate-y: 1px;
   }
@@ -87862,6 +88630,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .lg\:focus\:-translate-y-64:focus {
     --transform-translate-y: -16rem;
+  }
+
+  .lg\:focus\:-translate-y-120:focus {
+    --transform-translate-y: -30rem;
   }
 
   .lg\:focus\:-translate-y-px:focus {
@@ -89658,6 +90430,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: calc(16rem * calc(1 - var(--space-x-reverse)));
   }
 
+  .xl\:space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(30rem * var(--space-y-reverse));
+  }
+
+  .xl\:space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(30rem * var(--space-x-reverse));
+    margin-left: calc(30rem * calc(1 - var(--space-x-reverse)));
+  }
+
   .xl\:space-y-px > :not(template) ~ :not(template) {
     --space-y-reverse: 0;
     margin-top: calc(1px * calc(1 - var(--space-y-reverse)));
@@ -89872,6 +90656,18 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --space-x-reverse: 0;
     margin-right: calc(-16rem * var(--space-x-reverse));
     margin-left: calc(-16rem * calc(1 - var(--space-x-reverse)));
+  }
+
+  .xl\:-space-y-120 > :not(template) ~ :not(template) {
+    --space-y-reverse: 0;
+    margin-top: calc(-30rem * calc(1 - var(--space-y-reverse)));
+    margin-bottom: calc(-30rem * var(--space-y-reverse));
+  }
+
+  .xl\:-space-x-120 > :not(template) ~ :not(template) {
+    --space-x-reverse: 0;
+    margin-right: calc(-30rem * var(--space-x-reverse));
+    margin-left: calc(-30rem * calc(1 - var(--space-x-reverse)));
   }
 
   .xl\:-space-y-px > :not(template) ~ :not(template) {
@@ -99201,6 +99997,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     height: 16rem;
   }
 
+  .xl\:h-120 {
+    height: 30rem;
+  }
+
   .xl\:h-auto {
     height: auto;
   }
@@ -99405,6 +100205,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin: 16rem;
   }
 
+  .xl\:m-120 {
+    margin: 30rem;
+  }
+
   .xl\:m-auto {
     margin: auto;
   }
@@ -99479,6 +100283,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:-m-64 {
     margin: -16rem;
+  }
+
+  .xl\:-m-120 {
+    margin: -30rem;
   }
 
   .xl\:-m-px {
@@ -99663,6 +100471,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .xl\:mx-64 {
     margin-left: 16rem;
     margin-right: 16rem;
+  }
+
+  .xl\:my-120 {
+    margin-top: 30rem;
+    margin-bottom: 30rem;
+  }
+
+  .xl\:mx-120 {
+    margin-left: 30rem;
+    margin-right: 30rem;
   }
 
   .xl\:my-auto {
@@ -99853,6 +100671,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .xl\:-mx-64 {
     margin-left: -16rem;
     margin-right: -16rem;
+  }
+
+  .xl\:-my-120 {
+    margin-top: -30rem;
+    margin-bottom: -30rem;
+  }
+
+  .xl\:-mx-120 {
+    margin-left: -30rem;
+    margin-right: -30rem;
   }
 
   .xl\:-my-px {
@@ -100151,6 +100979,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:ml-64 {
     margin-left: 16rem;
+  }
+
+  .xl\:mt-120 {
+    margin-top: 30rem;
+  }
+
+  .xl\:mr-120 {
+    margin-right: 30rem;
+  }
+
+  .xl\:mb-120 {
+    margin-bottom: 30rem;
+  }
+
+  .xl\:ml-120 {
+    margin-left: 30rem;
   }
 
   .xl\:mt-auto {
@@ -100457,6 +101301,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -16rem;
   }
 
+  .xl\:-mt-120 {
+    margin-top: -30rem;
+  }
+
+  .xl\:-mr-120 {
+    margin-right: -30rem;
+  }
+
+  .xl\:-mb-120 {
+    margin-bottom: -30rem;
+  }
+
+  .xl\:-ml-120 {
+    margin-left: -30rem;
+  }
+
   .xl\:-mt-px {
     margin-top: -1px;
   }
@@ -100473,12 +101333,8 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     margin-left: -1px;
   }
 
-  .xl\:max-h-full {
-    max-height: 100%;
-  }
-
-  .xl\:max-h-screen {
-    max-height: 100vh;
+  .xl\:max-h-120 {
+    max-height: 30rem;
   }
 
   .xl\:max-w-none {
@@ -100870,6 +101726,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     padding: 16rem;
   }
 
+  .xl\:p-120 {
+    padding: 30rem;
+  }
+
   .xl\:p-px {
     padding: 1px;
   }
@@ -101052,6 +101912,16 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .xl\:px-64 {
     padding-left: 16rem;
     padding-right: 16rem;
+  }
+
+  .xl\:py-120 {
+    padding-top: 30rem;
+    padding-bottom: 30rem;
+  }
+
+  .xl\:px-120 {
+    padding-left: 30rem;
+    padding-right: 30rem;
   }
 
   .xl\:py-px {
@@ -101350,6 +102220,22 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:pl-64 {
     padding-left: 16rem;
+  }
+
+  .xl\:pt-120 {
+    padding-top: 30rem;
+  }
+
+  .xl\:pr-120 {
+    padding-right: 30rem;
+  }
+
+  .xl\:pb-120 {
+    padding-bottom: 30rem;
+  }
+
+  .xl\:pl-120 {
+    padding-left: 30rem;
   }
 
   .xl\:pt-px {
@@ -107173,6 +108059,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     width: 16rem;
   }
 
+  .xl\:w-120 {
+    width: 30rem;
+  }
+
   .xl\:w-auto {
     width: auto;
   }
@@ -107411,6 +108301,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     gap: 16rem;
   }
 
+  .xl\:gap-120 {
+    grid-gap: 30rem;
+    gap: 30rem;
+  }
+
   .xl\:gap-px {
     grid-gap: 1px;
     gap: 1px;
@@ -107522,6 +108417,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     grid-column-gap: 16rem;
     -moz-column-gap: 16rem;
          column-gap: 16rem;
+  }
+
+  .xl\:col-gap-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
   }
 
   .xl\:col-gap-px {
@@ -107638,6 +108539,12 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
          column-gap: 16rem;
   }
 
+  .xl\:gap-x-120 {
+    grid-column-gap: 30rem;
+    -moz-column-gap: 30rem;
+         column-gap: 30rem;
+  }
+
   .xl\:gap-x-px {
     grid-column-gap: 1px;
     -moz-column-gap: 1px;
@@ -107734,6 +108641,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     row-gap: 16rem;
   }
 
+  .xl\:row-gap-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
+  }
+
   .xl\:row-gap-px {
     grid-row-gap: 1px;
     row-gap: 1px;
@@ -107827,6 +108739,11 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
   .xl\:gap-y-64 {
     grid-row-gap: 16rem;
     row-gap: 16rem;
+  }
+
+  .xl\:gap-y-120 {
+    grid-row-gap: 30rem;
+    row-gap: 30rem;
   }
 
   .xl\:gap-y-px {
@@ -108783,6 +109700,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .xl\:translate-x-120 {
+    --transform-translate-x: 30rem;
+  }
+
   .xl\:translate-x-px {
     --transform-translate-x: 1px;
   }
@@ -108853,6 +109774,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:-translate-x-64 {
     --transform-translate-x: -16rem;
+  }
+
+  .xl\:-translate-x-120 {
+    --transform-translate-x: -30rem;
   }
 
   .xl\:-translate-x-px {
@@ -108947,6 +109872,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .xl\:translate-y-120 {
+    --transform-translate-y: 30rem;
+  }
+
   .xl\:translate-y-px {
     --transform-translate-y: 1px;
   }
@@ -109017,6 +109946,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:-translate-y-64 {
     --transform-translate-y: -16rem;
+  }
+
+  .xl\:-translate-y-120 {
+    --transform-translate-y: -30rem;
   }
 
   .xl\:-translate-y-px {
@@ -109111,6 +110044,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .xl\:hover\:translate-x-120:hover {
+    --transform-translate-x: 30rem;
+  }
+
   .xl\:hover\:translate-x-px:hover {
     --transform-translate-x: 1px;
   }
@@ -109181,6 +110118,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:hover\:-translate-x-64:hover {
     --transform-translate-x: -16rem;
+  }
+
+  .xl\:hover\:-translate-x-120:hover {
+    --transform-translate-x: -30rem;
   }
 
   .xl\:hover\:-translate-x-px:hover {
@@ -109275,6 +110216,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .xl\:hover\:translate-y-120:hover {
+    --transform-translate-y: 30rem;
+  }
+
   .xl\:hover\:translate-y-px:hover {
     --transform-translate-y: 1px;
   }
@@ -109345,6 +110290,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:hover\:-translate-y-64:hover {
     --transform-translate-y: -16rem;
+  }
+
+  .xl\:hover\:-translate-y-120:hover {
+    --transform-translate-y: -30rem;
   }
 
   .xl\:hover\:-translate-y-px:hover {
@@ -109439,6 +110388,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-x: 16rem;
   }
 
+  .xl\:focus\:translate-x-120:focus {
+    --transform-translate-x: 30rem;
+  }
+
   .xl\:focus\:translate-x-px:focus {
     --transform-translate-x: 1px;
   }
@@ -109509,6 +110462,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:focus\:-translate-x-64:focus {
     --transform-translate-x: -16rem;
+  }
+
+  .xl\:focus\:-translate-x-120:focus {
+    --transform-translate-x: -30rem;
   }
 
   .xl\:focus\:-translate-x-px:focus {
@@ -109603,6 +110560,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
     --transform-translate-y: 16rem;
   }
 
+  .xl\:focus\:translate-y-120:focus {
+    --transform-translate-y: 30rem;
+  }
+
   .xl\:focus\:translate-y-px:focus {
     --transform-translate-y: 1px;
   }
@@ -109673,6 +110634,10 @@ pre > code.diff-highlight .token.inserted:not(.prefix) {
 
   .xl\:focus\:-translate-y-64:focus {
     --transform-translate-y: -16rem;
+  }
+
+  .xl\:focus\:-translate-y-120:focus {
+    --transform-translate-y: -30rem;
   }
 
   .xl\:focus\:-translate-y-px:focus {

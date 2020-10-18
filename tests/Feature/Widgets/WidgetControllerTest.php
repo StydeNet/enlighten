@@ -10,13 +10,7 @@ class WidgetControllerTest extends TestCase
     /** @test */
     public function load_widgets_dynamically_using_the_container(): void
     {
-        $this->app->bind('my-custom-widget', function () {
-            return new class implements Responsable {
-                public function toResponse($request) {
-                    return response('my custom widget');
-                }
-            };
-        });
+        $this->markTestIncomplete();
 
         $response = $this->get('/enlighten/widget/my-custom-widget');
 

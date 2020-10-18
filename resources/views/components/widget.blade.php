@@ -1,17 +1,19 @@
-@props(['name', 'prefetch' => true])
+@props(['name', 'prefetch' => true, 'query' => [], 'after' => ''])
 <div
     {{ $attributes->except('x-init', 'x-data', 'class') }}
-    @if($prefetch) x-init="setLoading($refs); fetchData($refs);" @endif
+    @if($prefetch) x-init="setLoading($refs); fetchData($refs, afterFetch);" @endif
      x-data="{
-        fetchData($refs) {
-            fetch('/enlighten/widget/{{$name}}')
+        fetchData($refs, callback) {
+            fetch('/enlighten/widget/{{$name}}?{{http_build_query($query)}}')
                     .then(response => response.text())
-                    .then(html => { $refs.content.innerHTML = html });
+                    .then(html => { $refs.content.innerHTML = html; callback($refs) });
         },
         setLoading($refs) {
             $refs.content.innerHTML = 'Loading Spinner...';
         },
-        loadingClass: 'w-full h-full animate-pulse bg-gray-400'
+        afterFetch($refs) {
+            {{ $after }}
+        }
     }"
 >
     <div x-ref="content"></div>
