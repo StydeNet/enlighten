@@ -160,7 +160,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'queries-info' => 'enlighten::components.queries-info',
             'iframe' => 'enlighten::components.iframe',
             'widget' => 'enlighten::components.widget',
-
+            'expansible-section' => 'enlighten::components.expansible-section',
         ]);
     }
 
