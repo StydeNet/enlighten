@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Closure;
+use Throwable;
 
 class CodeExampleCreator
 {
@@ -27,9 +28,15 @@ class CodeExampleCreator
 
         $testExample->createSnippet($codeSnippet);
 
-        $result = $callback(...$params);
+        $result = null;
 
-        $testExample->saveSnippetResult($result);
+        try {
+            $result = $callback(...$params);
+
+            $testExample->saveSnippetResult($result);
+        } catch (Throwable $throwable) {
+            $testExample->setException($throwable);
+        }
 
         return $result;
     }

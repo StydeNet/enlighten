@@ -86,4 +86,22 @@ class CaptureCodeExampleTest extends TestCase
             $this->assertSame($snippet->id, $query->snippet_id);
         });
     }
+
+    /** @test */
+    function captures_snippet_with_exception()
+    {
+        enlighten(function () {
+            throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');
+        });
+
+        $this->saveTestExample();
+
+        $example = Example::firstOrFail();
+
+        tap($snippet = $example->snippets()->first(), function ($snippet) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+
+            $this->assertSame("throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');", $snippet->code);
+        });
+    }
 }
