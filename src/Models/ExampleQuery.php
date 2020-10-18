@@ -14,6 +14,8 @@ class ExampleQuery extends Model
 
     protected $casts = [
         'bindings' => 'array',
+        'http_data_id' => 'int',
+        'snippet_id' => 'int',
     ];
 
     public function http_data()

@@ -25,8 +25,12 @@ class CodeExampleCreator
 
         $codeSnippet = $this->codeInspector->getInfoFrom($callback, $params);
 
-        $testExample->saveSnippet($codeSnippet);
+        $testExample->createSnippet($codeSnippet);
 
-        return $codeSnippet->result;
+        $result = $callback(...$params);
+
+        $testExample->saveSnippetResult($result);
+
+        return $result;
     }
 }

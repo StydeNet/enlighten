@@ -13,7 +13,6 @@ class CodeInspector
 
         return new CodeSnippet(
             $this->getCodeFrom($reflection),
-            $snippet(...$args),
             $this->getParameters($reflection, $args),
         );
     }
@@ -34,9 +33,6 @@ class CodeInspector
         if (strpos($snippet, 'return') === 0) {
             $snippet = trim(substr($snippet, 6));
         }
-
-        // Remove any semicolon at the end of the snippet.
-        $snippet = rtrim($snippet, ';');
 
         return $snippet;
     }

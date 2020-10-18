@@ -4,6 +4,7 @@ namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Validation\ValidationException;
+use Styde\Enlighten\Models\ExampleSnippet;
 use Styde\Enlighten\Models\HttpData;
 use Styde\Enlighten\Models\Status;
 use Throwable;
@@ -19,6 +20,7 @@ class TestExample extends TestInfo
     private array $texts;
     private ?Throwable $exception = null;
     private ?HttpData $currentHttpData = null;
+    private ?ExampleSnippet $currentSnippet = null;
 
     public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
     {
@@ -155,19 +157,27 @@ class TestExample extends TestInfo
             'bindings' => $queryExecuted->bindings,
             'time' => $queryExecuted->time,
             'http_data_id' => optional($this->currentHttpData)->id,
+            'snippet_id' => optional($this->currentSnippet)->id,
         ]);
     }
 
-    public function saveSnippet(CodeSnippet $codeSnippet)
+    public function createSnippet(CodeSnippet $codeSnippet)
     {
         $this->save();
 
-        $this->example->snippets()->create([
+        $this->currentSnippet = $this->example->snippets()->create([
             'code' => $codeSnippet->code,
-            'result' => $codeSnippet->result,
             'params' => $codeSnippet->params,
-            'args' =>$codeSnippet->args,
         ]);
+    }
+
+    public function saveSnippetResult($result)
+    {
+        $this->currentSnippet->update([
+            'result' => $result,
+        ]);
+
+        $this->currentSnippet = null;
     }
 
     public function getTitle(): string
