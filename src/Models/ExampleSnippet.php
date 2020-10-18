@@ -18,6 +18,5 @@ class ExampleSnippet extends Model
         // cases, so we will need to implement another solution.
         'result' => 'array',
         'params' => 'array',
-        'args' => 'array',
     ];
 }

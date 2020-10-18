@@ -14,8 +14,7 @@ class CodeInspector
         return new CodeSnippet(
             $this->getCodeFrom($reflection),
             $snippet(...$args),
-            $this->getParametersFrom($reflection),
-            $args,
+            $this->getParameters($reflection, $args),
         );
     }
 
@@ -42,16 +41,12 @@ class CodeInspector
         return $snippet;
     }
 
-    public function getParametersFrom(ReflectionFunction $reflection): array
+    public function getParameters(ReflectionFunction $reflection, $args): array
     {
-        return array_map(function ($parameter) {
-            return [
-                'name' => $parameter->getName(),
-                'type' => optional($parameter->getType())->getName(),
-                'nullable' => $parameter->allowsNull(),
-                'has_default' => $parameter->isDefaultValueAvailable(),
-                'default' => $parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null,
-            ];
-        }, $reflection->getParameters());
+        return collect($reflection->getParameters())
+            ->mapWithKeys(function ($parameter, $index) use ($args) {
+                return [$parameter->getName() => $args[$index] ?? $parameter->getDefaultValue()];
+            })
+            ->all();
     }
 }

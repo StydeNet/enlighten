@@ -10,7 +10,7 @@ class CaptureCodeExampleTest extends TestCase
     /** @test */
     function captures_code_example()
     {
-        $sum = enlighten(function ($a, ?int $b = 0) {
+        $sum = enlighten(function ($a, $b) {
             return $a + $b;
         }, 1, 2);
 
@@ -26,25 +26,29 @@ class CaptureCodeExampleTest extends TestCase
         tap($example->snippets->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
 
-            $this->assertSame(3, $snippet->result);
+            $this->assertSame(['a' => 1, 'b' => 2], $snippet->params);
             $this->assertSame('$a + $b', $snippet->code);
-            $this->assertSame([
-                [
-                    'name' => 'a',
-                    'type' => null,
-                    'nullable' => true,
-                    'has_default' => false,
-                    'default' => null,
-                ],
-                [
-                    'name' => 'b',
-                    'type' => 'int',
-                    'nullable' => true,
-                    'has_default' => true,
-                    'default' => 0,
-                ]
-            ], $snippet->params);
-            $this->assertSame([1, 2], $snippet->args);
+            $this->assertSame(3, $snippet->result);
+        });
+    }
+
+    /** @test */
+    function captures_code_with_a_default_value()
+    {
+        $sum = enlighten(function ($a, $b = 3) {
+            return $a + $b;
+        }, 2);
+
+        $this->assertSame(5, $sum);
+
+        $this->saveTestExample();
+
+        tap(ExampleSnippet::first(), function ($snippet) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+
+            $this->assertSame(['a' => 2, 'b' => 3], $snippet->params);
+            $this->assertSame('$a + $b', $snippet->code);
+            $this->assertSame(5, $snippet->result);
         });
     }
 }
