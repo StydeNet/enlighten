@@ -158,6 +158,18 @@ class TestExample extends TestInfo
         ]);
     }
 
+    public function saveSnippet(CodeSnippet $codeSnippet)
+    {
+        $this->save();
+
+        $this->example->snippets()->create([
+            'code' => $codeSnippet->code,
+            'result' => $codeSnippet->result,
+            'params' => $codeSnippet->params,
+            'args' =>$codeSnippet->args,
+        ]);
+    }
+
     public function getTitle(): string
     {
         return $this->texts['title'] ?? $this->getDefaultTitle();
