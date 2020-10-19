@@ -34,17 +34,24 @@
                 </div>
                 <div class="mt-5 flex-1 h-0 overflow-y-auto">
                     <nav class="px-2 space-y-1">
-                        <a href="{{ route('enlighten.run.index') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-white bg-gray-900 focus:outline-none focus:bg-gray-700 transition ease-in-out duration-150">
+                        <a href="{{ route('enlighten.run.index') }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-white focus:outline-none focus:bg-gray-700 transition ease-in-out duration-150">
                             <svg class="mr-4 h-6 w-6 text-gray-300 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                             </svg>
                             Dashboard
                         </a>
                         @foreach($tabs as $tab)
-                        <a href="{{ route('enlighten.run.show', ['run' => $activeRun->id, 'area' => $tab->slug]) }}" class="group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
-                            <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
-                            {{ $tab->title }}
-                        </a>
+                            <a href="{{ route('enlighten.run.show', ['run' => $activeRun->id, 'area' => $tab['slug']]) }}" class="{{ $tab['active'] ? 'bg-gray-900' : '' }} group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                                {{ $tab['title'] }}
+                            </a>
+                            @if($tab['active'])
+                                @foreach($tab['groups'] as $group)
+                                    <a href="{{ route('enlighten.group.show', ['area' => $group->area, 'run' => request()->route('run'), 'group' => $group]) }}" class="group flex items-center ml-4 px-2 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                        {{ $group->title }}
+                                    </a>
+                                @endforeach
+                            @endif
                         @endforeach
                     </nav>
                 </div>
@@ -54,37 +61,6 @@
         </div>
     </div>
 
-    <div class="hidden ">
-        <div class="flex flex-col w-64">
-            <div class="flex flex-col h-0 flex-1">
-                <div class="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
-                    <span class="rounded-full text-teal-100 bg-teal-500 p-1">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </span>
-                    <span class="font-bold text-gray-100 text-2xl pl-4">Enlighten</span>
-                </div>
-                <div class="flex-1 flex flex-col overflow-y-auto">
-                    <nav class="flex-1 px-2 py-4 bg-gray-800 space-y-1">
-                        <a href="{{ route('enlighten.run.index') }}"
-                           class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-white rounded-md focus:outline-none hover:bg-gray-700 focus:bg-gray-700 transition ease-in-out duration-150">
-                            <svg class="mr-3 h-6 w-6 text-gray-300 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                            </svg>
-                            Dashboard
-                        </a>
-
-                        @foreach($tabs as $tab)
-                            <a href="{{ route('enlighten.run.show', ['run' => $activeRun->id, 'area' => $tab->slug]) }}"
-                               class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-white rounded-md focus:outline-none transition ease-in-out duration-150 {{ request()->route('area') === $tab->slug ? 'bg-gray-900 hover:bg-gray-700' : 'focus:bg-gray-700 hover:bg-gray-600' }}">
-                            <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
-                            {{ $tab->title }}
-                        </a>
-                        @endforeach
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="flex flex-col w-0 flex-1 overflow-hidden">
         <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
             <button x-on:click="open = ! open" class="px-4 border-r border-gray-700 text-gray-500 focus:outline-none bg-gray-900 focus:bg-gray-800 focus:text-gray-600" aria-label="Open sidebar">

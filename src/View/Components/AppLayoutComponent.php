@@ -4,6 +4,7 @@ namespace Styde\Enlighten\View\Components;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
+use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Models\Area;
 
@@ -33,12 +34,28 @@ class AppLayoutComponent extends Component
     {
         return view('enlighten::components.app-layout');
     }
-    
+
     public function tabs()
     {
-        return Area::all()->mapWithKeys(function ($value, $key) {
-            return [Str::slug($key) => $value];
+        return Area::all()->map(function ($area) {
+            return [
+                'slug' => $area->slug,
+                'title' => $area->title,
+                'active' => $area->slug === request()->route('area'),
+                'groups' => request()->route('area')  ? $this->modules($area) : []
+            ];
         });
+    }
+
+    public function modules(Area  $area)
+    {
+        $groups = $this->getRunFromRequest()->groups()->filterByArea($area)->get();
+
+        $modules = Module::all();
+
+        $modules->addGroups($groups);
+
+        return $modules->pluck('groups')->flatten();
     }
 
     public function runLabel()
