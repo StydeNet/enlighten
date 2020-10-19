@@ -63,21 +63,19 @@ class ExampleGroupTest extends TestCase
     function get_the_example_group_url()
     {
         $exampleGroup = new ExampleGroup([
-            'id' => 1,
             'run_id' => 1,
-            'class_name' => 'Tests\Feature\ApiRequestTest',
-            'area' => 'feature'
+            'area' => 'feature',
+            'slug' => 'api-request',
         ]);
 
-        $this->assertSame('http://localhost/enlighten/run/1/feature/1', $exampleGroup->url);
+        $this->assertSame('http://localhost/enlighten/run/1/feature/api-request', $exampleGroup->url);
 
         $exampleGroup = new ExampleGroup([
-            'id' => 3,
             'run_id' => 2,
-            'class_name' => 'Tests\Unit\UserTest',
-            'area' => 'feature'
+            'area' => 'feature',
+            'slug' => 'list-users'
         ]);
 
-        $this->assertSame('http://localhost/enlighten/run/2/feature/3', $exampleGroup->url);
+        $this->assertSame('http://localhost/enlighten/run/2/feature/list-users', $exampleGroup->url);
     }
 }

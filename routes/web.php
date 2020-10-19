@@ -6,7 +6,7 @@ use Styde\Enlighten\Http\Controllers\TestClassController;
 use Styde\Enlighten\Http\Controllers\WelcomeController;
 
 Route::prefix('enlighten')->middleware('web')->group(function () {
-        Route::get('/intro', [WelcomeController::class, 'intro'])
+        Route::get('/intro', WelcomeController::class)
             ->name('enlighten.intro');
 
         Route::get('/', [RunController::class, 'index'])

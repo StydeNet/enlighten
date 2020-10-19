@@ -49,10 +49,9 @@ class ExampleTest extends TestCase
     function get_the_example_url()
     {
         $exampleGroup = new ExampleGroup([
-            'id' => 1,
             'run_id' => 1,
-            'class_name' => 'Tests\Feature\ApiRequestTest',
-            'area' => 'feature'
+            'area' => 'feature',
+            'slug' => 'api-request'
         ]);
 
         $example = new Example([
@@ -60,6 +59,6 @@ class ExampleTest extends TestCase
             'method_name' => 'test_list_users'
         ]);
 
-        $this->assertSame('http://localhost/enlighten/run/1/feature/1#test_list_users', $example->url);
+        $this->assertSame('http://localhost/enlighten/run/1/feature/api-request#test_list_users', $example->url);
     }
 }

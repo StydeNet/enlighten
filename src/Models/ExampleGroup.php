@@ -79,7 +79,7 @@ class ExampleGroup extends Model implements Statusable
         return route('enlighten.group.show', [
             'run' => $this->run_id,
             'area' => $this->area,
-            'group' => $this->id,
+            'group' => $this->slug,
         ]);
     }
 }
