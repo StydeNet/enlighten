@@ -85,25 +85,29 @@ class TestCase extends \Tests\TestCase
 *Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
 
 ## Database Setup
-`Enlighten` uses a secondary database and database connection to record and present the information from your test-suite.
+`Enlighten` needs a secondary database and database connection to record and present the information from your test-suite.
 
 If you use the following convention: 
 
 * A non-sqlite default database for your local enviroment (i.e. `my_db`)
 * A non-sqlite database for your test enviroment with the `_test` or `_tests` suffix (i.e. `my_db_tests`) 
 
-Just add a new database using the same name of your default database with the `_enlighten` suffix:
+Just add a new database using the same name of your default database with the `_enlighten` suffix, for example:
 
 ```text
 # .env
+# If your local database is:
 DB_NAME=my_default_database
+#
 # phpunit.xml
+# And your test database is:
 # <env name="DB_DATABASE" value="my_default_database_tests"/>
-# Enlighten auto configuration:
+#
+# Then Enlighten will use a third database automatically:
 # my_default_database_enlighten
 ```
 
-If you're not following the convention above, add a new connection entry in `config/database.php` with the name `enlighten` and your custom configuration:
+If you're not following the convention above, just add a new connection entry in `config/database.php` with the name `enlighten` and your custom configuration:
 
 ```
    'enlighten' => [
@@ -121,7 +125,7 @@ After creating the new database, run the migrations using Artisan:
 php artisan migrate
 ```
 
-> It's important to create a different connection for Enlighten to avoid having the info deleted or not persisted when
+> It's important to have a different connection and a different database for Enlighten in order to avoid having the info deleted or not persisted when
 > using any of the database migration traits included by Laravel or if you run the tests using SQLite.
 
 ## "See in Enlighten" link
