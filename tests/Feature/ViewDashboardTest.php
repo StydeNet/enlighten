@@ -51,7 +51,7 @@ class ViewDashboardTest extends TestCase
     }
 
     /** @test */
-    public function return_first_test_area_groups_if_no_area_provided(): void
+    public function return_all_groups_if_no_area_provided(): void
     {
         $run = $this->createRun();
 
@@ -67,8 +67,8 @@ class ViewDashboardTest extends TestCase
         $response
             ->assertSeeText('User tests')
             ->assertSeeText('Post tests')
-            ->assertDontSeeText('Users Feature tests')
-            ->assertDontSeeText('Filter tests');
+            ->assertSeeText('Users Feature tests')
+            ->assertSeeText('Filter tests');
     }
 
     /** @test */

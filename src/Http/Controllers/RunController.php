@@ -8,29 +8,17 @@ use Styde\Enlighten\Models\Module;
 
 class RunController extends Controller
 {
-    public function index()
-    {
-        if (Run::count() === 0) {
-            return redirect(route('enlighten.intro'));
-        }
-        return view('enlighten::dashboard.index');
-    }
-
     public function show(Request $request, ?Run $run = null)
     {
         $tabs = $this->getTabs();
 
-        if ($request->route('area') === null) {
-            $area = $tabs->first();
-        } else {
+        if ($request->route('area')) {
             $area = $tabs->firstWhere('slug', $request->route('area'));
+            $groups = $run->groups()->with('stats')->filterByArea($area)->get();
+        } else {
+            $groups = $run->groups()->with('stats')->get();
+            $area = null;
         }
-
-        if ($area === null) {
-            return redirect(route('enlighten.run.index'));
-        }
-
-        $groups = $run->groups()->with('stats')->filterByArea($area)->get();
 
         $modules = Module::all();
 
@@ -38,8 +26,7 @@ class RunController extends Controller
 
         return view('enlighten::area.show', [
             'modules' => $modules->whereHasGroups(),
-            'title' => 'Dashboard',
-            'area' => $area
+            'title' => $area->title ?? 'All Modules',
         ]);
     }
 }

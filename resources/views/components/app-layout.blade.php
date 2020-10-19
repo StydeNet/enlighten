@@ -132,6 +132,10 @@
             <span id="top"></span>
             <div class="pt-2 pb-6">
                 <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex items-center justify-center space-x-4">
+                        <h3 class="text-gray-100 text-2xl my-2">{{ $title }}</h3>
+                        <span class="flex-1 border-b border-gray-600"></span>
+                    </div>
                     {!! $slot !!}
                 </div>
             </div>

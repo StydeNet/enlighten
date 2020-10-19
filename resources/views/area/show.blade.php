@@ -1,13 +1,15 @@
 <x-enlighten-main-layout>
-    <x-slot name="title">{{ $area->title }} Area</x-slot>
+    @if(!empty($title))
+        <x-slot name="title">{{ $title }}</x-slot>
+    @endif
 
     <div class="w-full mx-auto">
         <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-4">
             @forelse($modules as $module)
-                <x-enlighten-module-panel :area="$area" :module="$module"></x-enlighten-module-panel>
+                <x-enlighten-module-panel :module="$module"></x-enlighten-module-panel>
             @empty
                 <p class="text-white">
-                    There are no examples in the "{{ $area->title }}" area.
+                    There are no examples to show.
                 </p>
             @endforelse
         </div>
