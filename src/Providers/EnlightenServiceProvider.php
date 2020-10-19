@@ -161,6 +161,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'iframe' => 'enlighten::components.iframe',
             'widget' => 'enlighten::components.widget',
             'expansible-section' => 'enlighten::components.expansible-section',
+            'svg-logo' => 'enlighten::components.svg-logo',
         ]);
     }
 

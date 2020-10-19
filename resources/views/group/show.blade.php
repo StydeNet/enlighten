@@ -6,12 +6,16 @@
             </p>
         @endif
 
-        <x-enlighten-content-table :examples="$group->examples"></x-enlighten-content-table>
-
-        @foreach($group->examples as $example)
-            <x-enlighten-code-example :example="$example"/>
-        @endforeach
-
+        <div class="flex space-x-4">
+            <div class="2/12">
+                <x-enlighten-content-table :examples="$group->examples"></x-enlighten-content-table>
+            </div>
+            <div class="flex-1">
+                @foreach($group->examples as $example)
+                    <x-enlighten-code-example :example="$example"/>
+                @endforeach
+            </div>
+        </div>
         <x-enlighten-scroll-to-top/>
     </div>
 </x-enlighten-main-layout>

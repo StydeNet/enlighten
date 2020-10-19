@@ -1,6 +1,6 @@
 <div class="h-screen flex overflow-hidden bg-gray-100" x-data="{open: false}">
-    <div x-cloal x-show="open" class="md:hidden">
-        <div class="fixed inset-0 flex z-40">
+    <div >
+        <div x-show="open" class="fixed inset-0 flex z-40">
             <div x-show="open" class="fixed inset-0"
                  x-transition:enter="transition-opacity ease-linear duration-300"
                  xtransition:enter-start="opacity-0"
@@ -28,7 +28,7 @@
                 </div>
                 <div class="flex-shrink-0 flex items-center px-4">
                     <span class="rounded-full text-teal-100 bg-teal-500 p-1">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <x-enlighten-svg-logo class="w-6 h-6"></x-enlighten-svg-logo>
                     </span>
                     <span class="font-bold text-gray-100 text-2xl pl-4">Enlighten</span>
                 </div>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div class="hidden md:flex md:flex-shrink-0">
+    <div class="hidden ">
         <div class="flex flex-col w-64">
             <div class="flex flex-col h-0 flex-1">
                 <div class="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
@@ -87,12 +87,15 @@
     </div>
     <div class="flex flex-col w-0 flex-1 overflow-hidden">
         <div class="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
-            <button x-on:click="open = ! open" class="px-4 border-r border-gray-700 text-gray-500 focus:outline-none bg-gray-900 focus:bg-gray-800 focus:text-gray-600 md:hidden" aria-label="Open sidebar">
+            <button x-on:click="open = ! open" class="px-4 border-r border-gray-700 text-gray-500 focus:outline-none bg-gray-900 focus:bg-gray-800 focus:text-gray-600" aria-label="Open sidebar">
                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
                 </svg>
             </button>
-            <div class="flex-1 px-4 flex justify-end items-center bg-gray-800">
+            <div class="flex-1 px-4 space-x-4 flex justify-end items-center bg-gray-800">
+                <span class="rounded-full text-teal-100 bg-teal-500 p-1">
+                    <x-enlighten-svg-logo class="w-6 h-6"></x-enlighten-svg-logo>
+                </span>
                 @if($activeRun)
                     <div class="relative flex-1" x-data="{open: true}">
                         <input
@@ -128,11 +131,6 @@
         <main class="flex-1 relative overflow-y-auto focus:outline-none bg-gray-900" tabindex="0">
             <span id="top"></span>
             <div class="pt-2 pb-6">
-                <div class="max-w-7xl mx-auto px-4">
-                    <span class="block w-full border-b border-gray-300 py-4 mb-8">
-                        <h1 class="text-3xl text-gray-100">{{ $title }}</h1>
-                    </span>
-                </div>
                 <div class="max-w-7xl mx-auto px-4">
                     {!! $slot !!}
                 </div>

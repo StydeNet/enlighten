@@ -2,7 +2,7 @@
     <x-slot name="title">{{ $area->title }} Area</x-slot>
 
     <div class="w-full mx-auto">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-4">
             @forelse($modules as $module)
                 <x-enlighten-module-panel :area="$area" :module="$module"></x-enlighten-module-panel>
             @empty
