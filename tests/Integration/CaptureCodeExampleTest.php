@@ -2,6 +2,8 @@
 
 namespace Tests\Integration;
 
+use Illuminate\Support\Facades\File;
+use Styde\Enlighten\CodeExampleCreator;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Tests\Integration\App\Models\User;
@@ -104,4 +106,74 @@ class CaptureCodeExampleTest extends TestCase
             $this->assertSame("throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');", $snippet->code);
         });
     }
+
+    /** @test */
+    function captures_data_information_about_objects_returned_by_snippets()
+    {
+        enlighten(function () {
+            return new DemoClassForSnippetExample;
+        });
+
+        $example = Example::firstOrFail();
+
+        tap($snippet = $example->snippets()->first(), function ($snippet) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+
+            $this->assertSame('new DemoClassForSnippetExample;', $snippet->code);
+            $this->assertSame([
+                ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
+                ExampleSnippet::ATTRIBUTES => [
+                    'message' => 'this data can be collected',
+                    'nestedObject' => [
+                        ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoNestedClassForSnippetExample',
+                        ExampleSnippet::ATTRIBUTES => [
+                            'nested' => 'nested attribute',
+                        ]
+                    ]
+                ],
+            ], $snippet->result);
+        });
+    }
+
+    /** @test */
+    function captures_data_information_about_objects_returned_by_snippets_with_limited_recursion()
+    {
+        CodeExampleCreator::$maxNestedLevel = 1;
+
+        enlighten(function () {
+            return new DemoClassForSnippetExample;
+        });
+
+        $example = Example::firstOrFail();
+
+        tap($snippet = $example->snippets()->first(), function ($snippet) {
+            $this->assertSame('new DemoClassForSnippetExample;', $snippet->code);
+
+            $this->assertSame([
+                ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
+                ExampleSnippet::ATTRIBUTES => [
+                    'message' => 'this data can be collected',
+                    'nestedObject' => [
+                        ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoNestedClassForSnippetExample',
+                        ExampleSnippet::ATTRIBUTES => null,
+                    ]
+                ],
+            ], $snippet->result);
+        });
+    }
+}
+
+class DemoClassForSnippetExample {
+    public $message = 'this data can be collected';
+    public $nestedObject;
+    private $private = "this data won't be collected";
+
+    public function __construct()
+    {
+        $this->nestedObject = new DemoNestedClassForSnippetExample;
+    }
+}
+
+class DemoNestedClassForSnippetExample {
+    public $nested = 'nested attribute';
 }
