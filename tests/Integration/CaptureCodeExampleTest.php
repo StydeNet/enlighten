@@ -2,7 +2,6 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Support\Facades\File;
 use Styde\Enlighten\CodeExampleCreator;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleSnippet;
@@ -92,6 +91,8 @@ class CaptureCodeExampleTest extends TestCase
     /** @test */
     function captures_snippet_with_exception()
     {
+        $this->expectException(\BadMethodCallException::class);
+
         enlighten(function () {
             throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');
         });

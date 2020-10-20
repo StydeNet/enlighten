@@ -39,6 +39,8 @@ class CodeExampleCreator
             $testExample->saveSnippetResult($this->exportResult($result));
         } catch (Throwable $throwable) {
             $testExample->setException($throwable);
+
+            throw $throwable;
         }
 
         return $result;
