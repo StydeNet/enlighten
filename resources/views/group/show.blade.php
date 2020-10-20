@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="flex-1 flex justify-end"> <!-- right-->
-                            @if($example->http_data)
+                            @if($example->http_data->isNotEmpty())
                                 <div class="space-y-4">
                                     <div class="flex justify-end">
                                         <span class="text-sm px-2 py-1 rounded-full text-gray-700 bg-gray-300">

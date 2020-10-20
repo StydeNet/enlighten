@@ -71,6 +71,6 @@ class Example extends Model implements Statusable
 
     public function getUrlAttribute()
     {
-        return $this->group->url.'#'.$this->method_name;
+        return $this->group->url.'/'.$this->method_name;
     }
 }

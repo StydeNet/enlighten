@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-class ListRunsTest extends TestCase
+class ViewRunsTest extends TestCase
 {
     /** @test */
     public function get_dashboard_view(): void
