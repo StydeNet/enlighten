@@ -8,7 +8,10 @@ class Git implements VersionControl
 {
     public function currentBranch(): string
     {
-        return exec('git branch --show-current');
+        $refs = exec('git symbolic-ref HEAD');
+        $refs = str_replace("refs/heads/", "", $refs);
+
+        return $refs;
     }
 
     public function head(): string
