@@ -2,6 +2,7 @@
 
 namespace Tests\Integration;
 
+use Illuminate\Database\Eloquent\Collection;
 use Styde\Enlighten\CodeExampleCreator;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleSnippet;
@@ -109,7 +110,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     /** @test */
-    function captures_data_information_about_objects_returned_by_snippets()
+    function captures_objects_returned_by_snippets()
     {
         enlighten(function () {
             return new DemoClassForSnippetExample;
@@ -137,7 +138,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     /** @test */
-    function captures_data_information_about_objects_returned_by_snippets_with_limited_recursion()
+    function captures_objects_returned_by_snippets_with_limited_recursion()
     {
         CodeExampleCreator::$maxNestedLevel = 1;
 
@@ -160,6 +161,52 @@ class CaptureCodeExampleTest extends TestCase
                     ]
                 ],
             ], $snippet->result);
+        });
+    }
+
+    /** @test */
+    function captures_object_type_parameters()
+    {
+        CodeExampleCreator::$maxNestedLevel = 2;
+
+        $users = new Collection([
+            new User(['name' => 'Duilio']),
+            new User(['name' => 'Jeff']),
+        ]);
+
+        $names = enlighten(function ($users) {
+            return $users->pluck('name')->join(', ');
+        }, $users);
+
+        $this->assertSame('Duilio, Jeff', $names);
+
+        $example = Example::firstOrFail();
+
+        tap($snippet = $example->snippets()->first(), function ($snippet) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+
+            $this->assertSame([
+                'users' => [
+                    ExampleSnippet::CLASS_NAME => 'Illuminate\Database\Eloquent\Collection',
+                    ExampleSnippet::ATTRIBUTES => [
+                        [
+                            ExampleSnippet::CLASS_NAME => User::class,
+                            ExampleSnippet::ATTRIBUTES => [
+                                'name' => 'Duilio',
+                            ]
+                        ],
+                        [
+                            ExampleSnippet::CLASS_NAME => User::class,
+                            ExampleSnippet::ATTRIBUTES => [
+                                'name' => 'Jeff',
+                            ]
+                        ],
+                    ],
+                ],
+            ], $snippet->params);
+
+            $this->assertSame('$users->pluck(\'name\')->join(\', \');', $snippet->code);
+            $this->assertSame('Duilio, Jeff', $snippet->result);
         });
     }
 }

@@ -3,6 +3,8 @@
 namespace Styde\Enlighten;
 
 use Closure;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Enumerable;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Throwable;
 
@@ -27,7 +29,7 @@ class CodeExampleCreator
             return $callback(...$params);
         }
 
-        $codeSnippet = $this->codeInspector->getInfoFrom($callback, $params);
+        $codeSnippet = $this->codeInspector->getInfoFrom($callback, $this->exportResult($params));
 
         $testExample->createSnippet($codeSnippet);
 
@@ -73,6 +75,19 @@ class CodeExampleCreator
             return null;
         }
 
-        return $this->exportResult(get_object_vars($result), $currentLevel + 1);
+        return $this->exportResult($this->getObjectAttributes($result), $currentLevel + 1);
+    }
+
+    private function getObjectAttributes(object $object)
+    {
+        if ($object instanceof Enumerable) {
+            return $object->all();
+        }
+
+        if ($object instanceof Arrayable) {
+            return $object->toArray();
+        }
+
+        return get_object_vars($object);
     }
 }

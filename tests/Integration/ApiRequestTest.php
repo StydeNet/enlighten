@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
-use Tests\Integration\App\Models\User;
 use Tests\Integration\Database\Factories\UserFactory;
 
 class ApiRequestTest extends TestCase
