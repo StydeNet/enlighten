@@ -11,7 +11,7 @@ Enlighten your Laravel applications with a beautiful documentation generated aut
 
 If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
  
-[Join us on Discord](https://discord.gg/hNCV6p)
+[Join us on Discord](https://discord.gg/JyfxmPM)
 
 ## Introducing Laravel Enlighten
 
