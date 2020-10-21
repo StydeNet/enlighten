@@ -13,9 +13,12 @@ class CaptureCodeExampleTest extends TestCase
     /** @test */
     function captures_snippet_example()
     {
+        $a = 1;
+        $b = 2;
+
         $sum = enlighten(function ($a, $b) {
             return $a + $b;
-        }, 1, 2);
+        }, $a, $b);
 
         $this->assertSame(3, $sum);
 
@@ -84,6 +87,11 @@ class CaptureCodeExampleTest extends TestCase
 
         tap($example->queries()->first(), function ($query) use ($snippet) {
             $this->assertSame('insert into "users" ("name", "email", "password", "updated_at", "created_at") values (?, ?, ?, ?, ?)', $query->sql);
+            $this->assertSame([
+                'Duilio',
+                'duilio@styde.net',
+                'password',
+            ], array_slice($query->bindings, 0, 3));
             $this->assertNull($query->http_data_id);
             $this->assertSame($snippet->id, $query->snippet_id);
         });
