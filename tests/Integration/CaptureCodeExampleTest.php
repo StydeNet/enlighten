@@ -22,8 +22,6 @@ class CaptureCodeExampleTest extends TestCase
 
         $this->assertSame(3, $sum);
 
-        $this->saveTestExample();
-
         $example = Example::first();
 
         $this->assertNotNull($example, 'An expected example was not created.');
@@ -47,8 +45,6 @@ class CaptureCodeExampleTest extends TestCase
 
         $this->assertSame(5, $sum);
 
-        $this->saveTestExample();
-
         tap(ExampleSnippet::first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
 
@@ -70,8 +66,6 @@ class CaptureCodeExampleTest extends TestCase
         });
 
         $this->assertInstanceOf(User::class, $user);
-
-        $this->saveTestExample();
 
         $example = Example::firstOrFail();
 
