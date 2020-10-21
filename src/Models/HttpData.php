@@ -110,4 +110,9 @@ class HttpData extends Model
     {
         return $this->session_data['errors'] ?? [];
     }
+
+    public function getHashAttribute()
+    {
+        return "test_{$this->id}";
+    }
 }

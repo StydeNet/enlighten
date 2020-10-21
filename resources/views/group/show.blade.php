@@ -35,19 +35,19 @@
                             </div>
                         </div>
 
-                        <div class="flex-1 flex justify-end"> <!-- right-->
-                            @if($example->http_data->isNotEmpty())
-                                <div class="space-y-4">
-                                    <div class="flex justify-end">
-                                        <span class="text-sm px-2 py-1 rounded-full text-gray-700 bg-gray-300">
-                                                {{ $example->http_data->first()->request_method }}
+                        <div class="flex-1 flex flex-col space-y-2"> <!-- right-->
+                            @foreach($example->http_data as $http_data)
+                                <div class="space-y-2">
+                                    <div class="flex justify-end space-x-2">
+                                        <span class="text-xs px-2 flex items-center rounded-full text-gray-700 bg-gray-300">
+                                                {{ $http_data->request_method }}
+                                        </span>
+                                        <span class="block text-gray-800 text-sm">
+                                            /{{ $http_data->request_path }}
                                         </span>
                                     </div>
-                                    <span class="block text-gray-800">
-                                        /{{ $example->http_data->first()->request_path }}
-                                    </span>
                                 </div>
-                            @endif
+                            @endforeach
                         </div>
 
                         <div class="flex items-center justify-center flex-shrink pl-8">

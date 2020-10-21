@@ -162,6 +162,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'widget' => 'enlighten::components.widget',
             'expansible-section' => 'enlighten::components.expansible-section',
             'svg-logo' => 'enlighten::components.svg-logo',
+            'runs-table' => 'enlighten::components.runs-table',
         ]);
     }
 
