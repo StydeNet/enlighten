@@ -7,12 +7,8 @@ use Styde\Enlighten\Models\Run;
 
 class TestClassController extends Controller
 {
-    public function show(Run $run, string $area, $group)
+    public function show(Run $run, string $area, ExampleGroup $group)
     {
-        $tabs = $this->getTabs();
-        $area = $tabs->firstWhere('slug', $area);
-
-        $group = ExampleGroup::filterByArea($area)->where('slug',$group)->first();
         $group->load(['examples', 'examples.http_data']);
 
         return view('enlighten::group.show', [
