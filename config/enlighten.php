@@ -36,6 +36,10 @@ return [
         'headers' => [
             'hide' => [],
             'overwrite' => [],
+        ],
+        'body' => [
+            'hide' => [],
+            'overwrite' => [],
         ]
     ],
 

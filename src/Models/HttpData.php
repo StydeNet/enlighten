@@ -88,7 +88,10 @@ class HttpData extends Model
     public function getResponseBodyAttribute()
     {
         if ($this->response_type === 'JSON') {
-            return json_decode($this->attributes['response_body'], JSON_OBJECT_AS_ARRAY);
+            return $this->replaceValues(
+                json_decode($this->attributes['response_body'], JSON_OBJECT_AS_ARRAY),
+                config('enlighten.response.body')
+            );
         }
 
         return $this->attributes['response_body'];
