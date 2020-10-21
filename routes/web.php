@@ -15,6 +15,6 @@ Route::prefix('enlighten')->middleware('web')->group(function () {
         Route::get('/run/{run?}/{area?}', [RunController::class, 'show'])
             ->name('enlighten.run.show');
 
-        Route::get('run/{run}/{area}/{group:slug}', [TestClassController::class, 'show'])
+        Route::get('run/{run}/{area}/{group}', [TestClassController::class, 'show'])
             ->name('enlighten.group.show');
     });
