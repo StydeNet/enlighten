@@ -4,8 +4,11 @@ namespace Tests\Integration;
 
 use Illuminate\Database\Eloquent\Collection;
 use Styde\Enlighten\CodeExampleCreator;
+use Styde\Enlighten\CodeSnippet;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleSnippet;
+use Styde\Enlighten\Models\ExampleSnippetCall;
 use Tests\Integration\App\Models\User;
 
 class CaptureCodeExampleTest extends TestCase
@@ -13,12 +16,9 @@ class CaptureCodeExampleTest extends TestCase
     /** @test */
     function captures_single_line_snippet()
     {
-        $a = 1;
-        $b = 2;
-
-        $sum = enlighten(function ($a, $b) {
+        $sum = Enlighten::test(function ($a, $b) {
             return $a + $b;
-        }, $a, $b);
+        })(1, 2);
 
         $this->assertSame(3, $sum);
 
@@ -29,33 +29,31 @@ class CaptureCodeExampleTest extends TestCase
 
         tap($example->snippets->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
-
-            $this->assertSame(['a' => 1, 'b' => 2], $snippet->params);
             $this->assertSame('$a + $b;', $snippet->code);
-            $this->assertSame(3, $snippet->result);
+
+            tap($snippet->calls()->first(), function (ExampleSnippetCall $call) {
+                $this->assertSame(['a' => 1, 'b' => 2], $call->arguments);
+                $this->assertSame(3, $call->result);
+            });
         });
     }
 
     /** @test */
-    function captures_multiline_snippets()
+    function captures_multiple_results_from_one_code_snippet()
     {
-        $dividend = 6;
-        $divisor = 2;
-
-        $quotient = enlighten(function ($dividend, $divisor) {
+        $division = enlighten(function ($dividend, $divisor) {
             if ($divisor == 0) {
                 throw new \InvalidArgumentException('Cannot divide by zero');
             }
 
             return $dividend / $divisor;
-        }, $dividend, $divisor);
+        });
 
-        $this->assertSame(3, $quotient);
+        $this->assertSame(3, $division(6, 2));
+        $this->assertSame(4, $division(12, 3));
 
         tap(ExampleSnippet::first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
-
-            $this->assertSame(['dividend' => 6, 'divisor' => 2], $snippet->params);
 
             $this->assertSame(implode("\n", [
                 'if ($divisor == 0) {',
@@ -64,7 +62,18 @@ class CaptureCodeExampleTest extends TestCase
                 '',
                 '$dividend / $divisor;'
             ]), $snippet->code);
-            $this->assertSame(3, $snippet->result);
+
+            tap($snippet->calls->shift(), function ($call) {
+                $this->assertInstanceOf(ExampleSnippetCall::class, $call);
+                $this->assertSame(['dividend' => 6, 'divisor' => 2], $call->arguments);
+                $this->assertSame(3, $call->result);
+            });
+
+            tap($snippet->calls->shift(), function ($call) {
+                $this->assertInstanceOf(ExampleSnippetCall::class, $call);
+                $this->assertSame(['dividend' => 12, 'divisor' => 3], $call->arguments);
+                $this->assertSame(4, $call->result);
+            });
         });
     }
 
@@ -73,16 +82,17 @@ class CaptureCodeExampleTest extends TestCase
     {
         $sum = enlighten(function ($a, $b = 3) {
             return $a + $b;
-        }, 2);
+        });
 
-        $this->assertSame(5, $sum);
+        $this->assertSame(5, $sum(2));
 
         tap(ExampleSnippet::first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
 
-            $this->assertSame(['a' => 2, 'b' => 3], $snippet->params);
-            $this->assertSame('$a + $b;', $snippet->code);
-            $this->assertSame(5, $snippet->result);
+            tap($snippet->calls->first(), function (ExampleSnippetCall $call) {
+                $this->assertSame(['a' => 2, 'b' => 3], $call->arguments);
+                $this->assertSame(5, $call->result);
+            });
         });
     }
 
@@ -95,7 +105,7 @@ class CaptureCodeExampleTest extends TestCase
                 'email' => 'duilio@styde.net',
                 'password' => 'password',
             ]);
-        });
+        })();
 
         $this->assertInstanceOf(User::class, $user);
 
@@ -120,7 +130,7 @@ class CaptureCodeExampleTest extends TestCase
                 'password',
             ], array_slice($query->bindings, 0, 3));
             $this->assertNull($query->http_data_id);
-            $this->assertSame($snippet->id, $query->snippet_id);
+            $this->assertSame($snippet->calls()->first()->id, $query->snippet_call_id);
         });
     }
 
@@ -131,7 +141,7 @@ class CaptureCodeExampleTest extends TestCase
 
         enlighten(function () {
             throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');
-        });
+        })();
 
         $this->saveTestExample();
 
@@ -149,7 +159,7 @@ class CaptureCodeExampleTest extends TestCase
     {
         enlighten(function () {
             return new DemoClassForSnippetExample;
-        });
+        })();
 
         $example = Example::firstOrFail();
 
@@ -168,18 +178,18 @@ class CaptureCodeExampleTest extends TestCase
                         ]
                     ]
                 ],
-            ], $snippet->result);
+            ], $snippet->calls()->first()->result);
         });
     }
 
     /** @test */
     function captures_objects_returned_by_snippets_with_limited_recursion()
     {
-        CodeExampleCreator::$maxNestedLevel = 1;
+        CodeSnippet::$maxNestedLevel = 1;
 
         enlighten(function () {
             return new DemoClassForSnippetExample;
-        });
+        })();
 
         $example = Example::firstOrFail();
 
@@ -195,14 +205,14 @@ class CaptureCodeExampleTest extends TestCase
                         ExampleSnippet::ATTRIBUTES => null,
                     ]
                 ],
-            ], $snippet->result);
+            ], $snippet->calls()->first()->result);
         });
     }
 
     /** @test */
     function captures_object_type_parameters()
     {
-        CodeExampleCreator::$maxNestedLevel = 2;
+        CodeSnippet::$maxNestedLevel = 2;
 
         $users = new Collection([
             new User(['name' => 'Duilio']),
@@ -211,7 +221,7 @@ class CaptureCodeExampleTest extends TestCase
 
         $names = enlighten(function ($users) {
             return $users->pluck('name')->join(', ');
-        }, $users);
+        })($users);
 
         $this->assertSame('Duilio, Jeff', $names);
 
@@ -219,29 +229,31 @@ class CaptureCodeExampleTest extends TestCase
 
         tap($snippet = $example->snippets()->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+            $this->assertSame('$users->pluck(\'name\')->join(\', \');', $snippet->code);
 
-            $this->assertSame([
-                'users' => [
-                    ExampleSnippet::CLASS_NAME => 'Illuminate\Database\Eloquent\Collection',
-                    ExampleSnippet::ATTRIBUTES => [
-                        [
-                            ExampleSnippet::CLASS_NAME => User::class,
-                            ExampleSnippet::ATTRIBUTES => [
-                                'name' => 'Duilio',
-                            ]
-                        ],
-                        [
-                            ExampleSnippet::CLASS_NAME => User::class,
-                            ExampleSnippet::ATTRIBUTES => [
-                                'name' => 'Jeff',
-                            ]
+            tap($snippet->calls()->first(), function (ExampleSnippetCall $snippetCall) {
+                $this->assertSame([
+                    'users' => [
+                        ExampleSnippet::CLASS_NAME => 'Illuminate\Database\Eloquent\Collection',
+                        ExampleSnippet::ATTRIBUTES => [
+                            [
+                                ExampleSnippet::CLASS_NAME => User::class,
+                                ExampleSnippet::ATTRIBUTES => [
+                                    'name' => 'Duilio',
+                                ]
+                            ],
+                            [
+                                ExampleSnippet::CLASS_NAME => User::class,
+                                ExampleSnippet::ATTRIBUTES => [
+                                    'name' => 'Jeff',
+                                ]
+                            ],
                         ],
                     ],
-                ],
-            ], $snippet->params);
+                ], $snippetCall->arguments);
 
-            $this->assertSame('$users->pluck(\'name\')->join(\', \');', $snippet->code);
-            $this->assertSame('Duilio, Jeff', $snippet->result);
+                $this->assertSame('Duilio, Jeff', $snippetCall->result);
+            });
         });
     }
 }

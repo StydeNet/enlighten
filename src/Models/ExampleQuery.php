@@ -15,13 +15,19 @@ class ExampleQuery extends Model
     protected $casts = [
         'bindings' => 'array',
         'http_data_id' => 'int',
-        'snippet_id' => 'int',
+        'snippet_call_id' => 'int',
     ];
 
     public function http_data()
     {
         return $this->belongsTo(HttpData::class);
     }
+
+    public function snippetCall()
+    {
+        return $this->belongsTo(ExampleSnippetCall::class);
+    }
+
 
     // Accessors
 

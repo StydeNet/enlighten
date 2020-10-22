@@ -5,6 +5,7 @@ namespace Styde\Enlighten;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Validation\ValidationException;
 use Styde\Enlighten\Models\ExampleSnippet;
+use Styde\Enlighten\Models\ExampleSnippetCall;
 use Styde\Enlighten\Models\HttpData;
 use Styde\Enlighten\Models\Status;
 use Throwable;
@@ -20,7 +21,7 @@ class TestExample extends TestInfo
     private array $texts;
     private ?Throwable $exception = null;
     private ?HttpData $currentHttpData = null;
-    private ?ExampleSnippet $currentSnippet = null;
+    protected ?ExampleSnippetCall $currentSnippetCall = null;
 
     public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
     {
@@ -157,27 +158,29 @@ class TestExample extends TestInfo
             'bindings' => $queryExecuted->bindings,
             'time' => $queryExecuted->time,
             'http_data_id' => optional($this->currentHttpData)->id,
-            'snippet_id' => optional($this->currentSnippet)->id,
+            'snippet_call_id' => optional($this->currentSnippetCall)->id,
         ]);
     }
 
-    public function createSnippet(CodeSnippet $codeSnippet)
+    public function createSnippet(string $code)
     {
         $this->save();
 
-        $this->currentSnippet = $this->example->snippets()->create([
-            'code' => $codeSnippet->code,
-            'params' => $codeSnippet->params,
+        return $this->example->snippets()->create([
+            'code' => $code,
         ]);
     }
 
-    public function saveSnippetResult($result)
+    public function createSnippetCall(ExampleSnippet $snippet, array $arguments)
     {
-        $this->currentSnippet->update([
-            'result' => $result,
+        return $this->currentSnippetCall = $snippet->calls()->create([
+            'arguments' => $arguments,
         ]);
+    }
 
-        $this->currentSnippet = null;
+    public function saveSnippetCallResult($result)
+    {
+        $this->currentSnippetCall->update(['result' => $result]);
     }
 
     public function getTitle(): string

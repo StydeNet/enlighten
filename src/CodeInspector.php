@@ -2,23 +2,12 @@
 
 namespace Styde\Enlighten;
 
-use Closure;
 use Illuminate\Support\Collection;
 use ReflectionFunction;
 
 class CodeInspector
 {
-    public function getInfoFrom(Closure $snippet, array $args = [])
-    {
-        $reflection = new ReflectionFunction($snippet);
-
-        return new CodeSnippet(
-            $this->getCodeBlock($reflection),
-            $this->getParameters($reflection, $args),
-        );
-    }
-
-    public function getCodeBlock(ReflectionFunction $reflection): string
+    public function getCode(ReflectionFunction $reflection): string
     {
         return collect(
                 explode(PHP_EOL, file_get_contents($reflection->getFileName()))
@@ -34,15 +23,6 @@ class CodeInspector
                 return $this->removeReturnKeyword($collection);
             })
             ->implode("\n");
-    }
-
-    public function getParameters(ReflectionFunction $reflection, $args): array
-    {
-        return collect($reflection->getParameters())
-            ->mapWithKeys(function ($parameter, $index) use ($args) {
-                return [$parameter->getName() => $args[$index] ?? $parameter->getDefaultValue()];
-            })
-            ->all();
     }
 
     /**

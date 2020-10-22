@@ -26,8 +26,6 @@ class CreateEnlightenExampleSnippetsTable extends Migration
                 ->cascadeOnDelete();
 
             $table->longText('code');
-            $table->longText('result')->nullable();
-            $table->longText('params');
 
             $table->timestamps();
         });
