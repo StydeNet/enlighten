@@ -113,6 +113,6 @@ class HttpData extends Model
 
     public function getHashAttribute()
     {
-        return "test_{$this->id}";
+        return "response_{$this->id}";
     }
 }

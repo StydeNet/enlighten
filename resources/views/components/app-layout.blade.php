@@ -27,7 +27,7 @@
                     </button>
                 </div>
                 <div class="flex-shrink-0 flex items-center px-4">
-                    <span class="rounded-full text-teal-100 bg-teal-500 p-1">
+                    <span class="rounded-full text-teal-800 bg-teal-500 p-1">
                         <x-enlighten-svg-logo class="w-6 h-6"></x-enlighten-svg-logo>
                     </span>
                     <span class="font-bold text-gray-100 text-2xl pl-4">Enlighten</span>
@@ -55,8 +55,6 @@
                         @endforeach
                     </nav>
                 </div>
-            </div>
-            <div class="flex-shrink-0 w-14">
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@
                     <x-enlighten-stats-badge :model="$run" />
                 </td>
                 <td class=" px-6 py-4 ">
-                    <a href="{{ route('enlighten.run.show', $run->id) }}" class="text-teal-500 hover:text-teal-600">View</a>
+                    <a href="{{ route('enlighten.run.show', $run->id) }}" class="text-teal-800 hover:text-teal-600">View</a>
                 </td>
             </tr>
         @endforeach
