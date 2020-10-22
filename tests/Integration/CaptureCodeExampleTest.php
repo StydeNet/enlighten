@@ -139,9 +139,9 @@ class CaptureCodeExampleTest extends TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        enlighten(function () {
+        enlighten(function ($param) {
             throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');
-        })();
+        })('value');
 
         $this->saveTestExample();
 
@@ -151,6 +151,11 @@ class CaptureCodeExampleTest extends TestCase
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
 
             $this->assertSame("throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');", $snippet->code);
+        });
+
+        tap($snippet->calls()->first(), function ($snippetCall) {
+            $this->assertSame(['param' => 'value'], $snippetCall->arguments);
+            $this->assertNull($snippetCall->result);
         });
     }
 
