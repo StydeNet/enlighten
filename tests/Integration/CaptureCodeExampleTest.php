@@ -11,7 +11,7 @@ use Tests\Integration\App\Models\User;
 class CaptureCodeExampleTest extends TestCase
 {
     /** @test */
-    function captures_snippet_example()
+    function captures_single_line_snippet()
     {
         $a = 1;
         $b = 2;
@@ -25,13 +25,45 @@ class CaptureCodeExampleTest extends TestCase
         $example = Example::first();
 
         $this->assertNotNull($example, 'An expected example was not created.');
-        $this->assertSame('captures_snippet_example', $example->method_name);
+        $this->assertSame('captures_single_line_snippet', $example->method_name);
 
         tap($example->snippets->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
 
             $this->assertSame(['a' => 1, 'b' => 2], $snippet->params);
             $this->assertSame('$a + $b;', $snippet->code);
+            $this->assertSame(3, $snippet->result);
+        });
+    }
+
+    /** @test */
+    function captures_multiline_snippets()
+    {
+        $dividend = 6;
+        $divisor = 2;
+
+        $quotient = enlighten(function ($dividend, $divisor) {
+            if ($divisor == 0) {
+                throw new \InvalidArgumentException('Cannot divide by zero');
+            }
+
+            return $dividend / $divisor;
+        }, $dividend, $divisor);
+
+        $this->assertSame(3, $quotient);
+
+        tap(ExampleSnippet::first(), function ($snippet) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+
+            $this->assertSame(['dividend' => 6, 'divisor' => 2], $snippet->params);
+
+            $this->assertSame(implode("\n", [
+                'if ($divisor == 0) {',
+                '    throw new \InvalidArgumentException(\'Cannot divide by zero\');',
+                '}',
+                '',
+                '$dividend / $divisor;'
+            ]), $snippet->code);
             $this->assertSame(3, $snippet->result);
         });
     }
@@ -71,12 +103,13 @@ class CaptureCodeExampleTest extends TestCase
 
         tap($snippet = $example->snippets()->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
-
-            $this->assertSame("User::create([
-                'name' => 'Duilio',
-                'email' => 'duilio@styde.net',
-                'password' => 'password',
-            ]);", $snippet->code);
+            $this->assertSame(implode("\n", [
+                "User::create([",
+                "    'name' => 'Duilio',",
+                "    'email' => 'duilio@styde.net',",
+                "    'password' => 'password',",
+                ']);'
+            ]), $snippet->code);
         });
 
         tap($example->queries()->first(), function ($query) use ($snippet) {

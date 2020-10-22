@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Closure;
+use Illuminate\Support\Collection;
 use ReflectionFunction;
 
 class CodeInspector
@@ -12,29 +13,27 @@ class CodeInspector
         $reflection = new ReflectionFunction($snippet);
 
         return new CodeSnippet(
-            $this->getCodeFrom($reflection),
+            $this->getCodeBlock($reflection),
             $this->getParameters($reflection, $args),
         );
     }
 
-    public function getCodeFrom(ReflectionFunction $reflection): string
+    public function getCodeBlock(ReflectionFunction $reflection): string
     {
-        // Get the body of the function.
-        $snippet = trim(implode(
-            PHP_EOL,
-            array_slice(
-                explode(PHP_EOL, file_get_contents($reflection->getFileName())),
+        return collect(
+                explode(PHP_EOL, file_get_contents($reflection->getFileName()))
+            )
+            ->slice(
                 $reflection->getStartLine(),
                 $reflection->getEndLine() - $reflection->getStartLine() - 1
             )
-        ));
-
-        // Remove the return keyword at the beginning of the snippet.
-        if (strpos($snippet, 'return') === 0) {
-            $snippet = trim(substr($snippet, 6));
-        }
-
-        return $snippet;
+            ->pipe(function ($collection) {
+                return $this->removeExternalIndentation($collection);
+            })
+            ->pipe(function ($collection) {
+                return $this->removeReturnKeyword($collection);
+            })
+            ->implode("\n");
     }
 
     public function getParameters(ReflectionFunction $reflection, $args): array
@@ -44,5 +43,40 @@ class CodeInspector
                 return [$parameter->getName() => $args[$index] ?? $parameter->getDefaultValue()];
             })
             ->all();
+    }
+
+    /**
+     * Remove the indentation outside the scope of the current code block.
+     */
+    private function removeExternalIndentation(Collection $lines)
+    {
+        $leadingSpacesInFirstLine = $this->numberOfLeadingSpaces($lines->first());
+
+        return $lines->transform(function ($line) use ($leadingSpacesInFirstLine) {
+            return preg_replace("/^( {{$leadingSpacesInFirstLine}})/", '', $line);
+        });
+    }
+
+    private function numberOfLeadingSpaces(string $str)
+    {
+        preg_match('/^( +)/', $str, $matches);
+
+        return strlen($matches[1]);
+    }
+
+    /**
+     * Remove the return keyword in the first or in the last line of the code block.
+     */
+    private function removeReturnKeyword(Collection $lines)
+    {
+        if (strpos($lines->first(), 'return ') === 0) {
+            return $lines->prepend(substr($lines->shift(), 7));
+        }
+
+        if (strpos($lines->last(), 'return ') === 0) {
+            return $lines->add(substr($lines->pop(), 7));
+        }
+
+        return $lines;
     }
 }
