@@ -11,10 +11,17 @@ use Throwable;
 
 class ExceptionRecorder implements ExceptionHandler
 {
-    private ExceptionHandler $originalHandler;
+    /**
+     * @var ExceptionHandler
+     */
+    private $originalHandler;
 
     private $forwardToOriginalHandler = true;
-    private array $except = [];
+
+    /**
+     * @var array
+     */
+    private $except = [];
 
     public function __construct(ExceptionHandler $originalHandler)
     {

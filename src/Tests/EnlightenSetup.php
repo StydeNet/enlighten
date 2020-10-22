@@ -11,11 +11,20 @@ use Styde\Enlighten\TestRun;
 
 trait EnlightenSetup
 {
-    private static ?TestRun $testRun = null;
+    /**
+     * @var TestRun|null
+     */
+    private static $testRun = null;
 
-    private ?ExceptionRecorder $exceptionRecorder = null;
+    /**
+     * @var ExceptionRecorder|null
+     */
+    private $exceptionRecorder = null;
 
-    private bool $captureQueries = true;
+    /**
+     * @var bool
+     */
+    private $captureQueries = true;
 
     public function setUpEnlighten()
     {
@@ -138,12 +147,12 @@ trait EnlightenSetup
 
     protected function saveTestExample()
     {
-        $test = $this->app->make(TestInspector::class)->getCurrentTestExample();
+        $example = $this->app->make(TestInspector::class)->getCurrentTestExample();
 
-        $test->saveTestStatus($this->getStatusAsText());
+        $example->saveTestStatus($this->getStatusAsText());
 
         if ($this->getStatus() !== TestRunner::STATUS_PASSED) {
-            TestRun::getInstance()->saveFailedTestLink($test);
+            TestRun::getInstance()->saveFailedTestLink($example);
         }
     }
 

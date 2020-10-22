@@ -5,7 +5,7 @@ namespace Tests\Unit\Models;
 use Styde\Enlighten\Models\HttpData;
 use Tests\TestCase;
 
-class HideResponseHeadersTest extends TestCase
+class HideResponseDataTest extends TestCase
 {
     /** @test */
     function can_hide_and_overwrite_response_headers()
@@ -33,5 +33,33 @@ class HideResponseHeadersTest extends TestCase
             'token' => '******',
             'content-type' => 'application/json',
         ], $httpData->response_headers);
+    }
+
+    /** @test */
+    function can_hide_and_overwrite_data_from_a_json_response_body()
+    {
+        $httpData = new HttpData([
+            'response_headers' => ['content-type' => ['application/json']],
+            'response_body' => json_encode([
+                'message' => 'There was an error',
+                'file' => 'confidential-file.php',
+                'trace' => ['confidential data'],
+                'token' => 'very-secret-token',
+            ]),
+        ]);
+
+        config([
+            'enlighten.response.body' => [
+                'hide' => ['file', 'trace'],
+                'overwrite' => [
+                    'token' => 'demo-token',
+                ],
+            ]
+        ]);
+
+        $this->assertSame([
+            'message' => 'There was an error',
+            'token' => 'demo-token',
+        ], $httpData->response_body);
     }
 }

@@ -9,7 +9,10 @@ class StatsBadgeComponent extends Component
 {
     use RepresentsStatusAsColor;
 
-    private Statable $model;
+    /**
+     * @var Statable
+     */
+    private $model;
 
     public function __construct(Statable $model)
     {

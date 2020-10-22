@@ -4,11 +4,30 @@ namespace Styde\Enlighten;
 
 class RequestInfo
 {
-    private string $method;
-    private string $path;
-    private array $headers;
-    private array $queryParameters;
-    private array $input;
+    /**
+     * @var string
+     */
+    private $method;
+
+    /**
+     * @var string
+     */
+    private $path;
+
+    /**
+     * @var array
+     */
+    private $headers;
+
+    /**
+     * @var array
+     */
+    private $queryParameters;
+
+    /**
+     * @var array
+     */
+    private $input;
 
     public function __construct(string $method, string $path, array $headers, array $queryParameters, array $input)
     {

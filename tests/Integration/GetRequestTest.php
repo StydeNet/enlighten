@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\HttpData;
+use Tests\Integration\App\Models\User;
 use Tests\Integration\Database\Factories\UserFactory;
 
 /**
@@ -25,9 +26,10 @@ class GetRequestTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = (new UserFactory)->create([
+        $user = User::create([
             'name' => 'Duilio Palacios',
-            'email' => 'user@example.test'
+            'email' => 'user@example.test',
+            'password' => '1234',
         ]);
 
         $response = $this->get(route('user.show', ['user' => $user]));

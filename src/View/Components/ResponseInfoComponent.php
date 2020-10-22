@@ -7,7 +7,10 @@ use Styde\Enlighten\Models\HttpData;
 
 class ResponseInfoComponent extends Component
 {
-    public HttpData $httpData;
+    /**
+     * @var HttpData
+     */
+    public $httpData;
 
     public function __construct(HttpData $httpData)
     {

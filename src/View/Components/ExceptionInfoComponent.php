@@ -7,7 +7,10 @@ use Styde\Enlighten\Models\ExampleException;
 
 class ExceptionInfoComponent extends Component
 {
-    private ExampleException $exception;
+    /**
+     * @var ExampleException
+     */
+    private $exception;
 
     public function __construct(ExampleException $exception)
     {

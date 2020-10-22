@@ -6,7 +6,10 @@ use Illuminate\Session\Store as SessionStore;
 
 class SessionInspector
 {
-    private SessionStore $session;
+    /**
+     * @var SessionStore
+     */
+    private $session;
 
     public function __construct(SessionStore $session)
     {

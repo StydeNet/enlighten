@@ -6,7 +6,10 @@ use Illuminate\Support\Str;
 
 trait ReadsDynamicAttributes
 {
-    protected array $attributes = [];
+    /**
+     * @var array
+     */
+    protected $attributes = [];
 
     public function setAttributes(array $attributes)
     {

@@ -11,6 +11,8 @@ class ViewExampleGroupTest extends TestCase
     /** @test */
     public function shows_the_list_of_test_methods_in_the_group(): void
     {
+        $this->withoutExceptionHandling();
+
         $run = $this->createRun();
 
         $exampleGroup = $this->createExampleGroup($run, 'Tests\TheClassName', 'The Class Title');

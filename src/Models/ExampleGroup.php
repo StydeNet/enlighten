@@ -5,7 +5,6 @@ namespace Styde\Enlighten\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Collection;
 
 class ExampleGroup extends Model implements Statusable
 {
@@ -14,16 +13,6 @@ class ExampleGroup extends Model implements Statusable
     protected $table = 'enlighten_example_groups';
 
     protected $guarded = [];
-
-    // Query methods
-    public  static function findByTestArea(Area $area) : Collection
-    {
-        if (empty($area)) {
-            return Collection::make();
-        }
-
-        return static::filterByArea($area)->get();
-    }
 
     // Relationships
     public function examples()
@@ -56,7 +45,9 @@ class ExampleGroup extends Model implements Statusable
     public function getPassingTestsCountAttribute()
     {
         return $this->stats
-            ->filter(fn($stat) => $stat->getStatus() === Status::SUCCESS)
+            ->filter(function ($stat) {
+                return $stat->getStatus() === Status::SUCCESS;
+            })
             ->sum('count', 0);
     }
 
@@ -77,7 +68,9 @@ class ExampleGroup extends Model implements Statusable
             return Status::SUCCESS;
         }
 
-        if ($this->stats->first(fn($stat) => $stat->getStatus() === Status::FAILURE)) {
+        if ($this->stats->first(function($stat) {
+            return $stat->getStatus() === Status::FAILURE;
+        })) {
             return Status::FAILURE;
         }
 

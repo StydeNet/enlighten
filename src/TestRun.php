@@ -3,16 +3,28 @@
 namespace Styde\Enlighten;
 
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\Facades\GitInfo;
+use Styde\Enlighten\Facades\VersionControl;
 
 class TestRun
 {
-    private static ?self $instance = null;
+    /**
+     * @var static|null
+     */
+    private static $instance = null;
 
-    private ?Run $run = null;
+    /**
+     * @var Run|null
+     */
+    private $run = null;
 
-    private bool $hasBeenReset = false;
+    /**
+     * @var bool
+     */
+    private $hasBeenReset = false;
 
+    /**
+     * @var array
+     */
     private $failedTestLinks = [];
 
     public static function getInstance(): self
@@ -41,9 +53,9 @@ class TestRun
         }
 
         return $this->run = Run::firstOrNew([
-            'branch' => GitInfo::currentBranch(),
-            'head' => GitInfo::head(),
-            'modified' => GitInfo::modified(),
+            'branch' => VersionControl::currentBranch(),
+            'head' => VersionControl::head(),
+            'modified' => VersionControl::modified(),
         ]);
     }
 

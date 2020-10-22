@@ -9,14 +9,35 @@ use Styde\Enlighten\Utils\Annotations;
 
 class TestInspector
 {
-    private static ?TestExampleGroup $currentTestClass = null;
-    private ?TestInfo $currentTestExample = null;
-    protected array $classOptions = [];
+    /**
+     * @var TestExampleGroup|null
+     */
+    private static $currentTestClass = null;
 
-    private TestRun $testRun;
-    private Annotations $annotations;
+    /**
+     * @var TestInfo|null
+     */
+    private $currentTestExample = null;
 
-    protected array $ignore;
+    /**
+     * @var array
+     */
+    protected $classOptions = [];
+
+    /**
+     * @var TestRun
+     */
+    private $testRun;
+
+    /**
+     * @var Annotations
+     */
+    private $annotations;
+
+    /**
+     * @var array
+     */
+    protected $ignore;
 
     public function __construct(TestRun $testRun, Annotations $annotations, array $config)
     {

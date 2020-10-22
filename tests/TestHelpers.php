@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Support\Str;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\ExampleQuery;
@@ -82,7 +83,7 @@ trait TestHelpers
             'class_name' => $className,
             'title' => 'Create User',
             'description' => 'User module API',
-            'area' => Str::slug(explode('\\', $className)[1]),
+            'area' => Enlighten::getAreaSlug($className),
             'slug' => Str::slug(class_basename($className)),
         ], array_filter($customAttributes));
     }
