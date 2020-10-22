@@ -23,8 +23,13 @@ class DynamicTabsComponent extends Component
 
     private function normalizeTabs(array $tabs): Collection
     {
-        return collect($tabs)->mapWithKeys(function ($value) {
-            return [strtolower($value) => $value];
+        return collect($tabs)->mapWithKeys(function ($value, $key) {
+
+            if (is_numeric($key)) {
+                return [strtolower($value) => $value];
+            }
+
+            return [$key => $value];
         });
     }
 }

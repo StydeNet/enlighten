@@ -119,4 +119,22 @@ class HttpDataTest extends TestCase
 
         $this->assertNull($data->redirection_location);
     }
+
+    /** @test */
+    public function gets_the_response_status_based_on_the_response_code(): void
+    {
+        $data = new HttpData(['response_status' => 200]);
+
+        $this->assertSame('success', $data->getStatus());
+
+
+        $data = new HttpData(['response_status' => 302]);
+
+        $this->assertSame('default', $data->getStatus());
+
+
+        $data = new HttpData(['response_status' => 500]);
+
+        $this->assertSame('error', $data->getStatus());
+    }
 }

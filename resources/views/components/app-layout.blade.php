@@ -45,13 +45,24 @@
                                 <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
                                 {{ $tab['title'] }}
                             </a>
-                            @if($tab['active'])
-                                @foreach($tab['groups'] as $group)
-                                    <a href="{{ route('enlighten.group.show', ['area' => $group->area, 'run' => request()->route('run'), 'group' => $group]) }}" class="group flex items-center ml-4 px-2 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
-                                        {{ $group->title }}
-                                    </a>
-                                @endforeach
-                            @endif
+                            @foreach($tab['panels'] as $panel)
+                                <div class="flex flex-col space-y-2" x-data="{open: false}">
+                                    <button
+                                        x-on:click="open = !open"
+                                        type="button" name="toggle panel"
+                                            class="group flex w-full text-left items-center px-2 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                        {{ $panel->name }}
+                                    </button>
+                                    <div class="w-full" x-cloak x-show="open">
+                                        @foreach($panel->groups as $group)
+                                            <a href="{{ route('enlighten.group.show', ['area' => $group->area, 'run' => request()->route('run'), 'group' => $group]) }}"
+                                               class="group flex items-center px-4 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                                                {{ $group->title }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
                         @endforeach
                     </nav>
                 </div>
@@ -76,7 +87,7 @@
                                 x-on:input.debounce="fetch(`{{ route('enlighten.api.search', ['run' => $activeRun]) }}?search=${$event.target.value}`)
                                     .then(response => response.text())
                                     .then(html => { $refs.dropdown.innerHTML = html; open = true })"
-                                class="bg-gray-900 w-full text-sm placeholder-gray-300 text-gray-300 rounded-md focus:outline-none focus:bg-gray-100 focus:text-gray-800 px-3 py-3"
+                                class="bg-gray-900 w-full text-sm placeholder-gray-300 focus:placeholder-gray-600 text-gray-300 rounded-md focus:outline-none focus:bg-gray-100 focus:text-gray-800 px-3 py-3"
                                 placeholder="Search"
                                 type="text"
                                 role="search"

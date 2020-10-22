@@ -5,7 +5,7 @@ namespace Styde\Enlighten\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class HttpData extends Model
+class HttpData extends Model implements Statusable
 {
     use ReplacesValues;
 
@@ -114,5 +114,18 @@ class HttpData extends Model
     public function getHashAttribute()
     {
         return "response_{$this->id}";
+    }
+
+    public function getStatus(): string
+    {
+        if ((int) $this->response_status === 200) {
+            return 'success';
+        }
+
+        if ((int) $this->response_status < 500) {
+            return 'default';
+        }
+
+        return 'error';
     }
 }

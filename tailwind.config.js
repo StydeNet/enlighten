@@ -38,7 +38,8 @@ module.exports = {
         pink: colors.pink,
         success: colors.green,
         warning: colors.yellow,
-        failure: colors.red
+        failure: colors.red,
+        default: colors.blue,
     },
     maxHeight: {
       '120': '30rem'

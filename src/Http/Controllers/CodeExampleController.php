@@ -14,8 +14,17 @@ class CodeExampleController extends Controller
             ->where('method_name', $method)
             ->firstOrFail();
 
+        $responseTabs = $example->http_data->map(function ($data, $key) {
+            return [
+                'key' => $data->hash,
+                'title' => 'Request '. ($key + 1),
+                'http_data' => $data
+            ];
+        });
+
         return view('enlighten::example.show', [
-            'example' => $example
+            'example' => $example,
+            'example_tabs' => $responseTabs
         ]);
     }
 }

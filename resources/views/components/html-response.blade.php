@@ -1,5 +1,5 @@
 <x-enlighten-expansible-section :collapsed="0">
-    <x-enlighten-dynamic-tabs :tabs="['preview', 'html', 'blade']">
+    <x-enlighten-dynamic-tabs :tabs="['preview' => 'Preview', 'html' => 'HTML', 'blade']">
         <x-slot name="preview">
             <x-enlighten-iframe srcdoc="{{ $httpData->response_preview }}"/>
         </x-slot>

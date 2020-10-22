@@ -2,7 +2,6 @@
 
 namespace Styde\Enlighten\View\Components;
 
-use Illuminate\Support\Str;
 use Illuminate\View\Component;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\Run;
@@ -42,20 +41,17 @@ class AppLayoutComponent extends Component
                 'slug' => $area->slug,
                 'title' => $area->title,
                 'active' => $area->slug === request()->route('area'),
-                'groups' => request()->route('area')  ? $this->modules($area) : []
+                'panels' => request()->route('area')  ? $this->panels($area) : []
             ];
         });
     }
 
-    public function modules(Area  $area)
+    public function panels(Area  $area)
     {
-        $groups = $this->getRunFromRequest()->groups()->filterByArea($area)->get();
-
-        $modules = Module::all();
-
-        $modules->addGroups($groups);
-
-        return $modules->pluck('groups')->flatten();
+        return Module::all()
+            ->addGroups(
+                $this->getRunFromRequest()->groups()->filterByArea($area)->get()
+            );
     }
 
     public function runLabel()
