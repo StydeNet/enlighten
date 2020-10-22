@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
+use Tests\Integration\App\Models\User;
 use Tests\Integration\Database\Factories\UserFactory;
 
 class ApiRequestTest extends TestCase
@@ -21,19 +22,21 @@ class ApiRequestTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        (new UserFactory)->create([
+        User::create([
             'name' => 'Duilio Palacios',
             'email' => 'duilio@example.com',
+            'password' => '1234',
         ]);
 
-        (new UserFactory)->create([
+        User::create([
             'name' => 'Jeffer Ochoa',
             'email' => 'jeff.ochoa@example.com',
+            'password' => '1234',
         ]);
 
         $this->get('api/users')
             ->assertOk()
-            ->assertSimilarJson([
+            ->assertJson([
                 'data' => [
                     [
                         'name' => 'Duilio Palacios',

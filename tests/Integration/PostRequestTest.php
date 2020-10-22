@@ -5,10 +5,18 @@ namespace Tests\Integration;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\HttpData;
+use Tests\Integration\App\Models\User;
 
 class PostRequestTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        config(['auth.providers.users.model' => User::class]);
+    }
 
     /** @test */
     function creates_an_example_of_a_post_request()
