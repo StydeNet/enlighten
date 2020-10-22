@@ -86,7 +86,9 @@ class CodeSnippet
             return $result;
         }
 
-        return array_map(fn($item) => $this->exportResult($item, $currentLevel), $result);
+        return array_map(function($item) use ($currentLevel) {
+            return $this->exportResult($item, $currentLevel);
+        }, $result);
     }
 
     private function exportObject(object $result, int $currentLevel)
