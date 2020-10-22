@@ -28,7 +28,6 @@ class ExampleQuery extends Model
         return $this->belongsTo(ExampleSnippetCall::class);
     }
 
-
     // Accessors
 
     public function getContextAttribute($value)

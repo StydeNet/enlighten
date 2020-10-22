@@ -7,7 +7,10 @@ use Tests\TestCase;
 
 class EnlightenServiceProviderTest extends TestCase
 {
-    protected EnlightenServiceProvider $provider;
+    /**
+     * @var EnlightenServiceProvider
+     */
+    protected $provider;
 
     protected function setUp(): void
     {

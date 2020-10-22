@@ -8,10 +8,25 @@ use Styde\Enlighten\Models\ExampleGroup;
 
 class TestExampleGroup
 {
-    private TestRun $testRun;
-    private string $className;
-    private array $texts;
-    protected ?ExampleGroup $exampleGroup = null;
+    /**
+     * @var TestRun
+     */
+    private $testRun;
+
+    /**
+     * @var string
+     */
+    private $className;
+
+    /**
+     * @var array
+     */
+    private $texts;
+
+    /**
+     * @var ExampleGroup|null
+     */
+    protected $exampleGroup = null;
 
     public function __construct(string $className, array $texts = [])
     {

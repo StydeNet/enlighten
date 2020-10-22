@@ -8,7 +8,10 @@ use Illuminate\View\Component;
 
 class RequestInputTableComponent extends Component
 {
-    public array $input;
+    /**
+     * @var array
+     */
+    public $input;
 
     public function __construct(array $input)
     {

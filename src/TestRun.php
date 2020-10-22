@@ -7,12 +7,24 @@ use Styde\Enlighten\Facades\VersionControl;
 
 class TestRun
 {
-    private static ?self $instance = null;
+    /**
+     * @var static|null
+     */
+    private static $instance = null;
 
-    private ?Run $run = null;
+    /**
+     * @var Run|null
+     */
+    private $run = null;
 
-    private bool $hasBeenReset = false;
+    /**
+     * @var bool
+     */
+    private $hasBeenReset = false;
 
+    /**
+     * @var array
+     */
     private $failedTestLinks = [];
 
     public static function getInstance(): self

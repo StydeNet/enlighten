@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Facades;
 use Closure;
 use Illuminate\Support\Facades\Facade;
 use Styde\Enlighten\CodeExampleCreator;
+use Styde\Enlighten\EnlightenSettings;
 
 /**
  * @method static self setCustomAreaResolver(Closure $callback)
@@ -16,7 +17,7 @@ class Enlighten extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return \Styde\Enlighten\EnlightenSettings::class;
+        return EnlightenSettings::class;
     }
 
     public static function test(Closure $callback)

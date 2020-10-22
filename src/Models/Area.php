@@ -9,9 +9,18 @@ use Illuminate\Support\Str;
 
 class Area implements Arrayable
 {
-    public string $key;
-    public string $title;
-    public string $slug;
+    /**
+     * @var string
+     */
+    public $key;
+    /**
+     * @var string
+     */
+    public $title;
+    /**
+     * @var string
+     */
+    public $slug;
 
     public static function all(): Collection
     {

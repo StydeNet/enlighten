@@ -14,14 +14,46 @@ use Styde\Enlighten\Models\Example;
 
 class TestExample extends TestInfo
 {
-    public TestExampleGroup $classInfo;
-    protected ?int $line;
-    protected ?Example $example = null;
-    protected string $status;
-    private array $texts;
-    private ?Throwable $exception = null;
-    private ?HttpData $currentHttpData = null;
-    protected ?ExampleSnippetCall $currentSnippetCall = null;
+    /**
+     * @var TestExampleGroup
+     */
+    public $classInfo;
+
+    /**
+     * @var int|null
+     */
+    protected $line;
+
+    /**
+     * @var Example|null
+     */
+    protected $example = null;
+
+    /**
+     * @var string
+     */
+    protected $status;
+
+    /**
+     * @var array
+     */
+    private $texts;
+
+    /**
+     * @var Throwable|null
+     */
+    private $exception = null;
+
+    /**
+     * @var HttpData|null
+     */
+    private $currentHttpData = null;
+
+    /**
+     * @var ExampleSnippetCall|null
+     */
+    protected $currentSnippetCall = null;
+
 
     public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
     {

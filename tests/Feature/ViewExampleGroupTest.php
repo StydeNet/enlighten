@@ -11,6 +11,8 @@ class ViewExampleGroupTest extends TestCase
     /** @test */
     public function get_code_example_view(): void
     {
+        $this->withoutExceptionHandling();
+
         $run = $this->createRun();
         $exampleGroup = $this->createExampleGroup($run);
         $example = $this->createExampleInGroup($exampleGroup);

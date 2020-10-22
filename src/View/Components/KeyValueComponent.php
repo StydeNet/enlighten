@@ -8,8 +8,15 @@ use Illuminate\View\Component;
 
 class KeyValueComponent extends Component
 {
-    public array $items;
-    public ?string $title;
+    /**
+     * @var array
+     */
+    public $items;
+
+    /**
+     * @var string|null
+     */
+    public $title;
 
     public function __construct(array $items, ?string $title = null)
     {

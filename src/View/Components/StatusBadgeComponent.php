@@ -9,8 +9,15 @@ class StatusBadgeComponent extends Component
 {
     use RepresentsStatusAsColor;
 
-    public Statusable $model;
-    public string $size;
+    /**
+     * @var Statusable
+     */
+    public $model;
+
+    /**
+     * @var string
+     */
+    public $size;
 
     public function __construct(Statusable $model, string $size = '8')
     {

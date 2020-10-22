@@ -4,8 +4,15 @@ namespace Styde\Enlighten;
 
 abstract class TestInfo
 {
-    protected string $className;
-    protected string $methodName;
+    /**
+     * @var string
+     */
+    protected $className;
+
+    /**
+     * @var string
+     */
+    protected $methodName;
 
     public function __construct(string $className, string $methodName)
     {

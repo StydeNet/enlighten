@@ -10,12 +10,30 @@ use Throwable;
 
 class CodeSnippet
 {
-    public static int $maxNestedLevel = 5;
+    /**
+     * @var int
+     */
+    public static $maxNestedLevel = 5;
 
-    private ?ExampleSnippet $snippet = null;
-    private Closure $callback;
-    private string $code;
-    private array $params;
+    /**
+     * @var ExampleSnippet|null
+     */
+    private $snippet = null;
+
+    /**
+     * @var Closure
+     */
+    private $callback;
+
+    /**
+     * @var string
+     */
+    private $code;
+
+    /**
+     * @var array
+     */
+    private $params;
 
     public function __construct(TestExample $testExample, Closure $callback, string $code, array $params)
     {

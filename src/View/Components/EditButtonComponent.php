@@ -3,11 +3,13 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Utils\FileLink;
 
 class EditButtonComponent extends Component
 {
-    private ?string $file;
+    /**
+     * @var string|null
+     */
+    private $file;
 
     public function __construct(?string $file = null)
     {

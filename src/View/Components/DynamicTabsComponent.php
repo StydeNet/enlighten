@@ -7,7 +7,10 @@ use Illuminate\View\Component;
 
 class DynamicTabsComponent extends Component
 {
-    private Collection $tabs;
+    /**
+     * @var Collection
+     */
+    private $tabs;
 
     public function __construct(array $tabs)
     {

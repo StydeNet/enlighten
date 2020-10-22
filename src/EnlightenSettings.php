@@ -7,7 +7,10 @@ use Illuminate\Support\Str;
 
 class EnlightenSettings
 {
-    private ?Closure $customAreaResolver = null;
+    /**
+     * @var Closure|null
+     */
+    private $customAreaResolver = null;
 
     public function setCustomAreaResolver(Closure $callback)
     {

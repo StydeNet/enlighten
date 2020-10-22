@@ -7,7 +7,10 @@ use Styde\Enlighten\HttpExampleCreator;
 
 class HttpExampleCreatorMiddleware
 {
-    private HttpExampleCreator $httpExampleCreator;
+    /**
+     * @var HttpExampleCreator
+     */
+    private $httpExampleCreator;
 
     public function __construct(HttpExampleCreator $httpExampleCreator)
     {

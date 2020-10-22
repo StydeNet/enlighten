@@ -7,8 +7,15 @@ use ReflectionFunction;
 
 class CodeExampleCreator
 {
-    private TestInspector $testInspector;
-    private CodeInspector $codeInspector;
+    /**
+     * @var TestInspector
+     */
+    private $testInspector;
+
+    /**
+     * @var CodeInspector
+     */
+    private $codeInspector;
 
     public function __construct(TestInspector $testInspector, CodeInspector $codeInspector)
     {

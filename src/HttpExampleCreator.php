@@ -7,11 +7,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HttpExampleCreator
 {
-    private TestInspector $testInspector;
-    private RequestInspector $requestInspector;
-    private ResponseInspector $responseInspector;
-    private SessionInspector $sessionInspector;
-    private RouteInspector $routeInspector;
+    /**
+     * @var TestInspector
+     */
+    private $testInspector;
+
+    /**
+     * @var RequestInspector
+     */
+    private $requestInspector;
+
+    /**
+     * @var ResponseInspector
+     */
+    private $responseInspector;
+
+    /**
+     * @var SessionInspector
+     */
+    private $sessionInspector;
+
+    /**
+     * @var RouteInspector
+     */
+    private $routeInspector;
 
     public function __construct(
         TestInspector $testInspector,

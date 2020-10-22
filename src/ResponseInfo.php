@@ -4,10 +4,25 @@ namespace Styde\Enlighten;
 
 class ResponseInfo
 {
-    private array $headers;
-    private string $content;
-    private ?string $template;
-    private int $statusCode;
+    /**
+     * @var array
+     */
+    private $headers;
+
+    /**
+     * @var string
+     */
+    private $content;
+
+    /**
+     * @var string|null
+     */
+    private $template;
+
+    /**
+     * @var int
+     */
+    private $statusCode;
 
     public function __construct(int $statusCode, array $headers, string $content, ?string $template)
     {

@@ -10,7 +10,10 @@ use Styde\Enlighten\Models\Status;
 
 class CodeExampleComponent extends Component
 {
-    public Example $example;
+    /**
+     * @var Example
+     */
+    public $example;
 
     public function __construct(Example $example)
     {

@@ -4,8 +4,15 @@ namespace Styde\Enlighten;
 
 class RouteInfo
 {
-    private ?string $uri;
-    private ?array $parameters;
+    /**
+     * @var string|null
+     */
+    private $uri;
+
+    /**
+     * @var array|null
+     */
+    private $parameters;
 
     public function __construct(?string $uri, array $parameters = [])
     {
