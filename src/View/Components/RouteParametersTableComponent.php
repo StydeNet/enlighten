@@ -8,8 +8,10 @@ use Illuminate\View\Component;
 
 class RouteParametersTableComponent extends Component
 {
-
-    public array $parameters;
+    /**
+     * @var array
+     */
+    public $parameters;
 
     public function __construct($parameters = [])
     {
