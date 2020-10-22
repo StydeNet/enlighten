@@ -1,5 +1,14 @@
 <x-enlighten-main-layout>
-    <x-slot name="title">{{ $title }}</x-slot>
+
+    <x-slot name="top">
+        <x-enlighten-breadcrumbs :segments="[
+                route('enlighten.run.show', ['run' => $group->run_id, 'area' => $group->area]) => ucwords($group->area),
+            ]"></x-enlighten-breadcrumbs>
+    </x-slot>
+
+    <x-slot name="title">
+        {{ $title }}
+    </x-slot>
     <div class="w-full my-4">
         <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden">
             @foreach ($group->examples as $example)

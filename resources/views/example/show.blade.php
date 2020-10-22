@@ -1,5 +1,12 @@
 <x-enlighten-main-layout>
 
+    <x-slot name="top">
+        <x-enlighten-breadcrumbs :segments="[
+            route('enlighten.run.show', ['run' => $example->group->run_id, 'area' => $example->group->area]) => ucwords($example->group->area),
+            $example->group->url => $example->group->title
+        ]"></x-enlighten-breadcrumbs>
+    </x-slot>
+
     <x-slot name="title">
         <div class="flex">
             <x-enlighten-status-badge size="8" :model="$example"/>

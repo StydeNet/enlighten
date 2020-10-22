@@ -13,6 +13,7 @@
 
     <div class="w-screen h-screen block  overflow-hidden top-0 ">
         <x-enlighten-app-layout>
+            <x-slot name="breadcrumbs">{{ $top ?? '' }}</x-slot>
             <x-slot name="title">{{ $title ?? 'Dashboard' }}</x-slot>
             {{ $slot }}
         </x-enlighten-app-layout>

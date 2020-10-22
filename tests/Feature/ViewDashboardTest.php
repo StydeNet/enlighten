@@ -46,8 +46,8 @@ class ViewDashboardTest extends TestCase
         $response->assertOk()
             ->assertSeeText('User tests')
             ->assertSeeText('Post tests')
-            ->assertDontSeeText('Users Feature tests')
-            ->assertDontSeeText('Filter tests');
+            ->assertSeeText('Users Feature tests')
+            ->assertSeeText('Filter tests');
     }
 
     /** @test */

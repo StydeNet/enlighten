@@ -17,6 +17,7 @@ use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
 use Styde\Enlighten\Utils\TestTrace;
 use Styde\Enlighten\View\Components\AppLayoutComponent;
+use Styde\Enlighten\View\Components\BreadcrumbsComponent;
 use Styde\Enlighten\View\Components\CodeExampleComponent;
 use Styde\Enlighten\View\Components\DynamicTabsComponent;
 use Styde\Enlighten\View\Components\EditButtonComponent;
@@ -147,6 +148,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'dynamic-tabs' => DynamicTabsComponent::class,
             'exception-info' => ExceptionInfoComponent::class,
             'edit-button' => EditButtonComponent::class,
+            'breadcrumbs' => BreadcrumbsComponent::class,
             // Group
             'code-example' => CodeExampleComponent::class,
             'content-table' => 'enlighten::group._content-table',
@@ -163,6 +165,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'expansible-section' => 'enlighten::components.expansible-section',
             'svg-logo' => 'enlighten::components.svg-logo',
             'runs-table' => 'enlighten::components.runs-table',
+
         ]);
     }
 
