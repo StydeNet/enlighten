@@ -11,6 +11,7 @@ class DashboardController extends Controller
         if (Run::count() === 0) {
             return redirect(route('enlighten.intro'));
         }
+
         return view('enlighten::dashboard.index', [
             'runs' => Run::query()->with('groups', 'groups.stats')->latest()->get()
         ]);
