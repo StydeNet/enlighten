@@ -4,7 +4,6 @@ namespace Tests\Unit\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\HttpData;
 use Tests\TestCase;
@@ -20,7 +19,7 @@ class HttpDataTest extends TestCase
 
         $group = $this->createExampleGroup($run);
 
-        $example = $this->createExampleInGroup($group);
+        $example = $this->createExample($group);
 
         $this->assertInstanceOf(HasMany::class, $example->http_data());
         $this->assertInstanceOf(Collection::class, $example->http_data);

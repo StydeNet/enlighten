@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\Models\Example;
 
 class ViewExampleGroupTest extends TestCase
 {
@@ -12,8 +13,16 @@ class ViewExampleGroupTest extends TestCase
     public function get_code_example_view(): void
     {
         $run = $this->createRun();
-        $exampleGroup = $this->createExampleGroup($run);
-        $example = $this->createExampleInGroup($exampleGroup);
+
+        $exampleGroup = $this->createExampleGroup($run, 'Tests\Api\CreateUserTest', 'Create User', 'User module API');
+
+        $example = Example::create([
+            'title' => 'Creates a new user',
+            'group_id' => $exampleGroup->id,
+            'method_name' => 'creates_a_new_user',
+            'description' => 'register new users in the system.',
+        ]);
+
         $this->createHttpData($example);
 
         $response = $this->get(route('enlighten.group.show', ['run' => $run->id, 'area' => 'api', 'group' => $exampleGroup]));
@@ -22,9 +31,9 @@ class ViewExampleGroupTest extends TestCase
             ->assertViewIs('enlighten::group.show')
             ->assertViewHas('group', $exampleGroup)
             // Group
-            ->assertSeeText('Creates a new user')
             ->assertSeeText('User module API')
             // Example
+            ->assertSeeText('Creates a new user')
             ->assertSeeText('register new users in the system.')
             // headers
             ->assertSeeText('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
@@ -42,8 +51,8 @@ class ViewExampleGroupTest extends TestCase
         $this->withoutExceptionHandling();
 
         $run = $this->createRun();
-        $exampleGroup = $this->createExampleGroup($run);
-        $example = $this->createExampleInGroup($exampleGroup);
+        $exampleGroup = $this->createExampleGroup($run, 'Tests\Api\UserModuleApi');
+        $example = $this->createExample($exampleGroup);
         $this->createHttpData($example, [
             'request_input' => [
                 'key_1' => 'value_1',

@@ -37,15 +37,6 @@ trait TestHelpers
         ]);
     }
 
-    protected function createExampleTest(array $attributes = []) : Example
-    {
-        return Example::create(array_merge([
-            'method_name' => 'something_does_something',
-            'title' => 'Something Does something',
-            'test_status' => 'passed'
-        ], $attributes));
-    }
-
     protected function createExampleGroup(?Run $run = null, $className = null, $title = null, $description = null): ExampleGroup
     {
         if (is_null($run)) {
@@ -75,16 +66,6 @@ trait TestHelpers
             'area' => Str::slug(explode('\\', $className)[1]),
             'slug' => Str::slug(class_basename($className)),
         ], array_filter($customAttributes));
-    }
-
-    protected function createExampleInGroup(ExampleGroup $group): Example
-    {
-        return Example::create([
-            'title' => 'Creates a new user',
-            'group_id' => $group->id,
-            'method_name' => 'creates_a_new_user',
-            'description' => 'register new users in the system.',
-        ]);
     }
 
     protected function createHttpData(Example $example, array $customAttributes = [])
