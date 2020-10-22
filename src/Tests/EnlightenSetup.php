@@ -138,12 +138,12 @@ trait EnlightenSetup
 
     protected function saveTestExample()
     {
-        $test = $this->app->make(TestInspector::class)->getCurrentTestExample();
+        $example = $this->app->make(TestInspector::class)->getCurrentTestExample();
 
-        $test->saveTestStatus($this->getStatusAsText());
+        $example->saveTestStatus($this->getStatusAsText());
 
         if ($this->getStatus() !== TestRunner::STATUS_PASSED) {
-            TestRun::getInstance()->saveFailedTestLink($test);
+            TestRun::getInstance()->saveFailedTestLink($example);
         }
     }
 

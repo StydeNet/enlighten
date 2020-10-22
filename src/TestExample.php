@@ -4,6 +4,8 @@ namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Validation\ValidationException;
+use Styde\Enlighten\Models\ExampleSnippet;
+use Styde\Enlighten\Models\ExampleSnippetCall;
 use Styde\Enlighten\Models\HttpData;
 use Styde\Enlighten\Models\Status;
 use Throwable;
@@ -19,6 +21,7 @@ class TestExample extends TestInfo
     private array $texts;
     private ?Throwable $exception = null;
     private ?HttpData $currentHttpData = null;
+    protected ?ExampleSnippetCall $currentSnippetCall = null;
 
     public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
     {
@@ -155,7 +158,29 @@ class TestExample extends TestInfo
             'bindings' => $queryExecuted->bindings,
             'time' => $queryExecuted->time,
             'http_data_id' => optional($this->currentHttpData)->id,
+            'snippet_call_id' => optional($this->currentSnippetCall)->id,
         ]);
+    }
+
+    public function createSnippet(string $code)
+    {
+        $this->save();
+
+        return $this->example->snippets()->create([
+            'code' => $code,
+        ]);
+    }
+
+    public function createSnippetCall(ExampleSnippet $snippet, array $arguments)
+    {
+        return $this->currentSnippetCall = $snippet->calls()->create([
+            'arguments' => $arguments,
+        ]);
+    }
+
+    public function saveSnippetCallResult($result)
+    {
+        $this->currentSnippetCall->update(['result' => $result]);
     }
 
     public function getTitle(): string

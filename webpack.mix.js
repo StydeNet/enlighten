@@ -16,5 +16,3 @@ mix.less('resources/less/app.less', 'dist/css')
             tailwindcss('./tailwind.config.js'),
         ]
     });
-
-mix.copy('dist', 'bootstrap/dist');

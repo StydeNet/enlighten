@@ -1,8 +1,17 @@
 # Changelog
 
+## v0.2.8 - 2020-10-16
+
+**To upgrade from v0.2.5 to v0.2.6, please delete all the Enlighten tables and re-run the migrations in your local environment** 
+
+- The example group URLs now show the slug of the test class names instead of the ID, for the better readability and to preserve the same URLs after re-running the tests for the same run configuration.
+- Add .gitattributes to prevent tests and other unnecessary files from being published.
+- Fix for issues: https://github.com/StydeNet/enlighten/issues/12 https://github.com/StydeNet/enlighten/issues/11 and https://github.com/StydeNet/enlighten/issues/8
+- Other minor fixes and improvements 
+
 ## v0.2 - 2020-10-14
 
-**To upgrade from v1 to v2, please delete all the Enlighten tables and re-run the migrations**
+**To upgrade from v0.1 to v0.2, please delete all the Enlighten tables and re-run the migrations in your local environment**
 
 ### New features
 

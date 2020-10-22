@@ -10,6 +10,8 @@ There is no need to add endless docblocks to each API method, maintain dozens of
 Enlighten your Laravel applications with a beautiful documentation generated automatically from your test suites, by doing so, your documentation will always be updated with the current version of your app.
 
 If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
+ 
+[Join us on Discord](https://discord.gg/hNCV6p)
 
 ## Introducing Laravel Enlighten
 
@@ -28,7 +30,7 @@ Now visit `/enlighten/` to navigate the documentation.
 
 ## Installation
 
-1. Require the package with Composer:
+First step: require the package with Composer:
 
 ```bash
 composer require styde/enlighten --dev
@@ -45,7 +47,7 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 ];
 ```
 
-2. Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
+Second step: publish the package assets (CSS, JavaScript) to the public folder using Artisan:
 
 ```bash
 php artisan vendor:publish --tag=enlighten-build
@@ -58,9 +60,9 @@ php artisan vendor:publish --tag=enlighten-config
 php artisan vendor:publish --tag=enlighten-views
 ```
 
-3. Import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
+Third step: import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
 
-```
+```php
 <?php
 
 namespace Tests;
@@ -77,6 +79,7 @@ class TestCase extends \Tests\TestCase
 
         $this->setUpEnlighten();
     }
+}
 ```
 
 *Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
@@ -169,6 +172,48 @@ If you want to include all the test-classes and methods in your documentation, y
     ],
 ];
 ```
+
+You can also ignore classes and methods adding the `@enlighten {"ignore": true}` annotation to any class OR method, for example:
+
+```php
+/**
+ * @enlighten {"ignore": true}
+ */
+class IgnoreClassWithAnnotationTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * @test
+     * @enlighten {"ignore": true}
+     */
+    function does_not_export_test_methods_with_the_enlighten_ignore_annotation()
+    {
+        $this->assertExampleIsNotCreated();
+    }
+}
+```
+
+If you'd like to do the opposite (include a class previously ignored via the configuration option) just add the @enlighten annotation to that class OR method:
+
+```php
+/**
+ * @enlighten
+ */
+class IncludeMethodWithAnnotationTest extends TestCase
+{
+    /**
+     * @test
+     * @enlighten
+     */
+    function export_test_method_with_the_enlighten_annotation_even_if_its_ignored_in_the_config()
+    {
+        $this->assertExampleIsCreated();
+    }
+}
+```
+
+**Note:** the annotations take precedence over the configuration option.
 
 ## Customizing titles and descriptions
 If you want to have more control on the titles of the classes and methods, or add descriptions to each group or example, you can add the following annotations in your test classes and methods:

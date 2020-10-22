@@ -182,6 +182,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
             $this->publishes([
                 $this->componentPath('dist') => public_path('vendor/enlighten'),
+                $this->componentPath('/preview.png') => public_path('vendor/enlighten/img/preview.png'),
             ], 'enlighten-build');
 
             $this->publishes([
