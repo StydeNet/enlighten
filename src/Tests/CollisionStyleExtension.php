@@ -2,7 +2,6 @@
 
 namespace Styde\Enlighten\Tests;
 
-use Illuminate\Support\Str;
 use NunoMaduro\Collision\Adapters\Phpunit\Style as CollisionStyle;
 use Styde\Enlighten\TestRun;
 use Throwable;
@@ -11,7 +10,6 @@ class CollisionStyleExtension extends CollisionStyle
 {
     /**
      * Displays the error using Collision's writer
-     * and terminates with exit code === 1.
      */
     public function writeError(Throwable $throwable): void
     {
@@ -22,6 +20,9 @@ class CollisionStyleExtension extends CollisionStyle
         }
     }
 
+    /**
+     * Checks the error stack trace and attempts to return the test's class name and method name.
+     */
     private function getTestClassAndMethod(Throwable $throwable)
     {
         return collect($throwable->getTrace())
