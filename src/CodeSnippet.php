@@ -111,7 +111,7 @@ class CodeSnippet
     private function getObjectAttributes(object $object)
     {
         if ($object instanceof Enumerable) {
-            return $object->all();
+            return ['items' => $object->all()];
         }
 
         if ($object instanceof Arrayable) {

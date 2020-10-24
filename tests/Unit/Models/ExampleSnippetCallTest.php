@@ -24,10 +24,10 @@ class ExampleSnippetCallTest extends TestCase
         ]);
 
         $output = implode("\n", [
-        '"App\\\\Models\\\\User": {
-            "name": "Joe",
-            "last_name": "Jones"
-        }',
+            '"App\\\\Models\\\\User": {',
+            '        "name": "Joe",',
+            '        "last_name": "Jones"',
+            '    }'
         ]);
 
         $this->assertSame($output, $snippetCall->result_code);
@@ -54,20 +54,20 @@ class ExampleSnippetCallTest extends TestCase
         ]);
 
         $output = implode("\n", [
-        '"App\\\\Models\\\\User": {
-            "name": "Joe",
-            "last_name": "Jones",
-            "role": {
-                "App\\\\Models\\\\Role": {
-                    "name": "admin",
-                    "capabilities": [
-                        "update",
-                        "create",
-                        "delete"
-                    ]
-                }
-            }
-        }'
+        '"App\\\\Models\\\\User": {',
+        '        "name": "Joe",',
+        '        "last_name": "Jones",',
+        '        "role": {',
+        '            "App\\\\Models\\\\Role": {',
+        '                "name": "admin",',
+        '                "capabilities": [',
+        '                    "update",',
+        '                    "create",',
+        '                    "delete"',
+        '                ]',
+        '            }',
+        '        }',
+        '    }',
         ]);
 
         $this->assertSame($output, $snippetCall->result_code);

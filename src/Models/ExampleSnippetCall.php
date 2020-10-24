@@ -30,20 +30,14 @@ class ExampleSnippetCall extends Model
 
     public function getResultCodeAttribute(): string
     {
-        if (!isset($this->result[static::CLASS_NAME])) {
+        // we need to wrap the object a the top level to make the recursive call consistent
+        if ($this->isResultObject($this->result)) {
+            $output = array_map([$this, 'mapObjectAttributes'], [$this->result])[0];
+        } elseif(is_array($this->result)) {
+            $output = array_map([$this, 'mapObjectAttributes'], $this->result);
+        } else {
             return var_export($this->result, true);
         }
-
-        $output = [];
-
-        if ($this->isResultObject($this->result)) {
-            $output = [$this->result];
-        }
-
-        $output = array_map(function ($attribute) {
-            return $this->mapObjectAttributes($attribute);
-        }, $output);
-
 
         $output = json_encode($output, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
 
@@ -53,7 +47,11 @@ class ExampleSnippetCall extends Model
 
     private function mapObjectAttributes($attrs)
     {
-        if (!isset($attrs[static::CLASS_NAME])) {
+        if (!isset($attrs[static::CLASS_NAME]) && is_array($attrs)) {
+            return array_map([$this, 'mapObjectAttributes'], $attrs);
+        }
+
+        if (!isset($attrs[static::CLASS_NAME] )) {
             return $attrs;
         }
 

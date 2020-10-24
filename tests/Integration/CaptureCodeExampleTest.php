@@ -241,16 +241,18 @@ class CaptureCodeExampleTest extends TestCase
                     'users' => [
                         ExampleSnippet::CLASS_NAME => 'Illuminate\Database\Eloquent\Collection',
                         ExampleSnippet::ATTRIBUTES => [
-                            [
-                                ExampleSnippet::CLASS_NAME => User::class,
-                                ExampleSnippet::ATTRIBUTES => [
-                                    'name' => 'Duilio',
-                                ]
-                            ],
-                            [
-                                ExampleSnippet::CLASS_NAME => User::class,
-                                ExampleSnippet::ATTRIBUTES => [
-                                    'name' => 'Jeff',
+                            'items' => [
+                                [
+                                    ExampleSnippet::CLASS_NAME => User::class,
+                                    ExampleSnippet::ATTRIBUTES => [
+                                        'name' => 'Duilio',
+                                    ]
+                                ],
+                                [
+                                    ExampleSnippet::CLASS_NAME => User::class,
+                                    ExampleSnippet::ATTRIBUTES => [
+                                        'name' => 'Jeff',
+                                    ]
                                 ]
                             ],
                         ],
