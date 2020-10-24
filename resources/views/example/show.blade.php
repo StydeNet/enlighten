@@ -24,7 +24,7 @@
             @foreach($snippet->calls as $snippetCall)
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <x-enlighten-info-panel>
-                        <x-slot name="title">Enlighten snippet</x-slot>
+                        <x-slot name="title">Snippet</x-slot>
                         <x-enlighten-pre language="php" :code="$snippetCall->arguments_code"></x-enlighten-pre>
                         <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
                     </x-enlighten-info-panel>
