@@ -35,8 +35,14 @@
     @endif
 
     @if($example->is_http)
-        <x-enlighten-dynamic-tabs :tabs="['requests', 'database']">
-            <x-slot name="database">
+        <x-enlighten-dynamic-tabs :tabs="['requests', 'database', 'exception']">
+            @if($example->exception->exists)
+                <x-slot name="exception">
+                    <x-enlighten-exception-info :exception="$example->exception"></x-enlighten-exception-info>
+                </x-slot>
+            @endif
+            @if($example->queries->isNotEmpty())
+                <x-slot name="database">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     @if(!empty($example->orphan_queries))
                         <div class="flex flex-col space-y-4">
@@ -75,6 +81,7 @@
                     </div>
                 @endforeach
             </x-slot>
+            @endif
             <x-slot name="requests">
                 <x-enlighten-dynamic-tabs :tabs="$example_tabs->pluck('title', 'key')->toArray()">
                     @foreach($example_tabs as $tab)
