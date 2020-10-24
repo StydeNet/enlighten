@@ -51,7 +51,9 @@ class AppLayoutComponent extends Component
         return Module::all()
             ->addGroups(
                 $this->getRunFromRequest()->groups()->filterByArea($area)->get()
-            );
+            )->filter(function ($panel) {
+                return $panel->groups->isNotEmpty();
+            });
     }
 
     public function runLabel()
