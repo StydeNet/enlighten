@@ -7,19 +7,24 @@ use Illuminate\View\Component;
 
 class DynamicTabsComponent extends Component
 {
-    /**
-     * @var Collection
-     */
     private $tabs;
+    public $type;
 
-    public function __construct(array $tabs)
+    public function __construct(array $tabs, string $type = 'pills')
     {
         $this->tabs = $this->normalizeTabs($tabs);
+        $this->type = $type;
     }
 
     public function render()
     {
-        return view('enlighten::components.dynamic-tabs', [
+        if ($this->type === 'menu') {
+            $view = 'enlighten::components.dynamic-tabs-menu';
+        } else {
+            $view = 'enlighten::components.dynamic-tabs';
+        }
+
+        return view($view, [
             'tabs_collection' => $this->tabs
         ]);
     }

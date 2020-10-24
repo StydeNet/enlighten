@@ -18,14 +18,14 @@
                 >{{ $title }}</span>
             @endif
 
-            <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4" x-data="{show: false}">
+            <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4 w-full" x-data="{show: false}">
                 @if($data['file'] && $data['line'])
                     <tr>
-                        <td class="font-thin break-all text-teal-300 px-4">{{ $data['file'] }} : {{ $data['line'] }}</td>
+                        <td class="font-light break-all text-teal-200 px-4">{{ $data['file'] }} : {{ $data['line'] }}</td>
                     </tr>
                 @endif
                 <tr>
-                    <td class="font-thin break-all text-gray-300 px-4 flex items-center">
+                    <td class="font-light break-all text-gray-300 px-4 flex items-center">
                         {{ $data['function'] }}
                         @if(!empty($data['args']))
                             <a href="#" class="ml-4" x-on:click.prevent="show = !show">
@@ -37,8 +37,8 @@
                 </tr>
                 @if(!empty($data['args']))
                     <tr>
-                        <td class="font-thin break-all text-teal-300 px-4">
-                            <div >
+                        <td class="font-light break-all text-teal-200 px-4">
+                            <div class="w-full">
                                 <div x-cloak x-show="show === true">
                                     <x-enlighten-pre language="json" :code="json_encode($data['args'], JSON_PRETTY_PRINT)"/>
                                 </div>

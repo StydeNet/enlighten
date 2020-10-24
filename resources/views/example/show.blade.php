@@ -22,20 +22,23 @@
     @if($example->snippets->isNotEmpty())
         @foreach($example->snippets as $snippet)
             @foreach($snippet->calls as $snippetCall)
-                <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                     <x-enlighten-info-panel>
                         <x-slot name="title">Snippet</x-slot>
                         <x-enlighten-pre language="php" :code="$snippetCall->arguments_code"></x-enlighten-pre>
                         <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
                     </x-enlighten-info-panel>
-                    <x-enlighten-pre language="php" :code="$snippetCall->result_code" class="h-full mb-2"></x-enlighten-pre>
+                    <x-enlighten-info-panel>
+                        <x-slot name="title">Output</x-slot>
+                        <x-enlighten-pre language="php" :code="$snippetCall->result_code" class="h-full mb-2"></x-enlighten-pre>
+                    </x-enlighten-info-panel>
                 </div>
             @endforeach
         @endforeach
     @endif
 
     @if($example->is_http)
-        <x-enlighten-dynamic-tabs :tabs="['requests', 'database', 'exception']">
+        <x-enlighten-dynamic-tabs type="menu" :tabs="['requests', 'database', 'exception']">
             @if($example->exception->exists)
                 <x-slot name="exception">
                     <x-enlighten-exception-info :exception="$example->exception"></x-enlighten-exception-info>
@@ -43,44 +46,8 @@
             @endif
             @if($example->queries->isNotEmpty())
                 <x-slot name="database">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                    @if(!empty($example->orphan_queries))
-                        <div class="flex flex-col space-y-4">
-                            @foreach($example->orphan_queries as $query)
-                                <x-enlighten-info-panel>
-                                    <x-slot name="title">Time: {{ $query->time }} (Setup query)</x-slot>
-                                    <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
-                                    @if($query->bindings)
-                                        <x-enlighten-key-value :items="$query->bindings" title="Bindings"></x-enlighten-key-value>
-                                    @endif
-                                </x-enlighten-info-panel>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-                @foreach($example->http_data as $http_data)
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                        @if(!empty($http_data->queries))
-                            <div class="flex flex-col space-y-4">
-                                @foreach($http_data->queries as $query)
-                                    <x-enlighten-info-panel>
-                                        <x-slot name="title">Time: {{ $query->time }}</x-slot>
-                                            <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
-                                            @if($query->bindings)
-                                                <x-enlighten-key-value :items="$query->bindings" title="Bindings"></x-enlighten-key-value>
-                                            @endif
-                                    </x-enlighten-info-panel>
-                                @endforeach
-                            </div>
-                        @endif
-                        <div class="relative h-full">
-                            <div class="sticky top-0">
-                                <x-enlighten-request-info :http-data="$http_data" />
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </x-slot>
+                    <x-enlighten-queries-info :example="$example"></x-enlighten-queries-info>
+                </x-slot>
             @endif
             <x-slot name="requests">
                 <x-enlighten-dynamic-tabs :tabs="$example_tabs->pluck('title', 'key')->toArray()">
