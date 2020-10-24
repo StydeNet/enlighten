@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class BreadcrumbsComponent extends Component
 {
-    public array $segments;
+    public $segments;
 
     public function __construct(array $segments = [])
     {
