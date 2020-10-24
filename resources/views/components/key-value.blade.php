@@ -1,7 +1,6 @@
 <div>
     @if(!empty($title))
-        <span class="block bg-gray-500 py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal w-full"
-        >{{ $title }}</span>
+        <x-enlighten-panel-title>{{ $title }}</x-enlighten-panel-title>
     @endif
 
     <table class="bg-gray-800 p-4 rounded-lg text-gray-100 my-4">

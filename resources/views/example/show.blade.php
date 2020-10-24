@@ -19,6 +19,21 @@
         <p class="text-gray-100 mb-4 bg-gray-800 p-4 rounded-md">{{ $example->description }}</p>
     @endif
 
+    @if($example->snippets->isNotEmpty())
+        @foreach($example->snippets as $snippet)
+            @foreach($snippet->calls as $snippetCall)
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <x-enlighten-info-panel>
+                        <x-slot name="title">Enlighten snippet</x-slot>
+                        <x-enlighten-pre language="php" :code="$snippetCall->arguments_code"></x-enlighten-pre>
+                        <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
+                    </x-enlighten-info-panel>
+                    <x-enlighten-pre language="php" :code="$snippetCall->result_code" class="h-full mb-2"></x-enlighten-pre>
+                </div>
+            @endforeach
+        @endforeach
+    @endif
+
     @if($example->is_http)
         <x-enlighten-dynamic-tabs :tabs="$example_tabs->pluck('title', 'key')->toArray()">
             @foreach($example_tabs as $tab)

@@ -10,7 +10,7 @@ class CodeExampleController extends Controller
 {
     public function show(Run $run, string $area, ExampleGroup $group, string $method)
     {
-        $example = Example::with('http_data', 'exception', 'queries', 'group')
+        $example = Example::with('http_data', 'snippets', 'exception', 'queries', 'group')
             ->where('method_name', $method)
             ->firstOrFail();
 

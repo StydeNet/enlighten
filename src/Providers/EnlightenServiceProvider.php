@@ -175,7 +175,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'expansible-section' => 'enlighten::components.expansible-section',
             'svg-logo' => 'enlighten::components.svg-logo',
             'runs-table' => 'enlighten::components.runs-table',
-
+            'panel-title' => 'enlighten::components.panel-title',
         ]);
     }
 
