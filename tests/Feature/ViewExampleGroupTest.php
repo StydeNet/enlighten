@@ -14,8 +14,14 @@ class ViewExampleGroupTest extends TestCase
         $this->withoutExceptionHandling();
 
         $run = $this->createRun();
+        $exampleGroup = $this->createExampleGroup($run, 'Tests\Api\CreateUserTest', 'Create User', 'User module API');
 
-        $exampleGroup = $this->createExampleGroup($run, 'Tests\TheClassName', 'The Class Title');
+        $this->createExampleTest([
+            'group_id' => $exampleGroup->id,
+            'method_name' => 'another_test',
+            'title' => 'The Class Title'
+        ]);
+
 
         $this->createExampleTest([
             'group_id' => $exampleGroup->id,

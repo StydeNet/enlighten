@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Styde\Enlighten\Models\ExampleSnippetCall;
@@ -222,13 +223,16 @@ class TestExample extends TestInfo
 
     private function getDefaultTitle(): string
     {
-        $str = $this->methodName;
+        $result = Str::of($this->methodName);
 
-        if (strpos($str, 'test_') === 0) {
-            $str = substr($str, 5);
+        if ($result->startsWith('test')) {
+            $result = $result->substr(4);
         }
 
-        return ucfirst(str_replace('_', ' ', $str));
+        return $result->replaceMatches('@([A-Z])|_@', ' $1')
+            ->lower()
+            ->trim()
+            ->ucfirst();
     }
 
     private function getDescription(): ?string

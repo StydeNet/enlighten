@@ -7,9 +7,14 @@ use Styde\Enlighten\Models\Run;
 
 class ExampleGroupController extends Controller
 {
-    public function show(Run $run, string $area, ExampleGroup $group)
+    public function show(Run $run, string $area, string $group)
     {
-        $group->load(['examples', 'examples.http_data', 'examples.http_data.queries']);
+        $group = ExampleGroup::where([
+            'area' => $area,
+            'slug' => $group,
+        ])->firstOrFail();
+
+        $group->load(['examples', 'examples.http_data']);
 
         return view('enlighten::group.show', [
             'group' => $group,

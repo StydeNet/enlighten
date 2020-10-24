@@ -88,16 +88,6 @@ trait TestHelpers
         ], array_filter($customAttributes));
     }
 
-    protected function createExampleInGroup(ExampleGroup $group): Example
-    {
-        return Example::create([
-            'title' => 'Creates a new user',
-            'group_id' => $group->id,
-            'method_name' => 'creates_a_new_user',
-            'description' => 'register new users in the system.',
-        ]);
-    }
-
     protected function createHttpData(Example $example, array $customAttributes = [])
     {
         $example->http_data()->create($this->getHttpDataAttributes($customAttributes));
