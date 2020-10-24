@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class HttpData extends Model implements Statusable
@@ -23,6 +24,12 @@ class HttpData extends Model implements Statusable
         'response_headers' => 'array',
         'session_data' => 'array',
     ];
+
+    public function queries(): HasMany
+    {
+        return $this->hasMany(ExampleQuery::class, 'http_data_id');
+    }
+
 
     public function getFullPathAttribute()
     {

@@ -78,4 +78,9 @@ class Example extends Model implements Statusable
     {
         return $this->group->url.'/'.$this->method_name;
     }
+
+    public function getOrphanQueriesAttribute()
+    {
+        return $this->queries->where('http_data_id', null);
+    }
 }

@@ -35,34 +35,77 @@
     @endif
 
     @if($example->is_http)
-        <x-enlighten-dynamic-tabs :tabs="$example_tabs->pluck('title', 'key')->toArray()">
-            @foreach($example_tabs as $tab)
-                <x-slot :name="$tab['key']">
-                    <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
-                        <div>
-                            <x-enlighten-request-info :http-data="$tab['http_data']" />
-                            <span class="mb-8 w-full block"></span>
-
-                            <x-enlighten-response-info :http-data="$tab['http_data']" />
-                            <span class="mb-8 w-full block"></span>
-
-                            @if($tab['http_data']->session_data)
+        <x-enlighten-dynamic-tabs :tabs="['requests', 'database']">
+            <x-slot name="database">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    @if(!empty($example->orphan_queries))
+                        <div class="flex flex-col space-y-4">
+                            @foreach($example->orphan_queries as $query)
                                 <x-enlighten-info-panel>
-                                    <x-slot name="title">Session data</x-slot>
-                                    <x-enlighten-pre language="json" :code="json_encode($tab['http_data']->session_data, JSON_PRETTY_PRINT)"/>
+                                    <x-slot name="title">Time: {{ $query->time }} (Setup query)</x-slot>
+                                    <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
+                                    @if($query->bindings)
+                                        <x-enlighten-key-value :items="$query->bindings" title="Bindings"></x-enlighten-key-value>
+                                    @endif
                                 </x-enlighten-info-panel>
-                            @endif
+                            @endforeach
                         </div>
-                        <div class="h-full relative">
-                            @if($example->exception->exists)
-                                <x-enlighten-iframe srcdoc="{{ $tab['http_data']->response_preview }}"/>
-                            @else
-                                <x-enlighten-response-preview :http-data="$tab['http_data']"/>
-                            @endif
+                    @endif
+                </div>
+                @foreach($example->http_data as $http_data)
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        @if(!empty($http_data->queries))
+                            <div class="flex flex-col space-y-4">
+                                @foreach($http_data->queries as $query)
+                                    <x-enlighten-info-panel>
+                                        <x-slot name="title">Time: {{ $query->time }}</x-slot>
+                                            <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
+                                            @if($query->bindings)
+                                                <x-enlighten-key-value :items="$query->bindings" title="Bindings"></x-enlighten-key-value>
+                                            @endif
+                                    </x-enlighten-info-panel>
+                                @endforeach
+                            </div>
+                        @endif
+                        <div class="relative h-full">
+                            <div class="sticky top-0">
+                                <x-enlighten-request-info :http-data="$http_data" />
+                            </div>
                         </div>
                     </div>
-                </x-slot>
-            @endforeach
+                @endforeach
+            </x-slot>
+            <x-slot name="requests">
+                <x-enlighten-dynamic-tabs :tabs="$example_tabs->pluck('title', 'key')->toArray()">
+                    @foreach($example_tabs as $tab)
+                        <x-slot :name="$tab['key']">
+                            <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
+                                <div>
+                                    <x-enlighten-request-info :http-data="$tab['http_data']" />
+                                    <span class="mb-8 w-full block"></span>
+
+                                    <x-enlighten-response-info :http-data="$tab['http_data']" />
+                                    <span class="mb-8 w-full block"></span>
+
+                                    @if($tab['http_data']->session_data)
+                                        <x-enlighten-info-panel>
+                                            <x-slot name="title">Session data</x-slot>
+                                            <x-enlighten-pre language="json" :code="json_encode($tab['http_data']->session_data, JSON_PRETTY_PRINT)"/>
+                                        </x-enlighten-info-panel>
+                                    @endif
+                                </div>
+                                <div class="h-full relative">
+                                    @if($example->exception->exists)
+                                        <x-enlighten-iframe srcdoc="{{ $tab['http_data']->response_preview }}"/>
+                                    @else
+                                        <x-enlighten-response-preview :http-data="$tab['http_data']"/>
+                                    @endif
+                                </div>
+                            </div>
+                        </x-slot>
+                    @endforeach
+                </x-enlighten-dynamic-tabs>
+            </x-slot>
         </x-enlighten-dynamic-tabs>
     @endif
 </x-enlighten-main-layout>
