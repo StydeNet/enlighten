@@ -2,8 +2,9 @@
 
 namespace Styde\Enlighten;
 
-use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Facades\VersionControl;
+use Styde\Enlighten\Facades\GitInfo;
+use Styde\Enlighten\Models\Run;
 
 class TestRun
 {

@@ -18,7 +18,6 @@ class ModuleCollection extends Collection
                 [$matches, $groups] = $groups->partition(function($group) use ($module) {
                     return $group->matches($module);
                 });
-
                 $module->addGroups($matches);
             })
             ->addRemainingGroupsToTheDefaultModule($groups);

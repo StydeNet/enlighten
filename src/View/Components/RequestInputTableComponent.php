@@ -3,7 +3,6 @@
 
 namespace Styde\Enlighten\View\Components;
 
-
 use Illuminate\View\Component;
 
 class RequestInputTableComponent extends Component

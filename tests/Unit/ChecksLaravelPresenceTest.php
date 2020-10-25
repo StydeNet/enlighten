@@ -15,7 +15,7 @@ class ChecksLaravelPresenceTest extends TestCase
         try {
             enlighten(function () { });
         } catch (LaravelNotPresent $exception) {
-            $this->testPassed();
+            $this->passed();
             return;
         }
 
@@ -28,14 +28,14 @@ class ChecksLaravelPresenceTest extends TestCase
         try {
             Enlighten::test(function () { });
         } catch (LaravelNotPresent $exception) {
-            $this->testPassed();
+            $this->passed();
             return;
         }
 
         $this->fail('The exception LaravelNotPresent was not thrown');
     }
 
-    private function testPassed()
+    private function passed()
     {
         $this->assertTrue(true);
     }

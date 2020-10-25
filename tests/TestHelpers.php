@@ -93,32 +93,32 @@ trait TestHelpers
         return array_merge([
             'request_path' => 'user',
             'request_headers' => [
-                "accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                "accept-charset" => "ISO-8859-1,utf-8;q=0.7,*;q=0.7",
-                "accept-language" => "en-us,en;q=0.5"
+                'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'accept-charset' => 'ISO-8859-1,utf-8;q=0.7,*;q=0.7',
+                'accept-language' => 'en-us,en;q=0.5'
             ],
             'request_method' => 'POST',
             'request_query_parameters' => [],
             'request_input' => [
-                "name" => "Jeff",
-                "email" => "jeff@example.test",
-                "password" => "my-password"
+                'name' => 'Jeff',
+                'email' => 'jeff@example.test',
+                'password' => 'my-password'
             ],
             'route' => 'user',
             'route_parameters' => [],
             'response_status' => 302,
             'response_headers' => [
-                "date" => [
-                    "Wed, 23 Sep 2020 09:53:15 GMT"
+                'date' => [
+                    'Wed, 23 Sep 2020 09:53:15 GMT'
                 ],
-                "location" => [
-                    "http://localhost"
+                'location' => [
+                    'http://localhost'
                 ],
-                "content-type" => [
-                    "text/html; charset=UTF-8"
+                'content-type' => [
+                    'text/html; charset=UTF-8'
                 ],
-                "cache-control" => [
-                    "no-cache, private"
+                'cache-control' => [
+                    'no-cache, private'
                 ]
             ],
             'response_body' => $this->redirectResponseBody(),

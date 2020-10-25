@@ -22,7 +22,7 @@ class ResponseInspector
 
     protected function getTemplate(Response $response): ?string
     {
-        if (isset ($response->original) && $response->original instanceof View) {
+        if (isset($response->original) && $response->original instanceof View) {
             return File::get($response->original->getPath());
         }
 

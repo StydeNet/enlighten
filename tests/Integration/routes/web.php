@@ -1,7 +1,7 @@
 <?php
 
-use Tests\Integration\App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Tests\Integration\App\Http\Controllers\UserController;
 
 Route::get('/user/{user}', [UserController::class, 'show'])
     ->name('user.show')

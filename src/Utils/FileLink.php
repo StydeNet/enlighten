@@ -18,7 +18,8 @@ class FileLink
     {
         if (static::$template == null) {
             static::$template = Arr::get(
-                static::$editors, config('enlighten.editor', 'phpstorm'),
+                static::$editors,
+                config('enlighten.editor', 'phpstorm'),
                 Arr::first(static::$editors)
             );
         }

@@ -25,10 +25,10 @@ use Styde\Enlighten\View\Components\EditButtonComponent;
 use Styde\Enlighten\View\Components\ExceptionInfoComponent;
 use Styde\Enlighten\View\Components\HtmlResponseComponent;
 use Styde\Enlighten\View\Components\KeyValueComponent;
-use Styde\Enlighten\View\Components\RequestInputTableComponent;
-use Styde\Enlighten\View\Components\RouteParametersTableComponent;
 use Styde\Enlighten\View\Components\RequestInfoComponent;
+use Styde\Enlighten\View\Components\RequestInputTableComponent;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
+use Styde\Enlighten\View\Components\RouteParametersTableComponent;
 use Styde\Enlighten\View\Components\StatsBadgeComponent;
 use Styde\Enlighten\View\Components\StatusBadgeComponent;
 

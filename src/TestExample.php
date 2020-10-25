@@ -6,10 +6,10 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Styde\Enlighten\Models\ExampleRequest;
-use Styde\Enlighten\Models\Status;
-use Throwable;
 use ReflectionMethod;
 use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Models\Status;
+use Throwable;
 
 class TestExample extends TestInfo
 {

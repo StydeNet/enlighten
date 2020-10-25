@@ -3,7 +3,6 @@
 
 namespace Styde\Enlighten\View\Components;
 
-
 use Illuminate\View\Component;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\Status;

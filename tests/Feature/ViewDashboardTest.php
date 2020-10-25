@@ -104,7 +104,7 @@ class ViewDashboardTest extends TestCase
         $this->createExample($group, 'delete user', 'passed', 'delete user');
         $this->createExample($group, 'search user by name', 'passed', 'search user by name');
         $this->createExample($group, 'filter user by type', 'passed', 'filter user by type');
-        $this->createExample($group, 'list all users', 'passed',  'list all users');
+        $this->createExample($group, 'list all users', 'passed', 'list all users');
 
         $response = $this->get(route('enlighten.api.search', ['run' => $firstRun->id]), [
             'search' => 'create user'

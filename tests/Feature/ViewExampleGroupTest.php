@@ -22,7 +22,6 @@ class ViewExampleGroupTest extends TestCase
             'title' => 'The Class Title'
         ]);
 
-
         $this->createExampleTest([
             'group_id' => $exampleGroup->id,
             'method_name' => 'first_test',
