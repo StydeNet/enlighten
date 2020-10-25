@@ -7,8 +7,10 @@ use ReflectionFunction;
 
 class CodeInspector
 {
-    public function getCode(ReflectionFunction $reflection): string
+    public function getCodeFrom($callback): string
     {
+        $reflection = new ReflectionFunction($callback);
+
         return collect(
                 explode(PHP_EOL, file_get_contents($reflection->getFileName()))
             )

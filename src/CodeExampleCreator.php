@@ -4,6 +4,8 @@ namespace Styde\Enlighten;
 
 use Closure;
 use ReflectionFunction;
+use Styde\Enlighten\Utils\ResultTransformer;
+use Throwable;
 
 class CodeExampleCreator
 {
@@ -28,16 +30,21 @@ class CodeExampleCreator
         $testExample = $this->testInspector->getCurrentTestExample();
 
         if ($testExample->isIgnored()) {
-            return $callback;
+            return $callback();
         }
 
-        $reflection = new ReflectionFunction($callback);
+        $testExample->createSnippet($this->codeInspector->getCodeFrom($callback));
 
-        return new CodeSnippet(
-            $testExample,
-            $callback,
-            $this->codeInspector->getCode($reflection),
-            $reflection->getParameters()
-        );
+        try {
+            $result = call_user_func($callback);
+
+            $testExample->saveSnippetResult(ResultTransformer::toArray($result));
+
+            return $result;
+        } catch (Throwable $throwable) {
+            $testExample->setException($throwable);
+
+            throw $throwable;
+        }
     }
 }
