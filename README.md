@@ -249,6 +249,36 @@ class UsersTest extends TestCase {
 }
 ```
 
+## Document your Internal API (Classes, Methods and Functions)
+
+You can also create a code-snippet from your unit-tests by using the `Enlighten::test()` facade, this will allows you to add code-examples to your documentation.
+
+```php
+
+use Styde\Enlighten\Facades\Enlighten;
+
+class CalcTest extends TestCase
+{
+    /**
+     * @test 
+     * @testdox Sum two numbers
+     * @description Use the Calc `sum` static method to sum two numbers.
+    **/
+    public function can_sum_two_numbers()
+    {
+        $result = Enlighten::test(function () {
+            $a = 1;
+            $b = 2;
+            return Calc::sum($a, $b);
+        });
+          
+        $this->assertSame(3, $result);
+    }
+}
+```
+
+Optionally, you can use the `enlighten()` helper instead of the `Enlighten::test()` facade.
+
 ## Customizing the intro page
 
 To customize the content of your Dashboard page, you can add an `ENLIGHTEN.md` markdown file to the root path of your project.
