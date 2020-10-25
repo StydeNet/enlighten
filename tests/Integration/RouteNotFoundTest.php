@@ -12,10 +12,10 @@ class RouteNotFoundTest extends TestCase
         $this->get('not-found-url')
             ->assertNotFound();
 
-        tap(ExampleRequest::first(), function ($httpData) {
-            $this->assertSame('not-found-url', $httpData->request_path);
-            $this->assertNull($httpData->route);
-            $this->assertNull($httpData->route_parameters);
+        tap(ExampleRequest::first(), function ($request) {
+            $this->assertSame('not-found-url', $request->request_path);
+            $this->assertNull($request->route);
+            $this->assertNull($request->route_parameters);
         });
     }
 }

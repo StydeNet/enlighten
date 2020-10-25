@@ -10,10 +10,10 @@ class HtmlResponseComponent extends Component
     /**
      * @var ExampleRequest
      */
-    public $httpData;
+    public $request;
 
-    public function __construct(ExampleRequest $httpData) {
-        $this->httpData = $httpData;
+    public function __construct(ExampleRequest $request) {
+        $this->request = $request;
     }
 
     public function render()

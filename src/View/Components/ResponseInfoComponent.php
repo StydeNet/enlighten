@@ -10,27 +10,27 @@ class ResponseInfoComponent extends Component
     /**
      * @var ExampleRequest
      */
-    public $httpData;
+    public $request;
 
-    public function __construct(ExampleRequest $httpData)
+    public function __construct(ExampleRequest $request)
     {
-        $this->httpData = $httpData;
+        $this->request = $request;
     }
 
     private function status()
     {
-        return $this->httpData->response_status ?? 'UNKNOWN';
+        return $this->request->response_status ?? 'UNKNOWN';
     }
 
     private function color()
     {
-        if ($this->httpData->response_status == 200) {
+        if ($this->request->response_status === 200) {
             return 'green';
-        } elseif ($this->httpData->response_status > 200 && $this->httpData->response_status < 400) {
+        } elseif ($this->request->response_status > 200 && $this->request->response_status < 400) {
             return 'blue';
-        } elseif ($this->httpData->response_status > 400 && $this->httpData->response_status < 500) {
+        } elseif ($this->request->response_status > 400 && $this->request->response_status < 500) {
             return 'yellow';
-        } elseif ($this->httpData->response_status > 500) {
+        } elseif ($this->request->response_status > 500) {
             return 'red';
         } else {
             return 'gray';
@@ -40,7 +40,7 @@ class ResponseInfoComponent extends Component
     public function render()
     {
         return view('enlighten::components.response-info', [
-            'http_data' => $this->httpData,
+            'request' => $this->request,
             'color' => $this->color(),
             'status' => $this->status()
         ]);

@@ -17,12 +17,12 @@
     </div>
 @endif
 
-@foreach($example->requests as $http_data)
+@foreach($example->requests as $request)
     <h2 class="text-gray-300 mb-6 mt-2 text-xl">Request #{{ $loop->iteration }} Queries</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        @if(!empty($http_data->queries))
+        @if(!empty($request->queries))
             <div class="flex flex-col md:col-span-2 space-y-4">
-                @foreach($http_data->queries as $query)
+                @foreach($request->queries as $query)
                     <x-enlighten-info-panel>
                         <x-slot name="title">Time: {{ $query->time }}</x-slot>
                         <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
@@ -35,7 +35,7 @@
         @endif
         <div class="relative h-full">
             <div class="sticky top-0">
-                <x-enlighten-request-info :http-data="$http_data" />
+                <x-enlighten-request-info :request="$request" />
             </div>
         </div>
     </div>

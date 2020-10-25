@@ -23,14 +23,14 @@
 
                     <div class="w-full lg:w-1/2 flex justify-between">
                         <div class="flex flex-col space-y-2">
-                            @foreach($example->requests as $http_data)
+                            @foreach($example->requests as $request)
                                 <div class="space-y-2">
                                     <div class="flex  space-x-2">
                                     <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                            {{ $http_data->request_method }}: {{ $http_data->request_path }}
+                                            {{ $request->request_method }}: {{ $request->request_path }}
                                     </span>
-                                    <span class="text-sm px-2 flex items-center text-{{ $http_data->getStatus() }}-700 bg-{{ $http_data->getStatus() }}-200">
-                                        {{ $http_data->response_status }} {{ $http_data->response_type }}
+                                    <span class="text-sm px-2 flex items-center text-{{ $request->getStatus() }}-700 bg-{{ $request->getStatus() }}-200">
+                                        {{ $request->response_status }} {{ $request->response_type }}
                                     </span>
                                     </div>
                                 </div>

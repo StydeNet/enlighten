@@ -10,7 +10,7 @@ class HideRequestQueryParametersTest extends TestCase
     /** @test */
     function can_remove_and_overwrite_query_parameters()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'request_query_parameters' => [
                 'page' => 2,
                 'host' => 'original_host',
@@ -31,6 +31,6 @@ class HideRequestQueryParametersTest extends TestCase
         ]);
 
         $expected = ['page' => 2, 'host' => 'replaced_host'];
-        $this->assertSame($expected, $httpData->request_query_parameters);
+        $this->assertSame($expected, $request->request_query_parameters);
     }
 }

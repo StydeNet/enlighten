@@ -10,7 +10,7 @@ class HideSessionDataTest extends TestCase
     /** @test */
     function can_hide_and_overwrite_request_input_values()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'session_data' => [
                 'token' => 'should_be_displayed',
                 'secret_token' => 'should_not_be_displayed',
@@ -35,6 +35,6 @@ class HideSessionDataTest extends TestCase
             'password' => '******',
         ];
 
-        $this->assertSame($expected, $httpData->session_data);
+        $this->assertSame($expected, $request->session_data);
     }
 }

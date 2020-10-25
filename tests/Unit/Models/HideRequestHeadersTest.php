@@ -10,7 +10,7 @@ class HideRequestHeadersTest extends TestCase
     /** @test */
     function hides_request_headers()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'request_headers' => [
                 'host' => 'localhost',
                 'accept' => ['application/json'],
@@ -29,13 +29,13 @@ class HideRequestHeadersTest extends TestCase
         $this->assertSame([
             'accept' => ['application/json'],
             'user-agent' => ['Mozilla'],
-        ], $httpData->request_headers);
+        ], $request->request_headers);
     }
 
     /** @test */
     function can_overwrite_headers()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'request_headers' => [
                 'host' => ['original.host'],
                 'accept' => ['application/json'],
@@ -53,13 +53,13 @@ class HideRequestHeadersTest extends TestCase
         $this->assertSame([
             'host' => ['overwritten.host'],
             'accept' => ['application/json'],
-        ], $httpData->request_headers);
+        ], $request->request_headers);
     }
 
     /** @test */
     function hidden_headers_take_precedence_over_overwritten_headers()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'request_headers' => [
                 'host' => 'localhost',
                 'accept' => ['application/json'],
@@ -79,6 +79,6 @@ class HideRequestHeadersTest extends TestCase
 
         $this->assertSame([
             'accept' => ['application/json'],
-        ], $httpData->request_headers);
+        ], $request->request_headers);
     }
 }

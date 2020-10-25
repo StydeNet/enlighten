@@ -10,7 +10,7 @@ class HideResponseDataTest extends TestCase
     /** @test */
     function can_hide_and_overwrite_response_headers()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'response_headers' => [
                 'secret-token' => 'this-should-be-removed',
                 'token' => 'this-value-should-be-replaced',
@@ -32,13 +32,13 @@ class HideResponseDataTest extends TestCase
         $this->assertSame([
             'token' => '******',
             'content-type' => 'application/json',
-        ], $httpData->response_headers);
+        ], $request->response_headers);
     }
 
     /** @test */
     function can_hide_and_overwrite_data_from_a_json_response_body()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'response_headers' => ['content-type' => ['application/json']],
             'response_body' => json_encode([
                 'message' => 'There was an error',
@@ -60,6 +60,6 @@ class HideResponseDataTest extends TestCase
         $this->assertSame([
             'message' => 'There was an error',
             'token' => 'demo-token',
-        ], $httpData->response_body);
+        ], $request->response_body);
     }
 }

@@ -10,36 +10,36 @@ class RequestInfoComponent extends Component
     /**
      * @var ExampleRequest
      */
-    private $httpData;
+    private $request;
 
-    public function __construct(ExampleRequest $httpData)
+    public function __construct(ExampleRequest $request)
     {
-        $this->httpData = $httpData;
+        $this->request = $request;
     }
 
     public function render()
     {
         return view('enlighten::components.request-info', [
-            'routeInfo' => $this->routeInfo($this->httpData),
-            'http_data' => $this->httpData,
+            'routeInfo' => $this->routeInfo($this->request),
+            'request' => $this->request,
             'request_input' => $this->normalizeRequestInput()
         ]);
     }
 
 
 
-    private function routeInfo(ExampleRequest $httpData): array
+    private function routeInfo(ExampleRequest $request): array
     {
         return [
-            'Method' => $this->httpData->request_method,
-            'Route' => $this->httpData->route,
-            'Example' => $this->httpData->request_path . ($this->httpData->request_query_parameters ? '?' . http_build_query($this->httpData->request_query_parameters) : ''),
+            'Method' => $this->request->request_method,
+            'Route' => $this->request->route,
+            'Example' => $this->request->request_path . ($this->request->request_query_parameters ? '?' . http_build_query($this->request->request_query_parameters) : ''),
         ];
     }
 
     private function normalizeRequestInput(): array
     {
-        return collect($this->httpData['request_input'])
+        return collect($this->request['request_input'])
             ->map(function ($value) {
                 return is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value;
             })->toArray();

@@ -81,6 +81,6 @@ class Example extends Model implements Statusable
 
     public function getOrphanQueriesAttribute()
     {
-        return $this->queries->where('$level_id', null);
+        return $this->queries->where('request_id', null);
     }
 }

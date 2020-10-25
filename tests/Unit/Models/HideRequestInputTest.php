@@ -10,7 +10,7 @@ class HideRequestInputTest extends TestCase
     /** @test */
     function can_hide_and_overwrite_request_input_values()
     {
-        $httpData = new ExampleRequest([
+        $request = new ExampleRequest([
             'request_input' => [
                 'username' => 'original_username',
                 'email' => 'original@example.test',
@@ -35,6 +35,6 @@ class HideRequestInputTest extends TestCase
             'email' => 'replaced@example.test',
         ];
 
-        $this->assertSame($expected, $httpData->request_input);
+        $this->assertSame($expected, $request->request_input);
     }
 }

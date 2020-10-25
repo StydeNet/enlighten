@@ -55,24 +55,24 @@
                         <x-slot :name="$tab['key']">
                             <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                                 <div>
-                                    <x-enlighten-request-info :http-data="$tab['http_data']" />
+                                    <x-enlighten-request-info :request="$tab['requests']" />
                                     <span class="mb-8 w-full block"></span>
 
-                                    <x-enlighten-response-info :http-data="$tab['http_data']" />
+                                    <x-enlighten-response-info :request="$tab['requests']" />
                                     <span class="mb-8 w-full block"></span>
 
-                                    @if($tab['http_data']->session_data)
+                                    @if($tab['requests']->session_data)
                                         <x-enlighten-info-panel>
                                             <x-slot name="title">Session data</x-slot>
-                                            <x-enlighten-pre language="json" :code="json_encode($tab['http_data']->session_data, JSON_PRETTY_PRINT)"/>
+                                            <x-enlighten-pre language="json" :code="json_encode($tab['requests']->session_data, JSON_PRETTY_PRINT)"/>
                                         </x-enlighten-info-panel>
                                     @endif
                                 </div>
                                 <div class="h-full relative">
                                     @if($example->exception->exists)
-                                        <x-enlighten-iframe srcdoc="{{ $tab['http_data']->response_preview }}"/>
+                                        <x-enlighten-iframe srcdoc="{{ $tab['requests']->response_preview }}"/>
                                     @else
-                                        <x-enlighten-response-preview :http-data="$tab['http_data']"/>
+                                        <x-enlighten-response-preview :request="$tab['requests']"/>
                                     @endif
                                 </div>
                             </div>
