@@ -18,9 +18,4 @@ class ExampleSnippet extends Model
     protected $casts = [
         'result' => 'array'
     ];
-
-    public function calls()
-    {
-        return $this->hasMany(ExampleSnippetCall::class);
-    }
 }
