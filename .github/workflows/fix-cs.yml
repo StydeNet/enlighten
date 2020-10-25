@@ -9,7 +9,7 @@ jobs:
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
-          args: --config=.php_cs --diff
+          args: --config=.php_cs --diff --allow-risky=yes
       - name: Commit Style Changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
