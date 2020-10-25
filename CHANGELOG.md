@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.3 - 2020-25-10
+
+**To upgrade from v0.2.8 to v0.3, please delete all the Enlighten tables and re-run the migrations in your local environment** 
+
+### New Features
+- Support to create code-snippet examples  using the `Enlighten::test()` facade or the `enlighten()` helper in your test methods
+- Support to hide keys form JSON responses via config file
+- Layout redesign
+- Group database queries by request and show the request information associated with each query group.
+
+## Fixes & improvements
+- Support older GIT versions
+- Support for Laravel `^7.28`
+- Support for PHP `^7.3`
+- Generate default titles from tests methods with camel case format
+- Allow developers to implement their own way to get the "Area" from any test class name
+- Allow developers to get info from their own version control system
+
 ## v0.2.8 - 2020-10-16
 
 **To upgrade from v0.2.5 to v0.2.6, please delete all the Enlighten tables and re-run the migrations in your local environment** 
