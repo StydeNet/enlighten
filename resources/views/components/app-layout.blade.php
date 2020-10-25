@@ -1,7 +1,7 @@
 <div class="h-screen flex overflow-hidden bg-gray-100" x-data="{open: false}">
     <div >
-        <div x-show="open" class="fixed inset-0 flex z-40">
-            <div x-show="open" class="fixed inset-0"
+        <div x-show="open" x-cloak class="fixed inset-0 flex z-40">
+            <div x-show="open" x-cloak class="fixed inset-0"
                  x-transition:enter="transition-opacity ease-linear duration-300"
                  xtransition:enter-start="opacity-0"
                  x-transition:enter-end="opacity-100"
@@ -11,7 +11,7 @@
             >
                 <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
             </div>
-            <div x-show="open"
+            <div x-show="open" x-cloak
                  x-transition:enter="transition ease-in-out duration-300 transform"
                  xtransition:enter-start="-translate-x-full"
                  x-transition:enter-end="translate-x-0"
