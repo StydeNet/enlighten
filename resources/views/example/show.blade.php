@@ -25,9 +25,6 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                     <x-enlighten-info-panel>
                         <x-slot name="title">Snippet</x-slot>
-                        @if($snippetCall->arguments_code)
-                            <x-enlighten-pre language="php" :code="$snippetCall->arguments_code"></x-enlighten-pre>
-                        @endif
                         <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
                     </x-enlighten-info-panel>
                     <x-enlighten-info-panel>

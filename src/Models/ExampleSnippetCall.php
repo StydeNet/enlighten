@@ -3,8 +3,6 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Symfony\Component\VarDumper\VarDumper;
 
 class ExampleSnippetCall extends Model
 {
@@ -18,13 +16,6 @@ class ExampleSnippetCall extends Model
         'arguments' => 'array',
         'result' => 'array',
     ];
-
-    public function getArgumentsCodeAttribute(): string
-    {
-        return collect($this->arguments)->map(function ($value, $key) {
-            return '$'.$key.' = '.var_export($value, true).';';
-        })->implode("\n");
-    }
 
     public function getResultCodeAttribute(): string
     {
