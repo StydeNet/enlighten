@@ -55,7 +55,7 @@ class OutputFormatter
             return $this->getDump($result);
         }
 
-        $this->getDump($output);
+        $output = $this->getDump($output);
 
         $output = str_replace(array_keys($this->classReferences), $this->classReferences, $output);
 
