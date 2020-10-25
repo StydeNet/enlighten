@@ -1,11 +1,12 @@
 @props(['example'])
 
 @if($example->orphan_queries->isNotEmpty())
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <h2 class="text-gray-300 mb-6 mt-2 text-xl">Setup Queries</h2>
+    <div class="grid grid-cols-1 gap-4 mb-8">
         <div class="flex flex-col space-y-4">
             @foreach($example->orphan_queries as $query)
                 <x-enlighten-info-panel>
-                    <x-slot name="title">Time: {{ $query->time }} (Setup query)</x-slot>
+                    <x-slot name="title">Time: {{ $query->time }}</x-slot>
                     <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
                     @if($query->bindings)
                         <x-enlighten-key-value :items="$query->bindings" title="Bindings"></x-enlighten-key-value>
@@ -17,6 +18,7 @@
 @endif
 
 @foreach($example->http_data as $http_data)
+    <h2 class="text-gray-300 mb-6 mt-2 text-xl">Request #{{ $loop->iteration }} Queries</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         @if(!empty($http_data->queries))
             <div class="flex flex-col space-y-4">
