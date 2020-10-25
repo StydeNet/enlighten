@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnlightenHttpDataTable extends Migration
+class CreateEnlightenExampleRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateEnlightenHttpDataTable extends Migration
      */
     public function up()
     {
-        if (Schema::connection('enlighten')->hasTable('enlighten_http_data')) {
+        if (Schema::connection('enlighten')->hasTable('enlighten_example_requests')) {
             return;
         }
 
-        Schema::connection('enlighten')->create('enlighten_http_data', function (Blueprint $table) {
+        Schema::connection('enlighten')->create('enlighten_example_requests', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('example_id')
@@ -50,6 +50,6 @@ class CreateEnlightenHttpDataTable extends Migration
      */
     public function down()
     {
-        Schema::connection('enlighten')->dropIfExists('enlighten_http_data');
+        Schema::connection('enlighten')->dropIfExists('enlighten_example_requests');
     }
 }

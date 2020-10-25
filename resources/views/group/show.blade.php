@@ -23,7 +23,7 @@
 
                     <div class="w-full lg:w-1/2 flex justify-between">
                         <div class="flex flex-col space-y-2">
-                            @foreach($example->http_data as $http_data)
+                            @foreach($example->requests as $http_data)
                                 <div class="space-y-2">
                                     <div class="flex  space-x-2">
                                     <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">

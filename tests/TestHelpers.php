@@ -88,14 +88,7 @@ trait TestHelpers
         ], array_filter($customAttributes));
     }
 
-    protected function createHttpData(Example $example, array $customAttributes = [])
-    {
-        $example->http_data()->create($this->getHttpDataAttributes($customAttributes));
-
-        return $example->http_data;
-    }
-
-    protected function getHttpDataAttributes(array $customAttributes = [])
+    protected function getExampleRequestAttributes(array $customAttributes = [])
     {
         return array_merge([
             'request_path' => 'user',

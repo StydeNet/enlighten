@@ -2,7 +2,7 @@
 
 namespace Tests\Integration;
 
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 
 class RouteNotFoundTest extends TestCase
 {
@@ -12,7 +12,7 @@ class RouteNotFoundTest extends TestCase
         $this->get('not-found-url')
             ->assertNotFound();
 
-        tap(HttpData::first(), function ($httpData) {
+        tap(ExampleRequest::first(), function ($httpData) {
             $this->assertSame('not-found-url', $httpData->request_path);
             $this->assertNull($httpData->route);
             $this->assertNull($httpData->route_parameters);

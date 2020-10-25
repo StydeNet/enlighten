@@ -3,7 +3,7 @@
 namespace Tests\Integration;
 
 use Styde\Enlighten\Models\Example;
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 
 class MultipleRequestsTest extends TestCase
 {
@@ -22,14 +22,14 @@ class MultipleRequestsTest extends TestCase
 
         $this->assertNotNull($example);
 
-        $this->assertCount(2, $example->http_data);
+        $this->assertCount(2, $example->requests);
 
-        tap($example->http_data->first(), function (HttpData $httpData) {
-            $this->assertSame('request/1', $httpData->request_path);
+        tap($example->requests->first(), function (ExampleRequest $request) {
+            $this->assertSame('request/1', $request->request_path);
         });
 
-        tap($example->http_data->last(), function (HttpData $httpData) {
-            $this->assertSame('request/2', $httpData->request_path);
+        tap($example->requests->last(), function (ExampleRequest $request) {
+            $this->assertSame('request/2', $request->request_path);
         });
     }
 }

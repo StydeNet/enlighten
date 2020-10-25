@@ -14,24 +14,24 @@ class ExampleQuery extends Model
 
     protected $casts = [
         'bindings' => 'array',
-        'http_data_id' => 'int',
+        'request_id' => 'int',
         'snippet_id' => 'int',
     ];
 
-    public function http_data()
+    public function request()
     {
-        return $this->belongsTo(HttpData::class);
+        return $this->belongsTo(ExampleRequest::class);
     }
 
-    public function snippetCall()
+    public function snippet()
     {
-        return $this->belongsTo(ExampleSnippetCall::class);
+        return $this->belongsTo(ExampleSnippet::class);
     }
 
     // Accessors
 
     public function getContextAttribute($value)
     {
-        return is_null($this->http_data_id) ? 'test' : 'request';
+        return is_null($this->request_id) ? 'test' : 'request';
     }
 }

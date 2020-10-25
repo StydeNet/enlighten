@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideRequestInputTest extends TestCase
@@ -10,7 +10,7 @@ class HideRequestInputTest extends TestCase
     /** @test */
     function can_hide_and_overwrite_request_input_values()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'request_input' => [
                 'username' => 'original_username',
                 'email' => 'original@example.test',

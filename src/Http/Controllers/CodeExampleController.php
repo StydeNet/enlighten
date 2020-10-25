@@ -10,15 +10,15 @@ class CodeExampleController extends Controller
 {
     public function show(Run $run, string $area, ExampleGroup $group, string $method)
     {
-        $example = Example::with('http_data', 'http_data.queries', 'snippets', 'exception', 'queries', 'group')
+        $example = Example::with('requests', 'requests.queries', 'snippets', 'exception', 'queries', 'group')
             ->where('method_name', $method)
             ->firstOrFail();
 
-        $responseTabs = $example->http_data->map(function ($data, $key) {
+        $responseTabs = $example->requests->map(function ($data, $key) {
             return [
                 'key' => $data->hash,
                 'title' => 'Request '. ($key + 1),
-                'http_data' => $data
+                'requests' => $data,
             ];
         });
 

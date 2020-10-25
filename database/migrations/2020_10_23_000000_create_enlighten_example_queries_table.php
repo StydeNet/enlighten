@@ -31,10 +31,10 @@ class CreateEnlightenExampleQueriesTable extends Migration
 
             $table->string('time');
 
-            $table->foreignId('http_data_id')
+            $table->foreignId('request_id')
                 ->nullable()
                 ->references('id')
-                ->on('enlighten_http_data');
+                ->on('enlighten_example_requests');
 
             $table->foreignId('snippet_id')
                 ->nullable()

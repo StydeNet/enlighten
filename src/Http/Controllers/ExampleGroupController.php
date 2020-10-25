@@ -14,7 +14,7 @@ class ExampleGroupController extends Controller
             'slug' => $group,
         ])->firstOrFail();
 
-        $group->load(['examples', 'examples.http_data']);
+        $group->load(['examples', 'examples.requests']);
 
         return view('enlighten::group.show', [
             'group' => $group,

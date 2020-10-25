@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-class HttpData extends Model implements Statusable
+class ExampleRequest extends Model implements Statusable
 {
     use ReplacesValues;
 
     protected $connection = 'enlighten';
 
-    protected $table = 'enlighten_http_data';
+    protected $table = 'enlighten_example_requests';
 
     protected $guarded = [];
 
@@ -27,7 +27,7 @@ class HttpData extends Model implements Statusable
 
     public function queries(): HasMany
     {
-        return $this->hasMany(ExampleQuery::class, 'http_data_id');
+        return $this->hasMany(ExampleQuery::class, 'request_id');
     }
 
 

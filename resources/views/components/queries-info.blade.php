@@ -17,7 +17,7 @@
     </div>
 @endif
 
-@foreach($example->http_data as $http_data)
+@foreach($example->requests as $http_data)
     <h2 class="text-gray-300 mb-6 mt-2 text-xl">Request #{{ $loop->iteration }} Queries</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         @if(!empty($http_data->queries))

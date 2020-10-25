@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideRequestHeadersTest extends TestCase
@@ -10,7 +10,7 @@ class HideRequestHeadersTest extends TestCase
     /** @test */
     function hides_request_headers()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'request_headers' => [
                 'host' => 'localhost',
                 'accept' => ['application/json'],
@@ -35,7 +35,7 @@ class HideRequestHeadersTest extends TestCase
     /** @test */
     function can_overwrite_headers()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'request_headers' => [
                 'host' => ['original.host'],
                 'accept' => ['application/json'],
@@ -59,7 +59,7 @@ class HideRequestHeadersTest extends TestCase
     /** @test */
     function hidden_headers_take_precedence_over_overwritten_headers()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'request_headers' => [
                 'host' => 'localhost',
                 'accept' => ['application/json'],

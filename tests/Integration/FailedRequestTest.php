@@ -4,7 +4,7 @@ namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\Example;
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
@@ -36,15 +36,15 @@ class FailedRequestTest extends TestCase
 
             $this->assertNotNull($example);
 
-            tap($example->http_data->first(), function (?HttpData $httpData) {
-                $this->assertNotNull($httpData);
+            tap($example->requests->first(), function (?ExampleRequest $request) {
+                $this->assertNotNull($request);
 
-                $this->assertSame('GET', $httpData->request_method);
-                $this->assertSame('server-error', $httpData->request_path);
+                $this->assertSame('GET', $request->request_method);
+                $this->assertSame('server-error', $request->request_path);
 
-                $this->assertNull($httpData->route);
-                $this->assertNull($httpData->response_status);
-                $this->assertNull($httpData->response_body);
+                $this->assertNull($request->route);
+                $this->assertNull($request->response_status);
+                $this->assertNull($request->response_body);
             });
 
             return;
@@ -65,8 +65,8 @@ class FailedRequestTest extends TestCase
 
         $this->assertNotNull($example);
 
-        tap($example->http_data->first(), function (HttpData $httpData) {
-            $this->assertEquals(500, $httpData->response_status);
+        tap($example->requests->first(), function (ExampleRequest $request) {
+            $this->assertEquals(500, $request->response_status);
         });
 
         tap($example->exception, function ($exception) {
@@ -98,8 +98,8 @@ class FailedRequestTest extends TestCase
 
             $this->assertNotNull($example);
 
-            tap($example->http_data->first(), function (?HttpData $httpData) {
-                $this->assertNull($httpData->response_status);
+            tap($example->requests->first(), function (?ExampleRequest $request) {
+                $this->assertNull($request->response_status);
             });
 
             tap($example->exception, function ($exception) {

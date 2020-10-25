@@ -3,16 +3,16 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 
 class RequestInfoComponent extends Component
 {
     /**
-     * @var HttpData
+     * @var ExampleRequest
      */
     private $httpData;
 
-    public function __construct(HttpData $httpData)
+    public function __construct(ExampleRequest $httpData)
     {
         $this->httpData = $httpData;
     }
@@ -28,7 +28,7 @@ class RequestInfoComponent extends Component
 
 
 
-    private function routeInfo(HttpData $httpData): array
+    private function routeInfo(ExampleRequest $httpData): array
     {
         return [
             'Method' => $this->httpData->request_method,

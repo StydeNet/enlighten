@@ -5,7 +5,7 @@ namespace Styde\Enlighten;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Models\Status;
 use Throwable;
 use ReflectionMethod;
@@ -44,9 +44,9 @@ class TestExample extends TestInfo
     private $exception = null;
 
     /**
-     * @var HttpData|null
+     * @var ExampleRequest|null
      */
-    private $currentHttpData = null;
+    private $currentRequest = null;
 
     /**
      * @var \Styde\Enlighten\Models\ExampleSnippet
@@ -117,7 +117,7 @@ class TestExample extends TestInfo
     {
         $this->save();
 
-        $this->currentHttpData = $this->example->http_data()->create([
+        $this->currentRequest = $this->example->requests()->create([
             'example_id' => $this->example->id,
             'request_headers' => $request->getHeaders(),
             'request_method' => $request->getMethod(),
@@ -131,7 +131,7 @@ class TestExample extends TestInfo
     {
         $this->save();
 
-        $this->currentHttpData->update([
+        $this->currentRequest->update([
             // Route
             'route' => $routeInfo->getUri(),
             'route_parameters' => $routeInfo->getParameters(),
@@ -144,7 +144,7 @@ class TestExample extends TestInfo
             'session_data' => $session,
         ]);
 
-        $this->currentHttpData = null;
+        $this->currentRequest = null;
     }
 
     public function setException(?Throwable $exception)
@@ -188,7 +188,7 @@ class TestExample extends TestInfo
             'sql' => $queryExecuted->sql,
             'bindings' => $queryExecuted->bindings,
             'time' => $queryExecuted->time,
-            'http_data_id' => optional($this->currentHttpData)->id,
+            'request_id' => optional($this->currentRequest)->id,
             'snippet_id' => optional($this->currentSnippet)->id,
         ]);
     }

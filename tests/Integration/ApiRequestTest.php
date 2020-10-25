@@ -65,13 +65,13 @@ class ApiRequestTest extends TestCase
             $this->assertSame('Obtiene la lista de usuarios', $example->title);
             $this->assertSame('Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema', $example->description);
 
-            tap($example->http_data->first(), function ($httpData) {
-                $this->assertNotNull($httpData);
+            tap($example->requests->first(), function ($request) {
+                $this->assertNotNull($request);
 
-                $this->assertSame('GET', $httpData->request_method);
-                $this->assertSame('api/users', $httpData->request_path);
+                $this->assertSame('GET', $request->request_method);
+                $this->assertSame('api/users', $request->request_path);
 
-                $this->assertSame('api/users/{status?}/{page?}', $httpData->route);
+                $this->assertSame('api/users/{status?}/{page?}', $request->route);
                 $this->assertSame([
                     [
                         'name' => 'status',
@@ -83,7 +83,7 @@ class ApiRequestTest extends TestCase
                         'pattern' => '*',
                         'optional' => true,
                     ]
-                ], $httpData->route_parameters);
+                ], $request->route_parameters);
 
                 $this->assertSame([
                     'data' => [
@@ -96,7 +96,7 @@ class ApiRequestTest extends TestCase
                             'email' => 'jeff.ochoa@example.com',
                         ],
                     ]
-                ], $httpData->response_body);
+                ], $request->response_body);
             });
         });
     }

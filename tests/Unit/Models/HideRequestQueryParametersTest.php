@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideRequestQueryParametersTest extends TestCase
@@ -10,7 +10,7 @@ class HideRequestQueryParametersTest extends TestCase
     /** @test */
     function can_remove_and_overwrite_query_parameters()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'request_query_parameters' => [
                 'page' => 2,
                 'host' => 'original_host',

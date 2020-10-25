@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideResponseDataTest extends TestCase
@@ -10,7 +10,7 @@ class HideResponseDataTest extends TestCase
     /** @test */
     function can_hide_and_overwrite_response_headers()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'response_headers' => [
                 'secret-token' => 'this-should-be-removed',
                 'token' => 'this-value-should-be-replaced',
@@ -38,7 +38,7 @@ class HideResponseDataTest extends TestCase
     /** @test */
     function can_hide_and_overwrite_data_from_a_json_response_body()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'response_headers' => ['content-type' => ['application/json']],
             'response_body' => json_encode([
                 'message' => 'There was an error',

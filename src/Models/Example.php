@@ -24,9 +24,9 @@ class Example extends Model implements Statusable
         return $this->belongsTo(ExampleGroup::class);
     }
 
-    public function http_data()
+    public function requests()
     {
-        return $this->hasMany(HttpData::class);
+        return $this->hasMany(ExampleRequest::class);
     }
 
     public function exception()
@@ -58,7 +58,7 @@ class Example extends Model implements Statusable
 
     public function getIsHttpAttribute()
     {
-        return $this->http_data->isNotEmpty();
+        return $this->requests->isNotEmpty();
     }
 
     public function getStatus(): string
@@ -81,6 +81,6 @@ class Example extends Model implements Statusable
 
     public function getOrphanQueriesAttribute()
     {
-        return $this->queries->where('http_data_id', null);
+        return $this->queries->where('$level_id', null);
     }
 }

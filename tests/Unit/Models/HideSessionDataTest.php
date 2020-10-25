@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use Styde\Enlighten\Models\HttpData;
+use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideSessionDataTest extends TestCase
@@ -10,7 +10,7 @@ class HideSessionDataTest extends TestCase
     /** @test */
     function can_hide_and_overwrite_request_input_values()
     {
-        $httpData = new HttpData([
+        $httpData = new ExampleRequest([
             'session_data' => [
                 'token' => 'should_be_displayed',
                 'secret_token' => 'should_not_be_displayed',

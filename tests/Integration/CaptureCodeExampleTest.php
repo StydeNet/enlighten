@@ -73,7 +73,7 @@ class CaptureCodeExampleTest extends TestCase
                 'duilio@styde.net',
                 'password',
             ], array_slice($query->bindings, 0, 3));
-            $this->assertNull($query->http_data_id);
+            $this->assertNull($query->request_id);
             $this->assertSame($snippet->id, $query->snippet_id);
         });
     }

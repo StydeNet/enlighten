@@ -11,6 +11,8 @@ class ViewExampleTest extends TestCase
     /** @test */
     public function shows_all_the_example_test_data(): void
     {
+        $this->withoutExceptionHandling();
+
         $run = $this->createRun();
 
         $exampleGroup = $this->createExampleGroup($run, 'Tests\TheClassName', 'The Class Title');
