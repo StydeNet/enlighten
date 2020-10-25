@@ -25,12 +25,17 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                     <x-enlighten-info-panel>
                         <x-slot name="title">Snippet</x-slot>
-                        <x-enlighten-pre language="php" :code="$snippetCall->arguments_code"></x-enlighten-pre>
+                        @if($snippetCall->arguments_code)
+                            <x-enlighten-pre language="php" :code="$snippetCall->arguments_code"></x-enlighten-pre>
+                        @endif
                         <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
                     </x-enlighten-info-panel>
                     <x-enlighten-info-panel>
                         <x-slot name="title">Output</x-slot>
-                        <x-enlighten-pre language="php" :code="$snippetCall->result_code" class="h-full mb-2"></x-enlighten-pre>
+                        <div class="h-full" x-data
+                             x-init="document.querySelectorAll('a.sf-dump-toggle').forEach((el, key) => key > 0 && el.click())">
+                            {!! $snippetCall->result_code !!}
+                        </div>
                     </x-enlighten-info-panel>
                 </div>
             @endforeach
