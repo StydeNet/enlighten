@@ -19,8 +19,8 @@ class ExampleSnippet extends Model
         'result' => 'array'
     ];
 
-    public function calls()
+    public function getResultCodeAttribute()
     {
-        return $this->hasMany(ExampleSnippetCall::class);
+        return OutputFormatter::format($this->result);
     }
 }

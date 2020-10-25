@@ -5,7 +5,9 @@
                     @if(isset($$name) && $$name instanceof \Illuminate\Support\HtmlString && !$$name->isEmpty())
                     <button
                             x-on:click="active='{{ $name }}'"
-                            x-bind:class="{'border-teal-300': (active === '{{ $name }}')}"
+                            x-bind:class="{
+                                'border-teal-300': (active === '{{ $name }}')
+                            }"
                             class="mx-2 text-gray-100 px-2 py-3 border-b-2 text-sm focus:outline-none hover:border-teal-500 transition-all ease-in-out duration-100"
                     >{{ ucwords($title) }}</button>
                     @endif

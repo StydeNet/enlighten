@@ -21,21 +21,19 @@
 
     @if($example->snippets->isNotEmpty())
         @foreach($example->snippets as $snippet)
-            @foreach($snippet->calls as $snippetCall)
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                    <x-enlighten-info-panel>
-                        <x-slot name="title">Snippet</x-slot>
-                        <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
-                    </x-enlighten-info-panel>
-                    <x-enlighten-info-panel>
-                        <x-slot name="title">Output</x-slot>
-                        <div class="h-full" x-data
-                             x-init="document.querySelectorAll('a.sf-dump-toggle').forEach((el, key) => key > 0 && el.click())">
-                            {!! $snippetCall->result_code !!}
-                        </div>
-                    </x-enlighten-info-panel>
-                </div>
-            @endforeach
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                <x-enlighten-info-panel>
+                    <x-slot name="title">Snippet</x-slot>
+                    <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
+                </x-enlighten-info-panel>
+                <x-enlighten-info-panel>
+                    <x-slot name="title">Output</x-slot>
+                    <div class="h-full" x-data
+                         x-init="document.querySelectorAll('a.sf-dump-toggle').forEach((el, key) => key > 0 && el.click())">
+                        {!! $snippet->result_code !!}
+                    </div>
+                </x-enlighten-info-panel>
+            </div>
         @endforeach
     @endif
 
