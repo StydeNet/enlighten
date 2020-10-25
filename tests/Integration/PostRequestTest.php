@@ -30,7 +30,6 @@ class PostRequestTest extends TestCase
         ]);
 
         tap(Example::first(), function (Example $example) {
-
             tap($example->http_data->first(), function (?HttpData $httpData) {
                 $this->assertNotNull($httpData);
 

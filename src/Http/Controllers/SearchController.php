@@ -7,8 +7,8 @@ use Styde\Enlighten\Models\Run;
 
 class SearchController
 {
-    public function index(Run $run) {
-
+    public function index(Run $run)
+    {
         $search = request()->query('search');
 
         $examples = Example::with('group')

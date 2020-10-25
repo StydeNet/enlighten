@@ -21,7 +21,7 @@ class RequestInspectorTest extends TestCase
 
         $request->setMethod('POST');
 
-        $request->setRouteResolver(fn() => new Route('GET', 'users', fn() => null));
+        $request->setRouteResolver(fn () => new Route('GET', 'users', fn () => null));
 
         $requestInspector = new RequestInspector(new RouteInspector, []);
 

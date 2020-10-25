@@ -4,8 +4,8 @@ namespace Styde\Enlighten\View\Components;
 
 use Illuminate\Support\Str;
 use Illuminate\View\Component;
-use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Models\Area;
+use Styde\Enlighten\Models\Run;
 
 class AppLayoutComponent extends Component
 {

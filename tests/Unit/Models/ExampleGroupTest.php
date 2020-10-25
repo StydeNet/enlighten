@@ -3,8 +3,8 @@
 namespace Tests\Unit\Models;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Area;
+use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
 class ExampleGroupTest extends TestCase

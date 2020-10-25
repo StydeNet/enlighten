@@ -3,9 +3,9 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Collection;
 
 class ExampleGroup extends Model implements Statusable
 {
@@ -56,7 +56,7 @@ class ExampleGroup extends Model implements Statusable
     public function getPassingTestsCountAttribute()
     {
         return $this->stats
-            ->filter(fn($stat) => $stat->getStatus() === Status::SUCCESS)
+            ->filter(fn ($stat) => $stat->getStatus() === Status::SUCCESS)
             ->sum('count', 0);
     }
 
@@ -77,7 +77,7 @@ class ExampleGroup extends Model implements Statusable
             return Status::SUCCESS;
         }
 
-        if ($this->stats->first(fn($stat) => $stat->getStatus() === Status::FAILURE)) {
+        if ($this->stats->first(fn ($stat) => $stat->getStatus() === Status::FAILURE)) {
             return Status::FAILURE;
         }
 

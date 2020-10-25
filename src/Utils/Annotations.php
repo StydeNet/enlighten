@@ -46,7 +46,7 @@ class Annotations
 
     private static function applyCast($name, $value)
     {
-        if (empty (static::$casts[$name])) {
+        if (empty(static::$casts[$name])) {
             return $value;
         }
 

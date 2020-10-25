@@ -9,7 +9,8 @@ class HtmlResponseComponent extends Component
 {
     public HttpData $httpData;
 
-    public function __construct(HttpData $httpData) {
+    public function __construct(HttpData $httpData)
+    {
         $this->httpData = $httpData;
     }
 

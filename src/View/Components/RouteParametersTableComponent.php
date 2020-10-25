@@ -3,12 +3,10 @@
 
 namespace Styde\Enlighten\View\Components;
 
-
 use Illuminate\View\Component;
 
 class RouteParametersTableComponent extends Component
 {
-
     public array $parameters;
 
     public function __construct($parameters = [])

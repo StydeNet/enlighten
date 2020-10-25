@@ -4,5 +4,4 @@ namespace Tests\Unit;
 
 class Enlighten
 {
-    
 }

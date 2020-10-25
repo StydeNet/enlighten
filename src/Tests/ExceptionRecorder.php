@@ -5,8 +5,8 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\TestInspector;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class ExceptionRecorder implements ExceptionHandler
@@ -75,7 +75,9 @@ class ExceptionRecorder implements ExceptionHandler
 
         if ($e instanceof NotFoundHttpException) {
             throw new NotFoundHttpException(
-                "{$request->method()} {$request->url()}", null, $e->getCode()
+                "{$request->method()} {$request->url()}",
+                null,
+                $e->getCode()
             );
         }
 

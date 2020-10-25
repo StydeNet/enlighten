@@ -45,7 +45,6 @@ class GetRequestTest extends TestCase
         });
 
         tap(Example::first(), function (Example $example) use ($user) {
-
             $this->assertSame('Get user data by ID', $example->title);
             $this->assertSame('Retrieves the public-user data', $example->description);
 

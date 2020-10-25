@@ -5,11 +5,11 @@ namespace Styde\Enlighten;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use ReflectionMethod;
+use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\HttpData;
 use Styde\Enlighten\Models\Status;
 use Throwable;
-use ReflectionMethod;
-use Styde\Enlighten\Models\Example;
 
 class TestExample extends TestInfo
 {

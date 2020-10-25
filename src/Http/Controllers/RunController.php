@@ -3,8 +3,8 @@
 namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Models\Module;
+use Styde\Enlighten\Models\Run;
 
 class RunController extends Controller
 {

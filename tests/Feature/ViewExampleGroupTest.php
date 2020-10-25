@@ -39,10 +39,10 @@ class ViewExampleGroupTest extends TestCase
             ->assertSeeText('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
             ->assertSeeText('ISO-8859-1,utf-8;q=0.7,*;q=0.7')
             ->assertSeeText('en-us,en;q=0.5')
-            ->assertSeeText("Wed, 23 Sep 2020 09:53:15 GMT")
-            ->assertSeeText("http://localhost")
-            ->assertSeeText("text/html; charset=UTF-8")
-            ->assertSeeText("no-cache, private");
+            ->assertSeeText('Wed, 23 Sep 2020 09:53:15 GMT')
+            ->assertSeeText('http://localhost')
+            ->assertSeeText('text/html; charset=UTF-8')
+            ->assertSeeText('no-cache, private');
     }
 
     /** @test */
