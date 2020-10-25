@@ -10,7 +10,7 @@ class LaravelNotPresent extends BadMethodCallException
     {
         parent::__construct(
             "\n\n`Enlighten` requires Laravel to be present in your tests."
-            ."\nPlease make sure the test class extend from Tests\TestCase or \Illuminate\Foundation\Testing\TestCase."
+            ."\nPlease make sure the test class extends from Tests\TestCase or \Illuminate\Foundation\Testing\TestCase."
         );
     }
 }

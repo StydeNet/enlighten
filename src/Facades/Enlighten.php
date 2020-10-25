@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Facades;
 
 use Closure;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Facade;
 use Styde\Enlighten\CodeExampleCreator;
 use Styde\Enlighten\EnlightenSettings;
@@ -23,10 +24,10 @@ class Enlighten extends Facade
 
     public static function test(Closure $callback)
     {
-        if (! app() instanceof \Illuminate\Foundation\Application) {
+        try {
+            return app(CodeExampleCreator::class)->createSnippet($callback);
+        } catch (BindingResolutionException $exception) {
             throw new LaravelNotPresent;
         }
-
-        return app(CodeExampleCreator::class)->createSnippet($callback);
     }
 }
