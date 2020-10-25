@@ -27,6 +27,8 @@ class CreateEnlightenExampleSnippetsTable extends Migration
 
             $table->longText('code');
 
+            $table->longText('result')->nullable();
+
             $table->timestamps();
         });
     }

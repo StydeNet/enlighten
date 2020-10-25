@@ -16,7 +16,7 @@ class ExampleSnippet extends Model
     protected $guarded = [];
 
     protected $casts = [
-        //
+        'result' => 'array'
     ];
 
     public function calls()
