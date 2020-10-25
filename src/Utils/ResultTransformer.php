@@ -28,7 +28,7 @@ class ResultTransformer
             return $result;
         }
 
-        return array_map(function($item) use ($currentLevel) {
+        return array_map(function ($item) use ($currentLevel) {
             return $this->transformInArray($item, $currentLevel);
         }, $result);
     }

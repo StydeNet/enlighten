@@ -58,7 +58,7 @@ class CaptureCodeExampleTest extends TestCase
         tap($snippet = $example->snippets()->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
             $this->assertSame(implode("\n", [
-                "User::create([",
+                'User::create([',
                 "    'name' => 'Duilio',",
                 "    'email' => 'duilio@styde.net',",
                 "    'password' => 'password',",
@@ -157,7 +157,8 @@ class CaptureCodeExampleTest extends TestCase
     }
 }
 
-class DemoClassForSnippetExample {
+class DemoClassForSnippetExample
+{
     public $message = 'this data can be collected';
     public $nestedObject;
     private $private = "this data won't be collected";
@@ -168,6 +169,7 @@ class DemoClassForSnippetExample {
     }
 }
 
-class DemoNestedClassForSnippetExample {
+class DemoNestedClassForSnippetExample
+{
     public $nested = 'nested attribute';
 }

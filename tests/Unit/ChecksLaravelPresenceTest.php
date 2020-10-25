@@ -13,7 +13,8 @@ class ChecksLaravelPresenceTest extends TestCase
     function throws_exception_when_calling_the_enlighten_helper_without_booting_laravel()
     {
         try {
-            enlighten(function () { });
+            enlighten(function () {
+            });
         } catch (LaravelNotPresent $exception) {
             $this->passed();
             return;
@@ -26,7 +27,8 @@ class ChecksLaravelPresenceTest extends TestCase
     function throws_exception_when_calling_the_enlighten_test_facade_without_booting_laravel()
     {
         try {
-            Enlighten::test(function () { });
+            Enlighten::test(function () {
+            });
         } catch (LaravelNotPresent $exception) {
             $this->passed();
             return;

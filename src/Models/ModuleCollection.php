@@ -15,7 +15,7 @@ class ModuleCollection extends Collection
     {
         return $this
             ->each(function ($module) use (&$groups) {
-                [$matches, $groups] = $groups->partition(function($group) use ($module) {
+                [$matches, $groups] = $groups->partition(function ($group) use ($module) {
                     return $group->matches($module);
                 });
                 $module->addGroups($matches);
@@ -36,7 +36,7 @@ class ModuleCollection extends Collection
 
     public function whereHasGroups(): self
     {
-        return $this->filter(function($module) {
+        return $this->filter(function ($module) {
             return $module->groups->isNotEmpty();
         });
     }

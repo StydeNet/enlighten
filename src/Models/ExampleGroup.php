@@ -69,7 +69,7 @@ class ExampleGroup extends Model implements Statusable
             return Status::SUCCESS;
         }
 
-        if ($this->stats->first(function($stat) {
+        if ($this->stats->first(function ($stat) {
             return $stat->getStatus() === Status::FAILURE;
         })) {
             return Status::FAILURE;

@@ -12,7 +12,8 @@ class HtmlResponseComponent extends Component
      */
     public $request;
 
-    public function __construct(ExampleRequest $request) {
+    public function __construct(ExampleRequest $request)
+    {
         $this->request = $request;
     }
 

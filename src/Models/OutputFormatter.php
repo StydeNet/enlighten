@@ -18,7 +18,7 @@ class OutputFormatter
             return array_map([$this, 'mapObjectAttributes'], $attrs);
         }
 
-        if (!isset($attrs[static::CLASS_NAME] )) {
+        if (!isset($attrs[static::CLASS_NAME])) {
             return $attrs;
         }
 
@@ -49,7 +49,7 @@ class OutputFormatter
         // we need to wrap the object a the top level to make the recursive call consistent
         if ($this->isResultObject($result)) {
             $output = array_map([$this, 'mapObjectAttributes'], [$result])[0];
-        } elseif(is_array($result)) {
+        } elseif (is_array($result)) {
             $output = array_map([$this, 'mapObjectAttributes'], $result);
         } else {
             return $this->getDump($result);
