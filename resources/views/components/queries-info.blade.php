@@ -19,9 +19,9 @@
 
 @foreach($example->http_data as $http_data)
     <h2 class="text-gray-300 mb-6 mt-2 text-xl">Request #{{ $loop->iteration }} Queries</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         @if(!empty($http_data->queries))
-            <div class="flex flex-col space-y-4">
+            <div class="flex flex-col md:col-span-2 space-y-4">
                 @foreach($http_data->queries as $query)
                     <x-enlighten-info-panel>
                         <x-slot name="title">Time: {{ $query->time }}</x-slot>
