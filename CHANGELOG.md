@@ -2,7 +2,7 @@
 
 ## v0.3 - 2020-25-10
 
-**To upgrade from v0.2.8 to v0.3, please delete all the Enlighten tables and re-run the migrations in your local environment** 
+**To upgrade from v0.2.8 to v0.3, please: 1. delete all the Enlighten tables, 2. Re-run the migrations in your local environment, 3. Delete any published views and 4. Run `php artisan view:clear` to delete the view cache.** 
 
 ### New Features
 - Support to create code-snippet examples  using the `Enlighten::test()` facade or the `enlighten()` helper in your test methods
