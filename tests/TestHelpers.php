@@ -84,7 +84,7 @@ trait TestHelpers
             'title' => 'Create User',
             'description' => 'User module API',
             'area' => Enlighten::getAreaSlug($className),
-            'slug' => Str::slug(class_basename($className)),
+            'slug' => Enlighten::generateSlugFromClassName($className),
         ], array_filter($customAttributes));
     }
 

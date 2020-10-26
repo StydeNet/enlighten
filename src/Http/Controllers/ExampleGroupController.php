@@ -7,10 +7,9 @@ use Styde\Enlighten\Models\Run;
 
 class ExampleGroupController extends Controller
 {
-    public function show(Run $run, string $area, string $group)
+    public function show(Run $run, string $group)
     {
         $group = ExampleGroup::where([
-            'area' => $area,
             'slug' => $group,
         ])->firstOrFail();
 

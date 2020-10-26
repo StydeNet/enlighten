@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Styde\Enlighten\Utils\FileLink;
 
 class Example extends Model implements Statusable

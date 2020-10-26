@@ -3,9 +3,9 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Models\Status;
@@ -96,8 +96,8 @@ class TestExample extends TestInfo
             'method_name' => $this->methodName,
         ], [
             'line' => $this->getStartLine(),
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
+            'title' => $this->texts['title'] ?? Enlighten::generateTitleFromMethodName($this->methodName),
+            'description' => $this->texts['description'] ?? null,
             'test_status' => $this->status,
         ]);
     }
@@ -207,30 +207,6 @@ class TestExample extends TestInfo
         $this->currentSnippet->update(['result' => $result]);
 
         $this->currentSnippet = null;
-    }
-
-    public function getTitle(): string
-    {
-        return $this->texts['title'] ?? $this->getDefaultTitle();
-    }
-
-    private function getDefaultTitle(): string
-    {
-        $result = Str::of($this->methodName);
-
-        if ($result->startsWith('test')) {
-            $result = $result->substr(4);
-        }
-
-        return $result->replaceMatches('@([A-Z])|_@', ' $1')
-            ->lower()
-            ->trim()
-            ->ucfirst();
-    }
-
-    private function getDescription(): ?string
-    {
-        return $this->texts['description'] ?? null;
     }
 
     private function getStartLine()

@@ -56,6 +56,7 @@ class ApiRequestTest extends TestCase
         tap($group = $run->groups()->first(), function (ExampleGroup $exampleGroup) {
             $this->assertSame('Tests\Integration\ApiRequestTest', $exampleGroup->class_name);
             $this->assertSame('Api Request', $exampleGroup->title);
+            $this->assertSame('integration-api-request', $exampleGroup->slug);
             $this->assertNull($exampleGroup->description);
         });
 
