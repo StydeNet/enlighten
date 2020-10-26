@@ -6,6 +6,8 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Console\Commands\FreshCommand;
+use Styde\Enlighten\Console\Commands\MigrateCommand;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExampleCreator;
@@ -97,6 +99,7 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerTestInspector();
         $this->registerVersionControlSystem();
         $this->registerHttpExampleGenerator();
+        $this->registerCommands();
     }
 
     private function registerMiddleware()
@@ -194,10 +197,27 @@ class EnlightenServiceProvider extends ServiceProvider
             $this->publishes([
                 $this->componentPath('resources/views') => resource_path('views/vendor/enlighten'),
             ], 'enlighten-views');
+
+            $this->publishes([
+                $this->componentPath('database/migrations') => base_path('database/migrations/enlighten'),
+            ], 'enlighten-migrations');
         }
     }
 
-    private function componentPath(string $path)
+    private function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->app->singleton(\Illuminate\Database\Migrations\Migrator::class, function ($app) {
+                return $app['migrator'];
+            });
+            $this->commands([
+                FreshCommand::class,
+                MigrateCommand::class
+            ]);
+        }
+    }
+
+    private function componentPath(string $path): string
     {
         return __DIR__.'/../../'.$path;
     }
