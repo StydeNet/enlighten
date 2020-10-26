@@ -63,9 +63,9 @@ class TestExampleGroup
         ]);
     }
 
-    public function getTitle(): string
+    private function getTitle(): string
     {
-        return $this->texts['title'] ?? $this->getDefaultTitle();
+        return $this->texts['title'] ?? Enlighten::generateTitleFromClassName($this->getClassName());
     }
 
     private function getDescription(): ?string
@@ -75,17 +75,6 @@ class TestExampleGroup
 
     private function getSlug(): string
     {
-        return Str::slug($this->getDefaultTitle());
-    }
-
-    public function getDefaultTitle(): string
-    {
-        $result = Str::of(class_basename($this->getClassName()));
-
-        if ($result->endsWith('Test')) {
-            $result = $result->substr(0, -4);
-        }
-
-        return $result->replaceMatches('@([A-Z])@', ' $1')->trim();
+        return Str::slug(Enlighten::generateTitleFromClassName($this->getClassName()));
     }
 }

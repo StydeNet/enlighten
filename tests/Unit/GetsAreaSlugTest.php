@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Styde\Enlighten\Facades\Enlighten;
 use Tests\TestCase;
 
-class EnlightenTest extends TestCase
+class GetsAreaSlugTest extends TestCase
 {
     /** @test */
     function gets_the_slug_of_an_area_from_a_class_name()

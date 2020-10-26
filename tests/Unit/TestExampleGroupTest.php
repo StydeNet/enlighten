@@ -10,22 +10,6 @@ use Tests\TestCase;
 class TestExampleGroupTest extends TestCase
 {
     /** @test */
-    function it_gets_a_default_title()
-    {
-        $testExampleGroup = new TestExampleGroup('ListUsersTest');
-        $this->assertSame('List Users', $testExampleGroup->getTitle());
-
-        $testExampleGroup = new TestExampleGroup('ListTestsTest');
-        $this->assertSame('List Tests', $testExampleGroup->getTitle());
-
-        $testExampleGroup = new TestExampleGroup('ShowUsers');
-        $this->assertSame('Show Users', $testExampleGroup->getTitle());
-
-        $testExampleGroup = new TestExampleGroup('CreateTestTest');
-        $this->assertSame('Create Test', $testExampleGroup->getTitle());
-    }
-
-    /** @test */
     public function it_saves_an_example_group_with_an_area_name(): void
     {
         $testExampleGroup = new TestExampleGroup('Tests\Feature\ListUsersTest');

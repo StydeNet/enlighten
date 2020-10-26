@@ -1,7 +1,7 @@
 <table class="w-full rounded-lg overflow-hidden bg-white">
     <thead>
         <tr class="uppercase text-gray-700 text-sm bg-gray-200 border-b border-gray-300">
-            <td class="px-6 py-4">Commit</td>
+            <td class="px-6 py-4">Branch / Commit</td>
             <td class="px-6 py-4">Date</td>
             <td colspan="2" class="px-6 py-4">Stats</td>
         </tr>
@@ -10,9 +10,8 @@
         @foreach ($runs as $run)
             <tr class="{{ $loop->even ? 'bg-gray-100' : '' }} text-gray-700">
                 <td class=" px-6 py-4 flex">
-                    @if ($run->modified)
-                        <span class="text-red-500 pr-2 text-xl">*</span>
-                    @endif
+                    <span class="font-bold">{{ $run->branch }}</span>
+                    @if ($run->modified)<span class="text-red-500 px-2 text-xl">*</span>@endif
                     {{ $run->head }}
                 </td>
                 <td class=" px-6 py-4 ">{{ $run->created_at->toDateTimeString() }}</td>
