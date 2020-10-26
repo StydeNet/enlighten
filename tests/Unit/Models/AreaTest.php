@@ -20,17 +20,14 @@ class AreaTest extends TestCase
 
         $expected = [
             [
-                'key' => 'api',
                 'title' => 'Api',
                 'slug' => 'api',
             ],
             [
-                'key' => 'feature',
                 'title' => 'Feature',
                 'slug' => 'feature',
             ],
             [
-                'key' => 'unit',
                 'title' => 'Unit',
                 'slug' => 'unit',
             ],
@@ -53,12 +50,10 @@ class AreaTest extends TestCase
 
         $expected = [
             [
-                'key' => 'api',
                 'title' => 'Api',
                 'slug' => 'api',
             ],
             [
-                'key' => 'feature',
                 'title' => 'Feature',
                 'slug' => 'feature',
             ],
@@ -76,12 +71,10 @@ class AreaTest extends TestCase
 
         $expected = [
             [
-                'key' => 'Feature',
                 'title' => 'Feature',
                 'slug' => 'feature',
             ],
             [
-                'key' => 'Unit',
                 'title' => 'Unit',
                 'slug' => 'unit',
             ],
@@ -101,12 +94,10 @@ class AreaTest extends TestCase
 
         $expected = [
             [
-                'key' => 'Api',
                 'title' => 'API',
                 'slug' => 'api',
             ],
             [
-                'key' => 'Feature',
                 'title' => 'Features',
                 'slug' => 'feature',
             ],

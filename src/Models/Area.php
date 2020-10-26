@@ -26,10 +26,10 @@ class Area implements Arrayable
     {
         if (config()->has('enlighten.areas')) {
             return collect(config('enlighten.areas'))
-                ->map(function ($title, $key) {
+                ->map(function ($value, $key) {
                     return is_int($key)
-                        ? new static($title)
-                        : new static($key, $title);
+                        ? new static($value)
+                        : new static($key, $value);
                 });
         }
 
@@ -37,22 +37,20 @@ class Area implements Arrayable
             ->table('enlighten_example_groups')
             ->distinct('area')
             ->pluck('area')
-            ->map(function ($key) {
-                return new static($key);
+            ->map(function ($area) {
+                return new static($area);
             });
     }
 
-    public function __construct(string $key, string $title = null)
+    public function __construct(string $slug, string $title = null)
     {
-        $this->key = $key;
-        $this->title = $title ?: ucfirst(str_replace('-', ' ', $key));
-        $this->slug = Str::slug($key);
+        $this->title = $title ?: ucfirst(str_replace('-', ' ', $slug));
+        $this->slug = Str::slug($slug);
     }
 
     public function toArray(): array
     {
         return [
-            'key' => $this->key,
             'title' => $this->title,
             'slug' => $this->slug,
         ];

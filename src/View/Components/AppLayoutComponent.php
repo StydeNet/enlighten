@@ -41,7 +41,7 @@ class AppLayoutComponent extends Component
                 'slug' => $area->slug,
                 'title' => $area->title,
                 'active' => $area->slug === request()->route('area'),
-                'panels' => request()->route('area')  ? $this->panels($area) : []
+                'panels' => request()->route('area') ? $this->panels($area) : []
             ];
         });
     }
