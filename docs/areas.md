@@ -8,6 +8,7 @@ is generating the documentation for your end users, clients or even the QA depar
 By default, each area is the second segment of your test class FQN in slug format, i.e.:
 
 `Tests\Feature\CreateUserTest` -> `feature`
+
 `Tests\Unit\UserTest` -> `unit`
 
 ## Customise the displayed areas (optional):
