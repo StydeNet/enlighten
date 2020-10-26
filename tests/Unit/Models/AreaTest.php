@@ -2,13 +2,14 @@
 
 namespace Tests\Unit\Models;
 
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Area;
 use Tests\TestCase;
 
 class AreaTest extends TestCase
 {
     /** @test */
-    function guesses_all_the_areas_from_the_current_groups()
+    function get_all_the_areas_from_the_current_groups()
     {
         $run = $this->createRun();
 
@@ -19,17 +20,17 @@ class AreaTest extends TestCase
 
         $expected = [
             [
-                'key' => 'Api',
+                'key' => 'api',
                 'title' => 'Api',
                 'slug' => 'api',
             ],
             [
-                'key' => 'Feature',
+                'key' => 'feature',
                 'title' => 'Feature',
                 'slug' => 'feature',
             ],
             [
-                'key' => 'Unit',
+                'key' => 'unit',
                 'title' => 'Unit',
                 'slug' => 'unit',
             ],
@@ -39,7 +40,35 @@ class AreaTest extends TestCase
     }
 
     /** @test */
-    function gets_all_the_areas_from_the_configuration()
+    function get_all_the_areas_from_the_current_groups_with_a_custom_area_resolver()
+    {
+        Enlighten::setCustomAreaResolver(function ($className) {
+            return explode('\\', $className)[3];
+        });
+
+        $run = $this->createRun();
+
+        $this->createExampleGroup($run, 'Tests\Modules\User\Api\ApiRequestTest');
+        $this->createExampleGroup($run, 'Tests\Modules\User\Feature\CreateUserTest');
+
+        $expected = [
+            [
+                'key' => 'api',
+                'title' => 'Api',
+                'slug' => 'api',
+            ],
+            [
+                'key' => 'feature',
+                'title' => 'Feature',
+                'slug' => 'feature',
+            ],
+        ];
+
+        $this->assertSame($expected, Area::all()->values()->toArray());
+    }
+
+    /** @test */
+    function gets_all_the_areas_from_the_configuration_as_a_simple_array()
     {
         $this->setConfig([
             'enlighten.areas' => ['Feature', 'Unit'],

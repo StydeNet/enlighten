@@ -27,30 +27,25 @@ class Area implements Arrayable
         if (config()->has('enlighten.areas')) {
             return collect(config('enlighten.areas'))
                 ->map(function ($title, $key) {
-                    if (is_int($key)) {
-                        return new static($title);
-                    } else {
-                        return new static($key, $title);
-                    }
+                    return is_int($key)
+                        ? new static($title)
+                        : new static($key, $title);
                 });
         }
 
         return DB::connection('enlighten')
             ->table('enlighten_example_groups')
-            ->pluck('class_name')
-            ->map(function ($classNames) {
-                return explode('\\', $classNames)[1];
-            })
-            ->unique()
+            ->distinct('area')
+            ->pluck('area')
             ->map(function ($key) {
-                return new static($key, $key);
+                return new static($key);
             });
     }
 
     public function __construct(string $key, string $title = null)
     {
         $this->key = $key;
-        $this->title = $title ?? $key;
+        $this->title = $title ?: ucfirst(str_replace('-', ' ', $key));
         $this->slug = Str::slug($key);
     }
 
