@@ -8,10 +8,13 @@ use Styde\Enlighten\Models\Run;
 
 class CodeExampleController extends Controller
 {
-    public function show(Run $run, string $area, ExampleGroup $group, string $method)
+    public function show(Run $run, ExampleGroup $group, string $method)
     {
         $example = Example::with('requests', 'requests.queries', 'snippets', 'exception', 'queries', 'group')
-            ->where('method_name', $method)
+            ->where([
+                'group_id' => $group->id,
+                'method_name' => $method,
+            ])
             ->firstOrFail();
 
         $responseTabs = $example->requests->map(function ($data, $key) {

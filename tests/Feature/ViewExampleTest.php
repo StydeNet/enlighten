@@ -22,7 +22,7 @@ class ViewExampleTest extends TestCase
             'method_name' => 'first_test',
             'title' => 'My First Test'
         ]);
-
+        
         $response = $this->get($example->url);
 
         $response

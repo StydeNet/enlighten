@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use Styde\Enlighten\Facades\Enlighten;
 use Tests\TestCase;
 
-class GeneratesTitlesFromMethodNamesTest extends TestCase
+class GeneratesTitleFromMethodNameTest extends TestCase
 {
     /** @test */
     function generates_a_title_from_test_method_names_in_camel_case_format()

@@ -3,7 +3,6 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
 use Styde\Enlighten\Facades\Enlighten;
@@ -97,8 +96,8 @@ class TestExample extends TestInfo
             'method_name' => $this->methodName,
         ], [
             'line' => $this->getStartLine(),
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
+            'title' => $this->texts['title'] ?? Enlighten::generateTitleFromMethodName($this->methodName),
+            'description' => $this->texts['description'] ?? null,
             'test_status' => $this->status,
         ]);
     }
@@ -185,8 +184,6 @@ class TestExample extends TestInfo
     {
         $this->save();
 
-//        dd($queryExecuted);
-
         $this->example->queries()->create([
             'sql' => $queryExecuted->sql,
             'bindings' => $queryExecuted->bindings,
@@ -210,16 +207,6 @@ class TestExample extends TestInfo
         $this->currentSnippet->update(['result' => $result]);
 
         $this->currentSnippet = null;
-    }
-
-    private function getTitle(): string
-    {
-        return $this->texts['title'] ?? Enlighten::generateTitleFromMethodName($this->methodName);
-    }
-
-    private function getDescription(): ?string
-    {
-        return $this->texts['description'] ?? null;
     }
 
     private function getStartLine()

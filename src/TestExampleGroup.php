@@ -2,7 +2,6 @@
 
 namespace Styde\Enlighten;
 
-use Illuminate\Support\Str;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\ExampleGroup;
 
@@ -56,25 +55,10 @@ class TestExampleGroup
         return $this->exampleGroup = ExampleGroup::create([
             'run_id' => $run->id,
             'class_name' => $this->getClassName(),
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
+            'title' => $this->texts['title'] ?? Enlighten::generateTitleFromClassName($this->getClassName()),
+            'description' => $this->texts['description'] ?? null,
             'area' => Enlighten::getAreaSlug($this->getClassName()),
-            'slug' => $this->getSlug()
+            'slug' => Enlighten::generateSlugFromClassName($this->getClassName())
         ]);
-    }
-
-    private function getTitle(): string
-    {
-        return $this->texts['title'] ?? Enlighten::generateTitleFromClassName($this->getClassName());
-    }
-
-    private function getDescription(): ?string
-    {
-        return $this->texts['description'] ?? null;
-    }
-
-    private function getSlug(): string
-    {
-        return Str::slug(Enlighten::generateTitleFromClassName($this->getClassName()));
     }
 }

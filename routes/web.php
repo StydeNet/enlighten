@@ -14,13 +14,12 @@ Route::prefix('enlighten')->middleware('web')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])
             ->name('enlighten.run.index');
 
-    Route::get('/run/{run?}/{area?}', [RunController::class, 'show'])
+    Route::get('/run/{run?}/modules/{area?}', [RunController::class, 'show'])
             ->name('enlighten.run.show');
 
-
-    Route::get('run/{run}/{area}/{group:slug}', [ExampleGroupController::class, 'show'])
+    Route::get('run/{run}/{group:slug}', [ExampleGroupController::class, 'show'])
         ->name('enlighten.group.show');
 
-    Route::get('run/{run}/{area}/{group:slug}/{method}', [CodeExampleController::class, 'show'])
+    Route::get('run/{run}/{group:slug}/{method}', [CodeExampleController::class, 'show'])
         ->name('enlighten.method.show');
 });

@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Styde\Enlighten\Facades\Enlighten;
 use Tests\TestCase;
 
-class GeneratesTitleFromClassNamesTest extends TestCase
+class GeneratesTitleFromClassNameTest extends TestCase
 {
     /** @test */
     function generates_title_from_class_name()

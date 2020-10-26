@@ -15,6 +15,11 @@ class EnlightenSettings
     /**
      * @var Closure|null
      */
+    protected $customSlugGenerator = null;
+
+    /**
+     * @var Closure|null
+     */
     protected $customTitleGenerator = null;
 
     public function setCustomAreaResolver(Closure $callback): self
@@ -46,17 +51,23 @@ class EnlightenSettings
             return call_user_func($this->customTitleGenerator, $methodName, 'method');
         }
 
+        return $this->generateDefaultTitleFromMethodName($methodName);
+    }
+
+    protected function generateDefaultTitleFromMethodName($methodName): string
+    {
         $result = Str::of($methodName);
 
         if ($result->startsWith('test')) {
             $result = $result->substr(4);
         }
 
-        return (string)$result
+        return $result
             ->replaceMatches('@([A-Z])|_@', ' $1')
             ->lower()
             ->trim()
-            ->ucfirst();
+            ->ucfirst()
+            ->__toString();
     }
 
     public function generateTitleFromClassName($className): string
@@ -65,14 +76,50 @@ class EnlightenSettings
             return call_user_func($this->customTitleGenerator, $className, 'class');
         }
 
+        return $this->generateDefaultTitleFromClassName($className);
+    }
+
+    protected function generateDefaultTitleFromClassName($className): string
+    {
         $result = Str::of(class_basename($className));
 
         if ($result->endsWith('Test')) {
             $result = $result->substr(0, -4);
         }
 
-        return (string) $result
+        return $result
             ->replaceMatches('@([A-Z])@', ' $1')
-            ->trim();
+            ->trim()
+            ->__toString();
+    }
+
+    public function setCustomSlugGenerator(Closure $callback): self
+    {
+        $this->customSlugGenerator = $callback;
+
+        return $this;
+    }
+
+    public function generateSlugFromClassName($className): string
+    {
+        if ($this->customSlugGenerator) {
+            return call_user_func($this->customSlugGenerator, $className, 'class');
+        }
+
+        $result = Str::of($className);
+
+        if ($result->startsWith('Tests\\')) {
+            $result = $result->substr(6);
+        }
+
+        if ($result->endsWith('Test')) {
+            $result = $result->substr(0, -4);
+        }
+
+        return $result
+            ->replaceMatches('@([A-Z])@', '-$1')
+            ->ltrim('-')
+            ->slug()
+            ->__toString();
     }
 }
