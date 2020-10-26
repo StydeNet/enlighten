@@ -128,6 +128,20 @@ php artisan migrate
 > It's important to have a different connection and a different database for Enlighten in order to avoid having the info deleted or not persisted when
 > using any of the database migration traits included by Laravel or if you run the tests using SQLite.
 
+You can use the `enlighten:migrate` artisan commands to run the package migrations in isolation, before doing this, you'll need to publish the database migration files:
+
+```bash
+php artisan vendor:publish --tag=enlighten-migrations
+```
+
+Now you can use:
+
+```bash
+php artisan enligthen:migrate
+
+php artisan enligthen:migrate:fresh
+```
+
 ## "See in Enlighten" link
 
 Add the `printerClass` attribute with the value `Styde\Enlighten\Tests\BasicResultPrinter` to the `phpunit` tag in `phpunit.xml` like in the example below. Don't delete the other attributes!
