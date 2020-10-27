@@ -137,9 +137,9 @@ php artisan vendor:publish --tag=enlighten-migrations
 Now you can use:
 
 ```bash
-php artisan enligthen:migrate
+php artisan enlighten:migrate
 
-php artisan enligthen:migrate:fresh
+php artisan enlighten:migrate:fresh
 ```
 
 ## "See in Enlighten" link
