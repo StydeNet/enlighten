@@ -10,8 +10,10 @@
         @foreach ($runs as $run)
             <tr class="{{ $loop->even ? 'bg-gray-100' : '' }} text-gray-700">
                 <td class=" px-6 py-4 flex">
-                    <span class="font-bold">{{ $run->branch }}</span>
-                    @if ($run->modified)<span class="text-red-500 px-2 text-xl">*</span>@endif
+                    <span class="font-bold pr-2">{{ $run->branch }}</span>
+                    @if ($run->modified)
+                        <span class="text-red-500 pr-2 text-xl">*</span>
+                    @endif
                     {{ $run->head }}
                 </td>
                 <td class=" px-6 py-4 ">{{ $run->created_at->toDateTimeString() }}</td>
