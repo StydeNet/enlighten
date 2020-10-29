@@ -3,12 +3,14 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Models\Concerns\GetStats;
 
 class ExampleGroup extends Model implements Statusable
 {
+    use GetStats;
+
     protected $connection = 'enlighten';
 
     protected $table = 'enlighten_example_groups';
@@ -45,37 +47,17 @@ class ExampleGroup extends Model implements Statusable
 
     public function getPassingTestsCountAttribute()
     {
-        return $this->stats
-            ->filter(function ($stat) {
-                return $stat->getStatus() === Status::SUCCESS;
-            })
-            ->sum('count', 0);
+        return $this->getPassingTestsCount();
     }
 
     public function getTestsCountAttribute()
     {
-        return $this->stats->sum('count');
+        return $this->getTestsCount();
     }
 
     public function getStatusAttribute(): string
     {
         return $this->getStatus();
-    }
-
-    // Statusable
-    public function getStatus(): string
-    {
-        if ($this->passing_tests_count === $this->tests_count) {
-            return Status::SUCCESS;
-        }
-
-        if ($this->stats->first(function ($stat) {
-            return $stat->getStatus() === Status::FAILURE;
-        })) {
-            return Status::FAILURE;
-        }
-
-        return Status::WARNING;
     }
 
     public function getUrlAttribute()
