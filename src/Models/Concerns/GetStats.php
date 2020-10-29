@@ -2,8 +2,10 @@
 
 namespace Styde\Enlighten\Models\Concerns;
 
+use Illuminate\Database\Eloquent\Collection;
 use Styde\Enlighten\Models\Status;
 
+/** @property-read Collection $stats */
 trait GetStats
 {
     abstract public function stats();
@@ -14,7 +16,7 @@ trait GetStats
             ->filter(function ($stat) {
                 return $stat->getStatus() === Status::SUCCESS;
             })
-            ->sum('count', 0);
+            ->sum('count');
     }
 
     public function getTestsCount(): int
@@ -25,7 +27,7 @@ trait GetStats
     // Statusable
     public function getStatus(): string
     {
-        if ($this->passing_tests_count === $this->tests_count) {
+        if ($this->getPassingTestsCount() === $this->getTestsCount()) {
             return Status::SUCCESS;
         }
 
