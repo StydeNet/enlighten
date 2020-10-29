@@ -23,11 +23,11 @@
         @foreach($example->snippets as $snippet)
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                 <x-enlighten-info-panel>
-                    <x-slot name="title">{{ __('enlighten::messages.Snippet') }}</x-slot>
+                    <x-slot name="title">{{ __('enlighten::messages.snippet') }}</x-slot>
                     <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
                 </x-enlighten-info-panel>
                 <x-enlighten-info-panel>
-                    <x-slot name="title">{{ __('enlighten::messages.Output') }}</x-slot>
+                    <x-slot name="title">{{ __('enlighten::messages.output') }}</x-slot>
                     <div class="h-full" x-data
                          x-init="document.querySelectorAll('a.sf-dump-toggle').forEach((el, key) => key > 0 && el.click())">
                         {!! $snippet->result_code !!}
@@ -63,7 +63,7 @@
 
                                     @if($tab['requests']->session_data)
                                         <x-enlighten-info-panel>
-                                            <x-slot name="title">{{ __('enlighten::messages.Session data') }}</x-slot>
+                                            <x-slot name="title">{{ __('enlighten::messages.session_data') }}</x-slot>
                                             <x-enlighten-pre language="json" :code="json_encode($tab['requests']->session_data, JSON_PRETTY_PRINT)"/>
                                         </x-enlighten-info-panel>
                                     @endif

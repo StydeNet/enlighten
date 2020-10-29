@@ -9,9 +9,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_an_english_branch_commit_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Branch / Commit', 'en'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.branch_commit', 'en'));
         $this->assertSame(
-            __('enlighten::messages.Branch / Commit', [], 'en'),
+            __('enlighten::messages.branch_commit', [], 'en'),
             'Branch / Commit'
         );
     }
@@ -19,9 +19,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_a_spanish_branch_commit_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Branch / Commit', 'es'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.branch_commit', 'es'));
         $this->assertSame(
-            __('enlighten::messages.Branch / Commit', [], 'es'),
+            __('enlighten::messages.branch_commit', [], 'es'),
             'Rama / Confirmación'
         );
     }
@@ -29,9 +29,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_an_english_dashboard_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Dashboard', 'en'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.dashboard', 'en'));
         $this->assertSame(
-            __('enlighten::messages.Dashboard', [], 'en'),
+            __('enlighten::messages.dashboard', [], 'en'),
             'Dashboard'
         );
     }
@@ -39,9 +39,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_a_spanish_dashboard_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Dashboard', 'es'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.dashboard', 'es'));
         $this->assertSame(
-            __('enlighten::messages.Dashboard', [], 'es'),
+            __('enlighten::messages.dashboard', [], 'es'),
             'Tablero'
         );
     }
@@ -49,9 +49,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_an_english_date_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Date', 'en'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.date', 'en'));
         $this->assertSame(
-            __('enlighten::messages.Date', [], 'en'),
+            __('enlighten::messages.date', [], 'en'),
             'Date'
         );
     }
@@ -59,9 +59,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_a_spanish_date_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Date', 'es'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.date', 'es'));
         $this->assertSame(
-            __('enlighten::messages.Date', [], 'es'),
+            __('enlighten::messages.date', [], 'es'),
             'Fecha'
         );
     }
@@ -69,9 +69,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_an_english_features_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Features', 'en'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.features', 'en'));
         $this->assertSame(
-            __('enlighten::messages.Features', [], 'en'),
+            __('enlighten::messages.features', [], 'en'),
             'Features'
         );
     }
@@ -79,9 +79,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_a_spanish_features_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Features', 'es'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.features', 'es'));
         $this->assertSame(
-            __('enlighten::messages.Features', [], 'es'),
+            __('enlighten::messages.features', [], 'es'),
             'Funcionalidades'
         );
     }
@@ -89,9 +89,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_an_english_input_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Input', 'en'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.input', 'en'));
         $this->assertSame(
-            __('enlighten::messages.Input', [], 'en'),
+            __('enlighten::messages.input', [], 'en'),
             'Input'
         );
     }
@@ -99,9 +99,9 @@ class MultilanguageTest extends TestCase
     /** @test */
     public function it_has_a_spanish_input_message()
     {
-        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.Input', 'es'));
+        $this->assertTrue(\Lang::hasForLocale('enlighten::messages.input', 'es'));
         $this->assertSame(
-            __('enlighten::messages.Input', [], 'es'),
+            __('enlighten::messages.input', [], 'es'),
             'Entrada'
         );
     }

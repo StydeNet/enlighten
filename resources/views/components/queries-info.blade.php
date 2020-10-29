@@ -8,12 +8,12 @@
 
 @foreach($queryGroups as $group)
     @if($group->first()->context === 'test')
-        <h2 class="text-gray-300 mb-6 mt-2 text-xl">{{ __('enlighten::messages.Test Queries') }}</h2>
+        <h2 class="text-gray-300 mb-6 mt-2 text-xl">{{ __('enlighten::messages.test_queries') }}</h2>
         <div class="grid grid-cols-1 gap-4 mb-8">
             <div class="flex flex-col space-y-4">
                 @foreach($group as $query)
                     <x-enlighten-info-panel>
-                        <x-slot name="title">{{ __('enlighten::messages.Time') }}: {{ $query->time }}</x-slot>
+                        <x-slot name="title">{{ __('enlighten::messages.time') }}: {{ $query->time }}</x-slot>
                         <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
                         @if($query->bindings)
                             <x-enlighten-key-value :items="$query->bindings" title="Bindings"></x-enlighten-key-value>
@@ -23,12 +23,12 @@
             </div>
         </div>
     @else
-        <h2 class="text-gray-300 mb-6 mt-2 text-xl">{{ __('enlighten::messages.Request Queries') }}</h2>
+        <h2 class="text-gray-300 mb-6 mt-2 text-xl">{{ __('enlighten::messages.request_queries') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <div class="flex flex-col md:col-span-2 space-y-4">
                 @foreach($group as $query)
                     <x-enlighten-info-panel>
-                        <x-slot name="title">{{ __('enlighten::messages.Time') }}: {{ $query->time }}</x-slot>
+                        <x-slot name="title">{{ __('enlighten::messages.time') }}: {{ $query->time }}</x-slot>
                         <x-enlighten-pre language="sql" :code="$query->sql"></x-enlighten-pre>
                         @if($query->bindings)
                             <x-enlighten-key-value :items="$query->bindings" title="Bindings"></x-enlighten-key-value>
