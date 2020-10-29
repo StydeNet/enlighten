@@ -12,10 +12,14 @@ class ExampleGroupController extends Controller
             ->where('slug', $group)
             ->firstOrFail();
 
-        $group->load(['examples', 'examples.requests']);
+        $examples = $group->examples()
+            ->with(['group', 'requests', 'exception'])
+            ->withCount('queries')
+            ->get();
 
         return view('enlighten::group.show', [
             'group' => $group,
+            'examples' => $examples,
             'title' => $group->title
         ]);
     }
