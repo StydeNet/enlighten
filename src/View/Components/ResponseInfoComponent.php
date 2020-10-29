@@ -25,15 +25,15 @@ class ResponseInfoComponent extends Component
     private function color()
     {
         if ($this->request->response_status === 200) {
-            return 'green';
+            return 'success';
         } elseif ($this->request->response_status > 200 && $this->request->response_status < 400) {
-            return 'blue';
+            return 'default';
         } elseif ($this->request->response_status > 400 && $this->request->response_status < 500) {
-            return 'yellow';
+            return 'warning';
         } elseif ($this->request->response_status > 500) {
-            return 'red';
+            return 'failure';
         } else {
-            return 'gray';
+            return 'default';
         }
     }
 

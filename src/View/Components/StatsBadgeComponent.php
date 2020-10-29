@@ -7,8 +7,6 @@ use Styde\Enlighten\Models\Statable;
 
 class StatsBadgeComponent extends Component
 {
-    use RepresentsStatusAsColor;
-
     /**
      * @var Statable
      */
@@ -24,7 +22,7 @@ class StatsBadgeComponent extends Component
         return view('enlighten::components.stats-badge', [
             'positive' => $this->model->getPassingTestsCount(),
             'total' => $this->model->getTestsCount(),
-            'color' => $this->getColor($this->model),
+            'color' => $this->model->getStatus(),
         ]);
     }
 }

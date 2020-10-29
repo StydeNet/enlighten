@@ -6,11 +6,27 @@ module.exports = {
     // purgeLayersByDefault: true,
   },
   purge: {
-    // content: [
-      // 'resources/views/**/**/*.blade.php',
-      // 'resources/views/**/*.blade.php',
-      // 'resources/views/*.blade.php'
-    // ]
+    content: [
+      'resources/views/**/**/*.blade.php',
+      'resources/views/**/*.blade.php',
+      'resources/views/*.blade.php'
+    ],
+    options: {
+        whitelist: [
+            "text-success-700",
+            "text-warning-700",
+            "text-failure-700",
+            "text-default-700",
+            "text-success-500",
+            "text-warning-500",
+            "text-failure-500",
+            "text-default-500",
+            "bg-success-200",
+            "bg-warning-200",
+            "bg-failure-200",
+            "bg-default-200",
+          ]
+    }
   },
   theme: {
     colors: {

@@ -7,8 +7,6 @@ use Styde\Enlighten\Models\Statusable;
 
 class StatusBadgeComponent extends Component
 {
-    use RepresentsStatusAsColor;
-
     /**
      * @var Statusable
      */
@@ -28,7 +26,7 @@ class StatusBadgeComponent extends Component
     public function render()
     {
         return view('enlighten::components.status-badge', [
-            'color' => $this->getColor($this->model),
+            'color' => $this->model->getStatus(),
         ]);
     }
 }
