@@ -50,6 +50,7 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->loadroutesFrom($this->componentPath('routes/api.php'));
 
         $this->loadViewsFrom($this->componentPath('resources/views'), 'enlighten');
+        $this->loadTranslationsFrom($this->componentPath('resources/lang'), 'enlighten');
 
         $this->registerViewComponents();
 
