@@ -4,6 +4,21 @@
 
 **To upgrade from v0.2.8 to v0.3, please: 1. delete all the Enlighten tables, 2. Re-run the migrations in your local environment, 3. Delete any published views and 4. Run `php artisan view:clear` to delete the view cache.** 
 
+**Also make sure the `response` key in `config/enlighten.php` has the following structure:**
+
+```
+    'response' => [
+        'headers' => [
+            'hide' => [],
+            'overwrite' => [],
+        ],
+        'body' => [
+            'hide' => [],
+            'overwrite' => [],
+        ]
+    ],
+```
+
 ### New Features
 - Support to create code-snippet examples  using the `Enlighten::test()` facade or the `enlighten()` helper in your test methods
 - Support to hide keys form JSON responses via config file

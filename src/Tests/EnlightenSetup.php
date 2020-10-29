@@ -69,7 +69,7 @@ trait EnlightenSetup
 
     private function createTestExample()
     {
-        $this->app->make(TestInspector::class)->createTestExample(get_class($this), $this->getName());
+        $this->app->make(TestInspector::class)->createTestExample(get_class($this), $this->getName(false));
     }
 
     private function captureQueries()
