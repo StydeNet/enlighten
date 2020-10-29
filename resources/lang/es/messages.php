@@ -8,7 +8,7 @@ return [
     'Input'=> 'Entrada',
     'Output'=> 'Salida',
     'Pattern'=> 'Patrón',
-    'Request Queries'=> 'Consultas de peticiones',
+    'Request Queries'=> 'Consultas de petición',
     'Requirement'=> 'Requerimiento',
     'Response'=> 'Respuesta',
     'Route Parameter'=> 'Parámetro de ruta',
