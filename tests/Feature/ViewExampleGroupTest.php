@@ -34,7 +34,10 @@ class ViewExampleGroupTest extends TestCase
             'title' => 'My Second Test'
         ]);
 
-        $response = $this->get(route('enlighten.group.show', ['run' => $run->id, 'area' => 'api', 'group' => $exampleGroup]));
+        $response = $this->get(route('enlighten.group.show', [
+            'run' => $run->id,
+            'group' => $exampleGroup
+        ]));
 
         $response
             ->assertOk()

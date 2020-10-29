@@ -2,16 +2,15 @@
 
 namespace Styde\Enlighten\Http\Controllers;
 
-use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 
 class ExampleGroupController extends Controller
 {
     public function show(Run $run, string $group)
     {
-        $group = ExampleGroup::where([
-            'slug' => $group,
-        ])->firstOrFail();
+        $group = $run->groups()
+            ->where('slug', $group)
+            ->firstOrFail();
 
         $group->load(['examples', 'examples.requests']);
 
