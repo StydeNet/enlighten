@@ -1,7 +1,7 @@
 @props(['examples'])
 
 <div class="bg-gray-800 rounded-md overflow-hidden mb-12">
-    <span class="text-gray-100 text-xl bg-gray-700 px-4 py-2 flex w-full">{{ __('Features') }}</span>
+    <span class="text-gray-100 text-xl bg-gray-700 px-4 py-2 flex w-full">{{ __('enlighten::messages.Features') }}</span>
     <ul class="block mt-0 py-4 "  x-data>
         @foreach($examples as $example)
             <li class="items-center text-gray-100 hover:text-teal-500 transition-all ease-in-out duration-100">

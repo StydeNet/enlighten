@@ -1,8 +1,8 @@
 <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
     <thead>
         <tr class="bg-gray-500">
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('Input') }}</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('Value') }}</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('enlighten::messages.Input') }}</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('enlighten::messages.Value') }}</th>
         </tr>
     </thead>
     <tbody>

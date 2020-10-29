@@ -9,7 +9,7 @@
                 <x-enlighten-module-panel :module="$module"></x-enlighten-module-panel>
             @empty
                 <p class="text-white">
-                    {{ __('There are no examples to show') }}
+                    {{ __('enlighten::messages.There are no examples to show') }}
                 </p>
             @endforelse
         </div>
