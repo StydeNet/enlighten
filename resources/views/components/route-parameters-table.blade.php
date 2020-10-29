@@ -1,9 +1,9 @@
 <table class="bg-gray-800 p-4 overflow-hidden text-gray-100 w-full">
     <thead>
         <tr class="bg-gray-500">
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Route Parameter</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Pattern</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">Requirement</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('Route Parameter') }}</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('Pattern') }}</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('Requirement') }}</th>
         </tr>
     </thead>
     <tbody>
