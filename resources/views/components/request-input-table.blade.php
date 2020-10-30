@@ -9,7 +9,13 @@
         @foreach($input as $name => $value)
             <tr>
                 <td class="px-4 py-2 font-thin text-gray-200">{{ $name }}</td>
-                <td class="px-4 py-2 font-thin text-teal-300 break-all">{{ $value }}</td>
+                <td class="px-4 py-2 font-thin text-teal-300 break-all">
+                    @if(is_bool($value))
+                        <span class="text-orange-400">{{ $value ? 'true' : 'false' }}</span>
+                        @else
+                        {{ $value }}
+                    @endif
+                </td>
             </tr>
         @endforeach
     </tbody>
