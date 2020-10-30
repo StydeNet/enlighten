@@ -29,7 +29,7 @@ class DocumentationExporter
     public function export(Run $run)
     {
         $this->createDirectory('/');
-        $this->createFile('index', Http::get($run->url)->body());
+        $this->createFile('index.html', $this->getContentFrom($run->url));
 
         $run->groups->each(function ($group) {
             $this->exportGroupWithExamples($group);
@@ -38,7 +38,7 @@ class DocumentationExporter
 
     private function exportGroupWithExamples($group)
     {
-        $this->createFile($group->slug, 'Group');
+        $this->createFile("{$group->slug}.html", 'Group');
 
         $this->createDirectory($group->slug);
 
@@ -49,7 +49,10 @@ class DocumentationExporter
 
     private function exportExample($example)
     {
-        $this->createFile("{$example->group->slug}/{$example->method_name}", 'Example');
+        $this->createFile(
+            "{$example->group->slug}/{$example->method_name}.html",
+            'Example'
+        );
     }
 
     private function createDirectory($path)
@@ -63,6 +66,11 @@ class DocumentationExporter
 
     private function createFile(string $filename, string $contents)
     {
-        $this->file->put("{$this->baseDir}/{$filename}.html", $contents);
+        $this->file->put("{$this->baseDir}/{$filename}", $contents);
+    }
+
+    private function getContentFrom(string $url): string
+    {
+        return Http::get($url)->body();
     }
 }
