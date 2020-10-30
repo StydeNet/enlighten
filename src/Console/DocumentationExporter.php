@@ -4,6 +4,7 @@ namespace Styde\Enlighten\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
+use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\Run;
 
 class DocumentationExporter
@@ -26,11 +27,8 @@ class DocumentationExporter
 
     public function export(Run $run)
     {
-        if (! $this->file->isDirectory($this->baseDir)) {
-            $this->file->makeDirectory($this->baseDir, 0755, true);
-        }
-
-        $this->file->put("{$this->baseDir}/index.html", 'Index');
+        $this->createDirectory('/');
+        $this->createFile('index', 'Index');
 
         $run->groups->each(function ($group) {
             $this->exportGroupWithExamples($group);
@@ -39,29 +37,31 @@ class DocumentationExporter
 
     private function exportGroupWithExamples($group)
     {
-        $this->file->put("{$this->baseDir}/{$group->slug}.html", 'Group');
+        $this->createFile($group->slug, 'Group');
 
-        if (! $this->file->isDirectory("{$this->baseDir}/{$group->slug}")) {
-            $this->file->makeDirectory($this->baseDir, 0755, true);
-        }
+        $this->createDirectory($group->slug);
 
-        $group->examples->each(function ($example) use ($group) {
-            $example->setRelation('group', $group);
-            $this->exportExample($example);
+        $group->examples->each(function (Example $example) use ($group) {
+            $this->exportExample($example->setRelation('group', $group));
         });
     }
 
     private function exportExample($example)
     {
-        $this->file->put("{$this->baseDir}/{$example->group->slug}/{$example->method_name}.html", 'Example');
+        $this->createFile("{$example->group->slug}/{$example->method_name}", 'Example');
     }
 
     private function createDirectory($path)
     {
-        if ($this->file->isDirectory($path)) {
+        if ($this->file->isDirectory("{$this->baseDir}/$path")) {
             return;
         }
 
-        $this->file->makeDirectory($path, 0755, true);
+        $this->file->makeDirectory("{$this->baseDir}/$path", 0755, true);
+    }
+
+    private function createFile(string $filename, string $contents)
+    {
+        $this->file->put("{$this->baseDir}/{$filename}.html", $contents);
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Console;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Tests\TestCase;
 
@@ -13,11 +14,15 @@ class DocumentationExporterTest extends TestCase
      */
     private $exporter;
 
+    private $baseDir = 'public/docs';
+
     protected function setUp(): void
     {
         parent::setUp();
+        
+        $this->resetDocumentationDirectory();
 
-        $this->exporter = new DocumentationExporter($this->app[Filesystem::class]);
+        $this->exporter = new DocumentationExporter($this->app[Filesystem::class], $this->baseDir);
     }
 
     /** @test */
@@ -30,10 +35,18 @@ class DocumentationExporterTest extends TestCase
 
         $this->exporter->export($run);
 
-        $baseDir = 'public/docs';
-        $this->assertFileExists("{$baseDir}/index.html");
-        $this->assertFileExists("{$baseDir}/feature-list-users.html");
-        $this->assertFileExists("{$baseDir}/feature-list-users/lists_users.html");
-        $this->assertFileExists("{$baseDir}/feature-list-users/paginates_users.html");
+        $this->assertFileExists("{$this->baseDir}/index.html");
+        $this->assertFileExists("{$this->baseDir}/feature-list-users.html");
+        $this->assertFileExists("{$this->baseDir}/feature-list-users/lists_users.html");
+        $this->assertFileExists("{$this->baseDir}/feature-list-users/paginates_users.html");
+    }
+
+    private function resetDocumentationDirectory()
+    {
+        if (! File::isDirectory($this->baseDir)) {
+            return;
+        }
+
+        File::deleteDirectory($this->baseDir);
     }
 }
