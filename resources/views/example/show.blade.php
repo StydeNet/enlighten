@@ -64,7 +64,7 @@
                                     @if($tab['requests']->session_data)
                                         <x-enlighten-info-panel>
                                             <x-slot name="title">Session data</x-slot>
-                                            <x-enlighten-pre language="json" :code="json_encode($tab['requests']->session_data, JSON_PRETTY_PRINT)"/>
+                                            <x-enlighten-pre language="json" :code="json_encode($tab['requests']->session_data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE)"/>
                                         </x-enlighten-info-panel>
                                     @endif
                                 </div>
