@@ -22,6 +22,14 @@ class RunTest extends TestCase
     }
 
     /** @test */
+    function gets_the_url_of_the_run()
+    {
+        $run = $this->createRun();
+
+        $this->assertSame('http://localhost/enlighten/run/1/modules', $run->url);
+    }
+
+    /** @test */
     function a_run_has_many_groups()
     {
         $run = $this->createRun();

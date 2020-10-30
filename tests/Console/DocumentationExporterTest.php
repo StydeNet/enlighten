@@ -2,8 +2,10 @@
 
 namespace Tests\Console;
 
+use http\Client\Response;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Tests\TestCase;
 
@@ -19,7 +21,7 @@ class DocumentationExporterTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->resetDocumentationDirectory();
 
         $this->exporter = new DocumentationExporter($this->app[Filesystem::class], $this->baseDir);
@@ -33,12 +35,15 @@ class DocumentationExporterTest extends TestCase
         $this->createExample($group, 'lists_users', 'passed', 'Lists users');
         $this->createExample($group, 'paginates_users', 'passed', 'Paginates users');
 
+        $this->expectHttpRequest($run->url)
+            ->andReturn('Index');
+
         $this->exporter->export($run);
 
-        $this->assertFileExists("{$this->baseDir}/index.html");
-        $this->assertFileExists("{$this->baseDir}/feature-list-users.html");
-        $this->assertFileExists("{$this->baseDir}/feature-list-users/lists_users.html");
-        $this->assertFileExists("{$this->baseDir}/feature-list-users/paginates_users.html");
+        $this->assertDocumentHasContent('Index', 'index.html');
+        $this->assertDocumentHasContent('Group', 'feature-list-users.html');
+        $this->assertDocumentHasContent('Example', 'feature-list-users/lists_users.html');
+        $this->assertDocumentHasContent('Example', 'feature-list-users/paginates_users.html');
     }
 
     private function resetDocumentationDirectory()
@@ -48,5 +53,20 @@ class DocumentationExporterTest extends TestCase
         }
 
         File::deleteDirectory($this->baseDir);
+    }
+
+    private function assertDocumentHasContent(string $expectedContent, $filename)
+    {
+        $this->assertFileExists("{$this->baseDir}/{$filename}");
+        $this->assertSame($expectedContent, file_get_contents("{$this->baseDir}/$filename"));
+    }
+
+    private function expectHttpRequest(string $url)
+    {
+        Http::shouldReceive('get')
+            ->with($url)
+            ->andReturn($response = \Mockery::mock(Response::class));
+
+        return $response->shouldReceive('body');
     }
 }

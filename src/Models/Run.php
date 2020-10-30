@@ -40,4 +40,9 @@ class Run extends Model implements Statable
 
         return "{$this->branch} {$this->head}";
     }
+
+    public function getUrlAttribute()
+    {
+        return route('enlighten.run.show', $this);
+    }
 }

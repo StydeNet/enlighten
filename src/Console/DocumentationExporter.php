@@ -4,6 +4,7 @@ namespace Styde\Enlighten\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\Run;
 
@@ -28,7 +29,7 @@ class DocumentationExporter
     public function export(Run $run)
     {
         $this->createDirectory('/');
-        $this->createFile('index', 'Index');
+        $this->createFile('index', Http::get($run->url)->body());
 
         $run->groups->each(function ($group) {
             $this->exportGroupWithExamples($group);
