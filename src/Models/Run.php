@@ -29,4 +29,15 @@ class Run extends Model implements Statable
             ')
             ->groupBy('test_status', 'run_id');
     }
+
+    // Accessors
+
+    public function getSignatureAttribute($value)
+    {
+        if ($this->modified) {
+            return "{$this->branch} * {$this->head}";
+        }
+
+        return "{$this->branch} {$this->head}";
+    }
 }

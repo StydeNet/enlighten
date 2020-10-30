@@ -16,13 +16,21 @@ trait TestHelpers
         $this->app->config->set($config);
     }
 
-    public function createRun(array $attributes = []): Run
+    public function createRun($branch = 'main', $head = 'abcde', $modified = false): Run
     {
-        return Run::create(array_merge([
-            'branch' => 'main',
-            'head' => 'abcde',
-            'modified' => false,
-        ], $attributes));
+        if (is_array($branch)) {
+            $attributes = $branch;
+
+            $branch = $attributes['branch'] ?? 'main';
+            $head = $attributes['head'] ?? 'abcde';
+            $modified = $attributes['modified'] ?? false;
+        }
+
+        return Run::create([
+            'branch' => $branch,
+            'head' => $head,
+            'modified' => $modified,
+        ]);
     }
 
     protected function createExample(?ExampleGroup $group = null, string $methodName = 'test_method', string $testStatus = 'passed', string $title = 'Something does something'): Example

@@ -2,9 +2,9 @@
 
 namespace Styde\Enlighten\Console\Commands;
 
-use Illuminate\Database\Console\Migrations\MigrateCommand as LaravelCommand;
+use Illuminate\Database\Console\Migrations\MigrateCommand as LaravelMigrateCommand;
 
-class MigrateCommand extends LaravelCommand
+class MigrateCommand extends LaravelMigrateCommand
 {
     protected $signature = 'enlighten:migrate {--database= : The database connection to use}
                 {--force : Force the operation to run when in production}

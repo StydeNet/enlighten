@@ -2,9 +2,9 @@
 
 namespace Styde\Enlighten\Console\Commands;
 
-use Illuminate\Database\Console\Migrations\FreshCommand as LaravelCommand;
+use Illuminate\Console\Command;
 
-class FreshCommand extends LaravelCommand
+class FreshCommand extends Command
 {
     protected $name = 'enlighten:migrate:fresh';
 

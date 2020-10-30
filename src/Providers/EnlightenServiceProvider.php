@@ -6,6 +6,7 @@ use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\Commands\FreshCommand;
 use Styde\Enlighten\Console\Commands\MigrateCommand;
 use Styde\Enlighten\Contracts\VersionControl;
@@ -55,7 +56,10 @@ class EnlightenServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom($this->componentPath('database/migrations'));
+
             $this->registerPublishing();
+
+            $this->registerCommands();
         }
 
         if ($this->app->runningUnitTests()) {
@@ -99,7 +103,6 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerTestInspector();
         $this->registerVersionControlSystem();
         $this->registerHttpExampleGenerator();
-        $this->registerCommands();
     }
 
     private function registerMiddleware()
@@ -207,12 +210,14 @@ class EnlightenServiceProvider extends ServiceProvider
     private function registerCommands(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->app->singleton(\Illuminate\Database\Migrations\Migrator::class, function ($app) {
-                return $app['migrator'];
+            $this->app->singleton(MigrateCommand::class, function ($app) {
+                return new MigrateCommand($app['migrator'], $app['events']);
             });
+
             $this->commands([
                 FreshCommand::class,
-                MigrateCommand::class
+                MigrateCommand::class,
+                ExportDocumentationCommand::class
             ]);
         }
     }
