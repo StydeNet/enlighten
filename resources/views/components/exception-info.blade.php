@@ -7,7 +7,7 @@
     </x-slot>
 
     @if($exception->extra)
-        <x-enlighten-pre language="json" :code="json_encode($exception->extra['errors'], JSON_PRETTY_PRINT)"/>
+        <x-enlighten-pre language="json" :code="json_encode($exception->extra['errors'], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE)"/>
         <span class="border-b border-gray-900 block w-full"></span>
     @endif
 
@@ -40,7 +40,7 @@
                         <td class="font-light break-all text-teal-200 px-4">
                             <div class="w-full">
                                 <div x-cloak x-show="show === true">
-                                    <x-enlighten-pre language="json" :code="json_encode($data['args'], JSON_PRETTY_PRINT)"/>
+                                    <x-enlighten-pre language="json" :code="json_encode($data['args'], JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE)"/>
                                 </div>
                             </div>
                         </td>

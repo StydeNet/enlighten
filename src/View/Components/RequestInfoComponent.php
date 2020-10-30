@@ -41,7 +41,7 @@ class RequestInfoComponent extends Component
     {
         return collect($this->request['request_input'])
             ->map(function ($value) {
-                return is_array($value) ? json_encode($value, JSON_PRETTY_PRINT) : $value;
+                return is_array($value) ? json_encode($value, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE) : $value;
             })->toArray();
     }
 }
