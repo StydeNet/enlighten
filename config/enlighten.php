@@ -4,7 +4,9 @@ return [
     'enabled' => true,
 
     // Default directory to export the documentation.
-    'docs' => 'public/docs',
+    'docs_base_dir' => 'public/docs',
+    // Default base URL for the documentation.
+    'docs_base_url' => '/docs',
 
     // Display/hide quick access links to open your IDE from the UI
     'developer_mode' => true,

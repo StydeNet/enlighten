@@ -17,7 +17,6 @@ class DocumentationExporter
      * @var string
      */
     private $baseDir;
-
     /**
      * @var ContentRequest
      */
@@ -33,17 +32,23 @@ class DocumentationExporter
      */
     protected $runBaseUrl;
 
-    public function __construct(Filesystem $filesystem, string $baseDir, ContentRequest $request, string $currentBaseUrl)
+    /**
+     * @var string
+     */
+    protected $staticBaseUrl;
+
+    public function __construct(Filesystem $filesystem, ContentRequest $request, string $currentBaseUrl)
     {
         $this->filesystem = $filesystem;
-        $this->baseDir = $baseDir;
         $this->request = $request;
         $this->currentBaseUrl = $currentBaseUrl;
     }
 
-    public function export(Run $run)
+    public function export(Run $run, string $baseDir, string $staticBaseUrl)
     {
-        $this->runBaseUrl = "{$this->currentBaseUrl}/enlighten/run/{$run->id}";
+        $this->baseDir = $baseDir;
+        $this->runBaseUrl = "{$this->currentBaseUrl}enlighten/run/{$run->id}";
+        $this->staticBaseUrl = $staticBaseUrl;
 
         $this->createDirectory('/');
 
@@ -89,23 +94,28 @@ class DocumentationExporter
 
     private function withContentFrom(string $url): string
     {
+        return $this->replaceUrls($this->request->getContent($url));
+    }
+
+    private function replaceUrls(string $contents)
+    {
         return preg_replace_callback(
-            "@{$this->runBaseUrl}/([^\"]+)@",
+            "@{$this->runBaseUrl}([^\"]+)?@",
             function ($matches) {
                 return $this->getStaticUrl($matches[0]);
             },
-            $this->request->getContent($url)
+            $contents
         );
     }
 
     private function getStaticUrl(string $originalUrl): string
     {
-        // http://127.0.0.1:8000/
+        $result = str_replace($this->runBaseUrl, $this->staticBaseUrl, $originalUrl);
 
-        $result = str_replace($this->runBaseUrl, '/docs', $originalUrl);
+        if ($result === $this->staticBaseUrl) {
+            return $result;
+        }
 
-        $result .= '.html';
-
-        return $result;
+        return $result.'.html';
     }
 }

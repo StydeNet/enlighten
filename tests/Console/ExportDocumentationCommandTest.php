@@ -35,11 +35,17 @@ class ExportDocumentationCommandTest extends TestCase
                 'develop fghij',
                 $selectedRun
             ])
+            ->expectsQuestion('In which directory would you like to export the documentation?', 'public/docs')
+            ->expectsQuestion("What's the base URL for this documentation going to be?", '/docs')
             ->expectsOutput('`main * abcde` run exported!')
             ->assertExitCode(0);
 
-        $this->exporterSpy->shouldHaveReceived('export', function ($run) use ($selectedRun) {
-            return $run->signature === $selectedRun;
+        $this->exporterSpy->shouldHaveReceived('export', function ($run, $baseDir, $baseUrl) use ($selectedRun) {
+            $this->assertSame($selectedRun, $run->signature);
+            $this->assertSame('public/docs', $baseDir);
+            $this->assertSame('/docs', $baseUrl);
+
+            return true;
         });
     }
 }

@@ -34,9 +34,13 @@ class ExportDocumentationCommand extends Command
             $runs->first()->signature
         );
 
+        $baseDir = $this->ask('In which directory would you like to export the documentation?', config('enlighten.docs_base_dir'));
+
+        $baseUrl = $this->ask("What's the base URL for this documentation going to be?", config('enlighten.docs_base_url'));
+
         $this->warn("Exporting the documentation for `{$selectedRun}`...\n");
 
-        $this->exporter->export($runs->firstWhere('signature', $selectedRun));
+        $this->exporter->export($runs->firstWhere('signature', $selectedRun), $baseDir, $baseUrl);
 
         $this->info("`{$selectedRun}` run exported!");
     }

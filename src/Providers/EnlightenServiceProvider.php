@@ -221,7 +221,6 @@ class EnlightenServiceProvider extends ServiceProvider
             return new ExportDocumentationCommand(
                 new DocumentationExporter(
                     $app[Filesystem::class],
-                    $app['config']['enlighten.docs'],
                     new ContentRequest($app[HttpKernel::class]),
                     $app['url']->to('/')
                 )

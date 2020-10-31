@@ -3,8 +3,6 @@
 namespace Tests\Console;
 
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Client\Factory as HttpFactory;
-use Illuminate\Http\Client\Response;
 use Mockery;
 use Styde\Enlighten\Console\ContentRequest;
 use Styde\Enlighten\Console\DocumentationExporter;
@@ -46,7 +44,6 @@ class DocumentationExporterTest extends TestCase
 
         $this->exporter = new DocumentationExporter(
             $this->filesystem,
-            $this->baseDir,
             $this->contentRequest,
             'http://localhost/'
         );
@@ -69,7 +66,7 @@ class DocumentationExporterTest extends TestCase
         $this->expectContentRequest($group2->url)->andReturn('Group 2');
         $this->expectContentRequest($example3->url)->andReturn('Example 3');
 
-        $this->exporter->export($run);
+        $this->exporter->export($run, __DIR__.'/public/docs', '/docs');
 
         $this->assertDocumentHasContent('Index', 'index.html');
         $this->assertDocumentHasContent('Group 1', 'feature-list-users.html');
@@ -77,6 +74,30 @@ class DocumentationExporterTest extends TestCase
         $this->assertDocumentHasContent('Example 2', 'feature-list-users/paginates_users.html');
         $this->assertDocumentHasContent('Group 2', 'feature-create-user.html');
         $this->assertDocumentHasContent('Example 3', 'feature-create-user/creates_a_user.html');
+    }
+
+    /** @test */
+    function replaces_the_original_urls_with_static_urls()
+    {
+        $run = $this->createRun('main', 'abcde', true);
+
+        $baseRunUrl = url("enlighten/run/{$run->id}");
+
+        $this->expectContentRequest($run->url)->andReturn("
+            <h1>Enlighten</h1>
+            <a href=\"{$baseRunUrl}\"></a>
+            <a href=\"{$baseRunUrl}/features\"></a>
+            <p>https://github.com/Stydenet/enlighten</p>
+        ");
+
+        $this->exporter->export($run, __DIR__.'/public/docs', '/docs');
+
+        $this->assertDocumentHasContent('
+            <h1>Enlighten</h1>
+            <a href="/docs"></a>
+            <a href="/docs/features.html"></a>
+            <p>https://github.com/Stydenet/enlighten</p>
+        ', 'index.html');
     }
 
     private function resetDirectory(Filesystem $filesystem, $dir)
