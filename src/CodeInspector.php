@@ -11,9 +11,9 @@ class CodeInspector
     {
         $reflection = new ReflectionFunction($callback);
 
-        return collect(
-            explode(PHP_EOL, file_get_contents($reflection->getFileName()))
-        )
+        $code = file_get_contents($reflection->getFileName());
+
+        return collect(explode(PHP_EOL, $code))
             ->slice(
                 $reflection->getStartLine(),
                 $reflection->getEndLine() - $reflection->getStartLine() - 1

@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten\Models;
+namespace Styde\Enlighten\Utils;
 
 use Illuminate\Support\Str;
 use Symfony\Component\VarDumper\VarDumper;
@@ -66,7 +66,7 @@ class OutputFormatter
     {
         ob_start();
         VarDumper::dump($output);
-        return ob_get_clean();
+        return ob_get_flush();
     }
 
     public static function format($result): string

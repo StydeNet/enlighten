@@ -3,12 +3,16 @@
 namespace Styde\Enlighten\Providers;
 
 use Illuminate\Config\Repository as Config;
-use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\Commands\FreshCommand;
 use Styde\Enlighten\Console\Commands\MigrateCommand;
+use Styde\Enlighten\Console\ContentRequest;
+use Styde\Enlighten\Console\DocumentationExporter;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExampleCreator;
@@ -107,7 +111,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerMiddleware()
     {
-        $this->app[Kernel::class]->pushMiddleware(HttpExampleCreatorMiddleware::class);
+        $this->app[HttpKernel::class]->pushMiddleware(HttpExampleCreatorMiddleware::class);
     }
 
     private function registerTestRun()
@@ -209,17 +213,26 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerCommands(): void
     {
-        if ($this->app->runningInConsole()) {
-            $this->app->singleton(MigrateCommand::class, function ($app) {
-                return new MigrateCommand($app['migrator'], $app['events']);
-            });
+        $this->app->singleton(MigrateCommand::class, function ($app) {
+            return new MigrateCommand($app['migrator'], $app['events']);
+        });
 
-            $this->commands([
-                FreshCommand::class,
-                MigrateCommand::class,
-                ExportDocumentationCommand::class
-            ]);
-        }
+        $this->app->singleton(ExportDocumentationCommand::class, function ($app) {
+            return new ExportDocumentationCommand(
+                new DocumentationExporter(
+                    $app[Filesystem::class],
+                    $app['config']['enlighten.docs'],
+                    new ContentRequest($app[HttpKernel::class]),
+                    $app['url']->to('/')
+                )
+            );
+        });
+
+        $this->commands([
+            FreshCommand::class,
+            MigrateCommand::class,
+            ExportDocumentationCommand::class
+        ]);
     }
 
     private function componentPath(string $path): string

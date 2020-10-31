@@ -2,10 +2,11 @@
 
 namespace Tests\Console;
 
-use http\Client\Response;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\Factory as HttpFactory;
+use Illuminate\Http\Client\Response;
+use Mockery;
+use Styde\Enlighten\Console\ContentRequest;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Tests\TestCase;
 
@@ -16,43 +17,75 @@ class DocumentationExporterTest extends TestCase
      */
     private $exporter;
 
-    private $baseDir = 'public/docs';
+    /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var Mockery\MockInterface|ContentRequest
+     */
+    protected $contentRequest;
+
+    /**
+     * @var string
+     */
+    private $baseDir;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->resetDocumentationDirectory();
+        $this->filesystem = $this->app->make(Filesystem::class);
 
-        $this->exporter = new DocumentationExporter($this->app[Filesystem::class], $this->baseDir);
+        $this->baseDir = __DIR__.'/public/docs';
+
+        $this->resetDirectory($this->filesystem, $this->baseDir);
+
+        $this->contentRequest = Mockery::mock(ContentRequest::class);
+
+        $this->exporter = new DocumentationExporter(
+            $this->filesystem,
+            $this->baseDir,
+            $this->contentRequest,
+            'http://localhost/'
+        );
     }
 
     /** @test */
     function exports_run_as_static_files()
     {
         $run = $this->createRun('main', 'abcde', true);
-        $group = $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest', 'List Users');
-        $this->createExample($group, 'lists_users', 'passed', 'Lists users');
-        $this->createExample($group, 'paginates_users', 'passed', 'Paginates users');
+        $group1 = $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest', 'List Users');
+        $example1 = $this->createExample($group1, 'lists_users', 'passed', 'Lists users');
+        $example2 = $this->createExample($group1, 'paginates_users', 'passed', 'Paginates users');
+        $group2 = $this->createExampleGroup($run, 'Tests\Feature\CreateUserTest', 'Create User');
+        $example3 = $this->createExample($group2, 'creates_a_user', 'passed', 'Creates a user');
 
-        $this->expectHttpRequest($run->url)
-            ->andReturn('Index');
+        $this->expectContentRequest($run->url)->andReturn('Index');
+        $this->expectContentRequest($group1->url)->andReturn('Group 1');
+        $this->expectContentRequest($example1->url)->andReturn('Example 1');
+        $this->expectContentRequest($example2->url)->andReturn('Example 2');
+        $this->expectContentRequest($group2->url)->andReturn('Group 2');
+        $this->expectContentRequest($example3->url)->andReturn('Example 3');
 
         $this->exporter->export($run);
 
         $this->assertDocumentHasContent('Index', 'index.html');
-        $this->assertDocumentHasContent('Group', 'feature-list-users.html');
-        $this->assertDocumentHasContent('Example', 'feature-list-users/lists_users.html');
-        $this->assertDocumentHasContent('Example', 'feature-list-users/paginates_users.html');
+        $this->assertDocumentHasContent('Group 1', 'feature-list-users.html');
+        $this->assertDocumentHasContent('Example 1', 'feature-list-users/lists_users.html');
+        $this->assertDocumentHasContent('Example 2', 'feature-list-users/paginates_users.html');
+        $this->assertDocumentHasContent('Group 2', 'feature-create-user.html');
+        $this->assertDocumentHasContent('Example 3', 'feature-create-user/creates_a_user.html');
     }
 
-    private function resetDocumentationDirectory()
+    private function resetDirectory(Filesystem $filesystem, $dir)
     {
-        if (! File::isDirectory($this->baseDir)) {
+        if (! $filesystem->isDirectory($dir)) {
             return;
         }
 
-        File::deleteDirectory($this->baseDir);
+        $filesystem->deleteDirectory($dir);
     }
 
     private function assertDocumentHasContent(string $expectedContent, $filename)
@@ -61,12 +94,8 @@ class DocumentationExporterTest extends TestCase
         $this->assertSame($expectedContent, file_get_contents("{$this->baseDir}/$filename"));
     }
 
-    private function expectHttpRequest(string $url)
+    private function expectContentRequest(string $url)
     {
-        Http::shouldReceive('get')
-            ->with($url)
-            ->andReturn($response = \Mockery::mock(Response::class));
-
-        return $response->shouldReceive('body');
+        return $this->contentRequest->shouldReceive('getContent')->once()->with($url);
     }
 }

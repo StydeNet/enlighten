@@ -3,6 +3,9 @@
 return [
     'enabled' => true,
 
+    // Default directory to export the documentation.
+    'docs' => 'public/docs',
+
     // Display/hide quick access links to open your IDE from the UI
     'developer_mode' => true,
     'editor' => 'phpstorm', // phpstorm, vscode or sublime

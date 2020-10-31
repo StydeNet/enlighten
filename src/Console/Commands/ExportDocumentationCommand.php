@@ -34,6 +34,8 @@ class ExportDocumentationCommand extends Command
             $runs->first()->signature
         );
 
+        $this->warn("Exporting the documentation for `{$selectedRun}`...\n");
+
         $this->exporter->export($runs->firstWhere('signature', $selectedRun));
 
         $this->info("`{$selectedRun}` run exported!");
