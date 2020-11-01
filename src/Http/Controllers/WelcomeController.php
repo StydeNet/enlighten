@@ -3,14 +3,14 @@
 namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Mail\Markdown;
+use Illuminate\Support\HtmlString;
 
-class WelcomeController extends Controller
+class WelcomeController
 {
     public function __invoke()
     {
         return view('enlighten::intro', [
-            'content' => $this->getIntroContent(),
-            'tabs' => $this->getTabs()
+            'content' => $this->getIntroContent()
         ]);
     }
 
@@ -18,12 +18,12 @@ class WelcomeController extends Controller
     {
         if (file_exists(base_path('ENLIGHTEN.md'))) {
             return $this->parseMarkdownFile(base_path('ENLIGHTEN.md'));
-        } else {
-            return $this->fixImagesPath($this->parseMarkdownFile(__DIR__ . '/../../../README.md'));
         }
+
+        return $this->fixImagesPath($this->parseMarkdownFile(__DIR__ . '/../../../README.md'));
     }
 
-    private function parseMarkdownFile(string $filePath)
+    private function parseMarkdownFile(string $filePath): HtmlString
     {
         return Markdown::parse(file_get_contents($filePath));
     }

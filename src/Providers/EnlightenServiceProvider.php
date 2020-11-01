@@ -29,13 +29,17 @@ use Styde\Enlighten\View\Components\BreadcrumbsComponent;
 use Styde\Enlighten\View\Components\CodeExampleComponent;
 use Styde\Enlighten\View\Components\DynamicTabsComponent;
 use Styde\Enlighten\View\Components\EditButtonComponent;
-use Styde\Enlighten\View\Components\ExceptionInfoComponent;
+use Styde\Enlighten\View\Components\ExampleBreadcrumbs;
+use Styde\Enlighten\View\Components\ExampleRequestsComponent;
+use Styde\Enlighten\View\Components\GroupBreadcrumbs;
 use Styde\Enlighten\View\Components\HtmlResponseComponent;
 use Styde\Enlighten\View\Components\KeyValueComponent;
 use Styde\Enlighten\View\Components\RequestInfoComponent;
 use Styde\Enlighten\View\Components\RequestInputTableComponent;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
 use Styde\Enlighten\View\Components\RouteParametersTableComponent;
+use Styde\Enlighten\View\Components\SearchBoxComponent;
+use Styde\Enlighten\View\Components\SearchBoxStaticComponent;
 use Styde\Enlighten\View\Components\StatsBadgeComponent;
 use Styde\Enlighten\View\Components\StatusBadgeComponent;
 
@@ -55,6 +59,7 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->loadroutesFrom($this->componentPath('routes/api.php'));
 
         $this->loadViewsFrom($this->componentPath('resources/views'), 'enlighten');
+        $this->loadTranslationsFrom($this->componentPath('resources/lang'), 'enlighten');
 
         $this->registerViewComponents();
 
@@ -166,19 +171,20 @@ class EnlightenServiceProvider extends ServiceProvider
             'route-parameters-table' => RouteParametersTableComponent::class,
             'request-input-table' => RequestInputTableComponent::class,
             'dynamic-tabs' => DynamicTabsComponent::class,
-            'exception-info' => ExceptionInfoComponent::class,
+            'exception-info' => GroupBreadcrumbs::class,
             'edit-button' => EditButtonComponent::class,
             'breadcrumbs' => BreadcrumbsComponent::class,
+            'search-box' => $this->app->runningInConsole() ? SearchBoxStaticComponent::class : SearchBoxComponent::class,
             // Group
             'code-example' => CodeExampleComponent::class,
-            'content-table' => 'enlighten::group._content-table',
-            'response-preview' => 'enlighten::group._response-preview',
+            'content-table' => 'enlighten::components.content-table',
+            'response-preview' => 'enlighten::components.response-preview',
             // Layout components
             'info-panel' => 'enlighten::components.info-panel',
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
             'pre' => 'enlighten::components.pre',
             'main-layout' => 'enlighten::layout.main',
-            'module-panel' => 'enlighten::dashboard._module-panel',
+            'area-module-panel' => 'enlighten::components.area-module-panel',
             'queries-info' => 'enlighten::components.queries-info',
             'iframe' => 'enlighten::components.iframe',
             'widget' => 'enlighten::components.widget',
@@ -186,6 +192,14 @@ class EnlightenServiceProvider extends ServiceProvider
             'svg-logo' => 'enlighten::components.svg-logo',
             'runs-table' => 'enlighten::components.runs-table',
             'panel-title' => 'enlighten::components.panel-title',
+            'example-snippets' => 'enlighten::components.example-snippets',
+
+
+            'example-requests' => ExampleRequestsComponent::class,
+            'example-breadcrumbs' => ExampleBreadcrumbs::class,
+
+            'group-breadcrumbs' => GroupBreadcrumbs::class
+
         ]);
     }
 

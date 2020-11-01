@@ -12,6 +12,6 @@ class ViewRunsTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertViewIs('enlighten::dashboard.index');
+            ->assertViewIs('enlighten::run.index');
     }
 }

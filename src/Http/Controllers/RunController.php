@@ -2,31 +2,18 @@
 
 namespace Styde\Enlighten\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\Run;
 
-class RunController extends Controller
+class RunController
 {
-    public function show(Request $request, ?Run $run = null)
+    public function __invoke()
     {
-        $tabs = $this->getTabs();
+        $runs = Run::query()->with('stats')->latest()->get();
 
-        if ($request->route('area')) {
-            $area = $tabs->firstWhere('slug', $request->route('area'));
-            $groups = $run->groups()->with('stats')->filterByArea($area)->get();
-        } else {
-            $groups = $run->groups()->with('stats')->get();
-            $area = null;
+        if ($runs->isEmpty()) {
+            return redirect(route('enlighten.intro'));
         }
 
-        $modules = Module::all();
-
-        $modules->addGroups($groups);
-
-        return view('enlighten::area.show', [
-            'modules' => $modules->whereHasGroups(),
-            'title' => $area->title ?? 'All Modules',
-        ]);
+        return view('enlighten::run.index', ['runs' => $runs]);
     }
 }

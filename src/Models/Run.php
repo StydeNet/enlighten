@@ -50,7 +50,7 @@ class Run extends Model implements Statable
 
     public function getUrlAttribute()
     {
-        return route('enlighten.run.show', $this);
+        return route('enlighten.area.show', $this);
     }
 
     public function getBaseUrlAttribute()
@@ -60,6 +60,6 @@ class Run extends Model implements Statable
 
     public function areaUrl(string $area)
     {
-        return route('enlighten.run.show', [$this, $area]);
+        return route('enlighten.area.show', [$this, $area]);
     }
 }

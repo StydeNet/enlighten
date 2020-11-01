@@ -26,7 +26,7 @@ class RunTest extends TestCase
     {
         $run = $this->createRun();
 
-        $this->assertSame('http://localhost/enlighten/run/1/modules', $run->url);
+        $this->assertSame('http://localhost/enlighten/run/1/areas', $run->url);
     }
 
     /** @test */
@@ -42,7 +42,7 @@ class RunTest extends TestCase
     {
         $run = $this->createRun();
 
-        $this->assertSame('http://localhost/enlighten/run/1/modules/feature', $run->areaUrl('feature'));
+        $this->assertSame('http://localhost/enlighten/run/1/areas/feature', $run->areaUrl('feature'));
     }
 
     /** @test */

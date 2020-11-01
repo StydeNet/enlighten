@@ -7,7 +7,7 @@ use Styde\Enlighten\Models\Run;
 
 class SearchController
 {
-    public function index($run)
+    public function __invoke($run)
     {
         $run = Run::with('groups')->find($run);
 
