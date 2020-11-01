@@ -64,7 +64,7 @@
                                     @if($tab['requests']->session_data)
                                         <x-enlighten-info-panel>
                                             <x-slot name="title">{{ __('enlighten::messages.session_data') }}</x-slot>
-                                            <x-enlighten-pre language="json" :code="json_encode($tab['requests']->session_data, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE)"/>
+                                            <x-enlighten-pre language="json" :code="enlighten_json_prettify($tab['requests']->session_data)"/>
                                         </x-enlighten-info-panel>
                                     @endif
                                 </div>
