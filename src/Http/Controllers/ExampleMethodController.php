@@ -8,7 +8,7 @@ use Styde\Enlighten\Models\Run;
 
 class ExampleMethodController
 {
-    public function show(Run $run, string $groupSlug, string $method)
+    public function __invoke(Run $run, string $groupSlug, string $method)
     {
         $group =  $run->groups()->where('slug', $groupSlug)->firstOrFail();
 

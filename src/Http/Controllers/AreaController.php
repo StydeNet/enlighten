@@ -10,7 +10,7 @@ use Styde\Enlighten\Models\Run;
 
 class AreaController
 {
-    public function show(Run $run, Request $request)
+    public function __invoke(Run $run, Request $request)
     {
         $groups = $run->groups()->with('stats');
 

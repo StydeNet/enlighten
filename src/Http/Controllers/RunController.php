@@ -6,7 +6,7 @@ use Styde\Enlighten\Models\Run;
 
 class RunController
 {
-    public function index()
+    public function __invoke()
     {
         $runs = Run::query()->with('stats')->latest()->get();
 

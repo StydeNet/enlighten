@@ -6,7 +6,7 @@ use Styde\Enlighten\Models\Run;
 
 class ExampleGroupController
 {
-    public function show(Run $run, string $groupSlug)
+    public function __invoke(Run $run, string $groupSlug)
     {
         $group =  $run->groups()->where('slug', $groupSlug)->firstOrFail();
 
