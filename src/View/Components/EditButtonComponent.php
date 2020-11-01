@@ -18,7 +18,7 @@ class EditButtonComponent extends Component
 
     public function render()
     {
-        if (!config('enlighten.developer_mode') && !$this->file) {
+        if (! config('enlighten.developer_mode') || empty($this->file) || app()->runningInConsole()) {
             return '';
         }
 

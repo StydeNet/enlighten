@@ -31,7 +31,9 @@ class AppLayoutComponent extends Component
 
     public function render()
     {
-        return view('enlighten::components.app-layout');
+        return view('enlighten::components.app-layout', [
+            'showDashboardLink' => ! app()->runningInConsole()
+        ]);
     }
 
     public function tabs()
