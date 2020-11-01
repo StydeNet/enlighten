@@ -165,7 +165,8 @@ class EnlightenServiceProvider extends ServiceProvider
             'exception-info' => ExceptionInfoComponent::class,
             'edit-button' => EditButtonComponent::class,
             'breadcrumbs' => BreadcrumbsComponent::class,
-            'search-box' => $this->app->runningInConsole() ? SearchBoxStaticComponent::class : SearchBoxComponent::class,
+//            'search-box' => $this->app->runningInConsole() ? SearchBoxStaticComponent::class : SearchBoxComponent::class,
+            'search-box' => SearchBoxStaticComponent::class,
             // Group
             'code-example' => CodeExampleComponent::class,
             'content-table' => 'enlighten::group._content-table',

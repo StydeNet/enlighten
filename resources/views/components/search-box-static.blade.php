@@ -1,9 +1,12 @@
 <div {{ $attributes }}
      x-data='{
          open: true,
-         index: {!! $filesIndex !!},
          results: []
-    }'>
+    }'
+     x-init="
+        fetch('/tests-index.json')
+            .then(response => response.json().then(data => { index = data.index }))
+        ">
     <input
         x-on:input.debounce="
             results = index.filter(el => `${el.title} ${el.section}`.toLowerCase().includes($event.target.value)).slice(0, 5);
