@@ -1,10 +1,7 @@
 <x-enlighten-main-layout>
 
     <x-slot name="top">
-        <x-enlighten-breadcrumbs :segments="[
-            route('enlighten.run.show', ['run' => $example->group->run_id, 'area' => $example->group->area]) => ucwords($example->group->area),
-            $example->group->url => $example->group->title
-        ]"></x-enlighten-breadcrumbs>
+        <x-enlighten-breadcrumbs :segments="$breadcrumbs"></x-enlighten-breadcrumbs>
     </x-slot>
 
     <x-slot name="title">
@@ -19,23 +16,21 @@
         <p class="text-gray-100 mb-4 bg-gray-800 p-4 rounded-md">{{ $example->description }}</p>
     @endif
 
-    @if($example->snippets->isNotEmpty())
-        @foreach($example->snippets as $snippet)
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-                <x-enlighten-info-panel>
-                    <x-slot name="title">{{ __('enlighten::messages.snippet') }}</x-slot>
-                    <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
-                </x-enlighten-info-panel>
-                <x-enlighten-info-panel>
-                    <x-slot name="title">{{ __('enlighten::messages.output') }}</x-slot>
-                    <div class="h-full" x-data
-                         x-init="document.querySelectorAll('a.sf-dump-toggle').forEach((el, key) => key > 0 && el.click())">
-                        {!! $snippet->result_code !!}
-                    </div>
-                </x-enlighten-info-panel>
-            </div>
-        @endforeach
-    @endif
+    @foreach($example->snippets as $snippet)
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <x-enlighten-info-panel>
+                <x-slot name="title">{{ __('enlighten::messages.snippet') }}</x-slot>
+                <x-enlighten-pre language="php" :code="$snippet->code"></x-enlighten-pre>
+            </x-enlighten-info-panel>
+            <x-enlighten-info-panel>
+                <x-slot name="title">{{ __('enlighten::messages.output') }}</x-slot>
+                <div class="h-full" x-data
+                     x-init="document.querySelectorAll('a.sf-dump-toggle').forEach((el, key) => key > 0 && el.click())">
+                    {!! $snippet->result_code !!}
+                </div>
+            </x-enlighten-info-panel>
+        </div>
+    @endforeach
 
     @if($example->is_http)
         <x-enlighten-dynamic-tabs type="menu" :tabs="['requests', 'database', 'exception']">

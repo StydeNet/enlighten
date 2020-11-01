@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\Run;
 
@@ -19,24 +20,20 @@ class RunController extends Controller
         return view('enlighten::run.index', ['runs' => $runs]);
     }
 
-    public function show(Request $request, ?Run $run = null)
+    public function show(Request $request)
     {
-        $tabs = $this->getTabs();
+        $run = $this->activeRun();
 
         if ($request->route('area')) {
-            $area = $tabs->firstWhere('slug', $request->route('area'));
+            $area = Area::all()->firstWhere('slug', $request->route('area'));
             $groups = $run->groups()->with('stats')->filterByArea($area)->get();
         } else {
             $groups = $run->groups()->with('stats')->get();
             $area = null;
         }
 
-        $modules = Module::all();
-
-        $modules->addGroups($groups);
-
         return view('enlighten::area.show', [
-            'modules' => $modules->whereHasGroups(),
+            'modules' => Module::all()->addGroups($groups)->whereHasGroups(),
             'title' => $area->title ?? 'All Modules',
         ]);
     }

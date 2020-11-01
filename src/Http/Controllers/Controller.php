@@ -2,12 +2,15 @@
 
 namespace Styde\Enlighten\Http\Controllers;
 
-use Styde\Enlighten\Models\Area;
+use Styde\Enlighten\Models\Run;
 
 class Controller
 {
-    protected function getTabs()
+    protected function activeRun()
     {
-        return Area::all();
+        return Run::where('id', request()->query('run'))
+            ->firstOr(function () {
+                return Run::latest()->first();
+            });
     }
 }

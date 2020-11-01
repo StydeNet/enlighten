@@ -18,15 +18,11 @@ class AppLayoutComponent extends Component
 
     private function getRunFromRequest()
     {
-        $run = request()->route('run');
-
-        if ($run instanceof Run) {
-            return $run;
-        } elseif (is_numeric($run)) {
-            return Run::find($run);
-        } else {
-            return Run::latest()->first();
-        }
+        return Run::query()
+            ->where('id', request()->query('run'))
+            ->firstOr(function () {
+                return Run::latest()->first();
+            });
     }
 
     public function render()
@@ -41,7 +37,7 @@ class AppLayoutComponent extends Component
                 'slug' => $area->slug,
                 'title' => $area->title,
                 'active' => $area->slug === request()->route('area'),
-                'panels' => request()->route('area') ? $this->panels($area) : []
+                'panels' => $this->panels($area)
             ];
         });
     }

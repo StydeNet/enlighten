@@ -67,13 +67,13 @@ class ExampleGroupTest extends TestCase
             'slug' => 'feature-api-request',
         ]);
 
-        $this->assertSame('http://localhost/enlighten/run/1/feature-api-request', $exampleGroup->url);
+        $this->assertSame('http://localhost/enlighten/feature-api-request?run=1', $exampleGroup->url);
 
         $exampleGroup = new ExampleGroup([
             'run_id' => 2,
             'slug' => 'api-list-users'
         ]);
 
-        $this->assertSame('http://localhost/enlighten/run/2/api-list-users', $exampleGroup->url);
+        $this->assertSame('http://localhost/enlighten/api-list-users?run=2', $exampleGroup->url);
     }
 }
