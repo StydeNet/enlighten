@@ -1,14 +1,11 @@
 <x-enlighten-main-layout>
 
     <x-slot name="top">
-        <x-enlighten-breadcrumbs :segments="[
-                route('enlighten.area.show', ['run' => $group->run_id, 'area' => $group->area]) => ucwords($group->area),
-            ]"></x-enlighten-breadcrumbs>
+        <x-enlighten-group-breadcrumbs :group="$group"/>
     </x-slot>
 
-    <x-slot name="title">
-        {{ $title }}
-    </x-slot>
+    <x-slot name="title">{{ $title }}</x-slot>
+
     <div class="w-full my-4">
         <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden">
             @foreach ($examples as $example)

@@ -6,19 +6,14 @@ use Styde\Enlighten\Models\Run;
 
 class ExampleGroupController
 {
-    public function show(Run $run, string $group)
+    public function show(Run $run, string $groupSlug)
     {
-        $group =  $run->groups()->where('slug', $group)->firstOrFail();
-
-        $examples = $group->examples()
-            ->with(['group', 'requests', 'exception'])
-            ->withCount('queries')
-            ->get();
+        $group =  $run->groups()->where('slug', $groupSlug)->firstOrFail();
 
         return view('enlighten::group.show', [
             'group' => $group,
-            'examples' => $examples,
-            'title' => $group->title
+            'title' => $group->title,
+            'examples' => $group->examples()->with(['group', 'requests', 'exception'])->withCount('queries')->get()
         ]);
     }
 }
