@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Styde\Enlighten\Http\Controllers\ExampleMethodController;
 use Styde\Enlighten\Http\Controllers\ExampleGroupController;
+use Styde\Enlighten\Http\Controllers\ExampleMethodController;
 use Styde\Enlighten\Http\Controllers\RunController;
 use Styde\Enlighten\Http\Controllers\WelcomeController;
 
