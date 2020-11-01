@@ -41,7 +41,7 @@
                             {{ __('enlighten::messages.dashboard') }}
                         </a>
                         @foreach($tabs as $tab)
-                            <a href="{{ route('enlighten.run.show', ['run' => request()->query('run') ]) }}" class="{{ $tab['active'] ? 'bg-gray-900' : '' }} group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
+                            <a href="{{ route('enlighten.run.show', ['run' => $activeRun ]) }}" class="{{ $tab['active'] ? 'bg-gray-900' : '' }} group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
                                 <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
                                 {{ $tab['title'] }}
                             </a>
@@ -55,7 +55,7 @@
                                     </button>
                                     <div class="w-full" x-cloak x-show="open">
                                         @foreach($panel->groups as $group)
-                                            <a href="{{ route('enlighten.group.show', ['run' => request()->query('run'), 'group' => $group]) }}"
+                                            <a href="{{ route('enlighten.group.show', ['run' => $activeRun, 'group' => $group]) }}"
                                                class="group flex items-center px-4 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
                                                 {{ $group->title }}
                                             </a>

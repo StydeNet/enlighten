@@ -7,7 +7,7 @@ use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\Run;
 
-class RunController extends Controller
+class RunController
 {
     public function index()
     {
@@ -20,10 +20,8 @@ class RunController extends Controller
         return view('enlighten::run.index', ['runs' => $runs]);
     }
 
-    public function show(Request $request)
+    public function show(Run $run, Request $request)
     {
-        $run = $this->activeRun();
-
         if ($request->route('area')) {
             $area = Area::all()->firstWhere('slug', $request->route('area'));
             $groups = $run->groups()->with('stats')->filterByArea($area)->get();

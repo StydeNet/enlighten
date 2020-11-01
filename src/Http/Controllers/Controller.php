@@ -8,7 +8,7 @@ class Controller
 {
     protected function activeRun()
     {
-        return Run::where('id', request()->query('run'))
+        return Run::where('id', request()->route('run'))
             ->firstOr(function () {
                 return Run::latest()->first();
             });

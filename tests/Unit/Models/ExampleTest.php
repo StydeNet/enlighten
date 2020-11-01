@@ -58,6 +58,6 @@ class ExampleTest extends TestCase
             'method_name' => 'test_list_users'
         ]);
 
-        $this->assertSame('http://localhost/enlighten/feature-api-request/test_list_users?run=1', $example->url);
+        $this->assertSame('http://localhost/enlighten/run/1/feature-api-request/test_list_users', $example->url);
     }
 }

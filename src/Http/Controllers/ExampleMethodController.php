@@ -5,12 +5,13 @@ namespace Styde\Enlighten\Http\Controllers;
 use Illuminate\Database\Eloquent\Model;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
+use Styde\Enlighten\Models\Run;
 
-class ExampleMethodController extends Controller
+class ExampleMethodController
 {
-    public function show(string $group, string $method)
+    public function show(Run $run, string $group, string $method)
     {
-        $group =  $this->activeRun()->groups()->where('slug', $group)->firstOrFail();
+        $group =  $run->groups()->where('slug', $group)->firstOrFail();
 
         $example = $this->getExampleWithRelations($group, $method);
 

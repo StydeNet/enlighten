@@ -18,11 +18,7 @@ class AppLayoutComponent extends Component
 
     private function getRunFromRequest()
     {
-        return Run::query()
-            ->where('id', request()->query('run'))
-            ->firstOr(function () {
-                return Run::latest()->first();
-            });
+        return request()->route('run') ?? Run::latest()->first();
     }
 
     public function render()
