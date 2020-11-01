@@ -24,6 +24,8 @@ use Styde\Enlighten\View\Components\BreadcrumbsComponent;
 use Styde\Enlighten\View\Components\CodeExampleComponent;
 use Styde\Enlighten\View\Components\DynamicTabsComponent;
 use Styde\Enlighten\View\Components\EditButtonComponent;
+use Styde\Enlighten\View\Components\ExampleBreadcrumbs;
+use Styde\Enlighten\View\Components\ExampleRequestsComponent;
 use Styde\Enlighten\View\Components\ExceptionInfoComponent;
 use Styde\Enlighten\View\Components\HtmlResponseComponent;
 use Styde\Enlighten\View\Components\KeyValueComponent;
@@ -183,6 +185,12 @@ class EnlightenServiceProvider extends ServiceProvider
             'svg-logo' => 'enlighten::components.svg-logo',
             'runs-table' => 'enlighten::components.runs-table',
             'panel-title' => 'enlighten::components.panel-title',
+            'example-snippets' => 'enlighten::components.example-snippets',
+
+
+            'example-requests' => ExampleRequestsComponent::class,
+            'example-breadcrumbs' => ExampleBreadcrumbs::class,
+
         ]);
     }
 
