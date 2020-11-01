@@ -81,20 +81,8 @@
                 <span class="rounded-full text-teal-100 bg-teal-500 p-1">
                     <x-enlighten-svg-logo class="w-6 h-6"></x-enlighten-svg-logo>
                 </span>
-                @if($activeRun)
-                    <div class="relative flex-1" x-data="{open: true}">
-                        <input
-                                x-on:input.debounce="fetch(`{{ route('enlighten.api.search', ['run' => $activeRun]) }}?search=${$event.target.value}`)
-                                    .then(response => response.text())
-                                    .then(html => { $refs.dropdown.innerHTML = html; open = true })"
-                                class="bg-gray-900 w-full text-sm placeholder-gray-300 focus:placeholder-gray-600 text-gray-300 rounded-md focus:outline-none focus:bg-gray-100 focus:text-gray-800 px-3 py-3"
-                                placeholder="Search"
-                                type="text"
-                                role="search"
-                                name="search"
-                                value="{{request()->query('q')}}">
-                        <div x-cloak x-ref="dropdown" x-show-="open" x-on:click.away="open = false"class="absolute block w-full my-1"></div>
-                    </div>
+                @if($activeRun->exists)
+                    <x-enlighten-search-box :run="$activeRun" class="relative flex-1"></x-enlighten-search-box>
                 @endif
                 <div class="ml-4 flex items-center md:ml-6">
                     @if($activeRun)

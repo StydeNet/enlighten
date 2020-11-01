@@ -31,6 +31,8 @@ use Styde\Enlighten\View\Components\RequestInfoComponent;
 use Styde\Enlighten\View\Components\RequestInputTableComponent;
 use Styde\Enlighten\View\Components\ResponseInfoComponent;
 use Styde\Enlighten\View\Components\RouteParametersTableComponent;
+use Styde\Enlighten\View\Components\SearchBoxComponent;
+use Styde\Enlighten\View\Components\SearchBoxStaticComponent;
 use Styde\Enlighten\View\Components\StatsBadgeComponent;
 use Styde\Enlighten\View\Components\StatusBadgeComponent;
 
@@ -163,6 +165,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'exception-info' => ExceptionInfoComponent::class,
             'edit-button' => EditButtonComponent::class,
             'breadcrumbs' => BreadcrumbsComponent::class,
+            'search-box' => $this->app->runningInConsole() ? SearchBoxStaticComponent::class : SearchBoxComponent::class,
             // Group
             'code-example' => CodeExampleComponent::class,
             'content-table' => 'enlighten::group._content-table',
