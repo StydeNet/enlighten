@@ -177,7 +177,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'scroll-to-top' => 'enlighten::components.scroll-to-top',
             'pre' => 'enlighten::components.pre',
             'main-layout' => 'enlighten::layout.main',
-            'module-panel' => 'enlighten::components.module-panel',
+            'area-module-panel' => 'enlighten::components.area-module-panel',
             'queries-info' => 'enlighten::components.queries-info',
             'iframe' => 'enlighten::components.iframe',
             'widget' => 'enlighten::components.widget',

@@ -2,7 +2,7 @@
 
     <x-slot name="top">
         <x-enlighten-breadcrumbs :segments="[
-                route('enlighten.run.show', ['run' => $group->run_id, 'area' => $group->area]) => ucwords($group->area),
+                route('enlighten.area.show', ['run' => $group->run_id, 'area' => $group->area]) => ucwords($group->area),
             ]"></x-enlighten-breadcrumbs>
     </x-slot>
 

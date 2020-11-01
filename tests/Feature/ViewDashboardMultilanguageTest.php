@@ -13,7 +13,7 @@ class ViewDashboardMultilanguageTest extends TestCase
         // When set the english language...
         \App::setLocale('en');
 
-        $response = $this->get(route('enlighten.run.show', ['run' => $run]));
+        $response = $this->get(route('enlighten.area.show', ['run' => $run]));
 
         // Then
         $response->assertSee('Dashboard')
@@ -22,7 +22,7 @@ class ViewDashboardMultilanguageTest extends TestCase
         // When set the spanish language...
         \App::setLocale('es');
 
-        $response = $this->get(route('enlighten.run.show', ['run' => $run]));
+        $response = $this->get(route('enlighten.area.show', ['run' => $run]));
 
         // Then
         $response->assertSee('Tablero')
