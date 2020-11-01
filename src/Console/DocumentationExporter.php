@@ -49,17 +49,26 @@ class DocumentationExporter
 
     public function export(Run $run, string $baseDir, string $staticBaseUrl)
     {
-        $this->baseDir = $baseDir;
+        $this->baseDir = rtrim($baseDir, '/');
+        $this->staticBaseUrl = rtrim($staticBaseUrl, '/');
         $this->originalBaseUrl = $run->base_url;
-        $this->staticBaseUrl = $staticBaseUrl;
 
         $this->createDirectory('/');
+
+        $this->exportAssets();
 
         $this->exportRunWithAreas($run);
 
         $run->groups->each(function ($group) {
             $this->exportGroupWithExamples($group);
         });
+    }
+
+    private function exportAssets()
+    {
+        $this->filesystem->deleteDirectory("{$this->baseDir}/assets");
+
+        $this->filesystem->copyDirectory(__DIR__.'/../../dist', "{$this->baseDir}/assets");
     }
 
     private function exportRunWithAreas(Run $run)
@@ -103,7 +112,7 @@ class DocumentationExporter
             return;
         }
 
-        $this->filesystem->makeDirectory("{$this->baseDir}/$path", 0755, true);
+        $this->filesystem->makeDirectory("{$this->baseDir}/$path", 0755);
     }
 
     private function createFile(string $filename, string $contents)
@@ -119,11 +128,11 @@ class DocumentationExporter
     private function replaceUrls(string $contents)
     {
         return preg_replace_callback(
-            "@{$this->originalBaseUrl}([^\"]+)?@",
+            '@'.$this->originalBaseUrl.'([^"]+)?@',
             function ($matches) {
                 return $this->getStaticUrl($matches[0]);
             },
-            $contents
+            str_replace('/vendor/enlighten/', "{$this->staticBaseUrl}/assets/", $contents)
         );
     }
 

@@ -70,6 +70,9 @@ class DocumentationExporterTest extends TestCase
 
         $this->exporter->export($run, __DIR__.'/public/docs', '/docs');
 
+        $this->assertDirectoryExists(__DIR__.'/public/docs/assets');
+        $this->assertFileExists(__DIR__.'/public/docs/assets/css/app.css');
+
         $this->assertDocumentHasContent('Index', 'index.html');
         $this->assertDocumentHasContent('Feature', 'modules/feature.html');
         $this->assertDocumentHasContent('Group 1', 'feature-list-users.html');
@@ -86,16 +89,18 @@ class DocumentationExporterTest extends TestCase
 
         $baseRunUrl = url("enlighten/run/{$run->id}");
 
-        $this->expectContentRequest($run->url)->andReturn("
+        $this->expectContentRequest($run->url)->andReturn('
+            <link rel="stylesheet" href="/vendor/enlighten/css/app.css?0.2.0">
             <h1>Enlighten</h1>
-            <a href=\"{$baseRunUrl}\"></a>
-            <a href=\"{$baseRunUrl}/features\"></a>
+            <a href="'.$baseRunUrl.'"></a>
+            <a href="'.$baseRunUrl.'/features"></a>
             <p>https://github.com/Stydenet/enlighten</p>
-        ");
+        ');
 
         $this->exporter->export($run, __DIR__.'/public/docs', '/docs');
 
         $this->assertDocumentHasContent('
+            <link rel="stylesheet" href="/docs/assets/css/app.css?0.2.0">
             <h1>Enlighten</h1>
             <a href="/docs"></a>
             <a href="/docs/features.html"></a>
