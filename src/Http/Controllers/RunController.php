@@ -8,6 +8,17 @@ use Styde\Enlighten\Models\Run;
 
 class RunController extends Controller
 {
+    public function index()
+    {
+        $runs = Run::query()->with('stats')->latest()->get();
+
+        if ($runs->isEmpty()) {
+            return redirect(route('enlighten.intro'));
+        }
+
+        return view('enlighten::run.index', ['runs' => $runs]);
+    }
+
     public function show(Request $request, ?Run $run = null)
     {
         $tabs = $this->getTabs();

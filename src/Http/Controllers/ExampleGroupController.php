@@ -2,16 +2,13 @@
 
 namespace Styde\Enlighten\Http\Controllers;
 
+use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 
 class ExampleGroupController extends Controller
 {
-    public function show(Run $run, string $group)
+    public function show(Run $run, ExampleGroup $group)
     {
-        $group = $run->groups()
-            ->where('slug', $group)
-            ->firstOrFail();
-
         $examples = $group->examples()
             ->with(['group', 'requests', 'exception'])
             ->withCount('queries')
