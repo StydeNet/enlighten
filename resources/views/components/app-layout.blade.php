@@ -55,7 +55,7 @@
                                     </button>
                                     <div class="w-full" x-cloak x-show="open">
                                         @foreach($panel->groups as $group)
-                                            <a href="{{ route('enlighten.group.show', ['area' => $group->area, 'run' => request()->route('run'), 'group' => $group]) }}"
+                                            <a href="{{ $group->url }}"
                                                class="group flex items-center px-4 py-1 text-sm leading-6 font-light rounded-md text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150">
                                                 {{ $group->title }}
                                             </a>

@@ -42,6 +42,15 @@ class Area implements Arrayable
             });
     }
 
+    public static function get($areas): Collection
+    {
+        return collect($areas)
+            ->sort()
+            ->map(function ($slug) {
+                return new static($slug, config("enlighten.areas.{$slug}"));
+            });
+    }
+
     public function __construct(string $slug, string $title = null)
     {
         $this->title = $title ?: ucfirst(str_replace('-', ' ', $slug));

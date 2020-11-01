@@ -32,6 +32,13 @@ class Run extends Model implements Statable
 
     // Accessors
 
+    public function getAreasAttribute()
+    {
+        $areas = $this->groups->pluck('area')->unique();
+
+        return Area::get($areas);
+    }
+
     public function getSignatureAttribute($value)
     {
         if ($this->modified) {
@@ -44,5 +51,15 @@ class Run extends Model implements Statable
     public function getUrlAttribute()
     {
         return route('enlighten.run.show', $this);
+    }
+
+    public function getBaseUrlAttribute()
+    {
+        return url("enlighten/run/{$this->id}");
+    }
+
+    public function areaUrl(string $area)
+    {
+        return route('enlighten.run.show', [$this, $area]);
     }
 }

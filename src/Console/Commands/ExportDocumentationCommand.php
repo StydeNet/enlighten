@@ -28,21 +28,21 @@ class ExportDocumentationCommand extends Command
     {
         $runs = $this->getLatestRuns();
 
-        $selectedRun = $this->choice(
+        $selectedRun = $runs->firstWhere('signature', $this->choice(
             "Please select the run you'd like to export",
             $runs->pluck('signature')->all(),
             $runs->first()->signature
-        );
+        ));
 
         $baseDir = $this->ask('In which directory would you like to export the documentation?', config('enlighten.docs_base_dir'));
 
         $baseUrl = $this->ask("What's the base URL for this documentation going to be?", config('enlighten.docs_base_url'));
 
-        $this->warn("Exporting the documentation for `{$selectedRun}`...\n");
+        $this->warn("Exporting the documentation for `{$selectedRun->signature}`...\n");
 
-        $this->exporter->export($runs->firstWhere('signature', $selectedRun), $baseDir, $baseUrl);
+        $this->exporter->export($selectedRun, $baseDir, $baseUrl);
 
-        $this->info("`{$selectedRun}` run exported!");
+        $this->info("`{$selectedRun->signature}` run exported!");
     }
 
     protected function getLatestRuns()

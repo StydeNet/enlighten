@@ -56,10 +56,12 @@ class DocumentationExporterTest extends TestCase
         $group1 = $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest', 'List Users');
         $example1 = $this->createExample($group1, 'lists_users', 'passed', 'Lists users');
         $example2 = $this->createExample($group1, 'paginates_users', 'passed', 'Paginates users');
-        $group2 = $this->createExampleGroup($run, 'Tests\Feature\CreateUserTest', 'Create User');
+        $group2 = $this->createExampleGroup($run, 'Tests\Api\CreateUserTest', 'Create User');
         $example3 = $this->createExample($group2, 'creates_a_user', 'passed', 'Creates a user');
 
         $this->expectContentRequest($run->url)->andReturn('Index');
+        $this->expectContentRequest($run->areaUrl('feature'))->andReturn('Feature');
+        $this->expectContentRequest($run->areaUrl('api'))->andReturn('Api');
         $this->expectContentRequest($group1->url)->andReturn('Group 1');
         $this->expectContentRequest($example1->url)->andReturn('Example 1');
         $this->expectContentRequest($example2->url)->andReturn('Example 2');
@@ -69,11 +71,12 @@ class DocumentationExporterTest extends TestCase
         $this->exporter->export($run, __DIR__.'/public/docs', '/docs');
 
         $this->assertDocumentHasContent('Index', 'index.html');
+        $this->assertDocumentHasContent('Feature', 'modules/feature.html');
         $this->assertDocumentHasContent('Group 1', 'feature-list-users.html');
         $this->assertDocumentHasContent('Example 1', 'feature-list-users/lists_users.html');
         $this->assertDocumentHasContent('Example 2', 'feature-list-users/paginates_users.html');
-        $this->assertDocumentHasContent('Group 2', 'feature-create-user.html');
-        $this->assertDocumentHasContent('Example 3', 'feature-create-user/creates_a_user.html');
+        $this->assertDocumentHasContent('Group 2', 'api-create-user.html');
+        $this->assertDocumentHasContent('Example 3', 'api-create-user/creates_a_user.html');
     }
 
     /** @test */

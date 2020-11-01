@@ -30,6 +30,22 @@ class RunTest extends TestCase
     }
 
     /** @test */
+    function gets_the_base_url_of_the_run()
+    {
+        $run = $this->createRun();
+
+        $this->assertSame('http://localhost/enlighten/run/1', $run->base_url);
+    }
+
+    /** @test */
+    function gets_the_url_of_a_run_area()
+    {
+        $run = $this->createRun();
+
+        $this->assertSame('http://localhost/enlighten/run/1/modules/feature', $run->areaUrl('feature'));
+    }
+
+    /** @test */
     function a_run_has_many_groups()
     {
         $run = $this->createRun();
@@ -38,5 +54,31 @@ class RunTest extends TestCase
         $run->groups()->create($this->getExampleGroupAttributes());
 
         $this->assertInstanceOf(ExampleGroup::class, $run->groups->first());
+    }
+
+    /** @test */
+    function gets_the_areas_of_a_run()
+    {
+        $run = $this->createRun();
+
+        $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest');
+        $this->createExampleGroup($run, 'Tests\Api\CreateUserTest');
+
+        // This configuration option allows the users to format or customise the name of the areas.
+        $this->app->config->set('enlighten.areas', [
+            'api' => 'API'
+        ]);
+
+        $expected = [
+            [
+                'title' => 'API',
+                'slug' => 'api',
+            ],
+            [
+                'title' => 'Feature',
+                'slug' => 'feature',
+            ],
+        ];
+        $this->assertSame($expected, $run->areas->toArray());
     }
 }

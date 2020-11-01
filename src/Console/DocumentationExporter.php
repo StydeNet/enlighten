@@ -4,7 +4,9 @@ namespace Styde\Enlighten\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\UrlGenerator;
+use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 
 class DocumentationExporter
@@ -30,7 +32,7 @@ class DocumentationExporter
     /**
      * @var string
      */
-    protected $runBaseUrl;
+    protected $originalBaseUrl;
 
     /**
      * @var string
@@ -41,27 +43,44 @@ class DocumentationExporter
     {
         $this->filesystem = $filesystem;
         $this->request = $request;
+
         $this->currentBaseUrl = $currentBaseUrl;
     }
 
     public function export(Run $run, string $baseDir, string $staticBaseUrl)
     {
         $this->baseDir = $baseDir;
-        $this->runBaseUrl = "{$this->currentBaseUrl}enlighten/run/{$run->id}";
+        $this->originalBaseUrl = $run->base_url;
         $this->staticBaseUrl = $staticBaseUrl;
 
         $this->createDirectory('/');
 
-        $this->createFile('index.html', $this->withContentFrom($run->url));
+        $this->exportRunWithAreas($run);
 
         $run->groups->each(function ($group) {
             $this->exportGroupWithExamples($group);
         });
     }
 
-    private function exportGroupWithExamples($group)
+    private function exportRunWithAreas(Run $run)
     {
-        $this->createFile("{$group->slug}.html", $this->withContentFrom($group->url));
+        $this->createFile('index', $this->withContentFrom($run->url));
+
+        $this->createDirectory('/modules');
+
+        $run->areas->each(function ($area) use ($run) {
+            $this->exportArea($run, $area);
+        });
+    }
+
+    private function exportArea(Run $run, Area $area)
+    {
+        $this->createFile("modules/{$area->slug}", $this->withContentFrom($run->areaUrl($area->slug)));
+    }
+
+    private function exportGroupWithExamples(ExampleGroup $group)
+    {
+        $this->createFile("{$group->slug}", $this->withContentFrom($group->url));
 
         $this->createDirectory($group->slug);
 
@@ -70,10 +89,10 @@ class DocumentationExporter
         });
     }
 
-    private function exportExample($example)
+    private function exportExample(Example $example)
     {
         $this->createFile(
-            "{$example->group->slug}/{$example->method_name}.html",
+            "{$example->group->slug}/{$example->method_name}",
             $this->withContentFrom($example->url)
         );
     }
@@ -89,7 +108,7 @@ class DocumentationExporter
 
     private function createFile(string $filename, string $contents)
     {
-        $this->filesystem->put("{$this->baseDir}/{$filename}", $contents);
+        $this->filesystem->put("{$this->baseDir}/{$filename}.html", $contents);
     }
 
     private function withContentFrom(string $url): string
@@ -100,7 +119,7 @@ class DocumentationExporter
     private function replaceUrls(string $contents)
     {
         return preg_replace_callback(
-            "@{$this->runBaseUrl}([^\"]+)?@",
+            "@{$this->originalBaseUrl}([^\"]+)?@",
             function ($matches) {
                 return $this->getStaticUrl($matches[0]);
             },
@@ -110,12 +129,12 @@ class DocumentationExporter
 
     private function getStaticUrl(string $originalUrl): string
     {
-        $result = str_replace($this->runBaseUrl, $this->staticBaseUrl, $originalUrl);
+        $result = str_replace($this->originalBaseUrl, $this->staticBaseUrl, $originalUrl);
 
         if ($result === $this->staticBaseUrl) {
             return $result;
         }
 
-        return $result.'.html';
+        return "{$result}.html";
     }
 }
