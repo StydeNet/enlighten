@@ -2,6 +2,7 @@
 
 namespace Styde\Enlighten\View\Components;
 
+use Illuminate\Http\Request;
 use Illuminate\View\Component;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Module;
@@ -11,26 +12,21 @@ class AppLayoutComponent extends Component
 {
     public $activeRun;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->activeRun = $this->getRunFromRequest();
-    }
-
-    private function getRunFromRequest()
-    {
-        return request()->route('run') ?? Run::latest()->first();
+        $this->activeRun = $request->route('run') ?: Run::latest()->first();
     }
 
     public function render()
     {
         return view('enlighten::components.app-layout', [
-            'showDashboardLink' => ! app()->runningInConsole()
+            'showDashboardLink' => ! app()->runningInConsole(),
         ]);
     }
 
     public function tabs()
     {
-        return Area::all()->map(function ($area) {
+        return $this->activeRun->areas->map(function ($area) {
             return [
                 'slug' => $area->slug,
                 'title' => $area->title,
@@ -40,18 +36,13 @@ class AppLayoutComponent extends Component
         });
     }
 
-    public function panels(Area  $area)
+    public function panels(Area $area)
     {
         return Module::all()
             ->addGroups(
-                $this->getRunFromRequest()->groups()->filterByArea($area)->get()
+                $this->activeRun->groups->where('area', $area->slug)
             )->filter(function ($panel) {
                 return $panel->groups->isNotEmpty();
             });
-    }
-
-    public function runLabel()
-    {
-        return $this->activeRun->branch.'-'.$this->activeRun->head;
     }
 }

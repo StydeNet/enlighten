@@ -19,32 +19,12 @@ class ResponseInfoComponent extends Component
         $this->request = $request;
     }
 
-    private function status()
-    {
-        return $this->request->response_status ?? 'UNKNOWN';
-    }
-
-    private function color()
-    {
-        if ($this->request->response_status === 200) {
-            return 'success';
-        } elseif ($this->request->response_status > 200 && $this->request->response_status < 400) {
-            return 'default';
-        } elseif ($this->request->response_status > 400 && $this->request->response_status < 500) {
-            return 'warning';
-        } elseif ($this->request->response_status > 500) {
-            return 'failure';
-        } else {
-            return 'default';
-        }
-    }
-
     public function render()
     {
         return view('enlighten::components.response-info', [
             'request' => $this->request,
-            'color' => $this->color(),
-            'status' => $this->status(),
+            'color' => $this->request->getStatus(),
+            'status' => $this->request->response_status ?? 'UNKNOWN',
             'showHeaders' => $this->showHeaders(),
         ]);
     }

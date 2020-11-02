@@ -83,9 +83,9 @@ class Example extends Model implements Statusable
     public function getUrlAttribute()
     {
         return route('enlighten.method.show', [
+            $this->group->run_id,
             $this->group->slug,
             $this->slug,
-            'run' => $this->group->run_id
         ]);
     }
 

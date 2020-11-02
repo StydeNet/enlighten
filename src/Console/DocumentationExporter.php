@@ -3,7 +3,6 @@
 namespace Styde\Enlighten\Console;
 
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Routing\UrlGenerator;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
@@ -75,7 +74,7 @@ class DocumentationExporter
     {
         $this->createFile('index', $this->withContentFrom($run->url));
 
-        $this->createDirectory('/modules');
+        $this->createDirectory('/areas');
 
         $run->areas->each(function ($area) use ($run) {
             $this->exportArea($run, $area);
@@ -84,7 +83,7 @@ class DocumentationExporter
 
     private function exportArea(Run $run, Area $area)
     {
-        $this->createFile("modules/{$area->slug}", $this->withContentFrom($run->areaUrl($area->slug)));
+        $this->createFile("areas/{$area->slug}", $this->withContentFrom($run->areaUrl($area->slug)));
     }
 
     private function exportGroupWithExamples(ExampleGroup $group)
@@ -101,7 +100,7 @@ class DocumentationExporter
     private function exportExample(Example $example)
     {
         $this->createFile(
-            "{$example->group->slug}/{$example->method_name}",
+            "{$example->group->slug}/{$example->slug}",
             $this->withContentFrom($example->url)
         );
     }

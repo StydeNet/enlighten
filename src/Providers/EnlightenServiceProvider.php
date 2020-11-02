@@ -48,7 +48,7 @@ class EnlightenServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->mergeConfigFrom($this->componentPath('config/enlighten.php'), 'enlighten');
+        $this->mergeConfigFrom($this->packageRoot('config/enlighten.php'), 'enlighten');
 
         if (! $this->app['config']->get('enlighten.enabled')) {
             return;
@@ -56,16 +56,16 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->addDatabaseConnection($this->app['config']);
 
-        $this->loadroutesFrom($this->componentPath('routes/web.php'));
-        $this->loadroutesFrom($this->componentPath('routes/api.php'));
+        $this->loadroutesFrom($this->packageRoot('routes/web.php'));
+        $this->loadroutesFrom($this->packageRoot('routes/api.php'));
 
-        $this->loadViewsFrom($this->componentPath('resources/views'), 'enlighten');
-        $this->loadTranslationsFrom($this->componentPath('resources/lang'), 'enlighten');
+        $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
+        $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');
 
         $this->registerViewComponents();
 
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom($this->componentPath('database/migrations'));
+            $this->loadMigrationsFrom($this->packageRoot('database/migrations'));
 
             $this->registerPublishing();
 
@@ -208,20 +208,20 @@ class EnlightenServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                $this->componentPath('config') => base_path('config'),
+                $this->packageRoot('config') => base_path('config'),
             ], 'enlighten-config');
 
             $this->publishes([
-                $this->componentPath('dist') => public_path('vendor/enlighten'),
-                $this->componentPath('/preview.png') => public_path('vendor/enlighten/img/preview.png'),
+                $this->packageRoot('dist') => public_path('vendor/enlighten'),
+                $this->packageRoot('/preview.png') => public_path('vendor/enlighten/img/preview.png'),
             ], 'enlighten-build');
 
             $this->publishes([
-                $this->componentPath('resources/views') => resource_path('views/vendor/enlighten'),
+                $this->packageRoot('resources/views') => resource_path('views/vendor/enlighten'),
             ], 'enlighten-views');
 
             $this->publishes([
-                $this->componentPath('database/migrations') => base_path('database/migrations/enlighten'),
+                $this->packageRoot('database/migrations') => base_path('database/migrations/enlighten'),
             ], 'enlighten-migrations');
         }
     }
@@ -249,7 +249,7 @@ class EnlightenServiceProvider extends ServiceProvider
         ]);
     }
 
-    private function componentPath(string $path): string
+    private function packageRoot(string $path): string
     {
         return __DIR__.'/../../'.$path;
     }

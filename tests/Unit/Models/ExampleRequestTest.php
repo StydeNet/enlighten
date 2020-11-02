@@ -74,7 +74,7 @@ class ExampleRequestTest extends TestCase
            // without headers
         ]);
 
-        $this->assertSame('UNDEFINED', $data->response_type);
+        $this->assertSame('NO RESPONSE', $data->response_type);
     }
 
     /** @test */
@@ -126,13 +126,19 @@ class ExampleRequestTest extends TestCase
 
         $this->assertSame('success', $data->getStatus());
 
-
         $data = new ExampleRequest(['response_status' => 302]);
 
         $this->assertSame('default', $data->getStatus());
 
+        $data = new ExampleRequest(['response_status' => 404]);
+
+        $this->assertSame('warning', $data->getStatus());
 
         $data = new ExampleRequest(['response_status' => 500]);
+
+        $this->assertSame('failure', $data->getStatus());
+
+        $data = new ExampleRequest(['response_status' => null]);
 
         $this->assertSame('failure', $data->getStatus());
     }

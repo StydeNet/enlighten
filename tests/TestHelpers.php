@@ -42,7 +42,7 @@ trait TestHelpers
         return Example::create([
             'group_id' => $group->id,
             'method_name' => $methodName,
-            'slug' => Enlighten::generateTitleFromMethodName($methodName),
+            'slug' => Enlighten::generateSlugFromMethodName($methodName),
             'test_status' => $testStatus,
             'title' => $title,
         ]);

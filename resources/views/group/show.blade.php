@@ -24,7 +24,7 @@
                                 <div class="space-y-2">
                                     <div class="flex  space-x-2">
                                     <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                        {{ $request->request_method }}: {{ $request->route }}
+                                        {{ $request->request_method }}: {{ $request->route ?: $request->request_path }}
                                     </span>
                                     <span class="text-sm px-2 flex items-center text-{{ $request->getStatus() }}-700 bg-{{ $request->getStatus() }}-200">
                                         {{ $request->response_status }} {{ $request->response_type }}

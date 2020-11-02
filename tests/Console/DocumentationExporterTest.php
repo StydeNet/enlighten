@@ -74,12 +74,12 @@ class DocumentationExporterTest extends TestCase
         $this->assertFileExists(__DIR__.'/public/docs/assets/css/app.css');
 
         $this->assertDocumentHasContent('Index', 'index.html');
-        $this->assertDocumentHasContent('Feature', 'modules/feature.html');
+        $this->assertDocumentHasContent('Feature', 'areas/feature.html');
         $this->assertDocumentHasContent('Group 1', 'feature-list-users.html');
-        $this->assertDocumentHasContent('Example 1', 'feature-list-users/lists_users.html');
-        $this->assertDocumentHasContent('Example 2', 'feature-list-users/paginates_users.html');
+        $this->assertDocumentHasContent('Example 1', 'feature-list-users/lists-users.html');
+        $this->assertDocumentHasContent('Example 2', 'feature-list-users/paginates-users.html');
         $this->assertDocumentHasContent('Group 2', 'api-create-user.html');
-        $this->assertDocumentHasContent('Example 3', 'api-create-user/creates_a_user.html');
+        $this->assertDocumentHasContent('Example 3', 'api-create-user/creates-a-user.html');
     }
 
     /** @test */

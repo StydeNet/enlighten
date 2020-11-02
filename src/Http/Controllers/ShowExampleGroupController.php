@@ -6,11 +6,11 @@ use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Section;
 
-class ExampleGroupController
+class ShowExampleGroupController
 {
     public function __invoke(Run $run, string $groupSlug)
     {
-        $group =  $run->groups()->where('slug', $groupSlug)->firstOrFail();
+        $group =  $run->findGroup($groupSlug);
 
         $examples = $group->examples()
             ->with(['group', 'requests', 'exception'])

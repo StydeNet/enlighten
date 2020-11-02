@@ -20,6 +20,13 @@ class Run extends Model implements Statable
         return $this->hasMany(ExampleGroup::class);
     }
 
+    public function findGroup(string $slug)
+    {
+        return $this->groups()
+            ->where('slug', $slug)
+            ->firstOrFail();
+    }
+
     public function stats()
     {
         return $this->hasManyThrough(Example::class, ExampleGroup::class, 'run_id', 'group_id')

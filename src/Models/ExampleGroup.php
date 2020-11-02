@@ -18,6 +18,11 @@ class ExampleGroup extends Model implements Statusable
     protected $guarded = [];
 
     // Relationships
+    public function run()
+    {
+        return $this->belongsTo(Run::class);
+    }
+
     public function examples()
     {
         return $this->hasMany(Example::class, 'group_id')

@@ -16,14 +16,14 @@ class FreshCommand extends Command
 
         $this->call('db:wipe', array_filter([
             '--database' => $database,
-            '--drop-views' => $this->option('drop-views'),
-            '--drop-types' => $this->option('drop-types'),
+            '--drop-views' => $this->hasOption('drop-views') ? $this->option('drop-views') : null,
+            '--drop-types' => $this->hasOption('drop-types') ? $this->option('drop-types') : null,
             '--force' => true,
         ]));
 
         $this->call('enlighten:migrate', array_filter([
             '--force' => true,
-            '--step' => $this->option('step'),
+            '--step' => $this->hasOption('step') ? $this->option('step') : null,
         ]));
 
         return 0;

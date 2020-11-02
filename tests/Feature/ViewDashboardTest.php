@@ -106,9 +106,7 @@ class ViewDashboardTest extends TestCase
         $this->createExample($group, 'filter user by type', 'passed', 'filter user by type');
         $this->createExample($group, 'list all users', 'passed', 'list all users');
 
-        $response = $this->get(route('enlighten.api.search', ['run' => $firstRun->id]), [
-            'search' => 'create user'
-        ]);
+        $response = $this->get(route('enlighten.api.search', $firstRun).'?search=create%20user');
 
         $response->assertOk()
             ->assertHeader('content-type', 'text/html; charset=UTF-8')

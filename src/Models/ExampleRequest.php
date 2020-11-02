@@ -23,6 +23,7 @@ class ExampleRequest extends Model implements Statusable
         'route_parameters' => 'array',
         'response_headers' => 'array',
         'session_data' => 'array',
+        'response_status' => 'int',
     ];
 
     public function queries(): HasMany
@@ -78,7 +79,7 @@ class ExampleRequest extends Model implements Statusable
     public function getResponseTypeAttribute()
     {
         if (empty($this->response_headers['content-type'])) {
-            return 'UNDEFINED';
+            return 'NO RESPONSE';
         }
 
         $contentTypes = [
@@ -128,15 +129,19 @@ class ExampleRequest extends Model implements Statusable
 
     public function getStatus(): string
     {
-        if ((int) $this->response_status === 200) {
+        if (is_null($this->response_status)) {
+            return 'failure';
+        }
+
+        if ($this->response_status === 200) {
             return 'success';
         }
 
-        if ((int) $this->response_status < 400) {
+        if ($this->response_status < 400) {
             return 'default';
         }
 
-        if ((int) $this->response_status < 500) {
+        if ($this->response_status < 500) {
             return 'warning';
         }
 

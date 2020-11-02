@@ -4,7 +4,7 @@ namespace Styde\Enlighten\Http\Controllers;
 
 use Styde\Enlighten\Models\Run;
 
-class RunController
+class ListRunsController
 {
     public function __invoke()
     {

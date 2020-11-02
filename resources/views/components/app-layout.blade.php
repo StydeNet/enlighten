@@ -90,10 +90,11 @@
                 <div class="ml-4 flex items-center md:ml-6">
                     @if($activeRun)
                         <div class="text-gray-200 font-light px-4 flex justify-center">
+                            <strong>{{ $activeRun->branch }}</strong>
                             @if($activeRun->modified)
                                 <span class="text-red-500 text-lg px-2">*</span>
                             @endif
-                            {{ $runLabel }}
+                            {{ $activeRun->head }}
                         </div>
                     @endif
                     <a href="https://github.com/StydeNet/enlighten"

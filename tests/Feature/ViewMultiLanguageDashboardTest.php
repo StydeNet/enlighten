@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-class ViewDashboardMultilanguageTest extends TestCase
+class ViewMultiLanguageDashboardTest extends TestCase
 {
     /** @test */
     public function get_dashboard_view_with_translated_messages(): void
