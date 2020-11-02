@@ -134,6 +134,6 @@ class ExampleRequestTest extends TestCase
 
         $data = new ExampleRequest(['response_status' => 500]);
 
-        $this->assertSame('error', $data->getStatus());
+        $this->assertSame('failure', $data->getStatus());
     }
 }
