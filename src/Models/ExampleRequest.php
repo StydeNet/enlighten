@@ -132,8 +132,12 @@ class ExampleRequest extends Model implements Statusable
             return 'success';
         }
 
-        if ((int) $this->response_status < 500) {
+        if ((int) $this->response_status < 400) {
             return 'default';
+        }
+
+        if ((int) $this->response_status < 500) {
+            return 'warning';
         }
 
         return 'failure';
