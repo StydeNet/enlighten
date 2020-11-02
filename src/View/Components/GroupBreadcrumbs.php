@@ -9,9 +9,9 @@ class GroupBreadcrumbs extends Component
 {
     public $exampleGroup;
 
-    public function __construct(ExampleGroup $exampleGroup)
+    public function __construct(ExampleGroup $group)
     {
-        $this->exampleGroup = $exampleGroup;
+        $this->exampleGroup = $group;
     }
 
     public function render()
