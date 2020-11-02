@@ -85,7 +85,11 @@
                     <x-enlighten-svg-logo class="w-6 h-6"></x-enlighten-svg-logo>
                 </span>
                 @if($activeRun->exists)
-                    <x-enlighten-search-box :run="$activeRun" class="relative flex-1"></x-enlighten-search-box>
+                    @if($useStaticSearch)
+                        <x-enlighten-search-box-static :run="$activeRun" class="relative flex-1"></x-enlighten-search-box-static>
+                    @else
+                        <x-enlighten-search-box :run="$activeRun" class="relative flex-1"></x-enlighten-search-box>
+                    @endif
                 @endif
                 <div class="ml-4 flex items-center md:ml-6">
                     @if($activeRun)

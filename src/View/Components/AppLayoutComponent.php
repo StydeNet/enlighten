@@ -21,6 +21,7 @@ class AppLayoutComponent extends Component
     {
         return view('enlighten::components.app-layout', [
             'showDashboardLink' => ! app()->runningInConsole(),
+            'useStaticSearch' => app()->runningInConsole(),
         ]);
     }
 
