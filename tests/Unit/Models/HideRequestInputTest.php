@@ -18,7 +18,7 @@ class HideRequestInputTest extends TestCase
             ],
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.request.input' => [
                 'hide' => [
                     'password',

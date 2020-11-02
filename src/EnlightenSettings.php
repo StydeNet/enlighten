@@ -22,6 +22,16 @@ class EnlightenSettings
      */
     protected $customTitleGenerator = null;
 
+    public function hide(string $sectionName): bool
+    {
+        return in_array($sectionName, config('enlighten.hide', []));
+    }
+
+    public function show(string $sectionName): bool
+    {
+        return ! $this->hide($sectionName);
+    }
+
     public function setCustomAreaResolver(Closure $callback): self
     {
         $this->customAreaResolver = $callback;

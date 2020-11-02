@@ -3,7 +3,9 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\ExampleRequest;
+use Styde\Enlighten\Section;
 
 class HtmlResponseComponent extends Component
 {
@@ -19,6 +21,18 @@ class HtmlResponseComponent extends Component
 
     public function render()
     {
-        return view('enlighten::components.html-response');
+        return view('enlighten::components.html-response', [
+            'showHtml' => Enlighten::show(Section::HTML),
+            'showTemplate' => $this->showTemplate(),
+        ]);
+    }
+
+    private function showTemplate(): bool
+    {
+        if (Enlighten::hide(Section::BLADE)) {
+            return false;
+        }
+
+        return ! empty($this->request->response_template);
     }
 }

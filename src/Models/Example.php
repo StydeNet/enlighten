@@ -47,6 +47,11 @@ class Example extends Model implements Statusable
 
     // Accessors
 
+    public function getHasExceptionAttribute()
+    {
+        return $this->exception->exists;
+    }
+
     public function getFileLinkAttribute()
     {
         return FileLink::get(str_replace('\\', '/', $this->group->class_name).'.php', $this->line);

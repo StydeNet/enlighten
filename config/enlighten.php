@@ -3,6 +3,12 @@
 return [
     'enabled' => true,
 
+    // Add values to this array if you want to hide certain sections from your views.
+    // For valid sections see \Styde\Enlighten\Section
+    'hide' => [
+        //
+    ],
+
     // Default directory to export the documentation.
     'docs_base_dir' => 'public/docs',
     // Default base URL for the documentation.

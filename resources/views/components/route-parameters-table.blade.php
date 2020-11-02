@@ -2,7 +2,7 @@
     <thead>
         <tr class="bg-gray-500">
             <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('enlighten::messages.route_parameter') }}</th>
-            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('enlighten::messages.route_pattern') }}</th>
+            <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('enlighten::messages.pattern') }}</th>
             <th class="py-2 text-sm text-left text-gray-800 px-4 text-sm font-normal">{{ __('enlighten::messages.requirement') }}</th>
         </tr>
     </thead>

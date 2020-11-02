@@ -18,7 +18,7 @@ class HideResponseDataTest extends TestCase
             ],
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.response.headers' => [
                 'hide' => ['secret-token'],
                 'overwrite' => [
@@ -48,7 +48,7 @@ class HideResponseDataTest extends TestCase
             ]),
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.response.body' => [
                 'hide' => ['file', 'trace'],
                 'overwrite' => [

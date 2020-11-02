@@ -18,7 +18,7 @@ class HideRequestQueryParametersTest extends TestCase
             ],
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.request.query' => [
                 'hide' => [
                     'token',

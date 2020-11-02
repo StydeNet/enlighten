@@ -3,7 +3,9 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\ExampleRequest;
+use Styde\Enlighten\Section;
 
 class RequestInfoComponent extends Component
 {
@@ -22,11 +24,39 @@ class RequestInfoComponent extends Component
         return view('enlighten::components.request-info', [
             'routeInfo' => $this->routeInfo($this->request),
             'request' => $this->request,
-            'request_input' => $this->normalizeRequestInput()
+            'request_input' => $this->normalizeRequestInput(),
+            'showRouteParameters' => $this->showRouteParameters(),
+            'showInput' => $this->showInput(),
+            'showHeaders' => $this->showHeaders(),
         ]);
     }
 
+    private function showRouteParameters()
+    {
+        if (Enlighten::hide(Section::ROUTE_PARAMETERS)) {
+            return false;
+        }
 
+        return ! empty($this->request->route_parameters);
+    }
+
+    private function showInput()
+    {
+        if (Enlighten::hide(Section::REQUEST_INPUT)) {
+            return false;
+        }
+
+        return ! empty($this->request->request_input);
+    }
+
+    private function showHeaders()
+    {
+        if (Enlighten::hide(Section::REQUEST_HEADERS)) {
+            return false;
+        }
+
+        return ! empty($this->request->request_headers);
+    }
 
     private function routeInfo(ExampleRequest $request): array
     {

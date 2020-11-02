@@ -18,7 +18,7 @@ class HideSessionDataTest extends TestCase
             ],
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.session' => [
                 'hide' => [
                     'secret_token',

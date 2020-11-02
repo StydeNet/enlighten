@@ -15,7 +15,9 @@ class PostRequestTest extends TestCase
     {
         parent::setUp();
 
-        config(['auth.providers.users.model' => User::class]);
+        $this->setConfig([
+            'auth.providers.users.model' => User::class
+        ]);
     }
 
     /** @test */

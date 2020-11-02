@@ -15,8 +15,10 @@ use Styde\Enlighten\Exceptions\LaravelNotPresent;
  * @method static self setCustomTitleGenerator(Closure $callback)
  * @method static string generateTitleFromMethodName(string $methodName)
  * @method static string generateTitleFromClassName(string $className)
- * @method static self setCustomSlugGenerator(Closure $callback): self
- * @method static string generateSlugFromClassName($className): string
+ * @method static self setCustomSlugGenerator(Closure $callback)
+ * @method static string generateSlugFromClassName($className)
+ * @method static bool hide(string $sectionName)
+ * @method static bool show(string $sectionName)
  *
  * @see \Styde\Enlighten\EnlightenSettings
  */

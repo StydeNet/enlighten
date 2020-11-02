@@ -31,6 +31,7 @@ use Styde\Enlighten\View\Components\DynamicTabsComponent;
 use Styde\Enlighten\View\Components\EditButtonComponent;
 use Styde\Enlighten\View\Components\ExampleBreadcrumbs;
 use Styde\Enlighten\View\Components\ExampleRequestsComponent;
+use Styde\Enlighten\View\Components\ExceptionInfoComponent;
 use Styde\Enlighten\View\Components\GroupBreadcrumbs;
 use Styde\Enlighten\View\Components\HtmlResponseComponent;
 use Styde\Enlighten\View\Components\KeyValueComponent;
@@ -171,7 +172,7 @@ class EnlightenServiceProvider extends ServiceProvider
             'route-parameters-table' => RouteParametersTableComponent::class,
             'request-input-table' => RequestInputTableComponent::class,
             'dynamic-tabs' => DynamicTabsComponent::class,
-            'exception-info' => GroupBreadcrumbs::class,
+            'exception-info' => ExceptionInfoComponent::class,
             'edit-button' => EditButtonComponent::class,
             'breadcrumbs' => BreadcrumbsComponent::class,
             'search-box' => $this->app->runningInConsole() ? SearchBoxStaticComponent::class : SearchBoxComponent::class,

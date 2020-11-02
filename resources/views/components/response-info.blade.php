@@ -5,7 +5,7 @@
         <span class="text-gray-100">{{ $request->response_type }}</span>
     </div>
 
-    @if($request->response_headers)
+    @if($showHeaders)
         <x-enlighten-key-value :items="$request->response_headers" title="Response Headers"></x-enlighten-key-value>
     @endif
 </x-enlighten-info-panel>

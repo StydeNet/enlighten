@@ -18,7 +18,7 @@ class HideRequestHeadersTest extends TestCase
             ],
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.request.headers' => [
                 'hide' => [
                     'host',
@@ -42,7 +42,7 @@ class HideRequestHeadersTest extends TestCase
             ],
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.request.headers' => [
                 'overwrite' => [
                     'host' => ['overwritten.host'],
@@ -66,7 +66,7 @@ class HideRequestHeadersTest extends TestCase
             ],
         ]);
 
-        config([
+        $this->setConfig([
             'enlighten.request.headers' => [
                 'hide' => [
                     'host',

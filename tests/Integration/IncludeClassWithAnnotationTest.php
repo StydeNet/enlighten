@@ -15,7 +15,7 @@ class IncludeClassWithAnnotationTest extends TestCase
     {
         parent::setUp();
 
-        $this->app->config->set([
+        $this->setConfig([
             'enlighten.tests.ignore' => ['*'],
         ]);
     }

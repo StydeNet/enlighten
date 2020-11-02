@@ -16,12 +16,15 @@ class EditButtonComponent extends Component
         $this->file = $file;
     }
 
+    public function shouldRender()
+    {
+        return config('enlighten.developer_mode')
+            && ! empty($this->file)
+            && ! app()->runningInConsole();
+    }
+
     public function render()
     {
-        if (! config('enlighten.developer_mode') || empty($this->file) || app()->runningInConsole()) {
-            return '';
-        }
-
         return view('enlighten::components.edit-button', [
             'file' => $this->file
         ]);

@@ -11,7 +11,7 @@ class IncludeMethodWithAnnotationTest extends TestCase
     protected function setUp(): void
     {
         $this->afterApplicationCreated(function () {
-            $this->app->config->set([
+            $this->setConfig([
                 'enlighten.tests.ignore' => ['*']
             ]);
         });
