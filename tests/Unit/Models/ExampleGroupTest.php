@@ -76,4 +76,26 @@ class ExampleGroupTest extends TestCase
 
         $this->assertSame('http://localhost/enlighten/run/2/api-list-users', $exampleGroup->url);
     }
+
+    /** @test */
+    function get_the_example_group_area_as_a_title()
+    {
+        $exampleGroup = new ExampleGroup([
+            'area' => 'feature',
+        ]);
+
+        $this->assertSame('Feature', $exampleGroup->area_title);
+
+        $exampleGroup = new ExampleGroup([
+            'area' => 'api',
+        ]);
+
+        $this->setConfig([
+            'enlighten.areas' => [
+                'api' => 'API',
+            ],
+        ]);
+
+        $this->assertSame('API', $exampleGroup->area_title);
+    }
 }

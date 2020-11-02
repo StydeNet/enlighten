@@ -50,6 +50,11 @@ class ExampleGroup extends Model implements Statusable
 
     // Accessors
 
+    public function getAreaTitleAttribute()
+    {
+        return config('enlighten.areas.'.$this->area) ?: ucwords($this->area);
+    }
+
     public function getPassingTestsCountAttribute()
     {
         return $this->getPassingTestsCount();

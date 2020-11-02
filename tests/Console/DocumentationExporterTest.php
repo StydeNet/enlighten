@@ -42,11 +42,13 @@ class DocumentationExporterTest extends TestCase
 
         $this->contentRequest = Mockery::mock(ContentRequest::class);
 
-        $this->exporter = new DocumentationExporter(
-            $this->filesystem,
-            $this->contentRequest,
-            'http://localhost/'
-        );
+        $this->exporter = new DocumentationExporter($this->filesystem, $this->contentRequest);
+
+        $this->setConfig([
+            'enlighten.areas' => [
+                'api' => 'API',
+            ],
+        ]);
     }
 
     /** @test */
@@ -54,10 +56,10 @@ class DocumentationExporterTest extends TestCase
     {
         $run = $this->createRun('main', 'abcde', true);
         $group1 = $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest', 'List Users');
-        $example1 = $this->createExample($group1, 'lists_users', 'passed', 'Lists users');
-        $example2 = $this->createExample($group1, 'paginates_users', 'passed', 'Paginates users');
+        $example1 = $this->createExample($group1, 'lists_users', 'passed', 'Lists Users');
+        $example2 = $this->createExample($group1, 'paginates_users', 'passed', 'Paginates Users');
         $group2 = $this->createExampleGroup($run, 'Tests\Api\CreateUserTest', 'Create User');
-        $example3 = $this->createExample($group2, 'creates_a_user', 'passed', 'Creates a user');
+        $example3 = $this->createExample($group2, 'creates_a_user', 'passed', 'Creates a User');
 
         $this->expectContentRequest($run->url)->andReturn('Index');
         $this->expectContentRequest($run->areaUrl('feature'))->andReturn('Feature');
@@ -80,6 +82,31 @@ class DocumentationExporterTest extends TestCase
         $this->assertDocumentHasContent('Example 2', 'feature-list-users/paginates-users.html');
         $this->assertDocumentHasContent('Group 2', 'api-create-user.html');
         $this->assertDocumentHasContent('Example 3', 'api-create-user/creates-a-user.html');
+
+        $this->assertFileExists(__DIR__.'/public/docs/assets/css/app.css');
+
+        $this->assertFileExists(__DIR__.'/public/docs/search.json');
+
+        $expectedJson = [
+            'items' => [
+                [
+                    'section' => 'API / Create User',
+                    'title' => 'Creates a User',
+                    'url' => '/docs/api-create-user/creates-a-user.html',
+                ],
+                [
+                    'section' => 'Feature / List Users',
+                    'title' => 'Lists Users',
+                    'url' => '/docs/feature-list-users/lists-users.html',
+                ],
+                [
+                    'section' => 'Feature / List Users',
+                    'title' => 'Paginates Users',
+                    'url' => '/docs/feature-list-users/paginates-users.html',
+                ],
+            ]
+        ];
+        $this->assertSame($expectedJson, json_decode(file_get_contents(__DIR__.'/public/docs/search.json'), JSON_OBJECT_AS_ARRAY));
     }
 
     /** @test */

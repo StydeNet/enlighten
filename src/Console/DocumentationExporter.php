@@ -26,11 +26,6 @@ class DocumentationExporter
     /**
      * @var string
      */
-    protected $currentBaseUrl;
-
-    /**
-     * @var string
-     */
     protected $originalBaseUrl;
 
     /**
@@ -38,12 +33,10 @@ class DocumentationExporter
      */
     protected $staticBaseUrl;
 
-    public function __construct(Filesystem $filesystem, ContentRequest $request, string $currentBaseUrl)
+    public function __construct(Filesystem $filesystem, ContentRequest $request)
     {
         $this->filesystem = $filesystem;
         $this->request = $request;
-
-        $this->currentBaseUrl = $currentBaseUrl;
     }
 
     public function export(Run $run, string $baseDir, string $staticBaseUrl)
@@ -61,6 +54,8 @@ class DocumentationExporter
         $run->groups->each(function ($group) {
             $this->exportGroupWithExamples($group);
         });
+
+        $this->exportSearchJson($run);
     }
 
     private function exportAssets()
@@ -72,7 +67,7 @@ class DocumentationExporter
 
     private function exportRunWithAreas(Run $run)
     {
-        $this->createFile('index', $this->withContentFrom($run->url));
+        $this->createHtmlFile('index', $this->withContentFrom($run->url));
 
         $this->createDirectory('/areas');
 
@@ -83,12 +78,12 @@ class DocumentationExporter
 
     private function exportArea(Run $run, Area $area)
     {
-        $this->createFile("areas/{$area->slug}", $this->withContentFrom($run->areaUrl($area->slug)));
+        $this->createHtmlFile("areas/{$area->slug}", $this->withContentFrom($run->areaUrl($area->slug)));
     }
 
     private function exportGroupWithExamples(ExampleGroup $group)
     {
-        $this->createFile("{$group->slug}", $this->withContentFrom($group->url));
+        $this->createHtmlFile("{$group->slug}", $this->withContentFrom($group->url));
 
         $this->createDirectory($group->slug);
 
@@ -99,10 +94,34 @@ class DocumentationExporter
 
     private function exportExample(Example $example)
     {
-        $this->createFile(
+        $this->createHtmlFile(
             "{$example->group->slug}/{$example->slug}",
             $this->withContentFrom($example->url)
         );
+    }
+
+    private function exportSearchJson(Run $run)
+    {
+        $this->filesystem->put(
+            "{$this->baseDir}/search.json",
+            json_encode(['items' => $this->getSearchItems($run)], JSON_THROW_ON_ERROR)
+        );
+    }
+
+    private function getSearchItems(Run $run)
+    {
+        return $run->groups
+            ->load('examples')
+            ->flatMap(function ($group) {
+                return $group->examples->map(function ($example) use ($group) {
+                    return [
+                        'section' => "{$group->area_title} / {$group->title}",
+                        'title' => $example->title,
+                        'url' => $this->getStaticUrl($example->url),
+                    ];
+                });
+            })
+            ->sortBy('title');
     }
 
     private function createDirectory($path)
@@ -114,7 +133,7 @@ class DocumentationExporter
         $this->filesystem->makeDirectory("{$this->baseDir}/$path", 0755);
     }
 
-    private function createFile(string $filename, string $contents)
+    private function createHtmlFile(string $filename, string $contents)
     {
         $this->filesystem->put("{$this->baseDir}/{$filename}.html", $contents);
     }

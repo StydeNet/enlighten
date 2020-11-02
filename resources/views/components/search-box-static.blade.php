@@ -4,7 +4,7 @@
          results: []
     }'
      x-init="
-        fetch('/tests-index.json')
+        fetch('/search.json')
             .then(response => response.json().then(data => { index = data.index }))
         ">
     <input
