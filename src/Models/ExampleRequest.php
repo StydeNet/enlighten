@@ -136,6 +136,6 @@ class ExampleRequest extends Model implements Statusable
             return 'default';
         }
 
-        return 'error';
+        return 'failure';
     }
 }
