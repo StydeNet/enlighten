@@ -60,6 +60,10 @@ class DocumentationExporterTest extends TestCase
         $example2 = $this->createExample($group1, 'paginates_users', 'passed', 'Paginates Users');
         $group2 = $this->createExampleGroup($run, 'Tests\Api\CreateUserTest', 'Create User');
         $example3 = $this->createExample($group2, 'creates_a_user', 'passed', 'Creates a User');
+        
+        $anotherRun = $this->createRun('main', 'defghj', true);
+        $anotherGroup = $this->createExampleGroup($anotherRun, 'Tests\Feature\ListUsersTest', 'List Users');
+        $anotherExample = $this->createExample($anotherGroup, 'lists_users', 'passed', 'Lists Users');
 
         $this->expectContentRequest($run->url)->andReturn('Index');
         $this->expectContentRequest($run->areaUrl('feature'))->andReturn('Feature');
