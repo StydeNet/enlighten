@@ -48,4 +48,11 @@ class ExportDocumentationCommandTest extends TestCase
             return true;
         });
     }
+
+    /** @test */
+    function asks_the_user_to_run_the_tests_before_trying_to_export_the_documentation()
+    {
+        $this->artisan('enlighten:export')
+            ->expectsOutput('There are no runs available. Please setup `Enlighten` and run the tests first.');
+    }
 }

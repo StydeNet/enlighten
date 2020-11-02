@@ -28,6 +28,12 @@ class ExportDocumentationCommand extends Command
     {
         $runs = $this->getLatestRuns();
 
+        if ($runs->isEmpty()) {
+            $this->line('');
+            $this->warn('There are no runs available. Please setup `Enlighten` and run the tests first.');
+            return;
+        }
+
         $selectedRun = $runs->firstWhere('signature', $this->choice(
             "Please select the run you'd like to export",
             $runs->pluck('signature')->all(),
