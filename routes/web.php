@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Styde\Enlighten\Http\Controllers\ShowAreaController;
-use Styde\Enlighten\Http\Controllers\ShowExampleGroupController;
-use Styde\Enlighten\Http\Controllers\ShowExampleController;
 use Styde\Enlighten\Http\Controllers\ListRunsController;
+use Styde\Enlighten\Http\Controllers\ShowAreaController;
+use Styde\Enlighten\Http\Controllers\ShowExampleController;
+use Styde\Enlighten\Http\Controllers\ShowExampleGroupController;
 use Styde\Enlighten\Http\Controllers\WelcomeController;
 
 Route::prefix('enlighten')->middleware('web')->group(function () {
