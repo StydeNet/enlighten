@@ -26,8 +26,10 @@ class CreateEnlightenExamplesTable extends Migration
                 ->cascadeOnDelete();
 
             $table->string('method_name');
+            $table->string('slug');
 
             $table->unique(['group_id', 'method_name']);
+            $table->unique(['group_id', 'slug']);
 
             $table->integer('line')->nullable();
             $table->string('title');

@@ -42,18 +42,10 @@ trait TestHelpers
         return Example::create([
             'group_id' => $group->id,
             'method_name' => $methodName,
+            'slug' => Enlighten::generateTitleFromMethodName($methodName),
             'test_status' => $testStatus,
             'title' => $title,
         ]);
-    }
-
-    protected function createExampleTest(array $attributes = []) : Example
-    {
-        return Example::create(array_merge([
-            'method_name' => 'something_does_something',
-            'title' => 'Something Does something',
-            'test_status' => 'passed'
-        ], $attributes));
     }
 
     protected function createExampleQuery(array $attributes = []) : ExampleQuery

@@ -55,9 +55,9 @@ class ExampleTest extends TestCase
 
         $example = new Example([
             'group' => $exampleGroup,
-            'method_name' => 'test_list_users'
+            'slug' => 'list-users'
         ]);
 
-        $this->assertSame('http://localhost/enlighten/run/1/feature-api-request/test_list_users', $example->url);
+        $this->assertSame('http://localhost/enlighten/run/1/feature-api-request/list-users', $example->url);
     }
 }

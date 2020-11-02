@@ -17,6 +17,7 @@ use Styde\Enlighten\Exceptions\LaravelNotPresent;
  * @method static string generateTitleFromClassName(string $className)
  * @method static self setCustomSlugGenerator(Closure $callback)
  * @method static string generateSlugFromClassName($className)
+ * @method static string generateSlugFromMethodName($methodName)
  * @method static bool hide(string $sectionName)
  * @method static bool show(string $sectionName)
  *

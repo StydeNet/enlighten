@@ -84,7 +84,7 @@ class Example extends Model implements Statusable
     {
         return route('enlighten.method.show', [
             $this->group->slug,
-            $this->method_name,
+            $this->slug,
             'run' => $this->group->run_id
         ]);
     }

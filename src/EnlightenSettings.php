@@ -132,4 +132,23 @@ class EnlightenSettings
             ->slug()
             ->__toString();
     }
+
+    public function generateSlugFromMethodName($methodName): string
+    {
+        if ($this->customSlugGenerator) {
+            return call_user_func($this->customSlugGenerator, $methodName, 'method');
+        }
+
+        $result = Str::of($methodName);
+
+        if ($result->startsWith('test') || $result->startsWith('Test')) {
+            $result = $result->substr(4);
+        }
+
+        return $result
+            ->replaceMatches('@([A-Z])@', '-$1')
+            ->ltrim('-')
+            ->slug()
+            ->__toString();
+    }
 }

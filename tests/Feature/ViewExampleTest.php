@@ -17,12 +17,8 @@ class ViewExampleTest extends TestCase
 
         $exampleGroup = $this->createExampleGroup($run, 'Tests\TheClassName', 'The Class Title');
 
-        $example = $this->createExampleTest([
-            'group_id' => $exampleGroup->id,
-            'method_name' => 'first_test',
-            'title' => 'My First Test'
-        ]);
-        
+        $example = $this->createExample($exampleGroup, 'first_test', 'passed', 'My First Test');
+
         $response = $this->get($example->url);
 
         $response

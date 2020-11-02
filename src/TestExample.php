@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
 use Styde\Enlighten\Facades\Enlighten;
@@ -95,6 +96,7 @@ class TestExample extends TestInfo
             'group_id' => $group->id,
             'method_name' => $this->methodName,
         ], [
+            'slug' => Enlighten::generateSlugFromMethodName($this->methodName),
             'line' => $this->getStartLine(),
             'title' => $this->texts['title'] ?? Enlighten::generateTitleFromMethodName($this->methodName),
             'description' => $this->texts['description'] ?? null,

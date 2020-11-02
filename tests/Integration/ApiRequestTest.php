@@ -7,7 +7,6 @@ use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Tests\Integration\App\Models\User;
-use Tests\Integration\Database\Factories\UserFactory;
 
 class ApiRequestTest extends TestCase
 {
@@ -63,6 +62,7 @@ class ApiRequestTest extends TestCase
         tap($group->examples()->first(), function (Example $example) use ($group) {
             $this->assertTrue($example->group->is($group));
             $this->assertSame('gets_the_list_of_users', $example->method_name);
+            $this->assertSame('gets-the-list-of-users', $example->slug);
             $this->assertSame('Obtiene la lista de usuarios', $example->title);
             $this->assertSame('Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema', $example->description);
 

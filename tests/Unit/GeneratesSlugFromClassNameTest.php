@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Support\Str;
 use Styde\Enlighten\Facades\Enlighten;
 use Tests\TestCase;
 

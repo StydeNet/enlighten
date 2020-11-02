@@ -16,23 +16,11 @@ class ViewExampleGroupTest extends TestCase
         $run = $this->createRun();
         $exampleGroup = $this->createExampleGroup($run, 'Tests\Api\CreateUserTest', 'Create User', 'User module API');
 
-        $this->createExampleTest([
-            'group_id' => $exampleGroup->id,
-            'method_name' => 'another_test',
-            'title' => 'The Class Title'
-        ]);
+        $this->createExample($exampleGroup, 'another_test', 'passed', 'The Class Title');
 
-        $this->createExampleTest([
-            'group_id' => $exampleGroup->id,
-            'method_name' => 'first_test',
-            'title' => 'My First Test'
-        ]);
+        $this->createExample($exampleGroup, 'first_test', 'passed', 'My First Test');
 
-        $this->createExampleTest([
-            'group_id' => $exampleGroup->id,
-            'method_name' => 'second_test',
-            'title' => 'My Second Test'
-        ]);
+        $this->createExample($exampleGroup, 'second_test', 'passed', 'My Second Test');
 
         $response = $this->get(route('enlighten.group.show', [
             'run' => $run->id,
