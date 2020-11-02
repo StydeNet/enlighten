@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'all_areas' => 'All Areas',
     'branch_commit' => 'Branch / Commit',
     'dashboard' => 'Dashboard',
     'date' => 'Date',

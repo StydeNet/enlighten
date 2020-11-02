@@ -3,7 +3,6 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Styde\Enlighten\Utils\FileLink;
 
 class Example extends Model implements Statusable
@@ -57,11 +56,6 @@ class Example extends Model implements Statusable
         return FileLink::get(str_replace('\\', '/', $this->group->class_name).'.php', $this->line);
     }
 
-    public function getStatusAttribute()
-    {
-        return $this->getStatus();
-    }
-
     public function getIsHttpAttribute()
     {
         return $this->requests->isNotEmpty();
@@ -69,15 +63,7 @@ class Example extends Model implements Statusable
 
     public function getStatus(): string
     {
-        if ($this->test_status == 'passed') {
-            return Status::SUCCESS;
-        }
-
-        if (in_array($this->test_status, ['failure', 'error'])) {
-            return Status::FAILURE;
-        }
-
-        return Status::WARNING;
+        return $this->attributes['status'] ?? Status::UNKNOWN;
     }
 
     public function getUrlAttribute()

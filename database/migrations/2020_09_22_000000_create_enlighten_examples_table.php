@@ -36,6 +36,7 @@ class CreateEnlightenExamplesTable extends Migration
             $table->string('description')->nullable();
 
             $table->string('test_status')->nullable();
+            $table->string('status')->nullable();
 
             $table->timestamps();
         });

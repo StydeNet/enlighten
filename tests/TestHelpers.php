@@ -2,12 +2,12 @@
 
 namespace Tests;
 
-use Illuminate\Support\Str;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\ExampleQuery;
 use Styde\Enlighten\Models\Run;
+use Styde\Enlighten\Models\Status;
 
 trait TestHelpers
 {
@@ -44,6 +44,7 @@ trait TestHelpers
             'method_name' => $methodName,
             'slug' => Enlighten::generateSlugFromMethodName($methodName),
             'test_status' => $testStatus,
+            'status' => Status::fromTestStatus($testStatus),
             'title' => $title,
         ]);
     }

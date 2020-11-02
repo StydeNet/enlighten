@@ -3,7 +3,6 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
 use Styde\Enlighten\Facades\Enlighten;
@@ -30,11 +29,6 @@ class TestExample extends TestInfo
     protected $example = null;
 
     /**
-     * @var string
-     */
-    protected $status;
-
-    /**
      * @var array
      */
     private $texts;
@@ -54,14 +48,12 @@ class TestExample extends TestInfo
      */
     private $currentSnippet = null;
 
-
     public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
     {
         parent::__construct($classInfo->getClassName(), $methodName);
 
         $this->classInfo = $classInfo;
         $this->texts = $texts;
-        $this->status = 'unknown';
         $this->line = null;
     }
 
@@ -100,7 +92,8 @@ class TestExample extends TestInfo
             'line' => $this->getStartLine(),
             'title' => $this->texts['title'] ?? Enlighten::generateTitleFromMethodName($this->methodName),
             'description' => $this->texts['description'] ?? null,
-            'test_status' => $this->status,
+            'test_status' => Status::UNKNOWN,
+            'status' => Status::UNKNOWN,
         ]);
     }
 
@@ -108,7 +101,10 @@ class TestExample extends TestInfo
     {
         $this->save();
 
-        $this->example->update(['test_status' => $testStatus]);
+        $this->example->update([
+            'test_status' => $testStatus,
+            'status' => Status::fromTestStatus($testStatus),
+        ]);
 
         if ($this->example->getStatus() !== Status::SUCCESS) {
             $this->saveExceptionData($this->exception);

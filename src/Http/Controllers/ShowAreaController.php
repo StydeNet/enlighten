@@ -3,7 +3,6 @@
 namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\ModuleCollection;
@@ -16,7 +15,7 @@ class ShowAreaController
         $area = $this->getArea($run, $areaSlug);
 
         return view('enlighten::area.show', [
-            'title' => $area->title ?? 'All Modules',
+            'title' => $area->title ?? trans('enlighten::messages.all_areas'),
             'modules' => $this->getModules($this->getGroups($run, $area)),
         ]);
     }

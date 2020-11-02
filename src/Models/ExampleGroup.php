@@ -32,8 +32,8 @@ class ExampleGroup extends Model implements Statusable
     public function stats()
     {
         return $this->hasMany(Example::class, 'group_id', 'id')
-            ->selectRaw('DISTINCT(test_status), COUNT(id) as count, group_id')
-            ->groupBy('test_status', 'group_id');
+            ->selectRaw('DISTINCT(status), COUNT(id) as count, group_id')
+            ->groupBy('status', 'group_id');
     }
 
     // Helpers

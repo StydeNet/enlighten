@@ -21,30 +21,6 @@ class ExampleTest extends TestCase
         $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php&line=3@', $example->file_link));
     }
 
-    /**
-     * @test
-     * @dataProvider getStatusEquivalences
-     */
-    function gets_a_simplified_status($testStatus, $expectedStatus)
-    {
-        $data = new Example(['test_status' => $testStatus]);
-
-        $this->assertSame($expectedStatus, $data->getStatus());
-    }
-
-    public function getStatusEquivalences(): array
-    {
-        return [
-            ['passed', 'success'],
-            ['warning', 'warning'],
-            ['risky', 'warning'],
-            ['incomplete', 'warning'],
-            ['skipped', 'warning'],
-            ['error', 'failure'],
-            ['failure', 'failure'],
-        ];
-    }
-
     /** @test */
     function get_the_example_url()
     {

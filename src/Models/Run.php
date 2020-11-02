@@ -31,10 +31,10 @@ class Run extends Model implements Statable
     {
         return $this->hasManyThrough(Example::class, ExampleGroup::class, 'run_id', 'group_id')
             ->selectRaw('
-                DISTINCT(test_status),
+                DISTINCT(status),
                 COUNT(enlighten_examples.id) as count
             ')
-            ->groupBy('test_status', 'run_id');
+            ->groupBy('status', 'run_id');
     }
 
     // Accessors

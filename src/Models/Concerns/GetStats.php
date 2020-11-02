@@ -13,9 +13,7 @@ trait GetStats
     public function getPassingTestsCount(): int
     {
         return $this->stats
-            ->filter(function ($stat) {
-                return $stat->getStatus() === Status::SUCCESS;
-            })
+            ->where('status', Status::SUCCESS)
             ->sum('count');
     }
 
@@ -31,9 +29,7 @@ trait GetStats
             return Status::SUCCESS;
         }
 
-        if ($this->stats->first(function ($stat) {
-            return $stat->getStatus() === Status::FAILURE;
-        })) {
+        if ($this->stats->firstWhere('status', Status::FAILURE)) {
             return Status::FAILURE;
         }
 
