@@ -122,6 +122,7 @@ class DocumentationExporterTest extends TestCase
             <a href="'.$baseRunUrl.'"></a>
             <a href="'.$baseRunUrl.'/features"></a>
             <p>https://github.com/Stydenet/enlighten</p>
+            <div data-search="fetch(\'/search.json\')"></div>
         ');
 
         $this->exporter->export($run, __DIR__.'/public/docs', '/docs');
@@ -132,6 +133,7 @@ class DocumentationExporterTest extends TestCase
             <a href="/docs"></a>
             <a href="/docs/features.html"></a>
             <p>https://github.com/Stydenet/enlighten</p>
+            <div data-search="fetch(\'/docs/search.json\')"></div>
         ', 'index.html');
     }
 

@@ -1,15 +1,17 @@
 <div {{ $attributes }}
      x-data='{
          open: true,
-         results: []
+         results: [],
+         index: {}
     }'
+     x-on:data-loaded="index = $event.detail"
      x-init="
-        fetch('/search.json')
-            .then(response => response.json().then(data => { index = data.index }))
+        fetch('/docs/search.json')
+            .then(response => response.json().then(response => { $dispatch('data-loaded', response.items) }))
         ">
     <input
         x-on:input.debounce="
-            results = index.filter(el => `${el.title} ${el.section}`.toLowerCase().includes($event.target.value)).slice(0, 5);
+            results = index.filter(el => `${el.title} ${el.section}`.toLowerCase().includes($event.target.value.toLowerCase())).slice(0, 5);
             open = true;"
         class="bg-gray-900 w-full text-sm placeholder-gray-300 focus:placeholder-gray-600 text-gray-300 rounded-md focus:outline-none focus:bg-gray-100 focus:text-gray-800 px-3 py-3"
         placeholder="Search"
