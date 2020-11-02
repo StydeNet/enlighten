@@ -55,6 +55,6 @@ class ResponseInfoComponent extends Component
             return false;
         }
 
-        return ! empty ($this->request->response_headers);
+        return ! empty($this->request->response_headers);
     }
 }
