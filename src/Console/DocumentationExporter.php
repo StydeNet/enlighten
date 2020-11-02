@@ -121,7 +121,8 @@ class DocumentationExporter
                     ];
                 });
             })
-            ->sortBy('title');
+            ->sortBy('title')
+            ->values();
     }
 
     private function createDirectory($path)
