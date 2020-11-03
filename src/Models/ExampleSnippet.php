@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\Utils\OutputFormatter;
 
 class ExampleSnippet extends Model
 {
