@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Styde\Enlighten\BaseCodeSnippetPrinter;
 use Styde\Enlighten\CodeSnippetExporter;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Styde\Enlighten\Utils\ResultTransformer;
@@ -19,7 +20,7 @@ class ExportCodeSnippetTest extends TestCase
     {
         parent::setUp();
 
-        $this->exporter = new CodeSnippetExporter;
+        $this->exporter = new CodeSnippetExporter($this->newDemoCodeFormatter());
     }
 
     /** @test */
@@ -28,6 +29,8 @@ class ExportCodeSnippetTest extends TestCase
         $this->assertSame('<int>2020</int>', $this->exporter->export(2020));
         $this->assertSame('<float>0.4</float>', $this->exporter->export(0.4));
         $this->assertSame('<string>"Enlighten"</string>', $this->exporter->export('Enlighten'));
+        $this->assertSame('<bool>true</bool>', $this->exporter->export(true));
+        $this->assertSame('<null>null</null>', $this->exporter->export(null));
     }
 
     /** @test */
@@ -161,5 +164,55 @@ class ExportCodeSnippetTest extends TestCase
         $result = $this->exporter->export($snippet);
 
         $this->assertSame($expected, $result);
+    }
+
+    private function newDemoCodeFormatter()
+    {
+        return new class extends BaseCodeSnippetPrinter {
+            public function symbol(string $symbol): string
+            {
+                return "<symbol>{$symbol}</symbol>";
+            }
+
+            public function integer(int $value): string
+            {
+                return "<int>{$value}</int>";
+            }
+
+            public function float($value): string
+            {
+                return "<float>{$value}</float>";
+            }
+
+            public function string($value): string
+            {
+                return sprintf('<string>"%s"</string>', $value);
+            }
+
+            public function className($className): string
+            {
+                return "<class>{$className}</class>";
+            }
+
+            public function keyName(string $key)
+            {
+                return "<key>{$key}</key>";
+            }
+
+            public function propertyName(string $property)
+            {
+                return "<property>{$property}</property>";
+            }
+
+            public function bool($value): string
+            {
+                return "<bool>{$value}</bool>";
+            }
+
+            public function null(): string
+            {
+                return '<null>null</null>';
+            }
+        };
     }
 }
