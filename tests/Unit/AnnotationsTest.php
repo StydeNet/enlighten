@@ -42,4 +42,23 @@ class AnnotationsTest extends TestCase
         $this->assertSame('Gets annotations from methods', $annotations->get('title'));
         $this->assertSame('It can get the annotation from a method', $annotations->get('description'));
     }
+
+    /**
+     * @test
+     * @description It can get annotations
+     * that span
+     * accross multiple lines
+     *
+     */
+    function gets_multiline_annotations()
+    {
+        $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'gets_multiline_annotations');
+
+        $expected = implode(PHP_EOL, [
+            'It can get annotations',
+            'that span',
+            'accross multiple lines'
+        ]);
+        $this->assertSame($expected, $annotations->get('description'));
+    }
 }

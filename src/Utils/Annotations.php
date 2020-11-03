@@ -32,16 +32,36 @@ class Annotations
 
     protected static function fromDocComment($docComment)
     {
-        preg_match_all("#@(\w+)( (.*?))?\n#s", $docComment, $matches);
-
-        return Collection::make($matches[1])
-            ->combine($matches[3])
-            ->map(function ($value) {
-                return trim($value, '. ');
+        return Collection::make(explode(PHP_EOL, $docComment))
+            ->slice(1, -1)
+            ->map(function ($line) {
+                return ltrim(rtrim($line, ' .'), '* ');
+            })
+            ->pipe(function ($collection) {
+                return Collection::make(static::chunkByAnnotation($collection));
             })
             ->map(function ($value, $name) {
-                return static::applyCast($name, $value);
+                return static::applyCast($name, trim($value));
             });
+    }
+
+    private static function chunkByAnnotation(Collection $lines)
+    {
+        $result = [];
+
+        foreach ($lines as $line) {
+            if (preg_match("#^@(\w+)(.*?)?$#", $line, $matches)) {
+                $currentAnnotation = $matches[1];
+                $result[$currentAnnotation] = $matches[2] ?? '';
+                continue;
+            }
+
+            if (isset($currentAnnotation)) {
+                $result[$currentAnnotation] .= PHP_EOL.$line;
+            }
+        }
+
+        return $result;
     }
 
     private static function applyCast($name, $value)
