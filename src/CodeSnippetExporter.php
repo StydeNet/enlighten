@@ -81,11 +81,12 @@ class CodeSnippetExporter
 
         foreach ($items as $key => $value) {
             $result .= $this->printer->indentation($this->currentLevel)
-                .$this->printer->keyName($key)
+                .$this->exportValue($key)
                 .$this->printer->space()
                 .$this->printer->symbol('=>')
                 .$this->printer->space()
                 .$this->exportValue($value)
+                .$this->printer->symbol(',')
                 .$this->printer->line();
         }
 
@@ -103,6 +104,7 @@ class CodeSnippetExporter
         foreach ($items as $item) {
             $result .= $this->printer->indentation($this->currentLevel)
                 .$this->exportValue($item)
+                .$this->printer->symbol(',')
                 .$this->printer->line();
         }
 
@@ -129,6 +131,7 @@ class CodeSnippetExporter
                 . $this->printer->symbol(':')
                 . $this->printer->space()
                 . $this->exportValue($value)
+                . $this->printer->symbol(',')
                 . $this->printer->line();
         }
 

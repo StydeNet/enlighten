@@ -20,8 +20,6 @@ interface CodeSnippetPrinter
 
     public function className($className): string;
 
-    public function keyName(string $key);
-
     public function propertyName(string $property);
 
     public function indentation($level): string;

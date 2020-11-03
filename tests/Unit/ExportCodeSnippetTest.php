@@ -43,8 +43,8 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<symbol>[</symbol>',
-            '    <string>"Enlighten"</string>',
-            '    <float>0.4</float>',
+            '    <string>"Enlighten"</string><symbol>,</symbol>',
+            '    <float>0.4</float><symbol>,</symbol>',
             '<symbol>]</symbol>',
         ]);
         $this->assertSame($expected, $this->exporter->export($snippet));
@@ -60,8 +60,8 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<symbol>[</symbol>',
-            '    <key>name</key> <symbol>=></symbol> <string>"Enlighten"</string>',
-            '    <key>version</key> <symbol>=></symbol> <float>0.4</float>',
+            '    <string>"name"</string> <symbol>=></symbol> <string>"Enlighten"</string><symbol>,</symbol>',
+            '    <string>"version"</string> <symbol>=></symbol> <float>0.4</float><symbol>,</symbol>',
             '<symbol>]</symbol>',
         ]);
         $this->assertSame($expected, $this->exporter->export($snippet));
@@ -79,11 +79,11 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<symbol>[</symbol>',
-            '    <string>"Enlighten"</string>',
+            '    <string>"Enlighten"</string><symbol>,</symbol>',
             '    <symbol>[</symbol>',
-            '        <string>"Generate static documentation in "</string>',
-            '        <float>0.4</float>',
-            '    <symbol>]</symbol>',
+            '        <string>"Generate static documentation in "</string><symbol>,</symbol>',
+            '        <float>0.4</float><symbol>,</symbol>',
+            '    <symbol>]</symbol><symbol>,</symbol>',
             '<symbol>]</symbol>',
         ]);
         $this->assertSame($expected, $this->exporter->export($snippet));
@@ -103,7 +103,7 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<class>Tests\Integration\DemoClassForSnippetExample</class> <symbol>{</symbol>',
-            '    <property>message</property><symbol>:</symbol> <string>"this data can be collected"</string>',
+            '    <property>message</property><symbol>:</symbol> <string>"this data can be collected"</string><symbol>,</symbol>',
             '<symbol>}</symbol>',
         ]);
         $this->assertSame($expected, $result);
@@ -129,10 +129,10 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<class>Tests\Integration\DemoClassForSnippetExample</class> <symbol>{</symbol>',
-            '    <property>message</property><symbol>:</symbol> <string>"this data can be collected"</string>',
+            '    <property>message</property><symbol>:</symbol> <string>"this data can be collected"</string><symbol>,</symbol>',
             '    <property>nestedObject</property><symbol>:</symbol> <class>Tests\Integration\DemoNestedClassForSnippetExample</class> <symbol>{</symbol>',
-            '        <property>nested</property><symbol>:</symbol> <string>"nested attribute"</string>',
-            '    <symbol>}</symbol>',
+            '        <property>nested</property><symbol>:</symbol> <string>"nested attribute"</string><symbol>,</symbol>',
+            '    <symbol>}</symbol><symbol>,</symbol>',
             '<symbol>}</symbol>',
         ]);
         $this->assertSame($expected, $result);
@@ -150,14 +150,14 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<symbol>[</symbol>',
-            '    <key>package</key> <symbol>=></symbol> <string>"Enlighten"</string>',
-            '    <key>users</key> <symbol>=></symbol> <class>Illuminate\Support\Collection</class> <symbol>{</symbol>',
+            '    <string>"package"</string> <symbol>=></symbol> <string>"Enlighten"</string><symbol>,</symbol>',
+            '    <string>"users"</string> <symbol>=></symbol> <class>Illuminate\Support\Collection</class> <symbol>{</symbol>',
             '        <property>items</property><symbol>:</symbol> <symbol>[</symbol>',
             '            <class>Tests\Integration\App\Models\User</class> <symbol>{</symbol>',
-            '                <property>name</property><symbol>:</symbol> <string>"Duilio"</string>',
-            '            <symbol>}</symbol>',
-            '        <symbol>]</symbol>',
-            '    <symbol>}</symbol>',
+            '                <property>name</property><symbol>:</symbol> <string>"Duilio"</string><symbol>,</symbol>',
+            '            <symbol>}</symbol><symbol>,</symbol>',
+            '        <symbol>]</symbol><symbol>,</symbol>',
+            '    <symbol>}</symbol><symbol>,</symbol>',
             '<symbol>]</symbol>',
         ]);
 
@@ -192,11 +192,6 @@ class ExportCodeSnippetTest extends TestCase
             public function className($className): string
             {
                 return "<class>{$className}</class>";
-            }
-
-            public function keyName(string $key)
-            {
-                return "<key>{$key}</key>";
             }
 
             public function propertyName(string $property)
