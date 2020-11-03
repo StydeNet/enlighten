@@ -50,7 +50,7 @@ class AnnotationsTest extends TestCase
      * @test
      * @description It can get annotations
      * that span
-     * accross multiple lines
+     * across multiple lines
      */
     function gets_multiline_annotations()
     {
