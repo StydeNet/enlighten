@@ -68,7 +68,7 @@ class AnnotationsTest extends TestCase
         $expected = implode(PHP_EOL, [
             'It can get annotations',
             'that span',
-            'accross multiple lines'
+            'across multiple lines'
         ]);
         $this->assertSame($expected, $annotations->get('description'));
     }
