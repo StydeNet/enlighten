@@ -67,7 +67,7 @@ class DocumentationExporter
 
     private function exportRunWithAreas(Run $run)
     {
-        $this->createHtmlFile('index', $this->withContentFrom($run->url));
+        $this->createFile('index.html', $this->withContentFrom($run->url));
 
         $this->createDirectory('/areas');
 
@@ -78,12 +78,12 @@ class DocumentationExporter
 
     private function exportArea(Run $run, Area $area)
     {
-        $this->createHtmlFile("areas/{$area->slug}", $this->withContentFrom($run->areaUrl($area->slug)));
+        $this->createFile("areas/{$area->slug}.html", $this->withContentFrom($run->areaUrl($area->slug)));
     }
 
     private function exportGroupWithExamples(ExampleGroup $group)
     {
-        $this->createHtmlFile("{$group->slug}", $this->withContentFrom($group->url));
+        $this->createFile("{$group->slug}.html", $this->withContentFrom($group->url));
 
         $this->createDirectory($group->slug);
 
@@ -94,16 +94,16 @@ class DocumentationExporter
 
     private function exportExample(Example $example)
     {
-        $this->createHtmlFile(
-            "{$example->group->slug}/{$example->slug}",
+        $this->createFile(
+            "{$example->group->slug}/{$example->slug}.html",
             $this->withContentFrom($example->url)
         );
     }
 
     private function exportSearchJson(Run $run)
     {
-        $this->filesystem->put(
-            "{$this->baseDir}/search.json",
+        $this->createFile(
+            'search.json',
             json_encode(['items' => $this->getSearchItems($run)], JSON_THROW_ON_ERROR)
         );
     }
@@ -134,9 +134,9 @@ class DocumentationExporter
         $this->filesystem->makeDirectory("{$this->baseDir}/$path", 0755);
     }
 
-    private function createHtmlFile(string $filename, string $contents)
+    private function createFile(string $filename, string $contents)
     {
-        $this->filesystem->put("{$this->baseDir}/{$filename}.html", $contents);
+        $this->filesystem->put("{$this->baseDir}/{$filename}", $contents);
     }
 
     private function withContentFrom(string $url): string
