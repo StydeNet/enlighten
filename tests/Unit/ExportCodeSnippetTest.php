@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\CodeSnippetExporter;
 use Styde\Enlighten\Models\ExampleSnippet;
+use Styde\Enlighten\Utils\ResultTransformer;
+use Tests\Integration\App\Models\User;
 
 class ExportCodeSnippetTest extends TestCase
 {
@@ -130,6 +132,34 @@ class ExportCodeSnippetTest extends TestCase
             '    <symbol>}</symbol>',
             '<symbol>}</symbol>',
         ]);
+        $this->assertSame($expected, $result);
+    }
+
+    /** @test */
+    function export_code_with_nested_classes_and_arrays()
+    {
+        $snippet = ResultTransformer::toArray([
+            'package' => 'Enlighten',
+            'users' => collect([
+                new User(['name' => 'Duilio']),
+            ])
+        ]);
+
+        $expected = implode(PHP_EOL, [
+            '<symbol>[</symbol>',
+            '    <key>package</key> <symbol>=></symbol> <string>"Enlighten"</string>',
+            '    <key>users</key> <symbol>=></symbol> <class>Illuminate\Support\Collection</class> <symbol>{</symbol>',
+            '        <property>items</property><symbol>:</symbol> <symbol>[</symbol>',
+            '            <class>Tests\Integration\App\Models\User</class> <symbol>{</symbol>',
+            '                <property>name</property><symbol>:</symbol> <string>"Duilio"</string>',
+            '            <symbol>}</symbol>',
+            '        <symbol>]</symbol>',
+            '    <symbol>}</symbol>',
+            '<symbol>]</symbol>',
+        ]);
+
+        $result = $this->exporter->export($snippet);
+
         $this->assertSame($expected, $result);
     }
 }
