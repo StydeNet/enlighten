@@ -12,12 +12,7 @@ class CodeSnippetExporter
     {
         $this->currentLevel = 0;
 
-        return trim($this->doExport($snippet));
-    }
-
-    private function doExport($snippet): string
-    {
-        return $this->exportLine($this->exportValue($snippet));
+        return $this->exportValue($snippet);
     }
 
     private function exportValue($value)
@@ -43,10 +38,58 @@ class CodeSnippetExporter
 
     private function exportArray($items)
     {
-        return $this->exportSymbol('[')
-            .PHP_EOL
-            .$this->exportArrayItems($items)
-            .$this->exportSymbol(']');
+        $result = $this->exportSymbol('[').$this->exportLine();
+
+        if ($this->isAssoc($items)) {
+            $result .= $this->exportAssocArrayItems($items);
+        } else {
+            $result .= $this->exportArrayItems($items);
+        }
+
+        $result .= $this->exportIndentation().$this->exportSymbol(']');
+
+        return $result;
+    }
+
+    private function exportAssocArrayItems($items): string
+    {
+        $result = '';
+
+        $this->currentLevel += 1;
+
+        foreach ($items as $key => $value) {
+            $result .= $this->exportIndentation()
+                .$this->exportKeyName($key)
+                .$this->exportSpace()
+                .$this->exportSymbol('=>')
+                .$this->exportSpace()
+                .$this->exportValue($value)
+                .$this->exportLine();
+        }
+
+        $this->currentLevel -= 1;
+
+        return $result;
+    }
+
+    private function exportArrayItems($items): string
+    {
+        $result = '';
+
+        $this->currentLevel += 1;
+
+        foreach ($items as $item) {
+            $result .= $this->exportIndentation().$this->exportValue($item).$this->exportLine();
+        }
+
+        $this->currentLevel -= 1;
+
+        return $result;
+    }
+
+    function isAssoc(array $array)
+    {
+        return array_keys($array) !== range(0, count($array) - 1);
     }
 
     private function exportSymbol(string $symbol): string
@@ -69,9 +112,9 @@ class CodeSnippetExporter
         return "<string>\"{$snippet}\"</string>";
     }
 
-    private function exportLine($line): string
+    private function exportLine(): string
     {
-        return $line.PHP_EOL;
+        return PHP_EOL;
     }
 
     private function exportObject($snippet): string
@@ -79,26 +122,25 @@ class CodeSnippetExporter
         $className = $snippet[ExampleSnippet::CLASS_NAME];
         $attributes = $snippet[ExampleSnippet::ATTRIBUTES] ?? [];
 
-        $result = $this->exportLine(
-            $this->exportClassName($className)
-            .$this->exportSpace()
-            .$this->exportSymbol('{')
-        );
+        $result = $this->exportClassName($className)
+            . $this->exportSpace()
+            . $this->exportSymbol('{')
+            . $this->exportLine();
 
         $this->currentLevel += 1;
 
         foreach ($attributes as $property => $value) {
-            $result .= $this->exportLine(
-                $this->exportPropertyName($property)
+            $result .= $this->exportIndentation()
+                . $this->exportPropertyName($property)
                 . $this->exportSymbol(':')
                 . $this->exportSpace()
                 . $this->exportValue($value)
-            );
+                . $this->exportLine();
         }
 
         $this->currentLevel -= 1;
 
-        $result .= $this->exportSymbol('}');
+        $result .= $this->exportIndentation().$this->exportSymbol('}');
 
         return $result;
     }
@@ -108,24 +150,19 @@ class CodeSnippetExporter
         return "<class>{$className}</class>";
     }
 
-    private function exportArrayItems($items): string
+    private function exportKeyName(string $key)
     {
-        $result = '';
-
-        $this->currentLevel += 1;
-
-        foreach ($items as $item) {
-            $result .= $this->doExport($item);
-        }
-
-        $this->currentLevel -= 1;
-
-        return $result;
+        return "<key>{$key}</key>";
     }
 
     private function exportPropertyName(string $property)
     {
         return "<property>{$property}</property>";
+    }
+
+    private function exportIndentation()
+    {
+        return str_repeat('    ', $this->currentLevel);
     }
 
     private function exportSpace()

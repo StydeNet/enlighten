@@ -38,8 +38,25 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<symbol>[</symbol>',
-            '<string>"Enlighten"</string>',
-            '<float>0.4</float>',
+            '    <string>"Enlighten"</string>',
+            '    <float>0.4</float>',
+            '<symbol>]</symbol>',
+        ]);
+        $this->assertSame($expected, $this->exporter->export($snippet));
+    }
+
+    /** @test */
+    function export_associative_array_code_snippet()
+    {
+        $snippet = [
+            'name' => 'Enlighten',
+            'version' => 0.4,
+        ];
+
+        $expected = implode(PHP_EOL, [
+            '<symbol>[</symbol>',
+            '    <key>name</key> <symbol>=></symbol> <string>"Enlighten"</string>',
+            '    <key>version</key> <symbol>=></symbol> <float>0.4</float>',
             '<symbol>]</symbol>',
         ]);
         $this->assertSame($expected, $this->exporter->export($snippet));
@@ -57,11 +74,11 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<symbol>[</symbol>',
-            '<string>"Enlighten"</string>',
-            '<symbol>[</symbol>',
-            '<string>"Generate static documentation in "</string>',
-            '<float>0.4</float>',
-            '<symbol>]</symbol>',
+            '    <string>"Enlighten"</string>',
+            '    <symbol>[</symbol>',
+            '        <string>"Generate static documentation in "</string>',
+            '        <float>0.4</float>',
+            '    <symbol>]</symbol>',
             '<symbol>]</symbol>',
         ]);
         $this->assertSame($expected, $this->exporter->export($snippet));
@@ -81,7 +98,7 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<class>Tests\Integration\DemoClassForSnippetExample</class> <symbol>{</symbol>',
-            '<property>message</property><symbol>:</symbol> <string>"this data can be collected"</string>',
+            '    <property>message</property><symbol>:</symbol> <string>"this data can be collected"</string>',
             '<symbol>}</symbol>',
         ]);
         $this->assertSame($expected, $result);
@@ -107,10 +124,10 @@ class ExportCodeSnippetTest extends TestCase
 
         $expected = implode(PHP_EOL, [
             '<class>Tests\Integration\DemoClassForSnippetExample</class> <symbol>{</symbol>',
-            '<property>message</property><symbol>:</symbol> <string>"this data can be collected"</string>',
-            '<property>nestedObject</property><symbol>:</symbol> <class>Tests\Integration\DemoNestedClassForSnippetExample</class> <symbol>{</symbol>',
-            '<property>nested</property><symbol>:</symbol> <string>"nested attribute"</string>',
-            '<symbol>}</symbol>',
+            '    <property>message</property><symbol>:</symbol> <string>"this data can be collected"</string>',
+            '    <property>nestedObject</property><symbol>:</symbol> <class>Tests\Integration\DemoNestedClassForSnippetExample</class> <symbol>{</symbol>',
+            '        <property>nested</property><symbol>:</symbol> <string>"nested attribute"</string>',
+            '    <symbol>}</symbol>',
             '<symbol>}</symbol>',
         ]);
         $this->assertSame($expected, $result);
