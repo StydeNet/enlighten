@@ -77,7 +77,10 @@ class FailedRequestTest extends TestCase
             $this->assertSame('Server error', $exception->message);
             $this->assertIsArray($exception->trace);
 
-            $this->assertStringEndsWith('src/Illuminate/Foundation/helpers.php', $exception->trace[0]['file']);
+            $this->assertStringEndsWith(
+                str_replace('/', DIRECTORY_SEPARATOR, 'src/Illuminate/Foundation/helpers.php'),
+                $exception->trace[0]['file']
+            );
             $this->assertSame('Illuminate\Foundation\Application', $exception->trace[0]['class']);
 
             // $exception->trace ?
