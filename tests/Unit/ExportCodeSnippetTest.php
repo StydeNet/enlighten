@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Styde\Enlighten\BaseCodeSnippetPrinter;
+use Styde\Enlighten\CodePrinters\BaseCodeSnippetPrinter;
 use Styde\Enlighten\CodeSnippetExporter;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Styde\Enlighten\Utils\ResultTransformer;
