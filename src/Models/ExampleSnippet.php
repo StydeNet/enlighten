@@ -25,6 +25,6 @@ class ExampleSnippet extends Model
     {
         $output = (new CodeSnippetExporter(new HtmlPrinter))->export($this->result);
 
-        return "<pre>{$output}</pre>";
+        return "<pre class=\"p-4\">{$output}</pre>";
     }
 }

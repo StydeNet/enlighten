@@ -11,36 +11,36 @@ class HtmlPrinter extends BaseCodeSnippetPrinter
 
     public function integer(int $value): string
     {
-        return "<int>{$value}</int>";
+        return "<span class=\"enlighten-int\">{$value}</span>";
     }
 
     public function float($value): string
     {
-        return "<float>{$value}</float>";
+        return "<span class=\"enlighten-float\">{$value}</span>";
     }
 
     public function string($value): string
     {
-        return sprintf('<string>"%s"</string>', $value);
+        return sprintf('<span class="enlighten-string">"%s"</span>', $value);
     }
 
     public function className($className): string
     {
-        return "<class>{$className}</class>";
+        return "<span class=\"enlighten-class\">{$className}</span>";
     }
 
     public function propertyName(string $property)
     {
-        return "<property>{$property}</property>";
+        return "<span class=\"enlighten-property\">{$property}</span>";
     }
 
     public function bool($value): string
     {
-        return "<bool>{$value}</bool>";
+        return "<span class=\"enlighten-bool\">{$value}</span>";
     }
 
     public function null(): string
     {
-        return '<null>null</null>';
+        return '<span class=\"enlighten-null\">null</span>';
     }
 }
