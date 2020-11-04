@@ -1,8 +1,7 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\CodeSnippets;
 
-use Styde\Enlighten\Contracts\CodeSnippetPrinter;
 use Styde\Enlighten\Models\ExampleSnippet;
 
 class CodeResultExporter
@@ -10,20 +9,20 @@ class CodeResultExporter
     private $currentLevel;
 
     /**
-     * @var CodeSnippetPrinter
+     * @var CodeSnippetFormat
      */
-    private $printer;
+    private $format;
 
-    public function __construct(CodeSnippetPrinter $printer)
+    public function __construct(CodeSnippetFormat $format)
     {
-        $this->printer = $printer;
+        $this->format = $format;
     }
 
     public function export($snippet): string
     {
         $this->currentLevel = 1;
 
-        return $this->printer->block(
+        return $this->format->block(
             $this->exportIndentation()
             . $this->exportValue($snippet)
         );
@@ -39,17 +38,17 @@ class CodeResultExporter
             case 'array':
                 return $this->exportArray($value);
             case 'integer':
-                return $this->printer->integer($value);
+                return $this->format->integer($value);
             case 'double':
             case 'float':
-                return $this->printer->float($value);
+                return $this->format->float($value);
             case 'string':
-                return $this->printer->string($value);
+                return $this->format->string($value);
             case 'boolean':
-                return $this->printer->bool($value ? 'true' : 'false');
+                return $this->format->bool($value ? 'true' : 'false');
             case 'NULL':
             case 'null':
-                return $this->printer->null();
+                return $this->format->null();
         }
 
         return '';
@@ -57,7 +56,7 @@ class CodeResultExporter
 
     private function exportArray($items)
     {
-        $result = $this->printer->symbol('[').$this->printer->line();
+        $result = $this->format->symbol('[').$this->format->line();
 
         if ($this->isAssoc($items)) {
             $result .= $this->exportAssocArrayItems($items);
@@ -66,7 +65,7 @@ class CodeResultExporter
         }
 
         $result .= $this->exportIndentation()
-            . $this->printer->symbol(']');
+            . $this->format->symbol(']');
 
         return $result;
     }
@@ -85,12 +84,12 @@ class CodeResultExporter
         foreach ($items as $key => $value) {
             $result .= $this->exportIndentation()
                 . $this->exportValue($key)
-                . $this->printer->space()
-                . $this->printer->symbol('=>')
-                . $this->printer->space()
+                . $this->format->space()
+                . $this->format->symbol('=>')
+                . $this->format->space()
                 . $this->exportValue($value)
-                . $this->printer->symbol(',')
-                . $this->printer->line();
+                . $this->format->symbol(',')
+                . $this->format->line();
         }
 
         $this->currentLevel -= 1;
@@ -107,8 +106,8 @@ class CodeResultExporter
         foreach ($items as $item) {
             $result .= $this->exportIndentation()
                 . $this->exportValue($item)
-                . $this->printer->symbol(',')
-                . $this->printer->line();
+                . $this->format->symbol(',')
+                . $this->format->line();
         }
 
         $this->currentLevel -= 1;
@@ -121,33 +120,33 @@ class CodeResultExporter
         $className = $snippet[ExampleSnippet::CLASS_NAME];
         $attributes = $snippet[ExampleSnippet::ATTRIBUTES] ?? [];
 
-        $result = $this->printer->className($className)
-            . $this->printer->space()
-            . $this->printer->symbol('{')
-            . $this->printer->line();
+        $result = $this->format->className($className)
+            . $this->format->space()
+            . $this->format->symbol('{')
+            . $this->format->line();
 
         $this->currentLevel += 1;
 
         foreach ($attributes as $property => $value) {
-            $result .= $this->printer->indentation($this->currentLevel)
-                . $this->printer->propertyName($property)
-                . $this->printer->symbol(':')
-                . $this->printer->space()
+            $result .= $this->format->indentation($this->currentLevel)
+                . $this->format->propertyName($property)
+                . $this->format->symbol(':')
+                . $this->format->space()
                 . $this->exportValue($value)
-                . $this->printer->symbol(',')
-                . $this->printer->line();
+                . $this->format->symbol(',')
+                . $this->format->line();
         }
 
         $this->currentLevel -= 1;
 
-        $result .= $this->printer->indentation($this->currentLevel)
-            .$this->printer->symbol('}');
+        $result .= $this->format->indentation($this->currentLevel)
+            .$this->format->symbol('}');
 
         return $result;
     }
 
     private function exportIndentation(): string
     {
-        return $this->printer->indentation($this->currentLevel);
+        return $this->format->indentation($this->currentLevel);
     }
 }

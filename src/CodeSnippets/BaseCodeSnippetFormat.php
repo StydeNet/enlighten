@@ -1,10 +1,8 @@
 <?php
 
-namespace Styde\Enlighten\CodePrinters;
+namespace Styde\Enlighten\CodeSnippets;
 
-use Styde\Enlighten\Contracts\CodeSnippetPrinter as CodeSnippetFormatterAlias;
-
-abstract class BaseCodeSnippetPrinter implements CodeSnippetFormatterAlias
+abstract class BaseCodeSnippetFormat implements CodeSnippetFormat
 {
     public function block(string $code): string
     {

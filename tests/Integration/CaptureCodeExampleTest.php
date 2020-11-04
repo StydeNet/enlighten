@@ -2,10 +2,11 @@
 
 namespace Tests\Integration;
 
+use BadMethodCallException;
+use Styde\Enlighten\CodeSnippets\CodeResultTransformer;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleSnippet;
-use Styde\Enlighten\Utils\ResultTransformer;
 use Tests\Integration\App\Models\User;
 
 class CaptureCodeExampleTest extends TestCase
@@ -81,10 +82,10 @@ class CaptureCodeExampleTest extends TestCase
     /** @test */
     function captures_snippet_with_exception()
     {
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         enlighten(function () {
-            throw new \BadMethodCallException('Enlighten can record exceptions in code snippets');
+            throw new BadMethodCallException('Enlighten can record exceptions in code snippets');
         });
 
         $this->saveTestExample();
@@ -132,7 +133,7 @@ class CaptureCodeExampleTest extends TestCase
     /** @test */
     function captures_objects_returned_by_snippets_with_limited_recursion()
     {
-        ResultTransformer::$maxNestedLevel = 1;
+        CodeResultTransformer::$maxNestedLevel = 1;
 
         enlighten(function () {
             return new DemoClassForSnippetExample;

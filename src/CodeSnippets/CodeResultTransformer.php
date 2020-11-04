@@ -1,12 +1,12 @@
 <?php
 
-namespace Styde\Enlighten\Utils;
+namespace Styde\Enlighten\CodeSnippets;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Enumerable;
 use Styde\Enlighten\Models\ExampleSnippet;
 
-class ResultTransformer
+class CodeResultTransformer
 {
     /**
      * @var int

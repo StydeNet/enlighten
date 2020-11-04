@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\CodeSnippets;
 
 use Illuminate\Support\Collection;
 use ReflectionFunction;

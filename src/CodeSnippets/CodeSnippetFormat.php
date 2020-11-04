@@ -1,8 +1,8 @@
 <?php
 
-namespace Styde\Enlighten\Contracts;
+namespace Styde\Enlighten\CodeSnippets;
 
-interface CodeSnippetPrinter
+interface CodeSnippetFormat
 {
     public function block(string $code): string;
 

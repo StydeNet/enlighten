@@ -1,8 +1,8 @@
 <?php
 
-namespace Styde\Enlighten\CodePrinters;
+namespace Styde\Enlighten\CodeSnippets;
 
-class HtmlPrinter extends BaseCodeSnippetPrinter
+class HtmlPrinter extends BaseCodeSnippetFormat
 {
     public function symbol(string $symbol): string
     {

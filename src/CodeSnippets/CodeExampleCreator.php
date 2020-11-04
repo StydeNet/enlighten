@@ -1,16 +1,15 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\CodeSnippets;
 
 use Closure;
-use ReflectionFunction;
-use Styde\Enlighten\Utils\ResultTransformer;
+use Styde\Enlighten\TestInspector;
 use Throwable;
 
 class CodeExampleCreator
 {
     /**
-     * @var TestInspector
+     * @var \Styde\Enlighten\TestInspector
      */
     private $testInspector;
 
@@ -38,7 +37,7 @@ class CodeExampleCreator
         try {
             $result = call_user_func($callback);
 
-            $testExample->saveSnippetResult(ResultTransformer::toArray($result));
+            $testExample->saveSnippetResult(CodeResultTransformer::toArray($result));
 
             return $result;
         } catch (Throwable $throwable) {

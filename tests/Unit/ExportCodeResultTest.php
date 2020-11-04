@@ -3,10 +3,10 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Styde\Enlighten\CodePrinters\BaseCodeSnippetPrinter;
-use Styde\Enlighten\CodeResultExporter;
+use Styde\Enlighten\CodeSnippets\BaseCodeSnippetFormat;
+use Styde\Enlighten\CodeSnippets\CodeResultExporter;
+use Styde\Enlighten\CodeSnippets\CodeResultTransformer;
 use Styde\Enlighten\Models\ExampleSnippet;
-use Styde\Enlighten\Utils\ResultTransformer;
 use Tests\Integration\App\Models\User;
 
 class ExportCodeResultTest extends TestCase
@@ -20,7 +20,7 @@ class ExportCodeResultTest extends TestCase
     {
         parent::setUp();
 
-        $this->exporter = new CodeResultExporter($this->newDemoCodeFormatter());
+        $this->exporter = new CodeResultExporter($this->newDemoCodePrinter());
     }
 
     /** @test */
@@ -142,7 +142,7 @@ class ExportCodeResultTest extends TestCase
     /** @test */
     function export_code_with_nested_classes_and_arrays()
     {
-        $data = ResultTransformer::toArray([
+        $data = CodeResultTransformer::toArray([
             'package' => 'Enlighten',
             'users' => collect([
                 new User(['name' => 'Duilio']),
@@ -178,9 +178,9 @@ class ExportCodeResultTest extends TestCase
         $this->assertSame($expectedCode, $this->exporter->export($value));
     }
 
-    private function newDemoCodeFormatter()
+    private function newDemoCodePrinter()
     {
-        return new class extends BaseCodeSnippetPrinter {
+        return new class extends BaseCodeSnippetFormat {
             public function symbol(string $symbol): string
             {
                 return "<symbol>{$symbol}</symbol>";
