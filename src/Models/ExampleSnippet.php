@@ -4,7 +4,7 @@ namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Styde\Enlighten\CodePrinters\HtmlPrinter;
-use Styde\Enlighten\CodeSnippetExporter;
+use Styde\Enlighten\CodeResultExporter;
 
 class ExampleSnippet extends Model
 {
@@ -23,8 +23,6 @@ class ExampleSnippet extends Model
 
     public function getResultCodeAttribute()
     {
-        $output = (new CodeSnippetExporter(new HtmlPrinter))->export($this->result);
-
-        return "<pre class=\"p-4\">{$output}</pre>";
+        return (new CodeResultExporter(new HtmlPrinter))->export($this->result);
     }
 }
