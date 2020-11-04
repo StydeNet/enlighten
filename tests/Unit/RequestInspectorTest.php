@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Styde\Enlighten\RequestInspector;
-use Styde\Enlighten\RouteInspector;
+use Styde\Enlighten\HttpExamples\RequestInspector;
+use Styde\Enlighten\HttpExamples\RouteInspector;
 use Tests\TestCase;
 
 class RequestInspectorTest extends TestCase

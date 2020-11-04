@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten\CodeSnippets;
+namespace Styde\Enlighten\CodeExamples;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Enumerable;

@@ -3,9 +3,9 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Styde\Enlighten\CodeSnippets\BaseCodeSnippetFormat;
-use Styde\Enlighten\CodeSnippets\CodeResultExporter;
-use Styde\Enlighten\CodeSnippets\CodeResultTransformer;
+use Styde\Enlighten\CodeExamples\BaseCodeSnippetFormat;
+use Styde\Enlighten\CodeExamples\CodeResultExporter;
+use Styde\Enlighten\CodeExamples\CodeResultTransformer;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Tests\Integration\App\Models\User;
 

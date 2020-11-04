@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\HttpExampleCreator;
+use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Tests\TestCase;
 
 class ExampleGeneratorTest extends TestCase

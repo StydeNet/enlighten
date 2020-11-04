@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten\CodeSnippets;
+namespace Styde\Enlighten\CodeExamples;
 
 use Closure;
 use Styde\Enlighten\TestInspector;

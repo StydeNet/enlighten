@@ -5,7 +5,6 @@ namespace Styde\Enlighten\Providers;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
@@ -14,12 +13,12 @@ use Styde\Enlighten\Console\Commands\MigrateCommand;
 use Styde\Enlighten\Console\ContentRequest;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Styde\Enlighten\Contracts\VersionControl;
-use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
-use Styde\Enlighten\HttpExampleCreator;
-use Styde\Enlighten\RequestInspector;
-use Styde\Enlighten\ResponseInspector;
-use Styde\Enlighten\RouteInspector;
-use Styde\Enlighten\SessionInspector;
+use Styde\Enlighten\HttpExamples\HttpExampleCreatorMiddleware;
+use Styde\Enlighten\HttpExamples\HttpExampleCreator;
+use Styde\Enlighten\HttpExamples\RequestInspector;
+use Styde\Enlighten\HttpExamples\ResponseInspector;
+use Styde\Enlighten\HttpExamples\RouteInspector;
+use Styde\Enlighten\HttpExamples\SessionInspector;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
 use Styde\Enlighten\Utils\Annotations;
@@ -56,8 +55,8 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->addDatabaseConnection($this->app['config']);
 
-        $this->loadroutesFrom($this->packageRoot('routes/web.php'));
-        $this->loadroutesFrom($this->packageRoot('routes/api.php'));
+        $this->loadroutesFrom($this->packageRoot('src/Http/routes/web.php'));
+        $this->loadroutesFrom($this->packageRoot('src/Http/routes/api.php'));
 
         $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
         $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');

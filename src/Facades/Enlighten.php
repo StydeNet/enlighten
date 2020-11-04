@@ -5,7 +5,7 @@ namespace Styde\Enlighten\Facades;
 use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Facade;
-use Styde\Enlighten\CodeSnippets\CodeExampleCreator;
+use Styde\Enlighten\CodeExamples\CodeExampleCreator;
 use Styde\Enlighten\EnlightenSettings;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 

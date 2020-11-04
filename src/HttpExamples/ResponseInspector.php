@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\HttpExamples;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResponseInspector
 {
-    use ReplacesValues;
-
     public function getDataFrom(Response $response)
     {
         return new ResponseInfo(

@@ -1,9 +1,8 @@
 <?php
 
-namespace Styde\Enlighten\Http\Middleware;
+namespace Styde\Enlighten\HttpExamples;
 
 use Closure;
-use Styde\Enlighten\HttpExampleCreator;
 
 class HttpExampleCreatorMiddleware
 {

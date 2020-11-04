@@ -1,8 +1,10 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\HttpExamples;
 
 use Illuminate\Http\Request;
+use Styde\Enlighten\TestInfo;
+use Styde\Enlighten\TestInspector;
 use Symfony\Component\HttpFoundation\Response;
 
 class HttpExampleCreator
@@ -54,7 +56,7 @@ class HttpExampleCreator
             return $testExample;
         }
 
-        $testExample->createHttpExample(
+        $testExample->saveRequestData(
             $this->requestInspector->getDataFrom($request)
         );
 

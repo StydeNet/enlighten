@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\HttpExamples;
 
 class ResponseInfo
 {

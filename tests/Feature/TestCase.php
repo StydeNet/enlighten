@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Styde\Enlighten\Http\Middleware\HttpExampleCreatorMiddleware;
+use Styde\Enlighten\HttpExamples\HttpExampleCreatorMiddleware;
 
 class TestCase extends \Tests\TestCase
 {

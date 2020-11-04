@@ -6,6 +6,9 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
 use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\HttpExamples\RequestInfo;
+use Styde\Enlighten\HttpExamples\ResponseInfo;
+use Styde\Enlighten\HttpExamples\RouteInfo;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Models\Status;
@@ -111,7 +114,7 @@ class TestExample extends TestInfo
         }
     }
 
-    public function createHttpExample(RequestInfo $request)
+    public function saveRequestData(RequestInfo $request)
     {
         $this->save();
 
