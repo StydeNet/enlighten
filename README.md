@@ -11,7 +11,9 @@ Enlighten your Laravel applications with a beautiful documentation generated aut
 
 If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
  
-[Join us on Discord](https://discord.gg/JyfxmPM)
+Be a part of this project:
+ 
+[Join us on Discord](https://discord.gg/JyfxmPM) | [Become a sponsor](https://github.com/sponsors/sileence)
 
 ## Introducing Laravel Enlighten
 
@@ -27,6 +29,12 @@ phpunit
 ```
 
 Now visit `/enlighten/` to navigate the documentation.
+
+Run `php artisan enlighten:export` to export the documentation as static files!
+
+## Demo project
+
+If you'd like to see Enlighten in action you can install it in your own project (you don't need to modify your current tests) or install our [demo project](https://github.com/StydeNet/curso-de-laravel-desde-cero/tree/enlighten).
 
 ## Installation
 
