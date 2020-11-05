@@ -2,9 +2,9 @@
 
 namespace Styde\Enlighten\CodeExamples;
 
-abstract class BaseCodeSnippetFormat implements CodeSnippetFormat
+abstract class BaseCodeResultFormat implements CodeResultFormat
 {
-    public function block(string $code): string
+    public function block(string $code)
     {
         return implode(PHP_EOL, ['<pre>', $code, '</pre>']);
     }

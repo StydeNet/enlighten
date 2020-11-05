@@ -2,7 +2,7 @@
 
 namespace Styde\Enlighten\CodeExamples;
 
-class HtmlPrinter extends BaseCodeSnippetFormat
+class HtmlResultFormat extends BaseCodeResultFormat
 {
     public function symbol(string $symbol): string
     {

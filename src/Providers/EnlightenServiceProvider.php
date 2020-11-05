@@ -7,6 +7,10 @@ use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Styde\Enlighten\CodeExamples\CodeResultExporter;
+use Styde\Enlighten\CodeExamples\CodeResultFormat;
+use Styde\Enlighten\CodeExamples\HtmlResultFormat;
+use Styde\Enlighten\CodeExamples\PlainCodeResultFormat;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\Commands\FreshCommand;
 use Styde\Enlighten\Console\Commands\MigrateCommand;
@@ -112,6 +116,7 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerTestInspector();
         $this->registerVersionControlSystem();
         $this->registerHttpExampleGenerator();
+        $this->registerCodeResultFormat();
     }
 
     private function registerMiddleware()
@@ -156,6 +161,11 @@ class EnlightenServiceProvider extends ServiceProvider
                 new SessionInspector($app['session.store']),
             );
         });
+    }
+
+    private function registerCodeResultFormat()
+    {
+        $this->app->singleton(CodeResultFormat::class, HtmlResultFormat::class);
     }
 
     private function registerViewComponents(): void

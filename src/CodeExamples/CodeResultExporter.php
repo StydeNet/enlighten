@@ -9,16 +9,16 @@ class CodeResultExporter
     private $currentLevel;
 
     /**
-     * @var CodeSnippetFormat
+     * @var CodeResultFormat
      */
     private $format;
 
-    public function __construct(CodeSnippetFormat $format)
+    public function __construct(CodeResultFormat $format)
     {
         $this->format = $format;
     }
 
-    public function export($snippet): string
+    public function export($snippet)
     {
         $this->currentLevel = 1;
 

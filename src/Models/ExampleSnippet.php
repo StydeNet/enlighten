@@ -4,7 +4,7 @@ namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Styde\Enlighten\CodeExamples\CodeResultExporter;
-use Styde\Enlighten\CodeExamples\HtmlPrinter;
+use Styde\Enlighten\CodeExamples\HtmlResultFormat;
 
 class ExampleSnippet extends Model
 {
@@ -23,6 +23,6 @@ class ExampleSnippet extends Model
 
     public function getResultCodeAttribute()
     {
-        return (new CodeResultExporter(new HtmlPrinter))->export($this->result);
+        return app(CodeResultExporter::class)->export($this->result);
     }
 }

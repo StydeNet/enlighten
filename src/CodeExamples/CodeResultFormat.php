@@ -2,9 +2,9 @@
 
 namespace Styde\Enlighten\CodeExamples;
 
-interface CodeSnippetFormat
+interface CodeResultFormat
 {
-    public function block(string $code): string;
+    public function block(string $code);
 
     public function symbol(string $symbol): string;
 

@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use Styde\Enlighten\CodeExamples\BaseCodeSnippetFormat;
+use Styde\Enlighten\CodeExamples\BaseCodeResultFormat;
 use Styde\Enlighten\CodeExamples\CodeResultExporter;
+use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\CodeResultTransformer;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Tests\Integration\App\Models\User;
+use Tests\TestCase;
 
 class ExportCodeResultTest extends TestCase
 {
@@ -20,7 +21,9 @@ class ExportCodeResultTest extends TestCase
     {
         parent::setUp();
 
-        $this->exporter = new CodeResultExporter($this->newDemoCodePrinter());
+        $this->app->instance(CodeResultFormat::class, $this->newDemoCodeResultFormat());
+
+        $this->exporter = $this->app->make(CodeResultExporter::class);
     }
 
     /** @test */
@@ -178,9 +181,9 @@ class ExportCodeResultTest extends TestCase
         $this->assertSame($expectedCode, $this->exporter->export($value));
     }
 
-    private function newDemoCodePrinter()
+    private function newDemoCodeResultFormat()
     {
-        return new class extends BaseCodeSnippetFormat {
+        return new class extends BaseCodeResultFormat {
             public function symbol(string $symbol): string
             {
                 return "<symbol>{$symbol}</symbol>";
