@@ -7,10 +7,8 @@ use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Styde\Enlighten\CodeExamples\CodeResultExporter;
 use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\HtmlResultFormat;
-use Styde\Enlighten\CodeExamples\PlainCodeResultFormat;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\Commands\FreshCommand;
 use Styde\Enlighten\Console\Commands\MigrateCommand;
@@ -63,7 +61,11 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->loadroutesFrom($this->packageRoot('src/Http/routes/api.php'));
 
         $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
+
         $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');
+        $this->publishes([
+            $this->packageRoot('resources/lang') => resource_path('lang/vendor/enlighten'),
+        ], 'enlighten-translations');
 
         $this->registerViewComponents();
 
