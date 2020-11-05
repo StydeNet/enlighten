@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
 use Styde\Enlighten\Facades\Enlighten;
@@ -10,7 +11,6 @@ use Styde\Enlighten\HttpExamples\RequestInfo;
 use Styde\Enlighten\HttpExamples\ResponseInfo;
 use Styde\Enlighten\HttpExamples\RouteInfo;
 use Styde\Enlighten\Models\Example;
-use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Models\Status;
 use Throwable;
 
@@ -42,9 +42,9 @@ class TestExample extends TestInfo
     private $exception = null;
 
     /**
-     * @var ExampleRequest|null
+     * @var Collection
      */
-    private $currentRequest = null;
+    private $currentRequests;
 
     /**
      * @var \Styde\Enlighten\Models\ExampleSnippet
@@ -58,6 +58,8 @@ class TestExample extends TestInfo
         $this->classInfo = $classInfo;
         $this->texts = $texts;
         $this->line = null;
+
+        $this->currentRequests = new Collection;
     }
 
     public function getSignature()
@@ -118,21 +120,21 @@ class TestExample extends TestInfo
     {
         $this->save();
 
-        $this->currentRequest = $this->example->requests()->create([
+        $this->currentRequests->push($this->example->requests()->create([
             'example_id' => $this->example->id,
             'request_headers' => $request->getHeaders(),
             'request_method' => $request->getMethod(),
             'request_path' => $request->getPath(),
             'request_query_parameters' => $request->getQueryParameters(),
             'request_input' => $request->getInput(),
-        ]);
+        ]));
     }
 
     public function saveResponseData(ResponseInfo $response, RouteInfo $routeInfo, array $session)
     {
         $this->save();
 
-        $this->currentRequest->update([
+        $this->currentRequests->pop()->update([
             // Route
             'route' => $routeInfo->getUri(),
             'route_parameters' => $routeInfo->getParameters(),
@@ -144,8 +146,6 @@ class TestExample extends TestInfo
             // Session
             'session_data' => $session,
         ]);
-
-        $this->currentRequest = null;
     }
 
     public function setException(?Throwable $exception)
@@ -189,7 +189,7 @@ class TestExample extends TestInfo
             'sql' => $queryExecuted->sql,
             'bindings' => $queryExecuted->bindings,
             'time' => $queryExecuted->time,
-            'request_id' => optional($this->currentRequest)->id,
+            'request_id' => optional($this->currentRequests->last())->id,
             'snippet_id' => optional($this->currentSnippet)->id,
         ]);
     }

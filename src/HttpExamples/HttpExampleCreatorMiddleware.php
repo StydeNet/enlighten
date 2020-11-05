@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\HttpExamples;
 
 use Closure;
+use Illuminate\Testing\TestResponse;
 
 class HttpExampleCreatorMiddleware
 {
@@ -39,6 +40,10 @@ class HttpExampleCreatorMiddleware
 
     public function terminate($request, $response)
     {
+        while($response instanceof TestResponse) {
+            $response = $response->baseResponse;
+        }
+
         $this->httpExampleCreator->saveHttpResponseData($request, $response);
     }
 }

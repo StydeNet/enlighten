@@ -2,10 +2,12 @@
 
 ## v.0.4 - 2020-11-05
 **To upgrade from v0.3.* to v0.4**
+
 1. Publish the migrations to your local environment with `php artisan:vendor publish --tag=enlighten-migrations`
 2. Refresh the database using the new artisan command `php artisan enlighten:migrate:fresh`
-3. Delete any published views `rm -r resources/views/vendor/enlighten` and public assets `rm -r public/vendor/enlighten` 
-4. Run `php artisan view:clear` to delete the view cache.** 
+3. Delete any published views `rm -r resources/views/vendor/enlighten` and published assets `rm -r public/vendor/enlighten`
+4. Re-publish the assets with `php artisan vendor:publish` and select `enlighten-build`  
+5. Run `php artisan view:clear` to delete any view cache.** 
 
 ### Added
 - 🎉 Export static documentation using `php artisan enlighten:export`
@@ -15,7 +17,7 @@
 php artisan vendor:publish --tag=enligthen-translations
 ```
 
-- Support for multi-line annotations
+- Support for multi-line title and description annotations
 ```
 /** @test
  * @description This is a multi line
@@ -39,6 +41,8 @@ return [
     ],
 ];
 ```
+
+- Allow Enlighten to work with tests with redirection follow. Fixes: https://github.com/StydeNet/enlighten/issues/35
 
 ### Changed
 - Changing snake case urls for slugs
