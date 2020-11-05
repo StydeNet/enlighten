@@ -3,8 +3,8 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\CodeExamples\CodeResultExporter;
 use Styde\Enlighten\CodeExamples\HtmlPrinter;
-use Styde\Enlighten\CodeResultExporter;
 
 class ExampleSnippet extends Model
 {
