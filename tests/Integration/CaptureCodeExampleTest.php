@@ -59,7 +59,7 @@ class CaptureCodeExampleTest extends TestCase
         tap($example->snippets->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
             $this->assertSame('hello-world', $snippet->key);
-            $this->assertSame('"Hello World";', $snippet->code);
+            $this->assertSame("'Hello World';", $snippet->code);
         });
     }
 
@@ -81,7 +81,7 @@ class CaptureCodeExampleTest extends TestCase
         tap($example->snippets->first(), function ($snippet) {
             $this->assertInstanceOf(ExampleSnippet::class, $snippet);
             $this->assertSame('hello-world-2', $snippet->key);
-            $this->assertSame('"Hello World";', $snippet->code);
+            $this->assertSame("'Hello World';", $snippet->code);
         });
     }
 
