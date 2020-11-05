@@ -6,7 +6,7 @@ abstract class BaseCodeSnippetFormat implements CodeSnippetFormat
 {
     public function block(string $code): string
     {
-        return "<pre>\n{$code}\n</pre>";
+        return implode(PHP_EOL, ['<pre>', $code, '</pre>']);
     }
 
     public function indentation($level): string
