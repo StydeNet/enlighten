@@ -263,6 +263,21 @@ class UsersTest extends TestCase {
 }
 ```
 
+## Hiding sections from the view
+
+You can hide entire UI sections from the view via config
+
+```php
+// config/enlighten.php
+return [
+    // Add values to this array if you want to hide certain sections from your views.
+    // For valid sections see \Styde\Enlighten\Section
+    'hide' => [
+        //
+    ],
+];
+```
+
 ## Document your Internal API (Classes, Methods and Functions)
 
 You can also create a code-snippet from your unit-tests by using the `Enlighten::test()` facade, this will allows you to add code-examples to your documentation.
@@ -292,6 +307,16 @@ class CalcTest extends TestCase
 ```
 
 Optionally, you can use the `enlighten()` helper instead of the `Enlighten::test()` facade.
+
+## Export the documentation as static HTML files
+
+Since `v0.4` you can use artisan to generate static files for your documentation:
+
+```bash
+php artisan enlighten:export
+```
+
+You can select a custom export directory and base URL to use on the static files.
 
 ## Customizing the intro page
 

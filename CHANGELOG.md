@@ -1,5 +1,51 @@
 # Changelog
 
+## v.0.4 - 2020-11-05
+**To upgrade from v0.3.* to v0.4**
+1. Publish the migrations to your local environment with `php artisan:vendor publish --tag=enlighten-migrations`
+2. Refresh the database using the new artisan command `php artisan enlighten:migrate:fresh`
+3. Delete any published views `rm -r resources/views/vendor/enlighten` and public assets `rm -r public/vendor/enlighten` 
+4. Run `php artisan view:clear` to delete the view cache.** 
+
+### Added
+- 🎉 Export static documentation using `php artisan enlighten:export`
+
+- Multi language support
+```bash
+php artisan vendor:publish --tag=enligthen-translations
+```
+
+- Support for multi-line annotations
+```
+/** @test
+ * @description This is a multi line
+ * description for the current test method
+ * that will be shown on the view.
+ */
+public function does_something()
+{
+    //
+}
+```
+
+- Allow users to hide sections in the view using the config file
+```php
+// config/enlighten.php
+return [
+    // Add values to this array if you want to hide certain sections from your views.
+    // For valid sections see \Styde\Enlighten\Section
+    'hide' => [
+        //
+    ],
+];
+```
+
+### Changed
+- Changing snake case urls for slugs
+- Refactoring routes controllers and views
+- Fixed some performance issues 
+- Rework code-snippets presentation for unit tests.
+
 ## v0.3 - 2020-25-10
 
 **To upgrade from v0.2.8 to v0.3, please: 1. delete all the Enlighten tables, 2. Re-run the migrations in your local environment, 3. Delete any published views and 4. Run `php artisan view:clear` to delete the view cache.** 
