@@ -34,7 +34,7 @@ Run `php artisan enlighten:export` to export the documentation as static files!
 
 ## Demo project
 
-If you'd like to see Enlighten in action you can install it in your own project (you don't need to modify your current tests) or install our [demo project](https://github.com/StydeNet/curso-de-laravel-desde-cero/tree/enlighten).
+To see Enlighten in action just install it in your own app (you don't need to modify your current tests!) or check our [demo project](https://github.com/StydeNet/curso-de-laravel-desde-cero/tree/enlighten).
 
 ## Installation
 
