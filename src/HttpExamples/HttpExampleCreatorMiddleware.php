@@ -40,7 +40,7 @@ class HttpExampleCreatorMiddleware
 
     public function terminate($request, $response)
     {
-        while($response instanceof TestResponse) {
+        while ($response instanceof TestResponse) {
             $response = $response->baseResponse;
         }
 
