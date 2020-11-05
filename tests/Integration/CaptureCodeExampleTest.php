@@ -45,7 +45,7 @@ class CaptureCodeExampleTest extends TestCase
     function captures_snippet_with_key()
     {
         $msg = Enlighten::test('hello-world', function () {
-            return "Hello World";
+            return 'Hello World';
         });
 
         $this->assertSame('Hello World', $msg);
@@ -67,7 +67,7 @@ class CaptureCodeExampleTest extends TestCase
     function captures_snippet_with_key_using_helper()
     {
         $msg = enlighten('hello-world-2', function () {
-            return "Hello World";
+            return 'Hello World';
         });
 
         $this->assertSame('Hello World', $msg);
