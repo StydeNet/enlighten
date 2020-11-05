@@ -53,6 +53,11 @@ class TestInspector
 
     public function getCurrentTestExample()
     {
+        if (is_null($this->currentTestExample)) {
+            $this->reportMissingSetup();
+            return $this->exampleNotFound();
+        }
+
         return $this->currentTestExample;
     }
 
@@ -114,5 +119,15 @@ class TestInspector
         // Otherwise check the patterns to ignore we've got from the
         // config to determine if the test should still be ignored.
         return Str::is($this->ignore, $className) || Str::is($this->ignore, $methodName);
+    }
+
+    private function reportMissingSetup(): void
+    {
+        TestRun::getInstance()->reportMissingSetup();
+    }
+
+    private function exampleNotFound(): IgnoredTest
+    {
+        return new IgnoredTest('No test found', 'no test found');
     }
 }

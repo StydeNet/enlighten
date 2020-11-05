@@ -23,6 +23,11 @@ class TestRun
     private $hasBeenReset = false;
 
     /**
+     * @var bool
+     */
+    private $missingSetup = false;
+
+    /**
      * @var array
      */
     private $failedTestLinks = [];
@@ -77,6 +82,16 @@ class TestRun
         $this->getRun()->groups()->delete();
 
         $this->hasBeenReset = true;
+    }
+
+    public function reportMissingSetup()
+    {
+        $this->missingSetup = true;
+    }
+
+    public function missingSetup()
+    {
+        return $this->missingSetup;
     }
 
     public function saveFailedTestLink(TestExample $testExample)
