@@ -42,6 +42,50 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     /** @test */
+    function captures_snippet_with_key()
+    {
+        $msg = Enlighten::test('hello-world', function () {
+            return "Hello World";
+        });
+
+        $this->assertSame('Hello World', $msg);
+
+        // Enlighten internal assertions:
+        $example = Example::first();
+
+        $this->assertNotNull($example, 'An expected example was not created.');
+        $this->assertSame('captures_snippet_with_key', $example->method_name);
+
+        tap($example->snippets->first(), function ($snippet) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+            $this->assertSame('hello-world', $snippet->key);
+            $this->assertSame('"Hello World";', $snippet->code);
+        });
+    }
+
+    /** @test */
+    function captures_snippet_with_key_using_helper()
+    {
+        $msg = enlighten('hello-world-2', function () {
+            return "Hello World";
+        });
+
+        $this->assertSame('Hello World', $msg);
+
+        // Enlighten internal assertions:
+        $example = Example::first();
+
+        $this->assertNotNull($example, 'An expected example was not created.');
+        $this->assertSame('captures_snippet_with_key_using_helper', $example->method_name);
+
+        tap($example->snippets->first(), function ($snippet) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+            $this->assertSame('hello-world-2', $snippet->key);
+            $this->assertSame('"Hello World";', $snippet->code);
+        });
+    }
+
+    /** @test */
     function captures_snippet_with_sql_query()
     {
         $user = enlighten(function () {

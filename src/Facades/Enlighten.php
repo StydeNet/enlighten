@@ -30,10 +30,10 @@ class Enlighten extends Facade
         return EnlightenSettings::class;
     }
 
-    public static function test(Closure $callback)
+    public static function test($keyOrCallback, $callback = null)
     {
         try {
-            return app(CodeExampleCreator::class)->createSnippet($callback);
+            return app(CodeExampleCreator::class)->createSnippet($keyOrCallback, $callback);
         } catch (BindingResolutionException $exception) {
             throw new LaravelNotPresent;
         }

@@ -20,6 +20,8 @@ class CreateEnlightenExampleSnippetsTable extends Migration
         Schema::connection('enlighten')->create('enlighten_example_snippets', function (Blueprint $table) {
             $table->id();
 
+            $table->string('key')->unique()->nullable();
+
             $table->foreignId('example_id')
                 ->references('id')
                 ->on('enlighten_examples')

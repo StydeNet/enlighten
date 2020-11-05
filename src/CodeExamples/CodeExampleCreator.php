@@ -24,15 +24,20 @@ class CodeExampleCreator
         $this->codeInspector = $codeInspector;
     }
 
-    public function createSnippet(Closure $callback)
+    public function createSnippet($key, $callback = null)
     {
+        if ($key instanceof Closure) {
+            $callback = $key;
+            $key = null;
+        }
+
         $testExample = $this->testInspector->getCurrentTestExample();
 
         if ($testExample->isIgnored()) {
             return $callback();
         }
 
-        $testExample->createSnippet($this->codeInspector->getCodeFrom($callback));
+        $testExample->createSnippet($key, $this->codeInspector->getCodeFrom($callback));
 
         try {
             $result = call_user_func($callback);

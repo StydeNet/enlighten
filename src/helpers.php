@@ -5,9 +5,9 @@ use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Utils\JsonFormatter;
 
 if (! function_exists('enlighten')) {
-    function enlighten(Closure $callback)
+    function enlighten($keyOrCallback, $callback = null)
     {
-        return Enlighten::test($callback);
+        return Enlighten::test($keyOrCallback, $callback);
     }
 }
 

@@ -194,11 +194,12 @@ class TestExample extends TestInfo
         ]);
     }
 
-    public function createSnippet(string $code)
+    public function createSnippet($key, string $code)
     {
         $this->save();
 
         $this->currentSnippet = $this->example->snippets()->create([
+            'key' => $key,
             'code' => $code,
         ]);
     }
