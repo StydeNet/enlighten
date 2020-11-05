@@ -6,7 +6,7 @@
         </x-enlighten-info-panel>
         <x-enlighten-info-panel>
             <x-slot name="title">{{ __('enlighten::messages.output') }}</x-slot>
-            <div class="h-full" x-data
+            <div class="h-full p-4" x-data
                  x-init="document.querySelectorAll('a.sf-dump-toggle').forEach((el, key) => key > 0 && el.click())">
                 {!! $snippet->result_code !!}
             </div>
