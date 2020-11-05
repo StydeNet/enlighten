@@ -70,7 +70,7 @@ php artisan vendor:publish --tag=enlighten-config
 php artisan vendor:publish --tag=enlighten-views
 ```
 
-Third step: import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->enlightenSetUp()` in the `setUp` method of your `TestCase`, for example:
+Third step: import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->setUpEnlighten()` in the `setUp` method of your `TestCase`, for example:
 
 ```php
 <?php
