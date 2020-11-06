@@ -3,6 +3,8 @@
 namespace Styde\Enlighten\HttpExamples;
 
 use Illuminate\Http\Request;
+use Illuminate\Testing\TestResponse;
+use Styde\Enlighten\TestExample;
 use Styde\Enlighten\TestInfo;
 use Styde\Enlighten\TestInspector;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,10 +73,20 @@ class HttpExampleCreator
             return;
         }
 
+        /** @var TestExample $testExample */
         $testExample->saveResponseData(
-            $this->responseInspector->getDataFrom($response),
+            $this->responseInspector->getDataFrom($this->normalizeResponse($response)),
             $this->routeInspector->getInfoFrom($request->route()),
             $this->sessionInspector->getData()
         );
+    }
+
+    private function normalizeResponse(Response $response)
+    {
+        if ($response instanceof TestResponse) {
+            $response = $response->baseResponse;
+        }
+
+        return $response;
     }
 }
