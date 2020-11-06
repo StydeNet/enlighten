@@ -2,6 +2,7 @@
 
 namespace Styde\Enlighten\HttpExamples;
 
+use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Testing\TestResponse;
 use Styde\Enlighten\TestExample;
@@ -11,6 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HttpExampleCreator
 {
+    /**
+     * @var bool
+     */
+    private static $followsRedirect = false;
+
     /**
      * @var TestInspector
      */
@@ -50,6 +56,17 @@ class HttpExampleCreator
         $this->sessionInspector = $sessionInspector;
     }
 
+    public static function followingRedirect(Closure $callback)
+    {
+        static::$followsRedirect = true;
+
+        $response = $callback();
+
+        static::$followsRedirect = false;
+
+        return $response;
+    }
+
     public function createHttpExample(Request $request): TestInfo
     {
         $testExample = $this->testInspector->getCurrentTestExample();
@@ -76,6 +93,7 @@ class HttpExampleCreator
         /** @var TestExample $testExample */
         $testExample->saveResponseData(
             $this->responseInspector->getDataFrom($this->normalizeResponse($response)),
+            static::$followsRedirect,
             $this->routeInspector->getInfoFrom($request->route()),
             $this->sessionInspector->getData()
         );

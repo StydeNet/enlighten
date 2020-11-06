@@ -130,7 +130,7 @@ class TestExample extends TestInfo
         ]));
     }
 
-    public function saveResponseData(ResponseInfo $response, RouteInfo $routeInfo, array $session)
+    public function saveResponseData(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session)
     {
         $this->save();
 
@@ -140,6 +140,7 @@ class TestExample extends TestInfo
             'route_parameters' => $routeInfo->getParameters(),
             // Response
             'response_status' => $response->getStatusCode(),
+            'follows_redirect' => $followsRedirect,
             'response_headers' => $response->getHeaders(),
             'response_body' => $response->getContent(),
             'response_template' => $response->getTemplate(),

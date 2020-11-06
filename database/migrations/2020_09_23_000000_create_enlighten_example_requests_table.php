@@ -33,6 +33,7 @@ class CreateEnlightenExampleRequestsTable extends Migration
             $table->string('route')->nullable();
             $table->json('route_parameters')->nullable();
             $table->char('response_status', 3)->nullable();
+            $table->boolean('follows_redirect')->nullable();
             $table->json('response_headers')->nullable();
             $table->longText('response_body')->nullable();
             $table->text('response_template')->nullable();

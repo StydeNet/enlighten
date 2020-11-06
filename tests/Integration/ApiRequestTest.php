@@ -86,6 +86,8 @@ class ApiRequestTest extends TestCase
                     ]
                 ], $request->route_parameters);
 
+                $this->assertFalse($request->follows_redirect);
+
                 $this->assertSame([
                     'data' => [
                         [

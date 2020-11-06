@@ -10,6 +10,8 @@ class FollowRedirectionTest extends TestCase
     /** @test */
     function saves_the_first_request_and_the_last_response()
     {
+        $this->withoutExceptionHandling();
+
         $this->followingRedirects()
             ->get('redirect-1')
             ->assertOk()
@@ -28,6 +30,7 @@ class FollowRedirectionTest extends TestCase
             $this->assertSame('redirect-1', $request->route);
             $this->assertSame(302, $request->response_status);
             $this->assertSame('http://localhost/redirect-2', $request->redirection_location);
+            $this->assertFalse($request->follows_redirect);
         });
 
         // Second request
@@ -38,6 +41,7 @@ class FollowRedirectionTest extends TestCase
             $this->assertSame('redirect-2', $request->route);
             $this->assertSame(302, $request->response_status);
             $this->assertSame('http://localhost/redirect-3', $request->redirection_location);
+            $this->assertTrue($request->follows_redirect);
         });
 
         // Third request
@@ -48,6 +52,7 @@ class FollowRedirectionTest extends TestCase
             $this->assertSame('redirect-3', $request->route);
             $this->assertSame(200, $request->response_status);
             $this->assertSame('Final Response', $request->response_body);
+            $this->assertTrue($request->follows_redirect);
         });
     }
 }

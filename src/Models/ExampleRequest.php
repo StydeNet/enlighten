@@ -21,6 +21,7 @@ class ExampleRequest extends Model implements Statusable
         'request_query_parameters' => 'array',
         'request_input' => 'array',
         'route_parameters' => 'array',
+        'follows_redirect' => 'boolean',
         'response_headers' => 'array',
         'session_data' => 'array',
         'response_status' => 'int',

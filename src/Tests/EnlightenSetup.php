@@ -6,6 +6,7 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
+use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Styde\Enlighten\TestInspector;
 use Styde\Enlighten\TestRun;
 
@@ -169,5 +170,18 @@ trait EnlightenSetup
         ];
 
         return $statuses[$this->getStatus()] ?? 'unknown';
+    }
+
+    /**
+     * Follow a redirect chain until a non-redirect is received.
+     *
+     * @param  \Illuminate\Http\Response  $response
+     * @return \Illuminate\Http\Response|\Illuminate\Testing\TestResponse
+     */
+    protected function followRedirects($response)
+    {
+        return HttpExampleCreator::followingRedirect(function () use ($response) {
+            return parent::followRedirects($response);
+        });
     }
 }
