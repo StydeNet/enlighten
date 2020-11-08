@@ -146,12 +146,19 @@ class DocumentationExporter
 
     private function replaceUrls(string $contents)
     {
+        // Search json path
+        $contents = preg_replace('@fetch\((.*?)search.json\'\)@', "fetch('{$this->staticBaseUrl}/search.json')", $contents);
+
+        // Assets paths
+        $contents = str_replace('/vendor/enlighten/', "{$this->staticBaseUrl}/assets/", $contents);
+
+        // Internal links
         return preg_replace_callback(
             '@'.$this->originalBaseUrl.'([^"]+)?@',
             function ($matches) {
                 return $this->getStaticUrl($matches[0]);
             },
-            str_replace(['/vendor/enlighten/', "fetch('/search.json')"], ["{$this->staticBaseUrl}/assets/", "fetch('{$this->staticBaseUrl}/search.json')"], $contents)
+            $contents
         );
     }
 
