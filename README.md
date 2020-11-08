@@ -338,5 +338,6 @@ The content of this file will overwrite the default page provided by this packag
 - [Jeff Ochoa](https://twitter.com/jeffer_8a)
 - [All contributors](https://github.com/StydeNet/enlighten/graphs/contributors)
 
+
 ## License
 The MIT License (MIT). Please see [License](https://github.com/styde/enlighten/blob/master/LICENSE.md) File for more information.
