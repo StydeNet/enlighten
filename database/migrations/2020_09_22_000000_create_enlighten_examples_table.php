@@ -33,7 +33,7 @@ class CreateEnlightenExamplesTable extends Migration
 
             $table->integer('line')->nullable();
             $table->string('title');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
 
             $table->string('test_status')->nullable();
             $table->string('status')->nullable();
