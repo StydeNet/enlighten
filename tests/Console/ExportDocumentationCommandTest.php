@@ -36,7 +36,7 @@ class ExportDocumentationCommandTest extends TestCase
                 $selectedRun
             ])
             ->expectsQuestion('In which directory would you like to export the documentation?', 'public/docs')
-            ->expectsQuestion("What's the base URL for this documentation going to be?", '/docs')
+            ->expectsQuestion("What's the base URL for this documentation going to be?", 'docs')
             ->expectsOutput('`main * abcde` run exported!')
             ->assertExitCode(0);
 
