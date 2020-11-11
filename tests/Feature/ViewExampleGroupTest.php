@@ -31,6 +31,7 @@ class ViewExampleGroupTest extends TestCase
             ->assertOk()
             ->assertViewIs('enlighten::group.show')
             ->assertSeeText('The Class Title')
+            ->assertSeeText('User module API')
             ->assertSeeText('My First Test')
             ->assertSeeText('My Second Test');
     }

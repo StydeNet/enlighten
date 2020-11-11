@@ -42,7 +42,7 @@ class ExportDocumentationCommand extends Command
 
         $baseDir = $this->ask('In which directory would you like to export the documentation?', config('enlighten.docs_base_dir'));
 
-        $baseUrl = $this->ask("What's the base URL for this documentation going to be?", config('enlighten.docs_base_url'));
+        $baseUrl = $this->normalizeBaseUrl($this->ask("What's the base URL for this documentation going to be?", config('enlighten.docs_base_url')));
 
         $this->warn("Exporting the documentation for `{$selectedRun->signature}`...\n");
 
@@ -57,5 +57,10 @@ class ExportDocumentationCommand extends Command
             ->latest()
             ->take(5)
             ->get();
+    }
+
+    private function normalizeBaseUrl($url)
+    {
+        return '/'.ltrim($url, '/');
     }
 }
