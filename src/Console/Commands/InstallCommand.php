@@ -35,10 +35,11 @@ class InstallCommand extends Command
         $baseTestCase = File::get(__DIR__.'/stubs/BaseTestCase.php.stub');
 
         if ($appTestCase != $baseTestCase) {
-            $this->info(
-                'The installer has detected changes in your TestCase'
-                .', please setup Enlighten in your TestCase manually.'
-            );
+            $this->info(implode(PHP_EOL, [
+                'The installer has detected changes in your TestCase class',
+                ', please setup Enlighten manually with the link below:',
+                'https://github.com/StydeNet/enlighten#manual-setup'
+            ]));
             return;
         }
 
