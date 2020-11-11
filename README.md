@@ -40,7 +40,9 @@ Alternatively, install our [demo project](https://github.com/StydeNet/curso-de-l
 
 ## Installation
 
-First step: require the package with Composer:
+Installing Enlighten requires only 3 steps!
+
+First: require the package with Composer as a **dev** dependency:
 
 ```bash
 composer require styde/enlighten --dev
@@ -57,45 +59,12 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 ];
 ```
 
-Second step: publish the package assets (CSS, JavaScript) to the public folder using Artisan:
+Second: Run `php artisan enlighten:install` to install and setup Enlighten automatically, otherwise follow the instructions in the [Manual Setup Section](https://github.com/Stydenet/enlighten#manual-setup).
 
-```bash
-php artisan vendor:publish --tag=enlighten-build
-```
-
-Optionally, you can publish the config file and views for more customization.
-
-```bash
-php artisan vendor:publish --tag=enlighten-config
-php artisan vendor:publish --tag=enlighten-views
-```
-
-Third step: import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->setUpEnlighten()` in the `setUp` method of your `TestCase`, for example:
-
-```php
-<?php
-
-namespace Tests;
-
-use Styde\Enlighten\Tests\EnlightenSetup;
-
-class TestCase extends \Tests\TestCase
-{
-    use EnlightenSetup;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->setUpEnlighten();
-    }
-}
-```
-
-*Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
+Third: create and configure a database for Enlighten following the instructions below:
 
 ## Database Setup
-`Enlighten` needs a secondary database and database connection to record and present the information from your test-suite.
+`Enlighten` needs its own database and database connection to record and preserve the information from your test-suite.
 
 If you use the following convention: 
 
@@ -151,6 +120,45 @@ php artisan enlighten:migrate
 
 php artisan enlighten:migrate:fresh
 ```
+
+## Manual Setup
+
+Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
+
+```bash
+php artisan vendor:publish --tag=enlighten-build
+```
+
+Optionally, you can publish the config file and views for more customization.
+
+```bash
+php artisan vendor:publish --tag=enlighten-config
+php artisan vendor:publish --tag=enlighten-views
+```
+
+Third step: import the trait `Styde\Enlighten\Tests\EnlightenSetup` and call `$this->setUpEnlighten()` in the `setUp` method of your `TestCase`, for example:
+
+```php
+<?php
+
+namespace Tests;
+
+use Styde\Enlighten\Tests\EnlightenSetup;
+
+class TestCase extends \Tests\TestCase
+{
+    use EnlightenSetup;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setUpEnlighten();
+    }
+}
+```
+
+*Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
 
 ## "See in Enlighten" link
 
