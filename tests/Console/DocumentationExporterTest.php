@@ -60,7 +60,7 @@ class DocumentationExporterTest extends TestCase
         $example2 = $this->createExample($group1, 'paginates_users', 'passed', 'Paginates Users');
         $group2 = $this->createExampleGroup($run, 'Tests\Api\CreateUserTest', 'Create User');
         $example3 = $this->createExample($group2, 'creates_a_user', 'passed', 'Creates a User');
-        
+
         $anotherRun = $this->createRun('main', 'defghj', true);
         $anotherGroup = $this->createExampleGroup($anotherRun, 'Tests\Feature\ListUsersTest', 'List Users');
         $anotherExample = $this->createExample($anotherGroup, 'lists_users', 'passed', 'Lists Users');
@@ -138,6 +138,24 @@ class DocumentationExporterTest extends TestCase
             <a href="/docs/features.html"></a>
             <p>https://github.com/Stydenet/enlighten</p>
             <div data-search="fetch(\'/docs/search.json\')"></div>
+        ', 'index.html');
+    }
+
+    /** @test */
+    function replaces_the_seearch_file_path_with_the_export_base_path()
+    {
+        $run = $this->createRun('main', 'abcde', true);
+
+        $baseRunUrl = url("enlighten/run/{$run->id}");
+
+        $this->expectContentRequest($run->url)->andReturn('
+            <div data-search="fetch(\'/docs/search.json\')"></div>
+        ');
+
+        $this->exporter->export($run, __DIR__.'/public/docs', '/v-1');
+
+        $this->assertDocumentHasContent('
+            <div data-search="fetch(\'/v-1/search.json\')"></div>
         ', 'index.html');
     }
 

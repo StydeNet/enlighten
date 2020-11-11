@@ -6,6 +6,10 @@
 
     <x-slot name="title">{{ $title }}</x-slot>
 
+    @if($group->description)
+        <p class="text-gray-100 mb-4 bg-gray-800 p-4 rounded-md">{{ $group->description }}</p>
+    @endif
+
     <div class="w-full my-4">
         <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden">
             @foreach ($examples as $example)
