@@ -11,6 +11,7 @@ use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\HtmlResultFormat;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\Commands\FreshCommand;
+use Styde\Enlighten\Console\Commands\InstallCommand;
 use Styde\Enlighten\Console\Commands\MigrateCommand;
 use Styde\Enlighten\Console\ContentRequest;
 use Styde\Enlighten\Console\DocumentationExporter;
@@ -221,12 +222,12 @@ class EnlightenServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 $this->packageRoot('config') => base_path('config'),
-            ], 'enlighten-config');
+            ], ['enlighten', 'enlighten-config']);
 
             $this->publishes([
                 $this->packageRoot('dist') => public_path('vendor/enlighten'),
                 $this->packageRoot('/preview.png') => public_path('vendor/enlighten/img/preview.png'),
-            ], 'enlighten-build');
+            ], ['enlighten', 'enlighten-build']);
 
             $this->publishes([
                 $this->packageRoot('resources/views') => resource_path('views/vendor/enlighten'),
@@ -255,6 +256,7 @@ class EnlightenServiceProvider extends ServiceProvider
         });
 
         $this->commands([
+            InstallCommand::class,
             FreshCommand::class,
             MigrateCommand::class,
             ExportDocumentationCommand::class
