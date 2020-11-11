@@ -14,10 +14,18 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->publishBuildAndConfigFiles();
-        $this->setupEnlightenInTestCase();
         $this->addBasicPrinterToPhpUnit();
 
-        $this->info('Installation complete!');
+        $this->newLine();
+
+        if ($this->setupEnlightenInTestCase()) {
+            $this->info('Installation complete!');
+        } else {
+            $this->error('The installer has detected changes in your TestCase class.');
+            $this->error('Please setup Enlighten manually with the link below:');
+            $this->error('https://github.com/StydeNet/enlighten#manual-setup');
+        }
+
         $this->newLine();
         $this->warn('Please remember to create and setup the database for Enlighten and to change the APP_URL env variable if necessary.');
         $this->newLine();
@@ -35,15 +43,13 @@ class InstallCommand extends Command
         $baseTestCase = File::get(__DIR__.'/stubs/BaseTestCase.php.stub');
 
         if ($appTestCase != $baseTestCase) {
-            $this->info(
-                'The installer has detected changes in your TestCase'
-                .', please setup Enlighten in your TestCase manually.'
-            );
-            return;
+            return false;
         }
 
         $enlightenTestCase = File::get(__DIR__ . '/stubs/EnlightenTestCase.php.stub');
         File::put(base_path('Tests/TestCase.php'), $enlightenTestCase);
+
+        return true;
     }
 
     private function addBasicPrinterToPhpUnit()

@@ -123,6 +123,8 @@ php artisan enlighten:migrate:fresh
 
 ## Manual Setup
 
+If you didn't run `php artisan enlighten:install` or you received an error message, you can setup Enlighten manually following these instructions:
+
 Publish the package assets (CSS, JavaScript) to the public folder using Artisan:
 
 ```bash
