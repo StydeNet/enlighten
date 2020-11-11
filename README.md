@@ -59,7 +59,7 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 ];
 ```
 
-Second: Run `php artisan enlighten:install` to install and setup Enlighten automatically, otherwise follow the instructions in the [Manual Setup Section](https://github.com/Stydenet/enlighten#manual-setup).
+Second: Run `php artisan enlighten:install` to install and setup Enlighten automatically, otherwise follow the instructions in the [Manual Setup Section](#manual-setup).
 
 Third: create and configure a database for Enlighten following the instructions below:
 
