@@ -63,12 +63,16 @@ return [
     // Each area represents a "test suite" in the tests/ folder.
     // 'areas' => [...],
 
+    // Configure the type of view you'd like to see after selecting a run.
+    // Current options are 'modules' and 'features' (coming soon: 'endpoints'!).
+    'area_view' => 'modules',
+
     // Group your tests-classes as "modules", you can use a regular expression
     // to find all the classes that match with the given pattern or patterns:
     'modules' => [
         [
             'name' => 'Users',
-            'pattern' => ['*Users*']
+            'pattern' => ['*User*'],
         ],
         [
             'name' => 'Other Modules',

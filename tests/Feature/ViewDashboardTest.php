@@ -12,13 +12,39 @@ class ViewDashboardTest extends TestCase
     public function get_dashboard_view(): void
     {
         $run = $this->createRun();
-
-        $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User tests');
+        $group = $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User Test');
+        $this->createExample($group, 'list_users', 'passed', 'List the users');
 
         $response = $this->get(route('enlighten.area.show', ['run' => $run]));
 
         $response->assertOk()
-            ->assertViewIs('enlighten::area.show');
+            ->assertViewIs('enlighten::area.modules')
+            ->assertSeeTextInOrder([
+                'All Areas',
+                'Users',
+                'User Test',
+            ])
+            ->assertDontSeeText('List the users');
+    }
+
+    /** @test */
+    public function get_dashboard_features_view(): void
+    {
+        $run = $this->createRun();
+        $group = $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User Test');
+        $this->createExample($group, 'list_users', 'passed', 'List the users');
+
+        config(['enlighten.area_view' => 'features']);
+
+        $response = $this->get(route('enlighten.area.show', ['run' => $run]));
+
+        $response->assertOk()
+            ->assertViewIs('enlighten::area.features')
+            ->assertSeeTextInOrder([
+                'All Areas',
+                'User Test',
+                'List the users',
+            ]);
     }
 
     /** @test */
