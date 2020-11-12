@@ -58,20 +58,13 @@ class ShowAreaController
             ->select('id', 'example_id', 'request_method', 'request_path')
             ->addSelect('route', 'response_status', 'response_headers')
             ->with([
-                'example' => function ($q) {
-                    $q->select('id', 'group_id', 'title', 'slug', 'status');
-                },
-                'example.group' => function ($q) {
-                    $q->select('id', 'slug', 'run_id');
-                }
+                'example:id,group_id,title,slug,status',
+                'example.group:id,slug,run_id',
             ])
-            ->whereHas('example.group.run', function ($q) use ($run) {
-                $q->where('id', $run->id);
-            })
+            ->fromRun($run)
             ->get();
 
         $endpoints = $requests
-            ->sortBy('id')
             ->groupBy('signature')
             ->map(function ($requests) {
                 return new Endpoint(

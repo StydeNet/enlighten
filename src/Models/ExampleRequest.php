@@ -2,6 +2,7 @@
 
 namespace Styde\Enlighten\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
@@ -35,6 +36,15 @@ class ExampleRequest extends Model implements Statusable
     public function queries(): HasMany
     {
         return $this->hasMany(ExampleQuery::class, 'request_id');
+    }
+
+    // - Scopes
+
+    public function scopeFromRun(Builder $q, Run $run)
+    {
+        $q->whereHas('example.group.run', function ($q) use ($run) {
+            $q->where('id', $run->id);
+        });
     }
 
     // - Accesors
