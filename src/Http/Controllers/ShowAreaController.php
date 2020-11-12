@@ -70,7 +70,7 @@ class ShowAreaController
                 return new Endpoint(
                     $requests->first()->request_method,
                     $requests->first()->route_or_path,
-                    $requests,
+                    $requests, // $requests->sortBy('example.order_num')
                 );
             })
             ->sortBy('method_index');
