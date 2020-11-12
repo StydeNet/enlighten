@@ -40,7 +40,7 @@ class AppLayoutComponent extends Component
     public function panels(Area $area)
     {
         return Module::all()
-            ->addGroups(
+            ->wrapGroups(
                 $this->activeRun->groups->where('area', $area->slug)
             )->filter(function ($panel) {
                 return $panel->groups->isNotEmpty();

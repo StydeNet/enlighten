@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\Concerns\GetStats;
 
-class ExampleGroup extends Model implements Statusable
+class ExampleGroup extends Model implements Statusable, Wrappable
 {
     use GetStats;
 
@@ -37,9 +37,9 @@ class ExampleGroup extends Model implements Statusable
     }
 
     // Helpers
-    public function matches(Module $module)
+    public function matches(Module $module): bool
     {
-        return Str::is($module->pattern, $this->class_name);
+        return Str::is($module->classes, $this->class_name);
     }
 
     // Scopes

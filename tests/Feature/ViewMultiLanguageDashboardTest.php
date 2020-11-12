@@ -2,28 +2,25 @@
 
 namespace Tests\Feature;
 
+use App;
+
 class ViewMultiLanguageDashboardTest extends TestCase
 {
     /** @test */
     public function get_dashboard_view_with_translated_messages(): void
     {
-        // Given
         $run = $this->createRun();
 
-        // When set the english language...
-        \App::setLocale('en');
+        config(['enlighten.area_view' => 'modules']);
 
-        $response = $this->get(route('enlighten.area.show', ['run' => $run]));
+        App::setLocale('en');
 
-        // Then
-        $response->assertSee('There are no examples to show.');
+        $this->get(route('enlighten.area.show', ['run' => $run]))
+            ->assertSee('There are no examples to show.');
 
-        // When set the spanish language...
-        \App::setLocale('es');
+        App::setLocale('es');
 
-        $response = $this->get(route('enlighten.area.show', ['run' => $run]));
-
-        // Then
-        $response->assertSee('No hay ejemplos para mostrar.');
+        $this->get(route('enlighten.area.show', ['run' => $run]))
+            ->assertSee('No hay ejemplos para mostrar.');
     }
 }

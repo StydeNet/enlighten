@@ -1,8 +1,9 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use Illuminate\Support\Collection;
+use Styde\Enlighten\Models\Endpoint;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\ModuleCollection;
@@ -24,7 +25,7 @@ class ModuleCollectionTest extends TestCase
     }
 
     /** @test */
-    function add_example_groups_to_the_module_collection_items()
+    function add_example_groups_to_the_modules_in_the_module_collection()
     {
         $modules = ModuleCollection::make([
             new Module('Users', ['*UserTest*', '*UsersTest*']),
@@ -41,7 +42,7 @@ class ModuleCollectionTest extends TestCase
             new ExampleGroup(['class_name' => 'SearchTest']),
         ]);
 
-        $modules->addGroups($groupCollection);
+        $modules->wrapGroups($groupCollection);
 
         $this->assertModuleHasGroups($modules, 'Users', [
             ['class_name' => 'ListUsersTest'],
@@ -72,7 +73,7 @@ class ModuleCollectionTest extends TestCase
     }
 
     /** @test */
-    public function remove_empty_modules_from_collection(): void
+    public function remove_modules_without_example_groups_from_the_module_collection(): void
     {
         $modules = ModuleCollection::make([
             new Module('Users', ['*UserTest*', '*UsersTest*']),
@@ -83,7 +84,56 @@ class ModuleCollectionTest extends TestCase
             new ExampleGroup(['class_name' => 'ListUsersTest']),
         ]);
 
-        $modules = $modules->addGroups($groupCollection)->whereHasGroups();
+        $modules = $modules->wrapGroups($groupCollection)->whereHasGroups();
+
+        $this->assertSame(1, $modules->count());
+    }
+
+    /** @test */
+    function add_endpoint_groups_to_the_modules_in_the_module_collection()
+    {
+        $modules = ModuleCollection::make([
+            new Module('Users', [], ['/users*', '/user/*']),
+            new Module('Videos', [], ['/videos*']),
+        ]);
+
+        $endpoints = Collection::make([
+            new Endpoint('GET', '/users'),
+            new Endpoint('POST', '/users'),
+            new Endpoint('GET', '/user/{id}'),
+            new Endpoint('POST', '/videos/{category}'),
+            new Endpoint('POST', '/likes'),
+        ]);
+
+        $modules->wrapGroups($endpoints);
+
+        $this->assertModuleHasEndpoints($modules, 'Users', ['GET /users', 'POST /users', 'GET /user/{id}']);
+        $this->assertModuleHasEndpoints($modules, 'Videos', ['POST /videos/{category}']);
+        $this->assertModuleHasEndpoints($modules, 'Other Modules', ['POST /likes']);
+    }
+
+    public function assertModuleHasEndpoints(ModuleCollection $modules, $name, array $expectedGroups)
+    {
+        $module = $modules->getByName($name);
+
+        $this->assertInstanceOf(Module::class, $module);
+
+        $this->assertSame($expectedGroups, $module->groups->map->getSignature()->values()->all());
+    }
+
+    /** @test */
+    public function remove_modules_without_endpoint_groups_from_the_module_collection(): void
+    {
+        $modules = ModuleCollection::make([
+            new Module('Users', ['*UserTest*', '*UsersTest*']),
+            new Module('Posts', ['*EMPTY*']),
+        ]);
+
+        $groupCollection = Collection::make([
+            new ExampleGroup(['class_name' => 'ListUsersTest']),
+        ]);
+
+        $modules = $modules->wrapGroups($groupCollection)->whereHasGroups();
 
         $this->assertSame(1, $modules->count());
     }

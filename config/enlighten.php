@@ -64,19 +64,21 @@ return [
     // 'areas' => [...],
 
     // Configure the type of view you'd like to see after selecting a run.
-    // Current options are 'modules' and 'features' (coming soon: 'endpoints'!).
-    'area_view' => 'modules',
+    // Available options are 'features', 'modules' and 'enpoints'.
+    'area_view' => 'features',
 
-    // Group your tests-classes as "modules", you can use a regular expression
-    // to find all the classes that match with the given pattern or patterns:
+    // If you want to use "modules" or "endpoints" as the area view,
+    // you will need to configure the modules adding their names
+    // and patterns to match the test classes and/or routes.
     'modules' => [
         [
             'name' => 'Users',
-            'pattern' => ['*User*'],
+            'classes' => ['*User*'],
+            'routes' => ['users/*']
         ],
         [
             'name' => 'Other Modules',
-            'pattern' => ['*'],
+            'classes' => ['*'],
         ],
     ]
 ];

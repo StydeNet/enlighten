@@ -14,15 +14,16 @@ class Module implements Statusable, Statable
     {
         return ModuleCollection::make(config('enlighten.modules'))
             ->map(function ($item) {
-                return new static($item['name'], $item['pattern']);
+                return new static($item['name'], $item['classes'] ?? [], $item['routes'] ?? []);
             });
     }
 
-    public function __construct(string $name, $pattern = [])
+    public function __construct(string $name, array $classes = [], array $routes = [])
     {
         $this->setAttributes([
             'name' => $name,
-            'pattern' => $pattern,
+            'classes' => $classes,
+            'routes' => $routes,
         ]);
     }
 

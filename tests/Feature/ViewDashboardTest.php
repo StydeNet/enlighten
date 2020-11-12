@@ -9,25 +9,6 @@ class ViewDashboardTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function get_dashboard_view(): void
-    {
-        $run = $this->createRun();
-        $group = $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User Test');
-        $this->createExample($group, 'list_users', 'passed', 'List the users');
-
-        $response = $this->get(route('enlighten.area.show', ['run' => $run]));
-
-        $response->assertOk()
-            ->assertViewIs('enlighten::area.modules')
-            ->assertSeeTextInOrder([
-                'All Areas',
-                'Users',
-                'User Test',
-            ])
-            ->assertDontSeeText('List the users');
-    }
-
-    /** @test */
     public function get_dashboard_features_view(): void
     {
         $run = $this->createRun();
@@ -45,6 +26,29 @@ class ViewDashboardTest extends TestCase
                 'User Test',
                 'List the users',
             ]);
+    }
+
+    /** @test */
+    public function get_dashboard_modules_view(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $run = $this->createRun();
+        $group = $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User Test');
+        $this->createExample($group, 'list_users', 'passed', 'List the users');
+
+        config(['enlighten.area_view' => 'modules']);
+
+        $response = $this->get(route('enlighten.area.show', ['run' => $run]));
+
+        $response->assertOk()
+            ->assertViewIs('enlighten::area.modules')
+            ->assertSeeTextInOrder([
+                'All Areas',
+                'Users',
+                'User Test',
+            ])
+            ->assertDontSeeText('List the users');
     }
 
     /** @test */
@@ -111,6 +115,8 @@ class ViewDashboardTest extends TestCase
         $this->createExampleGroup($run, 'Tests\Api\PostTest', 'Post tests');
         $this->createExampleGroup($run, 'Tests\Feature\UserTest', 'Users Feature tests');
         $this->createExampleGroup($run, 'Tests\Unit\FilterTest', 'Filter tests');
+
+        config(['enlighten.area_view' => 'modules']);
 
         $response = $this->get(route('enlighten.area.show', ['run' => $run->id, 'area' => 'api']));
 

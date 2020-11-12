@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Http\Controllers;
 use Illuminate\Database\Eloquent\Collection;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Area;
+use Styde\Enlighten\Models\Endpoint;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\ModuleCollection;
 use Styde\Enlighten\Models\Run;
@@ -14,16 +15,16 @@ class ShowAreaController
 {
     public function __invoke(Run $run, string $areaSlug = null)
     {
-        $viewMethod = 'view' . ucfirst(config('enlighten.area_view', 'modules'));
+        $action = config('enlighten.area_view', 'features');
 
-        if (!method_exists($this, $viewMethod)) {
-            $viewMethod = 'viewModules';
+        if (! in_array($action, ['features', 'modules', 'endpoints'])) {
+            $action = 'features';
         }
 
-        return $this->$viewMethod($run, $this->getArea($run, $areaSlug));
+        return $this->$action($run, $this->getArea($run, $areaSlug));
     }
 
-    private function viewModules(Run $run, Area $area = null)
+    private function modules(Run $run, Area $area = null)
     {
         return view('enlighten::area.modules', [
             'area' => $area,
@@ -31,7 +32,7 @@ class ShowAreaController
         ]);
     }
 
-    private function viewFeatures(Run $run, Area $area = null)
+    private function features(Run $run, Area $area = null)
     {
         $groups = $this->getGroups($run, $area)
             ->load([
@@ -50,21 +51,14 @@ class ShowAreaController
         ]);
     }
 
-    private function viewEndpoints(Run $run, Area $area = null)
+    private function endpoints(Run $run, Area $area = null)
     {
         $examples = $run->examples()
             ->with([
                 'group',
                 'requests' => function ($q) {
-                    $q->select(
-                        'id',
-                        'example_id',
-                        'request_method',
-                        'request_path',
-                        'route',
-                        'response_status',
-                        'response_headers',
-                    );
+                    $q->select('id', 'example_id', 'request_method', 'request_path')
+                        ->addSelect('route', 'response_status', 'response_headers');
                 }
             ])
             ->get();
@@ -93,10 +87,11 @@ class ShowAreaController
                 return explode('/', $route)[0].($methods[$method] ?? 6);
             })
             ->map(function ($requests) {
-                return (object)[
-                    'mainRequest' => $requests->first(),
-                    'additionalRequests' => $requests->slice(1)
-                ];
+                return new Endpoint(
+                    $requests->first()->request_method,
+                    $requests->first()->route,
+                    $requests,
+                );
             });
 
         return view('enlighten::area.endpoints', [
@@ -124,6 +119,6 @@ class ShowAreaController
 
     private function getModules(Collection $groups): ModuleCollection
     {
-        return Module::all()->addGroups($groups)->whereHasGroups();
+        return Module::all()->wrapGroups($groups)->whereHasGroups();
     }
 }

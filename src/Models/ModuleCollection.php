@@ -11,19 +11,20 @@ class ModuleCollection extends Collection
         return $this->firstWhere('name', $name);
     }
 
-    public function addGroups(Collection $groups) : self
+    public function wrapGroups(Collection $groups) : self
     {
         return $this
             ->each(function ($module) use (&$groups) {
-                [$matches, $groups] = $groups->partition(function ($group) use ($module) {
+                [$matches, $groups] = $groups->partition(function (Wrappable $group) use ($module) {
                     return $group->matches($module);
                 });
+
                 $module->addGroups($matches);
             })
-            ->addRemainingGroupsToTheDefaultModule($groups);
+            ->wrapRemainingGroups($groups);
     }
 
-    private function addRemainingGroupsToTheDefaultModule(Collection $groups): self
+    private function wrapRemainingGroups(Collection $groups): self
     {
         if ($groups->isEmpty()) {
             return $this;
