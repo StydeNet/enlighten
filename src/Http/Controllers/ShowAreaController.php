@@ -3,20 +3,50 @@
 namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Collection;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\ModuleCollection;
 use Styde\Enlighten\Models\Run;
+use Styde\Enlighten\Section;
 
 class ShowAreaController
 {
     public function __invoke(Run $run, string $areaSlug = null)
     {
-        $area = $this->getArea($run, $areaSlug);
+        $viewMethod = 'view'.ucfirst(config('enlighten.area_view', 'modules'));
 
-        return view('enlighten::area.show', [
+        if (! method_exists($this, $viewMethod)) {
+            $viewMethod = 'viewModules';
+        }
+
+        return $this->$viewMethod($run, $this->getArea($run, $areaSlug));
+    }
+
+    private function viewModules(Run $run, Area $area = null)
+    {
+        return view('enlighten::area.modules', [
             'title' => $area->title ?? trans('enlighten::messages.all_areas'),
-            'modules' => $this->getModules($this->getGroups($run, $area)),
+            'modules' => $this->getModules($this->getGroups($run, $area)->load('stats')),
+        ]);
+    }
+
+    private function viewFeatures(Run $run, Area $area = null)
+    {
+        $groups = $this->getGroups($run, $area)
+            ->load([
+                'examples' => function ($q) {
+                    $q->withCount('queries');
+                },
+                'examples.group',
+                'examples.requests',
+                'examples.exception'
+            ]);
+
+        return view('enlighten::area.features', [
+            'title' => $area->title ?? trans('enlighten::messages.all_areas'),
+            'showQueries' => Enlighten::show(Section::QUERIES),
+            'groups' => $groups,
         ]);
     }
 
@@ -34,8 +64,7 @@ class ShowAreaController
         return $run->groups
             ->when($area, function ($collection, $area) {
                 return $collection->where('area', $area->slug);
-            })
-            ->load('stats');
+            });
     }
 
     private function getModules(Collection $groups): ModuleCollection
