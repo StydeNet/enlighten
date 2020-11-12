@@ -2,7 +2,7 @@
 
 namespace Styde\Enlighten\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Endpoint;
@@ -84,6 +84,8 @@ class ShowAreaController
                     'DELETE' => 5,
                 ];
 
+                array_search($route, $methods);
+
                 return explode('/', $route)[0].($methods[$method] ?? 6);
             })
             ->map(function ($requests) {
@@ -96,7 +98,7 @@ class ShowAreaController
 
         return view('enlighten::area.endpoints', [
             'area' => $area,
-            'endpoints' => $endpoints,
+            'modules' => $this->getModules($endpoints),
         ]);
     }
 

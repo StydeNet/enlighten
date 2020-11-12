@@ -1,31 +1,40 @@
-<x-enlighten-main-layout>
     @empty($area)
-        <x-slot name="title">{{ trans('enlighten::messages.all_endpoints') }}</x-slot>
+{{--        <x-slot name="title">--}}
+            {{ trans('enlighten::messages.all_endpoints') }}
+{{--        </x-slot>--}}
     @else
-        <x-slot name="title">{{ $area->title }}</x-slot>
+{{--        <x-slot name="title">--}}
+            {{ $area->title }}
+{{--        </x-slot>--}}
     @endif
 
-    @foreach($endpoints as $endpoint)
-        <h2>
-            {{ $endpoint->method }} {{ $endpoint->route }}
-            {{ $endpoint->title }}
+    @foreach($modules as $module)
+        <h1>{{ $module->name }}</h1>
 
-            -
+        @foreach($module->groups as $group)
+            <h3>
+                {{ $group->method }} {{ $group->route }}
+                {{ $group->title }}
 
-            <a href="{{ $endpoint->mainRequest->example->url }}">
-                {{ $endpoint->mainRequest->example->title }}
-            </a>
-        </h2>
+                -
 
-        <ul>
-            @foreach ($endpoint->additionalRequests as $additionalRequest)
-                <li>
-                    {{ $additionalRequest->request_method }} {{ $additionalRequest->route }}
-                    <a href="{{ $additionalRequest->example->url }}">
-                        {{ $additionalRequest->example->title }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
+                <a href="{{ $group->mainRequest->example->url }}">
+                    {{ $group->mainRequest->example->title }}
+                </a>
+
+                {{ $group->mainRequest->response_status }} {{ $group->mainRequest->response_types }}
+            </h3>
+
+            <ul>
+                @foreach ($group->additionalRequests as $additionalRequest)
+                    <li>
+                        <a href="{{ $additionalRequest->example->url }}">
+                            {{ $additionalRequest->example->title }}
+                        </a>
+
+                        {{ $additionalRequest->response_status }} {{ $additionalRequest->response_type }}
+                    </li>
+                @endforeach
+            </ul>
+        @endforeach
     @endforeach
-</x-enlighten-main-layout>
