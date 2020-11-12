@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
@@ -80,5 +81,16 @@ class RunTest extends TestCase
             ],
         ];
         $this->assertSame($expected, $run->areas->toArray());
+    }
+
+    /** @test */
+    public function run_has_many_examples(): void
+    {
+        $run = $this->createRun();
+        $group = $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest');
+        $example = $this->createExample($group);
+
+        $this->assertInstanceOf(HasManyThrough::class, $run->examples());
+        $this->assertTrue($example->is($run->examples->first()));
     }
 }

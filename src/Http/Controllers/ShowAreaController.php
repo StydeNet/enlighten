@@ -50,6 +50,18 @@ class ShowAreaController
         ]);
     }
 
+    private function viewEndpoints(Run $run, Area $area = null)
+    {
+        $examples = $run->examples->load('requests');
+
+
+
+        return view('enlighten::area.endpoints', [
+            'title' => $area->title ?? trans('enlighten::messages.all_endpoints'),
+            'examples' => $examples
+        ]);
+    }
+
     private function getArea(Run $run, string $areaSlug = null): ?Area
     {
         if (empty($areaSlug)) {

@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Styde\Enlighten\Models\Concerns\GetStats;
 
 class Run extends Model implements Statable
@@ -15,9 +16,16 @@ class Run extends Model implements Statable
 
     protected $guarded = [];
 
+    // Relationships
+
     public function groups()
     {
         return $this->hasMany(ExampleGroup::class);
+    }
+
+    public function examples(): HasManyThrough
+    {
+        return $this->hasManyThrough(Example::class, ExampleGroup::class, 'run_id', 'group_id');
     }
 
     public function findGroup(string $slug)

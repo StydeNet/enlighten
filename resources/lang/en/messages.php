@@ -2,6 +2,7 @@
 
 return [
     'all_areas' => 'All Areas',
+    'all_endpoints' => 'All Endpoints',
     'branch_commit' => 'Branch / Commit',
     'dashboard' => 'Dashboard',
     'date' => 'Date',

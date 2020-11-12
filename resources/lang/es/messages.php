@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'all_areas' => 'Todas las áreas',
+    'all_endpoints' => 'Todos las URLs',
     'branch_commit' => 'Rama / Confirmación',
     'dashboard' => 'Tablero',
     'date' => 'Fecha',

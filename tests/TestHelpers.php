@@ -6,6 +6,7 @@ use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\ExampleQuery;
+use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Models\Status;
 
@@ -87,6 +88,11 @@ trait TestHelpers
             'area' => Enlighten::getAreaSlug($className),
             'slug' => Enlighten::generateSlugFromClassName($className),
         ], array_filter($customAttributes));
+    }
+
+    protected function createExampleRequest($example, array $attributes = []): ExampleRequest
+    {
+        return $example->requests()->create($this->getExampleRequestAttributes($attributes));
     }
 
     protected function getExampleRequestAttributes(array $customAttributes = [])
