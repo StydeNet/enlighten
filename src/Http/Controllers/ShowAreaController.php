@@ -28,7 +28,7 @@ class ShowAreaController
     {
         return view('enlighten::area.modules', [
             'area' => $area,
-            'modules' => $this->getModules($this->getGroups($run, $area)->load('stats')),
+            'modules' => $this->wrapByModule($this->getGroups($run, $area)->load('stats')),
         ]);
     }
 
@@ -58,7 +58,7 @@ class ShowAreaController
                 'group',
                 'requests' => function ($q) {
                     $q->select('id', 'example_id', 'request_method', 'request_path')
-                        ->addSelect('route', 'response_status', 'response_headers');
+                      ->addSelect('route', 'response_status', 'response_headers');
                 }
             ])
             ->get();
@@ -73,32 +73,18 @@ class ShowAreaController
             ->groupBy(function ($request) {
                 return $request->request_method.' '.($request->route ?: $request->request_path);
             })
-            ->sortBy(function ($requests, $endpoint) {
-                [$method, $route] = explode(' ', $endpoint);
-
-                $methods = [
-                    'GET' => 1,
-                    'POST' => 2,
-                    'PUT' => 3,
-                    'PATCH' => 4,
-                    'DELETE' => 5,
-                ];
-
-                array_search($route, $methods);
-
-                return explode('/', $route)[0].($methods[$method] ?? 6);
-            })
             ->map(function ($requests) {
                 return new Endpoint(
                     $requests->first()->request_method,
                     $requests->first()->route,
                     $requests,
                 );
-            });
+            })
+            ->sortBy('method_index');
 
         return view('enlighten::area.endpoints', [
             'area' => $area,
-            'modules' => $this->getModules($endpoints),
+            'modules' => $this->wrapByModule($endpoints),
         ]);
     }
 
@@ -119,7 +105,7 @@ class ShowAreaController
             });
     }
 
-    private function getModules(Collection $groups): ModuleCollection
+    private function wrapByModule(Collection $groups): ModuleCollection
     {
         return Module::all()->wrapGroups($groups)->whereHasGroups();
     }

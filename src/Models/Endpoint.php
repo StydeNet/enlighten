@@ -43,4 +43,9 @@ class Endpoint implements Wrappable
     {
         return $this->requests->slice(1);
     }
+
+    public function getMethodIndex()
+    {
+        return array_search($this->method, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
+    }
 }
