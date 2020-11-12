@@ -1,6 +1,8 @@
 <x-enlighten-main-layout>
-    @if(!empty($title))
-        <x-slot name="title">{{ $title }}</x-slot>
+    @empty($area)
+        <x-slot name="title">{{ trans('enlighten::messages.all_areas') }}</x-slot>
+    @else
+        <x-slot name="title">{{ $area->title }}</x-slot>
     @endif
 
     <div class="w-full mx-auto">

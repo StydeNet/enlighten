@@ -32,6 +32,14 @@ class ExampleRequest extends Model implements Statusable
         return $this->hasMany(ExampleQuery::class, 'request_id');
     }
 
+    // - Helpers
+
+    public function toEndpoint()
+    {
+        return $this->route;
+    }
+
+    // - Accesors
 
     public function getFullPathAttribute()
     {

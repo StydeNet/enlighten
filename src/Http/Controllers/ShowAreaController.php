@@ -14,9 +14,9 @@ class ShowAreaController
 {
     public function __invoke(Run $run, string $areaSlug = null)
     {
-        $viewMethod = 'view'.ucfirst(config('enlighten.area_view', 'modules'));
+        $viewMethod = 'view' . ucfirst(config('enlighten.area_view', 'modules'));
 
-        if (! method_exists($this, $viewMethod)) {
+        if (!method_exists($this, $viewMethod)) {
             $viewMethod = 'viewModules';
         }
 
@@ -26,7 +26,7 @@ class ShowAreaController
     private function viewModules(Run $run, Area $area = null)
     {
         return view('enlighten::area.modules', [
-            'title' => $area->title ?? trans('enlighten::messages.all_areas'),
+            'area' => $area,
             'modules' => $this->getModules($this->getGroups($run, $area)->load('stats')),
         ]);
     }
@@ -44,7 +44,7 @@ class ShowAreaController
             ]);
 
         return view('enlighten::area.features', [
-            'title' => $area->title ?? trans('enlighten::messages.all_areas'),
+            'area' => $area,
             'showQueries' => Enlighten::show(Section::QUERIES),
             'groups' => $groups,
         ]);
@@ -52,13 +52,56 @@ class ShowAreaController
 
     private function viewEndpoints(Run $run, Area $area = null)
     {
-        $examples = $run->examples->load('requests');
+        $examples = $run->examples()
+            ->with([
+                'group',
+                'requests' => function ($q) {
+                    $q->select(
+                        'id',
+                        'example_id',
+                        'request_method',
+                        'request_path',
+                        'route',
+                        'response_status',
+                        'response_headers',
+                    );
+                }
+            ])
+            ->get();
 
+        $endpoints = $examples
+            ->pluck('requests')
+            ->flatten()
+            ->sortBy('id')
+            ->each(function ($request) use ($examples) {
+                $request->setRelation('example', $examples->firstWhere('id', $request->example_id));
+            })
+            ->groupBy(function ($request) {
+                return $request->request_method.' '.($request->route ?: $request->request_path);
+            })
+            ->sortBy(function ($requests, $endpoint) {
+                [$method, $route] = explode(' ', $endpoint);
 
+                $methods = [
+                    'GET' => 1,
+                    'POST' => 2,
+                    'PUT' => 3,
+                    'PATCH' => 4,
+                    'DELETE' => 5,
+                ];
+
+                return explode('/', $route)[0].($methods[$method] ?? 6);
+            })
+            ->map(function ($requests) {
+                return (object)[
+                    'mainRequest' => $requests->first(),
+                    'additionalRequests' => $requests->slice(1)
+                ];
+            });
 
         return view('enlighten::area.endpoints', [
-            'title' => $area->title ?? trans('enlighten::messages.all_endpoints'),
-            'examples' => $examples
+            'area' => $area,
+            'endpoints' => $endpoints,
         ]);
     }
 
