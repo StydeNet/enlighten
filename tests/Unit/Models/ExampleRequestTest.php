@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Models\ExampleRequest;
@@ -32,6 +33,16 @@ class ExampleRequestTest extends TestCase
 
         $this->assertCount(1, $example->requests);
         $this->assertTrue($example->is_http);
+    }
+
+    /** @test */
+    function an_example_request_belongs_to_an_example()
+    {
+        $example = $this->createExample();
+        $request = $example->requests()->create($this->getExampleRequestAttributes());
+
+        $this->assertInstanceOf(BelongsTo::class, $request->example());
+        $this->assertTrue($request->example->is($example));
     }
 
     /** @test */

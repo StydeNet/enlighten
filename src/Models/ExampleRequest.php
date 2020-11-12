@@ -27,19 +27,27 @@ class ExampleRequest extends Model implements Statusable
         'response_status' => 'int',
     ];
 
+    public function example()
+    {
+        return $this->belongsTo(Example::class);
+    }
+
     public function queries(): HasMany
     {
         return $this->hasMany(ExampleQuery::class, 'request_id');
     }
 
-    // - Helpers
+    // - Accesors
 
-    public function toEndpoint()
+    public function getSignatureAttribute($value)
     {
-        return $this->route;
+        return "{$this->request_method} {$this->route_or_path}";
     }
 
-    // - Accesors
+    public function getRouteOrPathAttribute($value)
+    {
+        return $this->route ?: $this->request_path;
+    }
 
     public function getFullPathAttribute()
     {

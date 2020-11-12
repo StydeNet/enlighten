@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Endpoint;
+use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Models\Module;
 use Styde\Enlighten\Models\ModuleCollection;
 use Styde\Enlighten\Models\Run;
@@ -53,30 +54,29 @@ class ShowAreaController
 
     private function endpoints(Run $run, Area $area = null)
     {
-        $examples = $run->examples()
+        $requests = ExampleRequest::query()
+            ->select('id', 'example_id', 'request_method', 'request_path')
+            ->addSelect('route', 'response_status', 'response_headers')
             ->with([
-                'group',
-                'requests' => function ($q) {
-                    $q->select('id', 'example_id', 'request_method', 'request_path')
-                      ->addSelect('route', 'response_status', 'response_headers');
+                'example' => function ($q) {
+                    $q->select('id', 'group_id', 'title', 'slug', 'status');
+                },
+                'example.group' => function ($q) {
+                    $q->select('id', 'slug', 'run_id');
                 }
             ])
+            ->whereHas('example.group.run', function ($q) use ($run) {
+                $q->where('id', $run->id);
+            })
             ->get();
 
-        $endpoints = $examples
-            ->pluck('requests')
-            ->flatten()
+        $endpoints = $requests
             ->sortBy('id')
-            ->each(function ($request) use ($examples) {
-                $request->setRelation('example', $examples->firstWhere('id', $request->example_id));
-            })
-            ->groupBy(function ($request) {
-                return $request->request_method.' '.($request->route ?: $request->request_path);
-            })
+            ->groupBy('signature')
             ->map(function ($requests) {
                 return new Endpoint(
                     $requests->first()->request_method,
-                    $requests->first()->route,
+                    $requests->first()->route_or_path,
                     $requests,
                 );
             })

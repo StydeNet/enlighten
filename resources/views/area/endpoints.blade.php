@@ -18,6 +18,8 @@
 
                 -
 
+                [{{ $group->mainRequest->example->status }}]
+
                 <a href="{{ $group->mainRequest->example->url }}">
                     {{ $group->mainRequest->example->title }}
                 </a>
@@ -28,6 +30,8 @@
             <ul>
                 @foreach ($group->additionalRequests as $additionalRequest)
                     <li>
+                        [{{ $additionalRequest->example->status }}]
+
                         <a href="{{ $additionalRequest->example->url }}">
                             {{ $additionalRequest->example->title }}
                         </a>
