@@ -3,14 +3,17 @@
     <x-slot name="title">{{ $title }}</x-slot>
 
     @foreach($groups as $group)
-        <h2 class="text-white">{{ $group->title }}</h2>
-
         @if($group->description)
             <p class="text-gray-100 mb-4 bg-gray-800 p-4 rounded-md">{{ $group->description }}</p>
         @endif
 
         <div class="w-full my-4">
             <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden">
+                <div class="w-full p-4 bg-gray-200">
+                    <h2 class="text-gray-800 text-lg">{{ $group->title }}</h2>
+                </div>
+
+
                 @foreach ($group->examples as $example)
                     <a href="{{ $example->url }}" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
 
