@@ -1,9 +1,5 @@
 <x-enlighten-main-layout>
-    @empty($area)
-        <x-slot name="title">{{ trans('enlighten::messages.all_endpoints') }}</x-slot>
-    @else
-        <x-slot name="title">{{ $area->title }}</x-slot>
-    @endif
+    <x-slot name="title">{{ $area->name }}</x-slot>
 
     <div class="w-full my-4">
         @foreach($modules as $module)

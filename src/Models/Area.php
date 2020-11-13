@@ -55,4 +55,9 @@ class Area implements Arrayable
             'view' => $view,
         ]);
     }
+
+    public function isNotDefault(): bool
+    {
+        return ! empty($this->slug);
+    }
 }

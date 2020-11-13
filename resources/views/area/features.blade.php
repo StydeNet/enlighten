@@ -1,9 +1,5 @@
 <x-enlighten-main-layout>
-    @empty($area)
-        <x-slot name="title">{{ trans('enlighten::messages.all_areas') }}</x-slot>
-    @else
-        <x-slot name="title">{{ $area->title }}</x-slot>
-    @endif
+    <x-slot name="title">{{ $area->name }}</x-slot>
 
     @foreach($groups as $group)
         @if($group->description)

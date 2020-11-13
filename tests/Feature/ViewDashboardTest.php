@@ -87,8 +87,8 @@ class ViewDashboardTest extends TestCase
 
         $response->assertOk()
             ->assertViewIs('enlighten::area.endpoints')
-            ->assertSeeText('All Endpoints')
             ->assertSeeTextInOrder([
+                'All Areas',
                 'get',
                 '/api/v1/users',
                 'post',
@@ -107,8 +107,10 @@ class ViewDashboardTest extends TestCase
     }
 
     /** @test */
-    public function get_test_groups_by_test_area(): void
+    public function get_example_groups_by_test_area(): void
     {
+        $this->withoutExceptionHandling();
+
         $run = $this->createRun();
 
         $this->createExampleGroup($run, 'Tests\Api\UserTest', 'User tests');

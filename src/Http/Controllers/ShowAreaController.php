@@ -16,16 +16,18 @@ class ShowAreaController
 {
     public function __invoke(Run $run, string $areaSlug = null)
     {
-        $action = config('enlighten.area_view', 'features');
+        $area = $this->getArea($run, $areaSlug);
+
+        $action = $area->view;
 
         if (! in_array($action, ['features', 'modules', 'endpoints'])) {
             $action = 'features';
         }
 
-        return $this->$action($run, $this->getArea($run, $areaSlug));
+        return $this->$action($run, $area);
     }
 
-    private function modules(Run $run, Area $area = null)
+    private function modules(Run $run, Area $area)
     {
         return view('enlighten::area.modules', [
             'area' => $area,
@@ -33,7 +35,7 @@ class ShowAreaController
         ]);
     }
 
-    private function features(Run $run, Area $area = null)
+    private function features(Run $run, Area $area)
     {
         $groups = $this->getGroups($run, $area)
             ->load([
@@ -52,7 +54,7 @@ class ShowAreaController
         ]);
     }
 
-    private function endpoints(Run $run, Area $area = null)
+    private function endpoints(Run $run, Area $area)
     {
         $requests = ExampleRequest::query()
             ->select('id', 'example_id', 'request_method', 'request_path')
@@ -81,19 +83,24 @@ class ShowAreaController
         ]);
     }
 
-    private function getArea(Run $run, string $areaSlug = null): ?Area
+    private function getArea(Run $run, string $areaSlug = null): Area
     {
         if (empty($areaSlug)) {
-            return null;
+            return $this->defaultArea();
         }
 
-        return $run->areas->firstWhere('slug', $areaSlug);
+        return $run->areas->firstWhere('slug', $areaSlug) ?: $this->defaultArea();
     }
 
-    private function getGroups(Run $run, Area $area = null): Collection
+    private function defaultArea(): Area
+    {
+        return new Area('', trans('enlighten::messages.all_areas'), config('enlighten.area_view', 'features'));
+    }
+
+    private function getGroups(Run $run, Area $area): Collection
     {
         return $run->groups
-            ->when($area, function ($collection, $area) {
+            ->when($area->isNotDefault(), function ($collection) use ($area) {
                 return $collection->where('area', $area->slug);
             });
     }
