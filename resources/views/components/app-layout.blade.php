@@ -81,14 +81,14 @@
                 </svg>
             </button>
             <div class="flex-1 px-4 space-x-4 flex justify-end items-center bg-gray-800">
-                <span class="rounded-full text-teal-100 bg-teal-500 p-1">
+                <span class="rounded-full text-teal-100 bg-teal-500 p-1  hidden md:flex">
                     <x-enlighten-svg-logo class="w-6 h-6"></x-enlighten-svg-logo>
                 </span>
                 @if($activeRun->exists)
                     @if($useStaticSearch)
-                        <x-enlighten-search-box-static :run="$activeRun" class="relative flex-1"></x-enlighten-search-box-static>
+                        <x-enlighten-search-box-static :run="$activeRun" class=" hidden md:flex relative flex-1"></x-enlighten-search-box-static>
                     @else
-                        <x-enlighten-search-box :run="$activeRun" class="relative flex-1"></x-enlighten-search-box>
+                        <x-enlighten-search-box :run="$activeRun" class=" hidden md:flex relative flex-1"></x-enlighten-search-box>
                     @endif
                 @endif
                 <div class="ml-4 flex items-center md:ml-6">

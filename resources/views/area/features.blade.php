@@ -15,8 +15,6 @@
                 <div class="w-full p-4 bg-gray-200">
                     <h2 class="text-gray-800 text-lg">{{ $group->title }}</h2>
                 </div>
-
-
                 @foreach ($group->examples as $example)
                     <a href="{{ $example->url }}" class="flex flex-col space-y-4 lg:space-y-0 lg:flex-row justify-between p-4 hover:bg-gray-100">
 
@@ -32,12 +30,12 @@
                                 @foreach($example->requests as $request)
                                     <div class="space-y-2">
                                         <div class="flex  space-x-2">
-                                        <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
-                                            {{ $request->request_method }}: {{ $request->route ?: $request->request_path }}
-                                        </span>
-                                        <span class="text-sm px-2 flex items-center text-{{ $request->getStatus() }}-700 bg-{{ $request->getStatus() }}-200">
-                                            {{ $request->response_status }} {{ $request->response_type }}
-                                        </span>
+                                            <span class="text-sm px-2 flex items-center text-gray-700 bg-gray-200">
+                                                {{ $request->request_method }}: {{ $request->route ?: $request->request_path }}
+                                            </span>
+                                            <span class="text-sm px-2 flex items-center text-{{ $request->getStatus() }}-700 bg-{{ $request->getStatus() }}-200">
+                                                {{ $request->response_status }} {{ $request->response_type }}
+                                            </span>
                                         </div>
                                     </div>
                                 @endforeach
