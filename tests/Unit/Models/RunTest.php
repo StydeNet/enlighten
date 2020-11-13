@@ -67,17 +67,22 @@ class RunTest extends TestCase
 
         // This configuration option allows the users to format or customise the name of the areas.
         $this->app->config->set('enlighten.areas', [
-            'api' => 'API'
+            [
+                'name' => 'API',
+                'slug' => 'api',
+            ]
         ]);
 
         $expected = [
             [
-                'title' => 'API',
+                'name' => 'API',
                 'slug' => 'api',
+                'view' => 'features',
             ],
             [
-                'title' => 'Feature',
+                'name' => 'Feature',
                 'slug' => 'feature',
+                'view' => 'features',
             ],
         ];
         $this->assertSame($expected, $run->areas->toArray());

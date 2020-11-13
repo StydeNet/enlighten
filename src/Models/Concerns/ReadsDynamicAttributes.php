@@ -11,7 +11,7 @@ trait ReadsDynamicAttributes
      */
     protected $attributes = [];
 
-    public function setAttributes(array $attributes)
+    protected function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
     }
@@ -32,5 +32,10 @@ trait ReadsDynamicAttributes
         }
 
         return $this->attributes[$name] ?? null;
+    }
+
+    public function toArray(): array
+    {
+        return $this->attributes;
     }
 }

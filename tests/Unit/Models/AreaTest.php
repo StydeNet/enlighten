@@ -9,7 +9,7 @@ use Tests\TestCase;
 class AreaTest extends TestCase
 {
     /** @test */
-    function get_all_the_areas_from_the_current_groups()
+    function get_all_the_areas_from_the_current_run()
     {
         $run = $this->createRun();
 
@@ -20,20 +20,23 @@ class AreaTest extends TestCase
 
         $expected = [
             [
-                'title' => 'Api',
+                'name' => 'Api',
                 'slug' => 'api',
+                'view' => 'features',
             ],
             [
-                'title' => 'Feature',
+                'name' => 'Feature',
                 'slug' => 'feature',
+                'view' => 'features',
             ],
             [
-                'title' => 'Unit',
+                'name' => 'Unit',
                 'slug' => 'unit',
+                'view' => 'features',
             ],
         ];
 
-        $this->assertSame($expected, Area::all()->values()->toArray());
+        $this->assertSame($expected, $run->areas->toArray());
     }
 
     /** @test */
@@ -50,56 +53,45 @@ class AreaTest extends TestCase
 
         $expected = [
             [
-                'title' => 'Api',
+                'name' => 'Api',
                 'slug' => 'api',
+                'view' => 'features',
             ],
             [
-                'title' => 'Feature',
+                'name' => 'Feature',
                 'slug' => 'feature',
+                'view' => 'features',
             ],
         ];
 
-        $this->assertSame($expected, Area::all()->values()->toArray());
+        $this->assertArrayable($expected, $run->areas);
     }
 
     /** @test */
-    function gets_all_the_areas_from_the_configuration_as_a_simple_array()
-    {
-        $this->setConfig([
-            'enlighten.areas' => ['Feature', 'Unit'],
-        ]);
-
-        $expected = [
-            [
-                'title' => 'Feature',
-                'slug' => 'feature',
-            ],
-            [
-                'title' => 'Unit',
-                'slug' => 'unit',
-            ],
-        ];
-        $this->assertSame($expected, Area::all()->values()->toArray());
-    }
-
-    /** @test */
-    function gets_all_the_areas_from_the_configuration_as_an_associative_array()
+    function gets_all_the_areas_from_the_configuration()
     {
         $this->setConfig([
             'enlighten.areas' => [
-                'Api' => 'API',
-                'Feature' => 'Features',
+                [
+                    'name' => 'API',
+                    'slug' => 'api',
+                ],
+                [
+                    'slug' => 'feature',
+                ],
             ],
         ]);
 
         $expected = [
             [
-                'title' => 'API',
+                'name' => 'API',
                 'slug' => 'api',
+                'view' => 'features',
             ],
             [
-                'title' => 'Features',
+                'name' => 'Feature',
                 'slug' => 'feature',
+                'view' => 'features',
             ],
         ];
         $this->assertSame($expected, Area::all()->values()->toArray());

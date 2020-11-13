@@ -5,63 +5,54 @@ namespace Styde\Enlighten\Models;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Styde\Enlighten\Models\Concerns\ReadsDynamicAttributes;
 
 class Area implements Arrayable
 {
-    /**
-     * @var string
-     */
-    public $key;
-    /**
-     * @var string
-     */
-    public $title;
-    /**
-     * @var string
-     */
-    public $slug;
+    use ReadsDynamicAttributes;
+
 
     public static function all(): Collection
     {
-        if (config()->has('enlighten.areas')) {
-            return collect(config('enlighten.areas'))
-                ->map(function ($value, $key) {
-                    return is_int($key)
-                        ? new static($value)
-                        : new static($key, $value);
-                });
-        }
+        $defaultView = config('enlighten.area_view');
 
-        return DB::connection('enlighten')
-            ->table('enlighten_example_groups')
-            ->distinct('area')
-            ->pluck('area')
-            ->map(function ($area) {
-                return new static($area);
+        return collect(config('enlighten.areas'))
+            ->map(function ($data) use ($defaultView) {
+                return new static(
+                    $data['slug'],
+                    $data['name'] ?? null,
+                    $data['view'] ?? $defaultView,
+                );
             });
     }
 
     public static function get($areas): Collection
     {
         return collect($areas)
-            ->sort()
             ->map(function ($slug) {
-                return new static($slug, config("enlighten.areas.{$slug}"));
-            });
+                $config = static::getConfigFor($slug);
+
+                return new static(
+                    $slug,
+                    $config['name'] ?? null,
+                    $config['view'] ?? config('enlighten.area_view')
+                );
+            })
+            ->sortBy('name')
+            ->values();
     }
 
-    public function __construct(string $slug, string $title = null)
+    public static function getConfigFor(string $areaSlug): array
     {
-        $this->title = $title ?: ucfirst(str_replace('-', ' ', $slug));
-        $this->slug = Str::slug($slug);
+        return collect(config('enlighten.areas'))->firstWhere('slug', $areaSlug) ?: [];
     }
 
-    public function toArray(): array
+    public function __construct(string $slug, string $name = null, $view = 'features')
     {
-        return [
-            'title' => $this->title,
-            'slug' => $this->slug,
-        ];
+        $this->setAttributes([
+            'name' => $name ?: ucfirst(str_replace('-', ' ', $slug)),
+            'slug' => $slug,
+            'view' => $view,
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
@@ -147,5 +148,13 @@ trait TestHelpers
             Redirecting to <a href="http://localhost">http://localhost</a>.
             </body>
         </html>';
+    }
+
+    // Custom assertions
+
+    public function assertArrayable($expected, $arrayable)
+    {
+        $this->assertInstanceOf(Arrayable::class, $arrayable);
+        $this->assertSame($expected, $arrayable->toArray());
     }
 }
