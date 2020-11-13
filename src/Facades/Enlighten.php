@@ -6,8 +6,8 @@ use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Facade;
 use Styde\Enlighten\CodeExamples\CodeExampleCreator;
-use Styde\Enlighten\Settings;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
+use Styde\Enlighten\Settings;
 
 /**
  * @method static self setCustomAreaResolver(Closure $callback)
