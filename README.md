@@ -11,9 +11,18 @@ Enlighten your Laravel applications with a beautiful documentation generated aut
 
 If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
  
-Be a part of this project:
- 
-[Join us on Discord](https://discord.gg/JyfxmPM) | [Become a sponsor](https://github.com/sponsors/sileence)
+## You can support this project by: 
+- [Join us on Discord](https://discord.gg/JyfxmPM)
+- [Become a sponsor](https://github.com/sponsors/sileence)
+- [Become a contributor](https://github.com/StydeNet/enlighten/blob/main/CONTRIBUTING.md)
+
+## Community Links
+### English
+- [Enlighten Your APIs With Auto-Generated Documentation (LaravelNews.com)](https://laravel-news.com/enlighten-laravel-apis)
+- [Composer 2.0, Enlightened APIs, and Mastering Nova (LaravelNews Podcast)](https://laravel-news.com/composer-2-0-enlightened-apis-and-mastering-nova)
+- [Documentation in Laravel 8 with Enlighten (Oliver Earl)](https://blog.oliverearl.co.uk/documentation-in-laravel-8-with-enlighten)
+### Spanish
+- [Genera la documentación de tus aplicaciones automáticamente con Laravel Enlighten (Styde.net)](https://styde.net/laravel-enlighten/)
 
 ## Introducing Laravel Enlighten
 
