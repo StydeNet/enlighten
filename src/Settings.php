@@ -5,7 +5,7 @@ namespace Styde\Enlighten;
 use Closure;
 use Illuminate\Support\Str;
 
-class EnlightenSettings
+class Settings
 {
     /**
      * @var Closure|null
@@ -55,13 +55,15 @@ class EnlightenSettings
         return $this;
     }
 
-    public function generateTitleFromMethodName($methodName): string
+    public function generateTitle(string $type, string $classOrMethodName): string
     {
         if ($this->customTitleGenerator) {
-            return call_user_func($this->customTitleGenerator, $methodName, 'method');
+            return call_user_func($this->customTitleGenerator, $type, $classOrMethodName);
+        } elseif ($type == 'class') {
+            return $this->generateDefaultTitleFromClassName($classOrMethodName);
+        } else {
+            return $this->generateDefaultTitleFromMethodName($classOrMethodName);
         }
-
-        return $this->generateDefaultTitleFromMethodName($methodName);
     }
 
     protected function generateDefaultTitleFromMethodName($methodName): string
@@ -78,15 +80,6 @@ class EnlightenSettings
             ->trim()
             ->ucfirst()
             ->__toString();
-    }
-
-    public function generateTitleFromClassName($className): string
-    {
-        if ($this->customTitleGenerator) {
-            return call_user_func($this->customTitleGenerator, $className, 'class');
-        }
-
-        return $this->generateDefaultTitleFromClassName($className);
     }
 
     protected function generateDefaultTitleFromClassName($className): string

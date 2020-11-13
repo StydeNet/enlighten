@@ -5,9 +5,7 @@ namespace Styde\Enlighten\HttpExamples;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Testing\TestResponse;
-use Styde\Enlighten\TestExample;
-use Styde\Enlighten\TestInfo;
-use Styde\Enlighten\TestInspector;
+use Styde\Enlighten\ExampleCreator;
 use Symfony\Component\HttpFoundation\Response;
 
 class HttpExampleCreator
@@ -18,9 +16,9 @@ class HttpExampleCreator
     private static $followsRedirect = false;
 
     /**
-     * @var TestInspector
+     * @var ExampleCreator
      */
-    private $testInspector;
+    private $exampleCreator;
 
     /**
      * @var RequestInspector
@@ -43,13 +41,13 @@ class HttpExampleCreator
     private $routeInspector;
 
     public function __construct(
-        TestInspector $testInspector,
+        ExampleCreator $exampleCreator,
         RequestInspector $requestInspector,
         RouteInspector $routeInspector,
         ResponseInspector $responseInspector,
         SessionInspector $sessionInspector
     ) {
-        $this->testInspector = $testInspector;
+        $this->exampleCreator = $exampleCreator;
         $this->requestInspector = $requestInspector;
         $this->routeInspector = $routeInspector;
         $this->responseInspector = $responseInspector;
@@ -67,30 +65,27 @@ class HttpExampleCreator
         return $response;
     }
 
-    public function createHttpExample(Request $request): TestInfo
+    public function createHttpExample(Request $request)
     {
-        $testExample = $this->testInspector->getCurrentTestExample();
+        $testExample = $this->exampleCreator->getCurrentExample();
 
-        if ($testExample->isIgnored()) {
-            return $testExample;
+        if (is_null($testExample)) {
+            return;
         }
 
         $testExample->saveRequestData(
             $this->requestInspector->getDataFrom($request)
         );
-
-        return $testExample;
     }
 
     public function saveHttpResponseData(Request $request, Response $response)
     {
-        $testExample = $this->testInspector->getCurrentTestExample();
+        $testExample = $this->exampleCreator->getCurrentExample();
 
-        if ($testExample->isIgnored()) {
+        if (is_null($testExample)) {
             return;
         }
 
-        /** @var TestExample $testExample */
         $testExample->saveResponseData(
             $this->responseInspector->getDataFrom($this->normalizeResponse($response)),
             static::$followsRedirect,

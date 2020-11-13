@@ -4,7 +4,7 @@ namespace Styde\Enlighten\Tests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use PHPUnit\Framework\TestCase;
-use Styde\Enlighten\TestInspector;
+use Styde\Enlighten\ExampleCreator;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -42,21 +42,11 @@ class ExceptionRecorder implements ExceptionHandler
 
     public function report(Throwable $e)
     {
-        $this->captureException($e);
+        app(ExampleCreator::class)->captureException($e);
 
         if ($this->forwardToOriginalHandler) {
             $this->originalHandler->report($e);
         }
-    }
-
-    private function captureException(Throwable $e): void
-    {
-        $testMethodInfo = app(TestInspector::class)->getCurrentTestExample();
-
-        // We will save the exception in memory without persiting it to the DB
-        // until we get the final result from test. So, we will only persist
-        // the exception data in the database if the test did not succeed.
-        $testMethodInfo->setException($e);
     }
 
     public function shouldReport(Throwable $e)

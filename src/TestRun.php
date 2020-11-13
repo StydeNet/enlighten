@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Styde\Enlighten\Facades\VersionControl;
+use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\Run;
 
 class TestRun
@@ -94,9 +95,13 @@ class TestRun
         return $this->missingSetup;
     }
 
-    public function saveFailedTestLink(TestExample $testExample)
+    public function saveFailedTestLink(Example $example)
     {
-        $this->failedTestLinks[$testExample->getSignature()] = $testExample->getLink();
+        if (is_null($example->group)) {
+            return;
+        }
+
+        $this->failedTestLinks[$example->group->class_name.'::'.$example->method_name] = $example->url;
     }
 
     public function getFailedTestLink(string $signature): ?string

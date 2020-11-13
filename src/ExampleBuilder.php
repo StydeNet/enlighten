@@ -4,9 +4,6 @@ namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\ValidationException;
-use ReflectionMethod;
-use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\HttpExamples\RequestInfo;
 use Styde\Enlighten\HttpExamples\ResponseInfo;
 use Styde\Enlighten\HttpExamples\RouteInfo;
@@ -14,17 +11,17 @@ use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\Status;
 use Throwable;
 
-class TestExample extends TestInfo
+class ExampleBuilder
 {
     /**
-     * @var TestExampleGroup
+     * @var ExampleGroupBuilder
      */
-    public $classInfo;
+    public $exampleGroupBuilder;
 
     /**
-     * @var int|null
+     * @var string
      */
-    protected $line;
+    protected $methodName;
 
     /**
      * @var Example|null
@@ -34,12 +31,7 @@ class TestExample extends TestInfo
     /**
      * @var array
      */
-    private $texts;
-
-    /**
-     * @var Throwable|null
-     */
-    private $exception = null;
+    protected $attributes;
 
     /**
      * @var Collection
@@ -51,34 +43,15 @@ class TestExample extends TestInfo
      */
     private $currentSnippet = null;
 
-    public function __construct(TestExampleGroup $classInfo, string $methodName, array $texts = [])
+    public function __construct(ExampleGroupBuilder $exampleGroupBuilder, string $methodName, array $attributes = [])
     {
-        parent::__construct($classInfo->getClassName(), $methodName);
+        $this->exampleGroupBuilder = $exampleGroupBuilder;
 
-        $this->classInfo = $classInfo;
-        $this->texts = $texts;
-        $this->line = null;
+        $this->methodName = $methodName;
 
         $this->currentRequests = new Collection;
-    }
 
-    public function getSignature()
-    {
-        return $this->classInfo->getClassName().'::'.$this->methodName;
-    }
-
-    public function getLink()
-    {
-        if ($this->example->group == null) {
-            return null;
-        }
-
-        return $this->example->url;
-    }
-
-    public function isIgnored(): bool
-    {
-        return false;
+        $this->attributes = $attributes;
     }
 
     public function save()
@@ -87,33 +60,27 @@ class TestExample extends TestInfo
             return;
         }
 
-        $group = $this->classInfo->save();
+        $group = $this->exampleGroupBuilder->save();
 
         $this->example = Example::updateOrCreate([
             'group_id' => $group->id,
             'method_name' => $this->methodName,
-        ], [
-            'slug' => Enlighten::generateSlugFromMethodName($this->methodName),
-            'line' => $this->getStartLine(),
-            'title' => $this->texts['title'] ?? Enlighten::generateTitleFromMethodName($this->methodName),
-            'description' => $this->texts['description'] ?? null,
+        ], array_merge($this->attributes, [
             'test_status' => Status::UNKNOWN,
             'status' => Status::UNKNOWN,
-        ]);
+        ]));
     }
 
-    public function saveTestStatus(string $testStatus)
+    public function saveStatus(string $testStatus, string $status)
     {
         $this->save();
 
         $this->example->update([
             'test_status' => $testStatus,
-            'status' => Status::fromTestStatus($testStatus),
+            'status' => $status,
         ]);
 
-        if ($this->example->getStatus() !== Status::SUCCESS) {
-            $this->saveExceptionData($this->exception);
-        }
+        return $this->example;
     }
 
     public function saveRequestData(RequestInfo $request)
@@ -149,37 +116,17 @@ class TestExample extends TestInfo
         ]);
     }
 
-    public function setException(?Throwable $exception)
+    public function saveExceptionData(string $className, ?Throwable $exception, array $extra)
     {
-        $this->exception = $exception;
-    }
-
-    private function saveExceptionData(?Throwable $exception)
-    {
-        if (is_null($exception)) {
-            return;
-        }
-
         $this->example->exception->fill([
-            'class_name' => get_class($exception),
+            'class_name' => $className,
             'code' => $exception->getCode(),
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
             'trace' => $exception->getTrace(),
-            'extra' => $this->getExtraExceptionData($exception),
+            'extra' => $extra,
         ])->save();
-    }
-
-    private function getExtraExceptionData(?Throwable $exception): array
-    {
-        if ($exception instanceof ValidationException) {
-            return [
-                'errors' => $exception->errors(),
-            ];
-        }
-
-        return [];
     }
 
     public function saveQuery(QueryExecuted $queryExecuted)
@@ -210,12 +157,5 @@ class TestExample extends TestInfo
         $this->currentSnippet->update(['result' => $result]);
 
         $this->currentSnippet = null;
-    }
-
-    private function getStartLine()
-    {
-        $reflection = new ReflectionMethod($this->className, $this->methodName);
-
-        return $reflection->getStartLine();
     }
 }

@@ -11,20 +11,20 @@ class GeneratesTitleFromClassNameTest extends TestCase
     /** @test */
     function generates_title_from_class_name()
     {
-        $this->assertSame('List Users', Enlighten::generateTitleFromClassName('ListUsersTest'));
+        $this->assertSame('List Users', Enlighten::generateTitle('class', 'ListUsersTest'));
 
-        $this->assertSame('List Tests', Enlighten::generateTitleFromClassName('ListTestsTest'));
+        $this->assertSame('List Tests', Enlighten::generateTitle('class', 'ListTestsTest'));
 
-        $this->assertSame('Show Users', Enlighten::generateTitleFromClassName('ShowUsers'));
+        $this->assertSame('Show Users', Enlighten::generateTitle('class', 'ShowUsers'));
 
-        $this->assertSame('Create Test', Enlighten::generateTitleFromClassName('CreateTestTest'));
+        $this->assertSame('Create Test', Enlighten::generateTitle('class', 'CreateTestTest'));
     }
 
     /** @test */
     function generates_title_from_class_name_with_a_custom_generator()
     {
-        Enlighten::setCustomTitleGenerator(function ($className, $from) {
-            $this->assertSame('class', $from);
+        Enlighten::setCustomTitleGenerator(function ($type, $className) {
+            $this->assertSame('class', $type);
 
             return Str::of($className)
                 ->replaceMatches('@([A-Z])@', ' $1')
@@ -35,7 +35,7 @@ class GeneratesTitleFromClassNameTest extends TestCase
 
         $this->assertSame(
             'CREATE USER TEST',
-            Enlighten::generateTitleFromClassName('CreateUserTest')
+            Enlighten::generateTitle('class', 'CreateUserTest')
         );
     }
 }

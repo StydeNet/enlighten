@@ -3,24 +3,25 @@
 namespace Styde\Enlighten\CodeExamples;
 
 use Closure;
-use Styde\Enlighten\TestInspector;
+use Styde\Enlighten\ExampleBuilder;
+use Styde\Enlighten\ExampleCreator;
 use Throwable;
 
 class CodeExampleCreator
 {
     /**
-     * @var \Styde\Enlighten\TestInspector
+     * @var \Styde\Enlighten\ExampleCreator
      */
-    private $testInspector;
+    private $exampleCreator;
 
     /**
      * @var CodeInspector
      */
     private $codeInspector;
 
-    public function __construct(TestInspector $testInspector, CodeInspector $codeInspector)
+    public function __construct(ExampleCreator $exampleCreator, CodeInspector $codeInspector)
     {
-        $this->testInspector = $testInspector;
+        $this->exampleCreator = $exampleCreator;
         $this->codeInspector = $codeInspector;
     }
 
@@ -31,12 +32,13 @@ class CodeExampleCreator
             $key = null;
         }
 
-        $testExample = $this->testInspector->getCurrentTestExample();
+        $testExample = $this->exampleCreator->getCurrentExample();
 
-        if ($testExample->isIgnored()) {
+        if (is_null($testExample)) {
             return $callback();
         }
 
+        /** @var ExampleBuilder $testExample */
         $testExample->createSnippet($key, $this->codeInspector->getCodeFrom($callback));
 
         try {
@@ -46,7 +48,7 @@ class CodeExampleCreator
 
             return $result;
         } catch (Throwable $throwable) {
-            $testExample->setException($throwable);
+            $this->exampleCreator->captureException($throwable);
 
             throw $throwable;
         }

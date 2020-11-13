@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
-use Styde\Enlighten\TestInspector;
+use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\TestRun;
 
 trait EnlightenSetup
@@ -40,7 +40,7 @@ trait EnlightenSetup
 
             $this->resetRunData();
 
-            $this->createTestExample();
+            $this->makeExample();
 
             $this->captureExceptions();
 
@@ -68,9 +68,9 @@ trait EnlightenSetup
         TestRun::getInstance()->reset();
     }
 
-    private function createTestExample()
+    private function makeExample()
     {
-        $this->app->make(TestInspector::class)->createTestExample(get_class($this), $this->getName(false));
+        $this->app->make(ExampleCreator::class)->makeExample(get_class($this), $this->getName(false));
     }
 
     private function captureQueries()
@@ -84,9 +84,7 @@ trait EnlightenSetup
                 return;
             }
 
-            $this->app->make(TestInspector::class)
-                ->getCurrentTestExample()
-                ->saveQuery($query);
+            $this->app->make(ExampleCreator::class)->saveQuery($query);
         });
     }
 
@@ -148,13 +146,7 @@ trait EnlightenSetup
 
     protected function saveTestExample()
     {
-        $example = $this->app->make(TestInspector::class)->getCurrentTestExample();
-
-        $example->saveTestStatus($this->getStatusAsText());
-
-        if ($this->getStatus() !== TestRunner::STATUS_PASSED) {
-            TestRun::getInstance()->saveFailedTestLink($example);
-        }
+        $this->app->make(ExampleCreator::class)->saveStatus($this->getStatusAsText());
     }
 
     private function getStatusAsText()

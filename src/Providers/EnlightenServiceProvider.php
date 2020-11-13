@@ -16,13 +16,14 @@ use Styde\Enlighten\Console\Commands\MigrateCommand;
 use Styde\Enlighten\Console\ContentRequest;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Styde\Enlighten\Contracts\VersionControl;
+use Styde\Enlighten\Settings;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Styde\Enlighten\HttpExamples\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExamples\RequestInspector;
 use Styde\Enlighten\HttpExamples\ResponseInspector;
 use Styde\Enlighten\HttpExamples\RouteInspector;
 use Styde\Enlighten\HttpExamples\SessionInspector;
-use Styde\Enlighten\TestInspector;
+use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\TestRun;
 use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Utils\Git;
@@ -116,6 +117,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->registerSettings();
         $this->registerTestRun();
         $this->registerTestInspector();
         $this->registerVersionControlSystem();
@@ -128,6 +130,13 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->app[HttpKernel::class]->pushMiddleware(HttpExampleCreatorMiddleware::class);
     }
 
+    private function registerSettings()
+    {
+        $this->app->singleton(Settings::class, function () {
+            return new Settings;
+        });
+    }
+
     private function registerTestRun()
     {
         $this->app->singleton(TestRun::class, function () {
@@ -137,7 +146,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerTestInspector()
     {
-        $this->app->singleton(TestInspector::class, function ($app) {
+        $this->app->singleton(ExampleCreator::class, function ($app) {
             $annotations = new Annotations;
 
             $annotations->addCast('enlighten', function ($value) {
@@ -145,7 +154,12 @@ class EnlightenServiceProvider extends ServiceProvider
                 return array_merge(['include' => true], $options ?: []);
             });
 
-            return new TestInspector($app[TestRun::class], $annotations, $app['config']->get('enlighten.tests'));
+            return new ExampleCreator(
+                $app[TestRun::class],
+                $annotations,
+                $app[Settings::class],
+                $app['config']->get('enlighten.tests')
+            );
         });
     }
 
@@ -158,7 +172,7 @@ class EnlightenServiceProvider extends ServiceProvider
     {
         $this->app->singleton(HttpExampleCreator::class, function ($app) {
             return new HttpExampleCreator(
-                $app[TestInspector::class],
+                $app[ExampleCreator::class],
                 new RequestInspector,
                 new RouteInspector,
                 new ResponseInspector,

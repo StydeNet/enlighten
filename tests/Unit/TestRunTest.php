@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\TestExampleGroup;
+use Styde\Enlighten\ExampleGroupBuilder;
 use Styde\Enlighten\TestRun;
 use Tests\TestCase;
 
@@ -43,8 +43,7 @@ class TestRunTest extends TestCase
     /** @test */
     function can_reset_a_test_run()
     {
-        $testExampleGroup = new TestExampleGroup('Tests\Unit\TestClass');
-        $testExampleGroup->save();
+        $this->createExampleGroup(TestRun::getInstance()->save(), 'Tests\Unit\TestClass');
 
         $this->assertSame(1, Run::count());
         $this->assertSame(1, ExampleGroup::count());
@@ -60,8 +59,7 @@ class TestRunTest extends TestCase
     {
         TestRun::getInstance()->reset();
 
-        $testExampleGroup = new TestExampleGroup('Tests\Unit\TestClass');
-        $testExampleGroup->save();
+        $this->createExampleGroup(TestRun::getInstance()->save(), 'Tests\Unit\TestClass');
 
         // Does nothing because the test run was already reset before.
         TestRun::getInstance()->reset();

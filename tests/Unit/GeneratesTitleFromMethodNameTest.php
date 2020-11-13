@@ -12,7 +12,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     {
         $this->assertSame(
             'Generates title from camel case format',
-            Enlighten::generateTitleFromMethodName('GeneratesTitleFromCamelCaseFormat')
+            Enlighten::generateTitle('method', 'GeneratesTitleFromCamelCaseFormat')
         );
     }
 
@@ -21,7 +21,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     {
         $this->assertSame(
             'Generates title from snake format',
-            Enlighten::generateTitleFromMethodName('generates_title_from_snake_format')
+            Enlighten::generateTitle('method', 'generates_title_from_snake_format')
         );
     }
 
@@ -30,27 +30,27 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     {
         $this->assertSame(
             'It removes the test prefix',
-            Enlighten::generateTitleFromMethodName('test_it_removes_the_test_prefix')
+            Enlighten::generateTitle('method', 'test_it_removes_the_test_prefix')
         );
 
         $this->assertSame(
             'Removes the test prefix',
-            Enlighten::generateTitleFromMethodName('testRemovesTheTestPrefix')
+            Enlighten::generateTitle('method', 'testRemovesTheTestPrefix')
         );
     }
 
     /** @test */
     function generates_title_with_a_custom_generator()
     {
-        Enlighten::setCustomTitleGenerator(function ($methodName, $from) {
-            $this->assertSame('method', $from);
+        Enlighten::setCustomTitleGenerator(function ($type, $methodName) {
+            $this->assertSame('method', $type);
 
             return strtoupper(str_replace('_', ' ', $methodName));
         });
 
         $this->assertSame(
             'IT REMOVES THE TEST PREFIX',
-            Enlighten::generateTitleFromMethodName('it_removes_the_test_prefix')
+            Enlighten::generateTitle('method', 'it_removes_the_test_prefix')
         );
     }
 }

@@ -69,7 +69,7 @@ trait TestHelpers
         return ExampleGroup::create($this->getExampleGroupAttributes([
             'run_id' => $run->id,
             'class_name' => $className,
-            'title' => $title,
+            'title' => $title ?: ($className ? Enlighten::generateTitle('class', $className) : null),
             'description' => $description,
         ]));
     }
