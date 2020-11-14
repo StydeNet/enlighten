@@ -30,6 +30,7 @@ class ExampleGroup extends Model implements Statusable, Wrappable
     public function examples()
     {
         return $this->hasMany(Example::class, 'group_id')
+            ->orderBy('order_num')
             ->orderBy('id');
     }
 
@@ -80,5 +81,10 @@ class ExampleGroup extends Model implements Statusable, Wrappable
             'run' => $this->run_id,
             'group' => $this->slug,
         ]);
+    }
+
+    public function getOrderAttribute()
+    {
+        return [$this->order_num, $this->id];
     }
 }

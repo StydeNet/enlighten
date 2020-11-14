@@ -80,4 +80,9 @@ class Example extends Model implements Statusable
     {
         return $this->queries->where('request_id', null);
     }
+
+    public function getOrderAttribute()
+    {
+        return [$this->order_num, $this->id];
+    }
 }

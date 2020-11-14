@@ -40,8 +40,7 @@ class ShowAreaController
         $groups = $this->getGroups($run, $area)
             ->load([
                 'examples' => function ($q) {
-                    $q->withCount('queries')
-                      ->orderBy('order_num');
+                    $q->withCount('queries');
                 },
                 'examples.group',
                 'examples.requests',
@@ -61,10 +60,18 @@ class ShowAreaController
             ->select('id', 'example_id', 'request_method', 'request_path')
             ->addSelect('route', 'response_status', 'response_headers')
             ->with([
-                'example:id,group_id,title,slug,status',
+                'example:id,group_id,title,slug,status,order_num',
                 'example.group:id,slug,run_id',
             ])
-            ->fromRun($run)
+            ->when($area->isNotDefault(), function ($q) use ($area) {
+                $q->whereHas('example.group', function ($q) use ($area) {
+                    $q->where('area', $area->slug);
+                });
+            })
+            ->whereHas('example.group.run', function ($q) use ($run) {
+                $q->where('id', $run->id);
+            })
+            ->where('follows_redirect', false)
             ->get();
 
         $endpoints = $requests
@@ -73,7 +80,7 @@ class ShowAreaController
                 return new Endpoint(
                     $requests->first()->request_method,
                     $requests->first()->route_or_path,
-                    $requests->sortBy('example.order_num')
+                    $requests->sortBy('example.order')
                 );
             })
             ->sortBy('method_index');
@@ -107,7 +114,7 @@ class ShowAreaController
             ->when($area->isNotDefault(), function ($collection) use ($area) {
                 return $collection->where('area', $area->slug);
             })
-            ->sortBy('order_num');
+            ->sortBy('order');
     }
 
     private function wrapByModule(Collection $groups): ModuleCollection

@@ -88,7 +88,7 @@ class ExampleCreator
             'title' => $this->getTitleFor('method', $annotations, $methodName),
             'slug'  => $this->settings->generateSlugFromMethodName($methodName),
             'description' => $annotations->get('description'),
-            'order_num' => $annotations->get('enlighten')['order'] ?? null,
+            'order_num' => $annotations->get('enlighten')['order'] ?? 9999,
         ]);
     }
 
@@ -168,7 +168,7 @@ class ExampleCreator
             'description' => $annotations->get('description'),
             'area' => $this->settings->getAreaSlug($className),
             'slug' => $this->settings->generateSlugFromClassName($className),
-            'order_num' => $annotations->get('enlighten')['order'] ?? null,
+            'order_num' => $annotations->get('enlighten')['order'] ?? 9999,
         ]);
     }
 

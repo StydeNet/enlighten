@@ -38,15 +38,6 @@ class ExampleRequest extends Model implements Statusable
         return $this->hasMany(ExampleQuery::class, 'request_id');
     }
 
-    // - Scopes
-
-    public function scopeFromRun(Builder $q, Run $run)
-    {
-        $q->whereHas('example.group.run', function ($q) use ($run) {
-            $q->where('id', $run->id);
-        });
-    }
-
     // - Accesors
 
     public function getSignatureAttribute($value)
