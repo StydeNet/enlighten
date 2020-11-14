@@ -59,7 +59,7 @@ class FailedRequestTest extends TestCase
         $this->get('/server-error')
             ->assertStatus(500);
 
-        $this->saveTestExample();
+        $this->saveExampleStatus();
 
         $example = Example::first();
 
@@ -95,7 +95,7 @@ class FailedRequestTest extends TestCase
         try {
             $this->get('/server-error');
         } catch (Throwable $exception) {
-            $this->saveTestExample();
+            $this->saveExampleStatus();
 
             $example = Example::first();
 

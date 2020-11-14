@@ -49,7 +49,7 @@ trait EnlightenSetup
 
             $this->stopCapturingQueries();
 
-            $this->saveTestExample();
+            $this->saveExampleStatus();
         });
     }
 
@@ -139,7 +139,7 @@ trait EnlightenSetup
         return $this;
     }
 
-    protected function saveTestExample()
+    protected function saveExampleStatus()
     {
         $this->app->make(ExampleCreator::class)->saveStatus($this->getStatusAsText());
     }

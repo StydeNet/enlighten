@@ -38,6 +38,8 @@ class CreateEnlightenExamplesTable extends Migration
             $table->string('test_status')->nullable();
             $table->string('status')->nullable();
 
+            $table->unsignedInteger('order_num')->nullable();
+
             $table->timestamps();
         });
     }

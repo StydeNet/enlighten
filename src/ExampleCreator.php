@@ -15,7 +15,7 @@ class ExampleCreator
     /**
      * @var ExampleGroupCreator|null
      */
-    protected static $currentTestClass = null;
+    protected static $currentExampleGroup = null;
 
     /**
      * @var Throwable
@@ -88,6 +88,7 @@ class ExampleCreator
             'title' => $this->getTitleFor('method', $annotations, $methodName),
             'slug'  => $this->settings->generateSlugFromMethodName($methodName),
             'description' => $annotations->get('description'),
+            'order_num' => $annotations->get('enlighten')['order'] ?? null,
         ]);
     }
 
@@ -149,11 +150,11 @@ class ExampleCreator
 
     private function getExampleGroup($className): ExampleGroupCreator
     {
-        if (optional(static::$currentTestClass)->is($className)) {
-            return static::$currentTestClass;
+        if (optional(static::$currentExampleGroup)->is($className)) {
+            return static::$currentExampleGroup;
         }
 
-        return static::$currentTestClass = $this->makeExampleGroup($className);
+        return static::$currentExampleGroup = $this->makeExampleGroup($className);
     }
 
     private function makeExampleGroup($className): ExampleGroupCreator
@@ -166,7 +167,8 @@ class ExampleCreator
             'title' => $this->getTitleFor('class', $annotations, $className),
             'description' => $annotations->get('description'),
             'area' => $this->settings->getAreaSlug($className),
-            'slug' => $this->settings->generateSlugFromClassName($className)
+            'slug' => $this->settings->generateSlugFromClassName($className),
+            'order_num' => $annotations->get('enlighten')['order'] ?? null,
         ]);
     }
 

@@ -35,6 +35,8 @@ class CreateEnlightenExampleGroupsTable extends Migration
             $table->text('description')->nullable();
             $table->string('area');
 
+            $table->unsignedInteger('order_num')->nullable();
+
             $table->timestamps();
         });
     }

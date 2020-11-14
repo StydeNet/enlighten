@@ -17,6 +17,10 @@ class ExampleGroup extends Model implements Statusable, Wrappable
 
     protected $guarded = [];
 
+    protected $casts = [
+        'order_num' => 'int',
+    ];
+
     // Relationships
     public function run()
     {

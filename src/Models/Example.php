@@ -14,7 +14,8 @@ class Example extends Model implements Statusable
     protected $guarded = [];
 
     protected $casts = [
-        'count' => 'int'
+        'count' => 'int',
+        'order_num' => 'int',
     ];
 
     // Relationships

@@ -132,7 +132,7 @@ class CaptureCodeExampleTest extends TestCase
             throw new BadMethodCallException('Enlighten can record exceptions in code snippets');
         });
 
-        $this->saveTestExample();
+        $this->saveExampleStatus();
 
         $example = Example::firstOrFail();
 
