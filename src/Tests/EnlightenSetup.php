@@ -5,9 +5,9 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
+use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
-use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\TestRun;
 
 trait EnlightenSetup
