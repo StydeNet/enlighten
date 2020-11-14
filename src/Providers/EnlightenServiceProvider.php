@@ -2,19 +2,10 @@
 
 namespace Styde\Enlighten\Providers;
 
-use Illuminate\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\HtmlResultFormat;
-use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
-use Styde\Enlighten\Console\Commands\FreshCommand;
-use Styde\Enlighten\Console\Commands\InstallCommand;
-use Styde\Enlighten\Console\Commands\MigrateCommand;
-use Styde\Enlighten\Console\ContentRequest;
-use Styde\Enlighten\Console\DocumentationExporter;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\ExampleProfile;
@@ -28,28 +19,11 @@ use Styde\Enlighten\Settings;
 use Styde\Enlighten\TestRun;
 use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Utils\Git;
-use Styde\Enlighten\View\Components\AppLayoutComponent;
-use Styde\Enlighten\View\Components\BreadcrumbsComponent;
-use Styde\Enlighten\View\Components\CodeExampleComponent;
-use Styde\Enlighten\View\Components\DynamicTabsComponent;
-use Styde\Enlighten\View\Components\EditButtonComponent;
-use Styde\Enlighten\View\Components\ExampleBreadcrumbs;
-use Styde\Enlighten\View\Components\ExampleRequestsComponent;
-use Styde\Enlighten\View\Components\ExceptionInfoComponent;
-use Styde\Enlighten\View\Components\GroupBreadcrumbs;
-use Styde\Enlighten\View\Components\HtmlResponseComponent;
-use Styde\Enlighten\View\Components\KeyValueComponent;
-use Styde\Enlighten\View\Components\RequestInfoComponent;
-use Styde\Enlighten\View\Components\RequestInputTableComponent;
-use Styde\Enlighten\View\Components\ResponseInfoComponent;
-use Styde\Enlighten\View\Components\RouteParametersTableComponent;
-use Styde\Enlighten\View\Components\SearchBoxComponent;
-use Styde\Enlighten\View\Components\SearchBoxStaticComponent;
-use Styde\Enlighten\View\Components\StatsBadgeComponent;
-use Styde\Enlighten\View\Components\StatusBadgeComponent;
 
 class EnlightenServiceProvider extends ServiceProvider
 {
+    use RegistersConsoleConfiguration, RegistersViewComponents, RegistersDatabaseConnection;
+
     public function boot()
     {
         if ($this->app->environment('production') && ! $this->app->runningInConsole()) {
@@ -62,7 +36,7 @@ class EnlightenServiceProvider extends ServiceProvider
             return;
         }
 
-        $this->addDatabaseConnection($this->app['config']);
+        $this->registerDatabaseConnection($this->app['config']);
 
         $this->loadroutesFrom($this->packageRoot('src/Http/routes/web.php'));
         $this->loadroutesFrom($this->packageRoot('src/Http/routes/api.php'));
@@ -86,43 +60,13 @@ class EnlightenServiceProvider extends ServiceProvider
         }
     }
 
-    protected function addDatabaseConnection(Config $config)
-    {
-        if ($config->has('database.connections.enlighten')) {
-            return;
-        }
-
-        $connection = $config->get('database.connections.'.$config->get('database.default'));
-
-        $config->set('database.connections.enlighten', array_merge($connection, [
-            'database' => $this->guessDatabaseName($connection),
-        ]));
-    }
-
-    public function guessDatabaseName(array $connection)
-    {
-        if ($connection['driver'] === 'sqlite') {
-            return $connection['database'];
-        }
-
-        $result = $connection['database'];
-
-        if (Str::endsWith($result, '_tests')) {
-            $result = Str::substr($result, 0, -6);
-        } elseif (Str::endsWith($result, '_test')) {
-            $result = Str::substr($result, 0, -5);
-        }
-
-        return "{$result}_enlighten";
-    }
-
     public function register()
     {
         $this->registerSettings();
         $this->registerTestRun();
-        $this->registerTestInspector();
+        $this->registerExampleCreator();
         $this->registerVersionControlSystem();
-        $this->registerHttpExampleGenerator();
+        $this->registerHttpExampleCreator();
         $this->registerCodeResultFormat();
     }
 
@@ -145,7 +89,7 @@ class EnlightenServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerTestInspector()
+    private function registerExampleCreator()
     {
         $this->app->singleton(ExampleCreator::class, function ($app) {
             $annotations = new Annotations;
@@ -169,7 +113,7 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->app->singleton(VersionControl::class, Git::class);
     }
 
-    private function registerHttpExampleGenerator()
+    private function registerHttpExampleCreator()
     {
         $this->app->singleton(HttpExampleCreator::class, function ($app) {
             return new HttpExampleCreator(
@@ -185,100 +129,6 @@ class EnlightenServiceProvider extends ServiceProvider
     private function registerCodeResultFormat()
     {
         $this->app->singleton(CodeResultFormat::class, HtmlResultFormat::class);
-    }
-
-    private function registerViewComponents(): void
-    {
-        $this->loadViewComponentsAs('enlighten', [
-            'status-badge' => StatusBadgeComponent::class,
-            'response-info' => ResponseInfoComponent::class,
-            'request-info' => RequestInfoComponent::class,
-            'stats-badge' => StatsBadgeComponent::class,
-            'html-response' => HtmlResponseComponent::class,
-            'key-value' => KeyValueComponent::class,
-            'app-layout' => AppLayoutComponent::class,
-            'route-parameters-table' => RouteParametersTableComponent::class,
-            'request-input-table' => RequestInputTableComponent::class,
-            'dynamic-tabs' => DynamicTabsComponent::class,
-            'exception-info' => ExceptionInfoComponent::class,
-            'edit-button' => EditButtonComponent::class,
-            'breadcrumbs' => BreadcrumbsComponent::class,
-            'search-box-static' => SearchBoxStaticComponent::class,
-            'search-box' => SearchBoxComponent::class,
-            // Group
-            'code-example' => CodeExampleComponent::class,
-            'content-table' => 'enlighten::components.content-table',
-            'response-preview' => 'enlighten::components.response-preview',
-            // Layout components
-            'info-panel' => 'enlighten::components.info-panel',
-            'scroll-to-top' => 'enlighten::components.scroll-to-top',
-            'pre' => 'enlighten::components.pre',
-            'main-layout' => 'enlighten::layout.main',
-            'area-module-panel' => 'enlighten::components.area-module-panel',
-            'queries-info' => 'enlighten::components.queries-info',
-            'iframe' => 'enlighten::components.iframe',
-            'widget' => 'enlighten::components.widget',
-            'expansible-section' => 'enlighten::components.expansible-section',
-            'svg-logo' => 'enlighten::components.svg-logo',
-            'runs-table' => 'enlighten::components.runs-table',
-            'panel-title' => 'enlighten::components.panel-title',
-            'example-snippets' => 'enlighten::components.example-snippets',
-
-
-            'example-requests' => ExampleRequestsComponent::class,
-            'example-breadcrumbs' => ExampleBreadcrumbs::class,
-
-            'group-breadcrumbs' => GroupBreadcrumbs::class
-
-        ]);
-    }
-
-    private function registerPublishing(): void
-    {
-        $this->publishes([
-            $this->packageRoot('config') => base_path('config'),
-        ], ['enlighten', 'enlighten-config']);
-
-        $this->publishes([
-            $this->packageRoot('dist') => public_path('vendor/enlighten'),
-            $this->packageRoot('/preview.png') => public_path('vendor/enlighten/img/preview.png'),
-        ], ['enlighten', 'enlighten-build']);
-
-        $this->publishes([
-            $this->packageRoot('resources/views') => resource_path('views/vendor/enlighten'),
-        ], 'enlighten-views');
-
-        $this->publishes([
-            $this->packageRoot('database/migrations') => base_path('database/migrations/enlighten'),
-        ], 'enlighten-migrations');
-
-        $this->publishes([
-            $this->packageRoot('resources/lang') => resource_path('lang/vendor/enlighten'),
-        ], 'enlighten-translations');
-    }
-
-    private function registerCommands(): void
-    {
-        $this->app->singleton(MigrateCommand::class, function ($app) {
-            return new MigrateCommand($app['migrator'], $app['events']);
-        });
-
-        $this->app->singleton(ExportDocumentationCommand::class, function ($app) {
-            return new ExportDocumentationCommand(
-                new DocumentationExporter(
-                    $app[Filesystem::class],
-                    new ContentRequest($app[HttpKernel::class]),
-                    $app['url']->to('/')
-                )
-            );
-        });
-
-        $this->commands([
-            InstallCommand::class,
-            FreshCommand::class,
-            MigrateCommand::class,
-            ExportDocumentationCommand::class
-        ]);
     }
 
     private function packageRoot(string $path): string
