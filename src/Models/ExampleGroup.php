@@ -85,6 +85,6 @@ class ExampleGroup extends Model implements Statable, Wrappable
 
     public function getOrderAttribute()
     {
-        return [$this->order_num, $this->id];
+        return [$this->order_num, $this->title];
     }
 }
