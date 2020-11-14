@@ -30,7 +30,7 @@ class AppLayoutComponent extends Component
         return $this->activeRun->areas->map(function ($area) {
             return [
                 'slug' => $area->slug,
-                'title' => $area->title,
+                'title' => $area->name,
                 'active' => $area->slug === request()->route('area'),
                 'panels' => $this->panels($area)
             ];
