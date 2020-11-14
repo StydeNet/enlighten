@@ -4,18 +4,16 @@
     <div class="w-full my-4">
         @foreach($modules as $module)
             <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden mb-8">
-                <div class="w-full p-4 bg-gray-200">
-                    <h2 class="text-gray-800 text-lg">
-                        <x-enlighten-stats-badge size="6" :model="$module" />
-                        {{ $module->name }}
-                    </h2>
+                <div class="w-full p-4 bg-gray-200 flex space-x-4">
+                    <x-enlighten-stats-badge :model="$module"></x-enlighten-stats-badge>
+                    <h2 class="text-gray-800 text-lg">{{ $module->name }}</h2>
                 </div>
                 @foreach($module->groups as $group)
                     <div class="w-full" x-data="{open: false}">
                         <div class="flex space-y-4 lg:space-y-0 justify-between p-2 md:p-4 hover:bg-gray-100"
                              x-bind:class="{'hover:bg-gray-300 bg-gray-300': open}">
                             <a href="{{ $group->mainRequest->example->url }}" class="flex items-center w-full justify-between flex-col md:flex-row">
-                                <div class="flex items-center w-full md:w-auto">
+                                <div class="flex items-center w-full md:w-auto px-2">
                                     <div class="flex space-x-2 items-start">
                                         <x-enlighten-status-badge :model="$group->mainRequest->example" size="6"></x-enlighten-status-badge>
                                     </div>
