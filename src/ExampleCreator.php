@@ -119,7 +119,7 @@ class ExampleCreator
             return;
         }
 
-        $example = $this->currentExample->saveStatus(Status::fromTestStatus($testStatus), $testStatus);
+        $example = $this->currentExample->saveStatus($testStatus, Status::fromTestStatus($testStatus));
 
         if ($example->status !== Status::SUCCESS && $this->currentException !== null) {
             $this->saveException();
