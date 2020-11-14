@@ -16,6 +16,7 @@ use Styde\Enlighten\Console\Commands\MigrateCommand;
 use Styde\Enlighten\Console\ContentRequest;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Styde\Enlighten\Contracts\VersionControl;
+use Styde\Enlighten\ExampleProfile;
 use Styde\Enlighten\Settings;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Styde\Enlighten\HttpExamples\HttpExampleCreatorMiddleware;
@@ -158,7 +159,7 @@ class EnlightenServiceProvider extends ServiceProvider
                 $app[TestRun::class],
                 $annotations,
                 $app[Settings::class],
-                $app['config']->get('enlighten.tests')
+                new ExampleProfile($app['config']->get('enlighten.tests')),
             );
         });
     }

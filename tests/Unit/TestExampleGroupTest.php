@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\Models\ExampleGroup;
-use Styde\Enlighten\ExampleGroupBuilder;
+use Styde\Enlighten\ExampleGroupCreator;
 use Tests\TestCase;
 
 class TestExampleGroupTest extends TestCase

@@ -15,7 +15,7 @@ use Throwable;
 class ExampleCreator
 {
     /**
-     * @var ExampleGroupBuilder|null
+     * @var ExampleGroupCreator|null
      */
     protected static $currentTestClass = null;
 
@@ -35,11 +35,6 @@ class ExampleCreator
     protected $currentExample = null;
 
     /**
-     * @var array
-     */
-    protected $classOptions = [];
-
-    /**
      * @var TestRun
      */
     protected $testRun;
@@ -53,18 +48,17 @@ class ExampleCreator
      * @var Settings
      */
     protected $settings;
-
     /**
-     * @var array
+     * @var ExampleProfile
      */
-    protected $ignore;
+    private $profile;
 
-    public function __construct(TestRun $testRun, Annotations $annotations, Settings $settings, array $config)
+    public function __construct(TestRun $testRun, Annotations $annotations, Settings $settings, ExampleProfile $profile)
     {
         $this->testRun = $testRun;
         $this->annotations = $annotations;
-        $this->ignore = $config['ignore'];
         $this->settings = $settings;
+        $this->profile = $profile;
     }
 
     public function getCurrentExample(): ?ExampleBuilder
@@ -82,15 +76,15 @@ class ExampleCreator
         $this->currentExample = null;
         $this->currentException = null;
 
-        $testClassInfo = $this->getTestExampleGroup($className);
+        $exampleGroupCreator = $this->getTestExampleGroup($className);
 
         $annotations = $this->annotations->getFromMethod($className, $methodName);
 
-        if ($this->shouldIgnore($className, $methodName, $annotations->get('enlighten', []))) {
+        if ($this->profile->shouldIgnore($className, $methodName, $annotations->get('enlighten'))) {
             return;
         }
 
-        $this->currentExample = new ExampleBuilder($testClassInfo, $methodName, [
+        $this->currentExample = new ExampleBuilder($exampleGroupCreator, $methodName, [
             'line'  => $this->getStartLine($className, $methodName),
             'title' => $this->getTitleFor('method', $annotations, $methodName),
             'slug'  => $this->settings->generateSlugFromMethodName($methodName),
@@ -154,7 +148,7 @@ class ExampleCreator
         return [];
     }
 
-    private function getTestExampleGroup($className): ExampleGroupBuilder
+    private function getTestExampleGroup($className): ExampleGroupCreator
     {
         if (optional(static::$currentTestClass)->is($className)) {
             return static::$currentTestClass;
@@ -163,39 +157,18 @@ class ExampleCreator
         return static::$currentTestClass = $this->makeTestExampleGroup($className);
     }
 
-    private function makeTestExampleGroup($className): ExampleGroupBuilder
+    private function makeTestExampleGroup($className): ExampleGroupCreator
     {
         $annotations = $this->annotations->getFromClass($className);
 
-        $this->classOptions = $annotations->get('enlighten', []);
+        $this->profile->setClassOptions($annotations->get('enlighten'));
 
-        return new ExampleGroupBuilder($this->testRun, $className, [
+        return new ExampleGroupCreator($this->testRun, $className, [
             'title' => $this->getTitleFor('class', $annotations, $className),
             'description' => $annotations->get('description'),
             'area' => $this->settings->getAreaSlug($className),
             'slug' => $this->settings->generateSlugFromClassName($className)
         ]);
-    }
-
-    private function shouldIgnore(string $className, string $methodName, array $options): bool
-    {
-        $options = array_merge($this->classOptions, $options);
-
-        // If the test has been explicitly ignored via the
-        // annotation options we need to ignore the test.
-        if (Arr::get($options, 'ignore', false)) {
-            return true;
-        }
-
-        // If the test has been explicitly included via the
-        // annotation options we need to include the test.
-        if (Arr::get($options, 'include', false)) {
-            return false;
-        }
-
-        // Otherwise check the patterns we've got from the
-        // config to check if the test should be ignored.
-        return Str::is($this->ignore, $className) || Str::is($this->ignore, $methodName);
     }
 
     private function getTitleFor(string $type, Collection $annotations, string $classOrMethodName)

@@ -14,9 +14,9 @@ use Throwable;
 class ExampleBuilder
 {
     /**
-     * @var ExampleGroupBuilder
+     * @var ExampleGroupCreator
      */
-    public $exampleGroupBuilder;
+    public $exampleGroupCreator;
 
     /**
      * @var string
@@ -43,14 +43,11 @@ class ExampleBuilder
      */
     private $currentSnippet = null;
 
-    public function __construct(ExampleGroupBuilder $exampleGroupBuilder, string $methodName, array $attributes = [])
+    public function __construct(ExampleGroupCreator $exampleGroupCreator, string $methodName, array $attributes = [])
     {
-        $this->exampleGroupBuilder = $exampleGroupBuilder;
-
+        $this->exampleGroupCreator = $exampleGroupCreator;
         $this->methodName = $methodName;
-
         $this->currentRequests = new Collection;
-
         $this->attributes = $attributes;
     }
 
@@ -60,7 +57,7 @@ class ExampleBuilder
             return;
         }
 
-        $group = $this->exampleGroupBuilder->save();
+        $group = $this->exampleGroupCreator->save();
 
         $this->example = Example::updateOrCreate([
             'group_id' => $group->id,
@@ -83,7 +80,7 @@ class ExampleBuilder
         return $this->example;
     }
 
-    public function saveRequestData(RequestInfo $request)
+    public function createRequest(RequestInfo $request)
     {
         $this->save();
 
@@ -97,7 +94,7 @@ class ExampleBuilder
         ]));
     }
 
-    public function saveResponseData(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session)
+    public function saveResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session)
     {
         $this->save();
 

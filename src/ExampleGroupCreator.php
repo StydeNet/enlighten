@@ -4,7 +4,7 @@ namespace Styde\Enlighten;
 
 use Styde\Enlighten\Models\ExampleGroup;
 
-class ExampleGroupBuilder
+class ExampleGroupCreator
 {
     /**
      * @var TestRun
