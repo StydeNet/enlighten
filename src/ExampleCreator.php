@@ -63,7 +63,7 @@ class ExampleCreator
     public function getCurrentExample(): ?ExampleBuilder
     {
         if ($this->missingSetup) {
-            TestRun::getInstance()->reportMissingSetup();
+            $this->testRun->reportMissingSetup();
         }
 
         return $this->currentExample;
@@ -124,7 +124,7 @@ class ExampleCreator
         if ($example->status !== Status::SUCCESS && $this->currentException !== null) {
             $this->saveException();
 
-            TestRun::getInstance()->saveFailedTestLink($example);
+            $this->testRun->saveFailedTestLink($example);
         }
     }
 
