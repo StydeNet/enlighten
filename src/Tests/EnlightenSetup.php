@@ -13,11 +13,6 @@ use Styde\Enlighten\TestRun;
 trait EnlightenSetup
 {
     /**
-     * @var TestRun|null
-     */
-    private static $testRun = null;
-
-    /**
      * @var ExceptionRecorder|null
      */
     private $exceptionRecorder = null;

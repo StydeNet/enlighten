@@ -3,9 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
 use Styde\Enlighten\Models\Status;
@@ -48,6 +46,7 @@ class ExampleCreator
      * @var Settings
      */
     protected $settings;
+
     /**
      * @var ExampleProfile
      */
@@ -76,7 +75,7 @@ class ExampleCreator
         $this->currentExample = null;
         $this->currentException = null;
 
-        $exampleGroupCreator = $this->getTestExampleGroup($className);
+        $exampleGroupCreator = $this->getExampleGroup($className);
 
         $annotations = $this->annotations->getFromMethod($className, $methodName);
 
@@ -107,7 +106,7 @@ class ExampleCreator
             return;
         }
 
-        // This will save the exception in memory without persiting it to the DB
+        // This will save the exception in memory without persisting it to the DB
         // We want to wait for the result from test. So, we will only persist
         // the exception data in the database if the test did not succeed.
         $this->currentException = $exception;
@@ -148,16 +147,16 @@ class ExampleCreator
         return [];
     }
 
-    private function getTestExampleGroup($className): ExampleGroupCreator
+    private function getExampleGroup($className): ExampleGroupCreator
     {
         if (optional(static::$currentTestClass)->is($className)) {
             return static::$currentTestClass;
         }
 
-        return static::$currentTestClass = $this->makeTestExampleGroup($className);
+        return static::$currentTestClass = $this->makeExampleGroup($className);
     }
 
-    private function makeTestExampleGroup($className): ExampleGroupCreator
+    private function makeExampleGroup($className): ExampleGroupCreator
     {
         $annotations = $this->annotations->getFromClass($className);
 
