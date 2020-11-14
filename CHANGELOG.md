@@ -58,9 +58,9 @@ return [
 ];
 ```
 
-- Support to display all the requests on a redirect response.
-- Modules are optional now if you use the `features` view.
-- New `install` command to set up enlighten on new projects
+- Support for tests that follow redirection
+- Modules are now optional - if you use the `features` view.
+- New `install` command to set up enlighten on new projects 10x faster!
 
 ```bash
 php artisan enlighten:install
@@ -69,7 +69,7 @@ php artisan enlighten:install
 ## Fixed
 - Static search on exported docs.
 - Improving performance while collecting data during tests.
-- Refactoring service providers.
+- Multiple improvements.
 
 ## v.0.4 - 2020-11-05
 **To upgrade from v0.3.* to v0.4**
