@@ -11,6 +11,10 @@ class AreaTest extends TestCase
     /** @test */
     function get_all_the_areas_from_the_current_run()
     {
+        config([
+            'enlighten.areas' => []
+        ]);
+
         $run = $this->createRun();
 
         $this->createExampleGroup($run, 'Tests\Api\ApiRequestTest');
@@ -42,6 +46,10 @@ class AreaTest extends TestCase
     /** @test */
     function get_all_the_areas_from_the_current_groups_with_a_custom_area_resolver()
     {
+        $this->setConfig([
+            'enlighten.areas' => []
+        ]);
+
         Enlighten::setCustomAreaResolver(function ($className) {
             return explode('\\', $className)[3];
         });
