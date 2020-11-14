@@ -44,7 +44,7 @@
                                 <a href="{{ $additionalRequest->example->url }}"
                                    x-cloak
                                    x-show="open"
-                                   class="flex {{ $loop->first ? 'border-t' : '' }} {{ $loop->last ? '' : 'border-b' }} flex-col space-x-2 space-y-4 lg:space-y-0 lg:flex-row justify-between p-2 md:p-4 hover:bg-gray-100 bg-gray-200 border-gray-300">
+                                   class="flex {{ $loop->first ? 'border-t' : '' }} {{ $loop->last ? '' : 'border-b' }} flex-col space-x-2 space-y-4 lg:space-y-0 lg:flex-row justify-between p-2 md:py-4 md:pl-6 md:pr-4 hover:bg-gray-100 bg-gray-200 border-gray-300">
                                     <div class="flex items-center w-full md:w-auto">
                                         <div class="flex space-x-2 items-start">
                                             <x-enlighten-status-badge :model="$additionalRequest->example" size="6"></x-enlighten-status-badge>
