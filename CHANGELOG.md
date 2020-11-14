@@ -1,8 +1,78 @@
 # Changelog
 
+## v.5.0 - 2020-11-14
+**To upgrade from v0.4.* to v0.5**
+1. Publish the migrations to your local environment with `php artisan:vendor publish --tag=enlighten-migrations`
+2. Refresh the database using the new artisan command `php artisan enlighten:migrate:fresh`
+3. Delete any published views `rm -r resources/views/vendor/enlighten` and published assets `rm -r public/vendor/enlighten`
+4. Re-publish the assets with `php artisan vendor:publish` and select `enlighten-build`  
+5. Run `php artisan view:clear` to delete any view cache.**
+
+### Added
+- New annotation to sort groups (classes) and tests on the documentation.
+
+```php
+/** @enlighten {"order": 1} **/
+class UserTest
+{
+    /**
+     * @test
+     * @enlighten {"order": 1}
+     **/
+    public function it_can_create_users()
+    {
+        //
+    }
+}
+```
+
+- New `endpoints` and `features` templates
+```php
+// config/enlighten.php
+
+return [
+    'area_view' => 'features', // 'modules' or 'endpoints'
+];
+```
+
+- Support to use different templates on each area
+```php
+return [
+    'areas' => [
+        [
+            'slug' => 'api',
+            'name' => 'API',
+            'view' => 'endpoints',
+        ],
+        [
+            'slug' => 'feature',
+            'name' => 'Features',
+            'view' => 'modules',
+        ],
+        [
+            'slug' => 'unit',
+            'name' => 'Unit',
+            'view' => 'features',
+        ],
+    ],
+];
+```
+
+- Support to display all the requests on a redirect response.
+- Modules are optional now if you use the `features` view.
+- New `install` command to set up enlighten on new projects
+
+```bash
+php artisan enlighten:install
+```
+
+## Fixed
+- Static search on exported docs.
+- Improving performance while collecting data during tests.
+- Refactoring service providers.
+
 ## v.0.4 - 2020-11-05
 **To upgrade from v0.3.* to v0.4**
-
 1. Publish the migrations to your local environment with `php artisan:vendor publish --tag=enlighten-migrations`
 2. Refresh the database using the new artisan command `php artisan enlighten:migrate:fresh`
 3. Delete any published views `rm -r resources/views/vendor/enlighten` and published assets `rm -r public/vendor/enlighten`
