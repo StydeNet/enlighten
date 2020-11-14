@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Styde\Enlighten\Models\Concerns\GetStats;
 
-class ExampleGroup extends Model implements Statusable, Wrappable
+class ExampleGroup extends Model implements Statable, Wrappable
 {
     use GetStats;
 

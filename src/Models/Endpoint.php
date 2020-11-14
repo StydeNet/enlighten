@@ -4,11 +4,12 @@ namespace Styde\Enlighten\Models;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Models\Concerns\GetStats;
 use Styde\Enlighten\Models\Concerns\ReadsDynamicAttributes;
 
-class Endpoint implements Wrappable
+class Endpoint implements Wrappable, Statable
 {
-    use ReadsDynamicAttributes;
+    use ReadsDynamicAttributes, GetStats;
 
     public function __construct($method, $route, Collection $requests = null)
     {
@@ -47,5 +48,17 @@ class Endpoint implements Wrappable
     public function getMethodIndex()
     {
         return array_search($this->method, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']);
+    }
+
+    public function getStats()
+    {
+        return $this->requests
+            ->groupBy('example.status')
+            ->map(function ($endpoints, $status) {
+                return [
+                    'status' => $status,
+                    'count' => count($endpoints),
+                ];
+            });
     }
 }

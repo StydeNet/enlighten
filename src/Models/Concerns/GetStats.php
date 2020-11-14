@@ -8,8 +8,6 @@ use Styde\Enlighten\Models\Status;
 /** @property-read Collection $stats */
 trait GetStats
 {
-    abstract public function stats();
-
     public function getPassingTestsCount(): int
     {
         return $this->stats

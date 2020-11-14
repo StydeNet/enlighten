@@ -5,7 +5,10 @@
         @foreach($modules as $module)
             <div class="w-full divide-y divide-gray-300 bg-white rounded-lg overflow-hidden mb-8">
                 <div class="w-full p-4 bg-gray-200">
-                    <h2 class="text-gray-800 text-lg">{{ $module->name }}</h2>
+                    <h2 class="text-gray-800 text-lg">
+                        <x-enlighten-stats-badge size="6" :model="$module" />
+                        {{ $module->name }}
+                    </h2>
                 </div>
                 @foreach($module->groups as $group)
                     <div class="w-full" x-data="{open: false}">
