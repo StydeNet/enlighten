@@ -40,7 +40,8 @@ class ShowAreaController
         $groups = $this->getGroups($run, $area)
             ->load([
                 'examples' => function ($q) {
-                    $q->withCount('queries');
+                    $q->withCount('queries')
+                      ->orderBy('order_num');
                 },
                 'examples.group',
                 'examples.requests',
@@ -72,7 +73,7 @@ class ShowAreaController
                 return new Endpoint(
                     $requests->first()->request_method,
                     $requests->first()->route_or_path,
-                    $requests, // $requests->sortBy('example.order_num')
+                    $requests->sortBy('example.order_num')
                 );
             })
             ->sortBy('method_index');
@@ -99,10 +100,14 @@ class ShowAreaController
 
     private function getGroups(Run $run, Area $area): Collection
     {
+        // We always want to get the collection with all the groups
+        // because we use them to build the menu. So by filtering
+        // at a collection level we're actually saving a query.
         return $run->groups
             ->when($area->isNotDefault(), function ($collection) use ($area) {
                 return $collection->where('area', $area->slug);
-            });
+            })
+            ->sortBy('order_num');
     }
 
     private function wrapByModule(Collection $groups): ModuleCollection
