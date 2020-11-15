@@ -2,7 +2,7 @@
 
 ## v.5.0 - 2020-11-14
 **To upgrade from v0.4.* to v0.5**
-1. Publish the migrations to your local environment with `php artisan:vendor publish --tag=enlighten-migrations`
+1. Publish the migrations to your local environment with `php artisan vendor:publish --tag=enlighten-migrations`
 2. Refresh the database using the new artisan command `php artisan enlighten:migrate:fresh`
 3. Delete any published views `rm -r resources/views/vendor/enlighten` and published assets `rm -r public/vendor/enlighten`
 4. Re-publish the assets with `php artisan vendor:publish` and select `enlighten-build`  
@@ -73,7 +73,7 @@ php artisan enlighten:install
 
 ## v.0.4 - 2020-11-05
 **To upgrade from v0.3.* to v0.4**
-1. Publish the migrations to your local environment with `php artisan:vendor publish --tag=enlighten-migrations`
+1. Publish the migrations to your local environment with `php artisan vendor:publish --tag=enlighten-migrations`
 2. Refresh the database using the new artisan command `php artisan enlighten:migrate:fresh`
 3. Delete any published views `rm -r resources/views/vendor/enlighten` and published assets `rm -r public/vendor/enlighten`
 4. Re-publish the assets with `php artisan vendor:publish` and select `enlighten-build`  
