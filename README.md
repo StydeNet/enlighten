@@ -11,7 +11,7 @@ Enlighten your Laravel applications with a beautiful documentation generated aut
 
 If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
  
-## You can support this project by: 
+## You can be a part of this project:
 - [Join us on Discord](https://discord.gg/JyfxmPM)
 - [Become a sponsor](https://github.com/sponsors/sileence)
 - [Become a contributor](https://github.com/StydeNet/enlighten/blob/main/CONTRIBUTING.md)
