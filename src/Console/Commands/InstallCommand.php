@@ -39,7 +39,7 @@ class InstallCommand extends Command
 
     private function setupEnlightenInTestCase()
     {
-        $appTestCase = File::get(base_path('Tests/TestCase.php'));
+        $appTestCase = File::get(base_path('tests/TestCase.php'));
         $baseTestCase = File::get(__DIR__.'/stubs/BaseTestCase.php.stub');
 
         if ($appTestCase != $baseTestCase) {
@@ -47,7 +47,7 @@ class InstallCommand extends Command
         }
 
         $enlightenTestCase = File::get(__DIR__ . '/stubs/EnlightenTestCase.php.stub');
-        File::put(base_path('Tests/TestCase.php'), $enlightenTestCase);
+        File::put(base_path('tests/TestCase.php'), $enlightenTestCase);
 
         return true;
     }
