@@ -80,7 +80,9 @@ class ShowAreaController
                 return new Endpoint(
                     $requests->first()->request_method,
                     $requests->first()->route_or_path,
-                    $requests->sortBy('example.order')
+                    $requests->unique(function ($response) {
+                        return $response->signature.$response->example->slug;
+                    })->sortBy('example.order')
                 );
             })
             ->sortBy('method_index');
