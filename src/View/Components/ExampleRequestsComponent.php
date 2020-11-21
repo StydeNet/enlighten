@@ -62,6 +62,4 @@ class ExampleRequestsComponent extends Component
                 ];
             });
     }
-
-
 }
