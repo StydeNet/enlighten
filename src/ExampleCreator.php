@@ -121,15 +121,18 @@ class ExampleCreator
 
         $example = $this->currentExample->saveStatus($testStatus, Status::fromTestStatus($testStatus));
 
-        if ($example->status !== Status::SUCCESS && $this->currentException !== null) {
-            $this->saveException();
-
+        if ($example->status !== Status::SUCCESS) {
             $this->testRun->saveFailedTestLink($example);
+            $this->saveException();
         }
     }
 
     private function saveException()
     {
+        if ($this->currentException === null) {
+            return;
+        }
+
         $this->currentExample->saveExceptionData(
             get_class($this->currentException),
             $this->currentException,
