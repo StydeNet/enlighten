@@ -26,7 +26,9 @@ class RouteInspector
             ->mapWithKeys(function ($parameter) {
                 return [$parameter => '*'];
             })
-            ->merge($route->wheres)
+            ->merge(
+                array_intersect_key($route->wheres, $route->originalParameters())
+            )
             ->map(function ($pattern, $name) use ($route) {
                 return [
                     'name' => $name,

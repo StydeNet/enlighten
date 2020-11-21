@@ -29,3 +29,11 @@ Route::get('redirect-2', function () {
 Route::get('redirect-3', function () {
     return 'Final Response';
 });
+
+Route::pattern('irrelevant-parameter', '\w+');
+
+Route::pattern('global', '[a-z]+');
+
+Route::get('parameters/{global}/{local}/{optional?}', function () {
+    return 'Test route parameters';
+});
