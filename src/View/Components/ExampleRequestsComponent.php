@@ -58,7 +58,10 @@ class ExampleRequestsComponent extends Component
                     'title' => sprintf('Request #%s', $key + 1),
                     'request' => $request,
                     'showSession' => Enlighten::show(Section::SESSION) && ! empty($request->session_data),
+                    'showOnlyPreview' => $this->example->has_exeption && $request->response_type === 'JSON',
                 ];
             });
     }
+
+
 }

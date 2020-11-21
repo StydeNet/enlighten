@@ -29,7 +29,7 @@
                             @endif
                         </div>
                         <div class="h-full relative">
-                            @if($example->has_exception)
+                            @if($tab->showOnlyPreview)
                                 <x-enlighten-iframe srcdoc="{{ $tab->request->response_preview }}" />
                             @else
                                 <x-enlighten-response-preview :request="$tab->request" />
