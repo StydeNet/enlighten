@@ -9,6 +9,7 @@ use Styde\Enlighten\CodeExamples\HtmlResultFormat;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\ExampleProfile;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Styde\Enlighten\HttpExamples\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExamples\RequestInspector;
@@ -32,7 +33,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($this->packageRoot('config/enlighten.php'), 'enlighten');
 
-        if (! $this->app['config']->get('enlighten.enabled')) {
+        if (Enlighten::isDisabled()) {
             return;
         }
 

@@ -5,6 +5,7 @@ namespace Styde\Enlighten\CodeExamples;
 use Closure;
 use Styde\Enlighten\ExampleBuilder;
 use Styde\Enlighten\ExampleCreator;
+use Styde\Enlighten\Facades\Enlighten;
 use Throwable;
 
 class CodeExampleCreator
@@ -25,13 +26,8 @@ class CodeExampleCreator
         $this->codeInspector = $codeInspector;
     }
 
-    public function createSnippet($key, $callback = null)
+    public function createSnippet(callable $callback, string $key = null)
     {
-        if ($key instanceof Closure) {
-            $callback = $key;
-            $key = null;
-        }
-
         $testExample = $this->exampleCreator->getCurrentExample();
 
         if (is_null($testExample)) {

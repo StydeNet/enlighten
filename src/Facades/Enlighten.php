@@ -33,8 +33,19 @@ class Enlighten extends Facade
 
     public static function test($keyOrCallback, $callback = null)
     {
+        if ($keyOrCallback instanceof Closure) {
+            $callback = $keyOrCallback;
+            $key = null;
+        } else {
+            $key = $keyOrCallback;
+        }
+
+        if (Enlighten::isDisabled()) {
+            return $callback();
+        }
+
         try {
-            return app(CodeExampleCreator::class)->createSnippet($keyOrCallback, $callback);
+            return app(CodeExampleCreator::class)->createSnippet($callback, $key);
         } catch (BindingResolutionException $exception) {
             throw new LaravelNotPresent;
         }
