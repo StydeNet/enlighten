@@ -1,5 +1,9 @@
 # Changelog
 
+## v.5.7 - 2020-12-12
+
+Support for PHP 8.
+
 ## v.5.0 - 2020-11-14
 **To upgrade from v0.4.* to v0.5**
 1. Publish the migrations to your local environment with `php artisan vendor:publish --tag=enlighten-migrations`
