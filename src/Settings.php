@@ -3,7 +3,9 @@
 namespace Styde\Enlighten;
 
 use Closure;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Facades\VersionControl;
 
 class Settings
 {
@@ -21,6 +23,25 @@ class Settings
      * @var Closure|null
      */
     protected $customTitleGenerator = null;
+
+    public function isEnabled(): bool
+    {
+        $config = Config::get('enlighten.enabled');
+
+        // You can enable Enlighten only on specific branches
+        // of your control system (i.e.: main and develop)
+        // and it'll be disabled in the other branches.
+        if (is_array($config)) {
+            return in_array(VersionControl::currentBranch(), $config);
+        }
+
+        return (bool) $config;
+    }
+
+    public function isDisabled(): bool
+    {
+        return ! $this->isEnabled();
+    }
 
     public function hide(string $sectionName): bool
     {

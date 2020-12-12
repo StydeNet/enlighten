@@ -10,6 +10,8 @@ use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\Settings;
 
 /**
+ * @method static bool isDisabled()
+ * @method static bool isEnabled()
  * @method static self setCustomAreaResolver(Closure $callback)
  * @method static string getAreaSlug(string $className)
  * @method static self setCustomTitleGenerator(Closure $callback)

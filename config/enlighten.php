@@ -1,10 +1,14 @@
 <?php
 
 return [
+    // Set a boolean to enable or disable Enlighten entirely,
+    // or pass an array, for example: ['main', 'develop']
+    // to enable Enlighten only in specific branches.
     'enabled' => true,
 
-    // Add values to this array to hide certain sections from your views.
-    // For all valid sections see the class \Styde\Enlighten\Section
+    // Add values to this array to hide certain sections
+    // from your views. For all valid sections check
+    // the constants in \Styde\Enlighten\Section.
     'hide' => [
         // 'queries',
         // 'html',
@@ -33,8 +37,9 @@ return [
         'ignore' => [],
     ],
 
-    // You can use the arrays belows to hide or obfuscate certain parameters from the
-    // HTTP requests including headers, input, query parameter, session data, etc.
+    // Use the arrays below to hide or obfuscate parameters
+    // from the HTTP requests including headers, input,
+    // query parameters, session data, and others.
     'request' => [
         'headers' => [
             'hide' => [],

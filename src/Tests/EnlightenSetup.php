@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
+use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Styde\Enlighten\TestRun;
 
@@ -29,7 +30,7 @@ trait EnlightenSetup
         }
 
         $this->afterApplicationCreated(function () {
-            if ($this->enlightenIsDisabled()) {
+            if (Enlighten::isDisabled()) {
                 return;
             }
 
@@ -43,7 +44,7 @@ trait EnlightenSetup
         });
 
         $this->beforeApplicationDestroyed(function () {
-            if ($this->enlightenIsDisabled()) {
+            if (Enlighten::isDisabled()) {
                 return;
             }
 
@@ -51,11 +52,6 @@ trait EnlightenSetup
 
             $this->saveExampleStatus();
         });
-    }
-
-    private function enlightenIsDisabled()
-    {
-        return ! $this->app->make('config')->get('enlighten.enabled');
     }
 
     private function resetRunData()
@@ -110,7 +106,7 @@ trait EnlightenSetup
      */
     protected function withoutExceptionHandling(array $except = [])
     {
-        if ($this->enlightenIsDisabled()) {
+        if (Enlighten::isDisabled()) {
             return parent::withoutExceptionHandling($except);
         }
 
@@ -128,7 +124,7 @@ trait EnlightenSetup
      */
     protected function withExceptionHandling()
     {
-        if ($this->enlightenIsDisabled()) {
+        if (Enlighten::isDisabled()) {
             return parent::withExceptionHandling();
         }
 
