@@ -351,6 +351,8 @@ The content of this file will overwrite the default page provided by this packag
 - [Documentation in Laravel 8 with Enlighten (Oliver Earl)](https://blog.oliverearl.co.uk/documentation-in-laravel-8-with-enlighten)
 ### Spanish
 - [Genera la documentación de tus aplicaciones automáticamente con Laravel Enlighten (Styde.net)](https://styde.net/laravel-enlighten/)
+### German
+- [Johannes Arndt: Laravel Enlighten - A seamless package to document your Laravel APIs (Laravel Meetup DACH)](https://youtu.be/-LEztUG-E9g?t=336)
 
 ## Credits
 - [Duilio Palacios](https://twitter.com/sileence)
