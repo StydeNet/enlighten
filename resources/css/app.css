@@ -1,13 +1,13 @@
 /* purgecss start ignore */
 @import "tailwindcss/base";
 @import "tailwindcss/components";
-@import "code-snippets";
+@import "./code-snippets.css";
 /* purgecss end ignore */
 
 @import "tailwindcss/utilities";
 
 /* purgecss start ignore */
-@import "./prism";
+@import "./prism.css";
 
 .code-toolbar {
     @apply h-full;

@@ -10,9 +10,6 @@ mix.babel('resources/js/prism.js', 'dist/js/prism.js')
             'dist/js/app.js'
         ],  'dist/js/build.js');
 
-mix.less('resources/less/app.less', 'dist/css')
-    .options({
-        postCss: [
-            tailwindcss('./tailwind.config.js'),
-        ]
-    });
+mix.postCss('resources/css/app.css', 'dist/css', [
+    tailwindcss('./tailwind.config.js'),
+]);
