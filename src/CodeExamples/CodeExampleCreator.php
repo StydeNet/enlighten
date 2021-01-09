@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\CodeExamples;
 
 use Closure;
+use Styde\Enlighten\DatabaseExampleBuilder;
 use Styde\Enlighten\ExampleBuilder;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Facades\Enlighten;

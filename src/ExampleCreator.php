@@ -12,10 +12,11 @@ use Throwable;
 
 class ExampleCreator
 {
+    const LAST_ORDER_POSITION = 9999;
     /**
-     * @var ExampleGroupCreator|null
+     * @var ExampleGroupBuilder|null
      */
-    protected static $currentExampleGroup = null;
+    protected static $currentExampleGroupBuilder = null;
 
     /**
      * @var Throwable
@@ -30,7 +31,7 @@ class ExampleCreator
     /**
      * @var ExampleBuilder|null
      */
-    protected $currentExample = null;
+    protected $exampleBuilder = null;
 
     /**
      * @var TestRun
@@ -66,44 +67,69 @@ class ExampleCreator
             $this->testRun->reportMissingSetup();
         }
 
-        return $this->currentExample;
+        return $this->exampleBuilder;
     }
 
     public function makeExample(string $className, string $methodName)
     {
         $this->missingSetup = false;
-        $this->currentExample = null;
+        $this->exampleBuilder = null;
         $this->currentException = null;
 
-        $exampleGroupCreator = $this->getExampleGroup($className);
+        if (optional(static::$currentExampleGroupBuilder)->is($className)) {
+            $exampleGroupBuilder = static::$currentExampleGroupBuilder;
+        } else {
+            $exampleGroupBuilder = static::$currentExampleGroupBuilder = new DatabaseExampleGroupBuilder;
+        }
+
+        $classAnnotations = $this->annotations->getFromClass($className);
+
+        $exampleGroupBuilder
+            ->setTestRun($this->testRun)
+            ->setClassName($className)
+            ->setTitle($this->getTitleFor('class', $classAnnotations, $className))
+            ->setDescription($classAnnotations->get('description'))
+            ->setArea($this->settings->getAreaSlug($className))
+            ->setSlug($this->settings->generateSlugFromClassName($className))
+            ->setOrderNum($classAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
 
         $annotations = $this->annotations->getFromMethod($className, $methodName);
 
-        if ($this->profile->shouldIgnore($className, $methodName, $annotations->get('enlighten'))) {
+        $options = array_merge($classAnnotations->get('enlighten', []), $annotations->get('enlighten', []));
+
+        if ($this->profile->shouldIgnore($className, $methodName, $options)) {
             return;
         }
 
-        $this->currentExample = new ExampleBuilder($exampleGroupCreator, $methodName, [
-            'line'  => $this->getStartLine($className, $methodName),
-            'title' => $this->getTitleFor('method', $annotations, $methodName),
-            'slug'  => $this->settings->generateSlugFromMethodName($methodName),
-            'description' => $annotations->get('description'),
-            'order_num' => $annotations->get('enlighten')['order'] ?? 9999,
-        ]);
+        $this->exampleBuilder = $this->newExampleBuilder();
+
+        $this->exampleBuilder
+            ->setMethodName($methodName)
+            ->setExampleGroupCreator($exampleGroupBuilder)
+            ->setSlug($this->settings->generateSlugFromMethodName($methodName))
+            ->setTitle($this->getTitleFor('method', $annotations, $methodName))
+            ->setDescription($annotations->get('description'))
+            ->setLine($this->getStartLine($className, $methodName))
+            ->setOrderNum($annotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
+    }
+
+    private function newExampleBuilder()
+    {
+        return new DatabaseExampleBuilder();
     }
 
     public function saveQuery(QueryExecuted $query)
     {
-        if (is_null($this->currentExample)) {
+        if (is_null($this->exampleBuilder)) {
             return;
         }
 
-        $this->currentExample->saveQuery($query);
+        $this->exampleBuilder->saveQuery($query);
     }
 
     public function captureException(Throwable $exception)
     {
-        if (is_null($this->currentExample)) {
+        if (is_null($this->exampleBuilder)) {
             return;
         }
 
@@ -115,11 +141,11 @@ class ExampleCreator
 
     public function saveStatus(string $testStatus)
     {
-        if (is_null($this->currentExample)) {
+        if (is_null($this->exampleBuilder)) {
             return;
         }
 
-        $example = $this->currentExample->saveStatus($testStatus, Status::fromTestStatus($testStatus));
+        $example = $this->exampleBuilder->saveStatus($testStatus, Status::fromTestStatus($testStatus));
 
         if ($example->status !== Status::SUCCESS) {
             $this->testRun->saveFailedTestLink($example);
@@ -133,7 +159,7 @@ class ExampleCreator
             return;
         }
 
-        $this->currentExample->saveExceptionData(
+        $this->exampleBuilder->saveExceptionData(
             get_class($this->currentException),
             $this->currentException,
             $this->getExtraExceptionData($this->currentException)
@@ -149,30 +175,6 @@ class ExampleCreator
         }
 
         return [];
-    }
-
-    private function getExampleGroup($className): ExampleGroupCreator
-    {
-        if (optional(static::$currentExampleGroup)->is($className)) {
-            return static::$currentExampleGroup;
-        }
-
-        return static::$currentExampleGroup = $this->makeExampleGroup($className);
-    }
-
-    private function makeExampleGroup($className): ExampleGroupCreator
-    {
-        $annotations = $this->annotations->getFromClass($className);
-
-        $this->profile->setClassOptions($annotations->get('enlighten'));
-
-        return new ExampleGroupCreator($this->testRun, $className, [
-            'title' => $this->getTitleFor('class', $annotations, $className),
-            'description' => $annotations->get('description'),
-            'area' => $this->settings->getAreaSlug($className),
-            'slug' => $this->settings->generateSlugFromClassName($className),
-            'order_num' => $annotations->get('enlighten')['order'] ?? 9999,
-        ]);
     }
 
     private function getTitleFor(string $type, Collection $annotations, string $classOrMethodName)
