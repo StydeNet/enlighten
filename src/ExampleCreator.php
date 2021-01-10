@@ -39,6 +39,11 @@ class ExampleCreator
     protected $testRun;
 
     /**
+     * @var RunBuilder
+     */
+    private $runBuilder;
+
+    /**
      * @var Annotations
      */
     protected $annotations;
@@ -47,15 +52,15 @@ class ExampleCreator
      * @var Settings
      */
     protected $settings;
-
     /**
      * @var ExampleProfile
      */
     private $profile;
 
-    public function __construct(TestRun $testRun, Annotations $annotations, Settings $settings, ExampleProfile $profile)
+    public function __construct(TestRun $testRun, RunBuilder $runBuilder, Annotations $annotations, Settings $settings, ExampleProfile $profile)
     {
         $this->testRun = $testRun;
+        $this->runBuilder = $runBuilder;
         $this->annotations = $annotations;
         $this->settings = $settings;
         $this->profile = $profile;
@@ -76,46 +81,24 @@ class ExampleCreator
         $this->exampleBuilder = null;
         $this->currentException = null;
 
-        if (optional(static::$currentExampleGroupBuilder)->is($className)) {
-            $exampleGroupBuilder = static::$currentExampleGroupBuilder;
-        } else {
-            $exampleGroupBuilder = static::$currentExampleGroupBuilder = new DatabaseExampleGroupBuilder;
-        }
-
         $classAnnotations = $this->annotations->getFromClass($className);
+        $methodAnnotations = $this->annotations->getFromMethod($className, $methodName);
 
-        $exampleGroupBuilder
-            ->setTestRun($this->testRun)
-            ->setClassName($className)
-            ->setTitle($this->getTitleFor('class', $classAnnotations, $className))
-            ->setDescription($classAnnotations->get('description'))
-            ->setArea($this->settings->getAreaSlug($className))
-            ->setSlug($this->settings->generateSlugFromClassName($className))
-            ->setOrderNum($classAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
-
-        $annotations = $this->annotations->getFromMethod($className, $methodName);
-
-        $options = array_merge($classAnnotations->get('enlighten', []), $annotations->get('enlighten', []));
+        $options = array_merge($classAnnotations->get('enlighten', []), $methodAnnotations->get('enlighten', []));
 
         if ($this->profile->shouldIgnore($className, $methodName, $options)) {
             return;
         }
 
-        $this->exampleBuilder = $this->newExampleBuilder();
+        $exampleGroupBuilder = $this->getExampleGroup($className, $classAnnotations);
 
-        $this->exampleBuilder
+        $this->exampleBuilder = $exampleGroupBuilder->newExample()
             ->setMethodName($methodName)
-            ->setExampleGroupCreator($exampleGroupBuilder)
             ->setSlug($this->settings->generateSlugFromMethodName($methodName))
-            ->setTitle($this->getTitleFor('method', $annotations, $methodName))
-            ->setDescription($annotations->get('description'))
+            ->setTitle($this->getTitleFor('method', $methodAnnotations, $methodName))
+            ->setDescription($methodAnnotations->get('description'))
             ->setLine($this->getStartLine($className, $methodName))
-            ->setOrderNum($annotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
-    }
-
-    private function newExampleBuilder()
-    {
-        return new DatabaseExampleBuilder();
+            ->setOrderNum($methodAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
     }
 
     public function saveQuery(QueryExecuted $query)
@@ -188,4 +171,26 @@ class ExampleCreator
     {
         return (new ReflectionMethod($className, $methodName))->getStartLine();
     }
+
+    private function getExampleGroup(string $className, Collection $classAnnotations): ExampleGroupBuilder
+    {
+        if (optional(static::$currentExampleGroupBuilder)->is($className)) {
+            return static::$currentExampleGroupBuilder;
+        }
+
+        return static::$currentExampleGroupBuilder = $this->makeExampleGroup($className, $classAnnotations);
+    }
+
+    private function makeExampleGroup(string $className, Collection $classAnnotations): ExampleGroupBuilder
+    {
+        return $this->runBuilder->newExampleGroup()
+            ->setClassName($className)
+            ->setTitle($this->getTitleFor('class', $classAnnotations, $className))
+            ->setDescription($classAnnotations->get('description'))
+            ->setArea($this->settings->getAreaSlug($className))
+            ->setSlug($this->settings->generateSlugFromClassName($className))
+            ->setOrderNum($classAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
+    }
+
+
 }

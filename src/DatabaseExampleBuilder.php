@@ -16,7 +16,7 @@ class DatabaseExampleBuilder implements ExampleBuilder
     /**
      * @var ExampleGroupBuilder
      */
-    public $exampleGroupCreator;
+    public $exampleGroupBuilder;
 
     /**
      * @var string
@@ -73,9 +73,9 @@ class DatabaseExampleBuilder implements ExampleBuilder
         $this->currentRequests = new Collection;
     }
 
-    public function setExampleGroupCreator(ExampleGroupBuilder $exampleGroupCreator): self
+    public function setExampleGroupBuilder(ExampleGroupBuilder $exampleGroupCreator): self
     {
-        $this->exampleGroupCreator = $exampleGroupCreator;
+        $this->exampleGroupBuilder = $exampleGroupCreator;
 
         return $this;
     }
@@ -86,7 +86,7 @@ class DatabaseExampleBuilder implements ExampleBuilder
             return;
         }
 
-        $group = $this->exampleGroupCreator->save();
+        $group = $this->exampleGroupBuilder->save();
 
         $this->example = Example::create([
             'group_id' => $group->id,

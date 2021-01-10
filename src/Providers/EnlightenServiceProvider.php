@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\HtmlResultFormat;
 use Styde\Enlighten\Contracts\VersionControl;
+use Styde\Enlighten\DatabaseRunBuilder;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\ExampleProfile;
 use Styde\Enlighten\Facades\Enlighten;
@@ -100,6 +101,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
             return new ExampleCreator(
                 $app[TestRun::class],
+                new DatabaseRunBuilder($app[TestRun::class]), // harcoded for now, use polymorphism, etc.
                 $annotations,
                 $app[Settings::class],
                 new ExampleProfile($app['config']->get('enlighten.tests')),

@@ -7,6 +7,10 @@ use Styde\Enlighten\Models\ExampleGroup;
 class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
 {
     /**
+     * @var DatabaseRunBuilder
+     */
+    private $runBuilder;
+    /**
      * @var TestRun
      */
     private $testRun;
@@ -57,7 +61,7 @@ class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
             return $this->exampleGroup;
         }
 
-        $run = $this->testRun->save();
+        $run = $this->runBuilder->save();
 
         $this->exampleGroup = ExampleGroup::create([
             'run_id' => $run->id,
@@ -111,6 +115,18 @@ class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
     public function setOrderNum(int $orderNum): self
     {
         $this->orderNum = $orderNum;
+        return $this;
+    }
+
+    public function newExample(): ExampleBuilder
+    {
+        return (new DatabaseExampleBuilder)->setExampleGroupBuilder($this);
+    }
+
+    public function setRunBuilder(DatabaseRunBuilder $runBuilder): self
+    {
+        $this->runBuilder = $runBuilder;
+
         return $this;
     }
 }

@@ -9,4 +9,6 @@ interface ExampleGroupBuilder
     public function is(string $name): bool;
 
     public function save(): ExampleGroup;
+
+    public function newExample(): ExampleBuilder;
 }
