@@ -191,6 +191,4 @@ class ExampleCreator
             ->setSlug($this->settings->generateSlugFromClassName($className))
             ->setOrderNum($classAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
     }
-
-
 }
