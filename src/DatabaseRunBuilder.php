@@ -17,21 +17,10 @@ class DatabaseRunBuilder implements RunBuilder
      */
     protected $hasBeenReset = false;
 
-    /**
-     * @var TestRun
-     */
-    private $testRun;
-
-    public function __construct(TestRun $testRun)
-    {
-        $this->testRun = $testRun;
-    }
-
     public function newExampleGroup(): ExampleGroupBuilder
     {
         return (new DatabaseExampleGroupBuilder)
-            ->setRunBuilder($this)
-            ->setTestRun($this->testRun);
+            ->setRunBuilder($this);
     }
 
     private function getRun()

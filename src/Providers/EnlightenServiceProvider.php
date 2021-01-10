@@ -93,8 +93,8 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerRunBuilder(): void
     {
-        $this->app->singleton(RunBuilder::class, function ($app) {
-            return new DatabaseRunBuilder($app[TestRun::class]);
+        $this->app->singleton(RunBuilder::class, function () {
+            return new DatabaseRunBuilder;
         });
     }
 

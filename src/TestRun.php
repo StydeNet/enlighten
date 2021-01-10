@@ -52,39 +52,6 @@ class TestRun
         // Use Singleton Pattern
     }
 
-    public function getRun()
-    {
-        if ($this->run) {
-            return $this->run;
-        }
-
-        return $this->run = Run::firstOrNew([
-            'branch' => VersionControl::currentBranch(),
-            'head' => VersionControl::head(),
-            'modified' => VersionControl::modified(),
-        ]);
-    }
-
-    public function save(): Run
-    {
-        $run = $this->getRun();
-
-        $run->save();
-
-        return $run;
-    }
-
-    public function reset()
-    {
-        if ($this->hasBeenReset) {
-            return;
-        }
-
-        $this->getRun()->groups()->delete();
-
-        $this->hasBeenReset = true;
-    }
-
     public function reportMissingSetup()
     {
         $this->missingSetup = true;

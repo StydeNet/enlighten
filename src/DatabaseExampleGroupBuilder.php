@@ -76,43 +76,37 @@ class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
         return $this->exampleGroup;
     }
 
-    public function setTestRun(TestRun $testRun): self
-    {
-        $this->testRun = $testRun;
-        return $this;
-    }
-
-    public function setClassName(string $className): self
+    public function setClassName(string $className): ExampleGroupBuilder
     {
         $this->className = $className;
         return $this;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(string $slug): ExampleGroupBuilder
     {
         $this->slug = $slug;
         return $this;
     }
 
-    public function setArea(string $area): self
+    public function setArea(string $area): ExampleGroupBuilder
     {
         $this->area = $area;
         return $this;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): ExampleGroupBuilder
     {
         $this->title = $title;
         return $this;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(?string $description): ExampleGroupBuilder
     {
         $this->description = $description;
         return $this;
     }
 
-    public function setOrderNum(int $orderNum): self
+    public function setOrderNum(int $orderNum): ExampleGroupBuilder
     {
         $this->orderNum = $orderNum;
         return $this;
@@ -123,7 +117,7 @@ class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
         return (new DatabaseExampleBuilder)->setExampleGroupBuilder($this);
     }
 
-    public function setRunBuilder(DatabaseRunBuilder $runBuilder): self
+    public function setRunBuilder(DatabaseRunBuilder $runBuilder): ExampleGroupBuilder
     {
         $this->runBuilder = $runBuilder;
 
