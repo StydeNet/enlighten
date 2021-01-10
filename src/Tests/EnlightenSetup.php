@@ -9,6 +9,7 @@ use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
+use Styde\Enlighten\RunBuilder;
 use Styde\Enlighten\TestRun;
 
 trait EnlightenSetup
@@ -56,7 +57,7 @@ trait EnlightenSetup
 
     private function resetRunData()
     {
-        TestRun::getInstance()->reset();
+        $this->app->make(RunBuilder::class)->reset();
     }
 
     private function makeExample()

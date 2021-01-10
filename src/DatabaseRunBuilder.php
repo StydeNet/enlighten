@@ -34,7 +34,7 @@ class DatabaseRunBuilder implements RunBuilder
             ->setTestRun($this->testRun);
     }
 
-    public function getRun()
+    private function getRun()
     {
         if ($this->run) {
             return $this->run;
@@ -47,7 +47,7 @@ class DatabaseRunBuilder implements RunBuilder
         ]);
     }
 
-    public function reset()
+    public function reset(): void
     {
         if ($this->hasBeenReset) {
             return;
