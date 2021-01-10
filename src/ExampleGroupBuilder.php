@@ -21,5 +21,4 @@ interface ExampleGroupBuilder
     public function setOrderNum(int $orderNum): ExampleGroupBuilder;
 
     public function setRunBuilder(DatabaseRunBuilder $runBuilder): ExampleGroupBuilder;
-
 }

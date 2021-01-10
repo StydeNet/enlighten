@@ -3,7 +3,6 @@
 
 namespace Tests\Unit;
 
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\DatabaseRunBuilder;
