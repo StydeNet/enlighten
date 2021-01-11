@@ -3,8 +3,8 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Styde\Enlighten\Utils\FileLink;
 use Styde\Enlighten\Contracts\Example as ExampleContract;
+use Styde\Enlighten\Utils\FileLink;
 
 class Example extends Model implements ExampleContract, Statusable
 {
