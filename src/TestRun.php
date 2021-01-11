@@ -2,8 +2,7 @@
 
 namespace Styde\Enlighten;
 
-use Styde\Enlighten\Facades\VersionControl;
-use Styde\Enlighten\Models\Example;
+use Styde\Enlighten\Contracts\Example;
 use Styde\Enlighten\Models\Run;
 
 class TestRun
@@ -64,11 +63,7 @@ class TestRun
 
     public function saveFailedTestLink(Example $example)
     {
-        if (is_null($example->group)) {
-            return;
-        }
-
-        $this->failedTestLinks[$example->group->class_name.'::'.$example->method_name] = $example->url;
+        $this->failedTestLinks[$example->getSignature()] = $example->getUrl();
     }
 
     public function getFailedTestLink(string $signature): ?string

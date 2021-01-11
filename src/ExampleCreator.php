@@ -13,6 +13,7 @@ use Throwable;
 class ExampleCreator
 {
     const LAST_ORDER_POSITION = 9999;
+
     /**
      * @var ExampleGroupBuilder|null
      */
@@ -52,10 +53,16 @@ class ExampleCreator
      * @var Settings
      */
     protected $settings;
+
     /**
      * @var ExampleProfile
      */
     private $profile;
+
+    public static function clearExampleGroupBuilder()
+    {
+        static::$currentExampleGroupBuilder = null;
+    }
 
     public function __construct(TestRun $testRun, RunBuilder $runBuilder, Annotations $annotations, Settings $settings, ExampleProfile $profile)
     {
@@ -132,7 +139,7 @@ class ExampleCreator
 
         $example = $this->exampleBuilder->build();
 
-        if ($example->status !== Status::SUCCESS) {
+        if ($example->getStatus() !== Status::SUCCESS) {
             $this->testRun->saveFailedTestLink($example);
             $this->saveException();
         }
