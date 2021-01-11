@@ -2,11 +2,8 @@
 
 namespace Styde\Enlighten\CodeExamples;
 
-use Closure;
-use Styde\Enlighten\DatabaseExampleBuilder;
 use Styde\Enlighten\ExampleBuilder;
 use Styde\Enlighten\ExampleCreator;
-use Styde\Enlighten\Facades\Enlighten;
 use Throwable;
 
 class CodeExampleCreator
@@ -35,13 +32,12 @@ class CodeExampleCreator
             return $callback();
         }
 
-        /** @var ExampleBuilder $testExample */
-        $testExample->createSnippet($key, $this->codeInspector->getCodeFrom($callback));
+        $testExample->addSnippet($key, $this->codeInspector->getCodeFrom($callback));
 
         try {
             $result = call_user_func($callback);
 
-            $testExample->saveSnippetResult(CodeResultTransformer::toArray($result));
+            $testExample->setSnippetResult(CodeResultTransformer::toArray($result));
 
             return $result;
         } catch (Throwable $throwable) {

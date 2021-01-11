@@ -3,6 +3,7 @@
 namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
+use Styde\Enlighten\Contracts\Example;
 use Styde\Enlighten\HttpExamples\RequestInfo;
 use Styde\Enlighten\HttpExamples\ResponseInfo;
 use Styde\Enlighten\HttpExamples\RouteInfo;
@@ -10,19 +11,19 @@ use Throwable;
 
 interface ExampleBuilder
 {
-    public function save();
+    public function setStatus(string $testStatus, string $status);
 
-    public function saveStatus(string $testStatus, string $status);
+    public function addRequest(RequestInfo $request);
 
-    public function createRequest(RequestInfo $request);
+    public function setResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session);
 
-    public function saveResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session);
+    public function setException(string $className, ?Throwable $exception, array $extra);
 
-    public function saveExceptionData(string $className, ?Throwable $exception, array $extra);
+    public function addQuery(QueryExecuted $queryExecuted);
 
-    public function saveQuery(QueryExecuted $queryExecuted);
+    public function addSnippet($key, string $code);
 
-    public function createSnippet($key, string $code);
+    public function setSnippetResult($result);
 
-    public function saveSnippetResult($result);
+    public function build(): Example;
 }

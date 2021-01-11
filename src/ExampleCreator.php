@@ -107,7 +107,7 @@ class ExampleCreator
             return;
         }
 
-        $this->exampleBuilder->saveQuery($query);
+        $this->exampleBuilder->addQuery($query);
     }
 
     public function captureException(Throwable $exception)
@@ -128,7 +128,9 @@ class ExampleCreator
             return;
         }
 
-        $example = $this->exampleBuilder->saveStatus($testStatus, Status::fromTestStatus($testStatus));
+        $this->exampleBuilder->setStatus($testStatus, Status::fromTestStatus($testStatus));
+
+        $example = $this->exampleBuilder->build();
 
         if ($example->status !== Status::SUCCESS) {
             $this->testRun->saveFailedTestLink($example);
@@ -142,7 +144,7 @@ class ExampleCreator
             return;
         }
 
-        $this->exampleBuilder->saveExceptionData(
+        $this->exampleBuilder->setException(
             get_class($this->currentException),
             $this->currentException,
             $this->getExtraExceptionData($this->currentException)

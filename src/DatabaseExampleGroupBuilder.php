@@ -114,7 +114,7 @@ class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
 
     public function newExample(): ExampleBuilder
     {
-        return (new DatabaseExampleBuilder)->setExampleGroupBuilder($this);
+        return new DatabaseExampleBuilder($this);
     }
 
     public function setRunBuilder(DatabaseRunBuilder $runBuilder): ExampleGroupBuilder
