@@ -1,6 +1,6 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Tests;
 
 use Styde\Enlighten\Contracts\Example;
 use Styde\Enlighten\Models\Run;

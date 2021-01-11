@@ -5,7 +5,6 @@ namespace Styde\Enlighten\Tests;
 use PHPUnit\Framework\TestFailure;
 use PHPUnit\Framework\TestResult;
 use PHPUnit\TextUI\DefaultResultPrinter;
-use Styde\Enlighten\TestRun;
 
 class BasicResultPrinter extends DefaultResultPrinter
 {

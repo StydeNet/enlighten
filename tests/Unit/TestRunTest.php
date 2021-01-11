@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Styde\Enlighten\TestRun;
+use Styde\Enlighten\Tests\TestRun;
 use Tests\TestCase;
 
 class TestRunTest extends TestCase

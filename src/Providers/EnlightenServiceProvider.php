@@ -19,7 +19,7 @@ use Styde\Enlighten\HttpExamples\RouteInspector;
 use Styde\Enlighten\HttpExamples\SessionInspector;
 use Styde\Enlighten\RunBuilder;
 use Styde\Enlighten\Settings;
-use Styde\Enlighten\TestRun;
+use Styde\Enlighten\Tests\TestRun;
 use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Utils\Git;
 

@@ -10,7 +10,6 @@ use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Styde\Enlighten\RunBuilder;
-use Styde\Enlighten\TestRun;
 
 trait EnlightenSetup
 {

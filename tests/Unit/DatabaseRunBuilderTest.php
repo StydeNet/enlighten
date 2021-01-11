@@ -8,7 +8,6 @@ use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\DatabaseRunBuilder;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\TestRun;
 use Tests\TestCase;
 
 class DatabaseRunBuilderTest extends TestCase
