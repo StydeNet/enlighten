@@ -2,57 +2,26 @@
 
 namespace Styde\Enlighten;
 
+use Styde\Enlighten\Drivers\BaseExampleGroupBuilder;
 use Styde\Enlighten\Models\ExampleGroup;
 
-class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
+class DatabaseExampleGroupBuilder extends BaseExampleGroupBuilder
 {
     /**
      * @var DatabaseRunBuilder
      */
     private $runBuilder;
-    /**
-     * @var TestRun
-     */
-    private $testRun;
-
-    /**
-     * @var string
-     */
-    private $className;
-
-    /**
-     * @var string
-     */
-    private $slug;
-
-    /**
-     * @var string
-     */
-    private $area;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string|null
-     */
-    private $description;
-
-    /**
-     * @var int
-     */
-    private $orderNum;
 
     /**
      * @var ExampleGroup|null
      */
     protected $exampleGroup = null;
 
-    public function is(string $name): bool
+    public function __construct(DatabaseRunBuilder $runBuilder)
     {
-        return $this->className === $name;
+        $this->runBuilder = $runBuilder;
+
+        return $this;
     }
 
     public function save(): ExampleGroup
@@ -76,51 +45,8 @@ class DatabaseExampleGroupBuilder implements ExampleGroupBuilder
         return $this->exampleGroup;
     }
 
-    public function setClassName(string $className): ExampleGroupBuilder
-    {
-        $this->className = $className;
-        return $this;
-    }
-
-    public function setSlug(string $slug): ExampleGroupBuilder
-    {
-        $this->slug = $slug;
-        return $this;
-    }
-
-    public function setArea(string $area): ExampleGroupBuilder
-    {
-        $this->area = $area;
-        return $this;
-    }
-
-    public function setTitle(string $title): ExampleGroupBuilder
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    public function setDescription(?string $description): ExampleGroupBuilder
-    {
-        $this->description = $description;
-        return $this;
-    }
-
-    public function setOrderNum(int $orderNum): ExampleGroupBuilder
-    {
-        $this->orderNum = $orderNum;
-        return $this;
-    }
-
     public function newExample(): ExampleBuilder
     {
         return new DatabaseExampleBuilder($this);
-    }
-
-    public function setRunBuilder(DatabaseRunBuilder $runBuilder): ExampleGroupBuilder
-    {
-        $this->runBuilder = $runBuilder;
-
-        return $this;
     }
 }

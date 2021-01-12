@@ -19,6 +19,4 @@ interface ExampleGroupBuilder
     public function setDescription(?string $description): ExampleGroupBuilder;
 
     public function setOrderNum(int $orderNum): ExampleGroupBuilder;
-
-    public function setRunBuilder(DatabaseRunBuilder $runBuilder): ExampleGroupBuilder;
 }

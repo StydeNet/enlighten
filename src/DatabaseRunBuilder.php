@@ -19,8 +19,7 @@ class DatabaseRunBuilder implements RunBuilder
 
     public function newExampleGroup(): ExampleGroupBuilder
     {
-        return (new DatabaseExampleGroupBuilder)
-            ->setRunBuilder($this);
+        return new DatabaseExampleGroupBuilder($this);
     }
 
     private function getRun()

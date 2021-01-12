@@ -16,12 +16,8 @@ class ApiDriverTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->markTestIncomplete();
-
         $this->setConfig([
-            'enlighten.tests.ignore' => [
-                '*IgnoreClass*',
-            ],
+            'enlighten.driver' => 'api',
         ]);
 
         parent::setUp();
