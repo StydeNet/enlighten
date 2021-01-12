@@ -3,14 +3,25 @@
 namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Tests\Integration\App\Models\User;
+use Tests\Integration\TestCase;
 
-class ApiRequestTest extends TestCase
+class ApiDriverTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->setConfig([
+            'enlighten.driver' => 'api',
+        ]);
+    }
 
     /**
      * @test
@@ -20,6 +31,8 @@ class ApiRequestTest extends TestCase
     function gets_the_list_of_users()
     {
         $this->withoutExceptionHandling();
+
+        Http::fake();
 
         User::create([
             'name' => 'Duilio Palacios',
@@ -49,13 +62,15 @@ class ApiRequestTest extends TestCase
             ]);
 
         $run = Run::first();
-
-        $this->assertNotNull($run, 'A Run record was not created in the database.');
+//
+//        $this->assertNull(Run::first(), 'An unexpected run was added to the database when using the API driver');
+//        $this->assertNull(ExampleGroup::first(), 'An unexpected group was added to the database when using the API driver');
+//        $this->assertNull(Example::first(), 'An unexpected group was added to the database when using the API driver');
 
         tap($group = $run->groups()->first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\Integration\ApiRequestTest', $exampleGroup->class_name);
-            $this->assertSame('Api Request', $exampleGroup->title);
-            $this->assertSame('integration-api-request', $exampleGroup->slug);
+            $this->assertSame('Tests\Integration\ApiDriverTest', $exampleGroup->class_name);
+            $this->assertSame('Api Driver', $exampleGroup->title);
+            $this->assertSame('integration-api-driver', $exampleGroup->slug);
             $this->assertNull($exampleGroup->description);
         });
 

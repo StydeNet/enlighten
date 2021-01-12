@@ -6,6 +6,8 @@ return [
     // to enable Enlighten only in specific branches.
     'enabled' => true,
 
+    'driver' => 'database',
+
     // Add values to this array to hide certain sections
     // from your views. For all valid sections check
     // the constants in \Styde\Enlighten\Section.
