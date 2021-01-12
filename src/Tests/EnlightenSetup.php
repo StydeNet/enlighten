@@ -75,7 +75,7 @@ trait EnlightenSetup
                 return;
             }
 
-            $this->app->make(ExampleCreator::class)->saveQuery($query);
+            $this->app->make(ExampleCreator::class)->addQuery($query);
         });
     }
 
@@ -137,7 +137,10 @@ trait EnlightenSetup
 
     protected function saveExampleStatus()
     {
-        $this->app->make(ExampleCreator::class)->saveStatus($this->getStatusAsText());
+        $exampleCreator = $this->app->make(ExampleCreator::class);
+
+        $exampleCreator->setStatus($this->getStatusAsText());
+        $exampleCreator->build();
     }
 
     private function getStatusAsText()

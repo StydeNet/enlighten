@@ -17,7 +17,7 @@ interface ExampleBuilder
 
     public function setResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session);
 
-    public function setException(string $className, ?Throwable $exception, array $extra);
+    public function setException(ExceptionInfo $exceptionInfo);
 
     public function addQuery(QueryExecuted $queryExecuted);
 

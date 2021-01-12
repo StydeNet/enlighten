@@ -61,7 +61,7 @@ class TestRun
         return $this->missingSetup;
     }
 
-    public function saveFailedTestLink(Example $example)
+    public function addFailedTestLink(Example $example)
     {
         $this->failedTestLinks[$example->getSignature()] = $example->getUrl();
     }

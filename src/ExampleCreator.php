@@ -16,24 +16,9 @@ class ExampleCreator
     const LAST_ORDER_POSITION = 9999;
 
     /**
-     * @var ExampleGroupBuilder|null
-     */
-    protected static $currentExampleGroupBuilder = null;
-
-    /**
-     * @var Throwable
-     */
-    protected $currentException;
-
-    /**
      * @var bool
      */
     protected $missingSetup = true;
-
-    /**
-     * @var ExampleBuilder|null
-     */
-    protected $exampleBuilder = null;
 
     /**
      * @var TestRun
@@ -44,6 +29,21 @@ class ExampleCreator
      * @var RunBuilder
      */
     private $runBuilder;
+
+    /**
+     * @var ExampleGroupBuilder|null
+     */
+    protected static $currentExampleGroupBuilder = null;
+
+    /**
+     * @var ExampleBuilder|null
+     */
+    protected $currentExampleBuilder = null;
+
+    /**
+     * @var Throwable
+     */
+    protected $currentException;
 
     /**
      * @var Annotations
@@ -80,13 +80,13 @@ class ExampleCreator
             $this->testRun->reportMissingSetup();
         }
 
-        return $this->exampleBuilder;
+        return $this->currentExampleBuilder;
     }
 
     public function makeExample(string $className, string $methodName)
     {
         $this->missingSetup = false;
-        $this->exampleBuilder = null;
+        $this->currentExampleBuilder = null;
         $this->currentException = null;
 
         $classAnnotations = $this->annotations->getFromClass($className);
@@ -100,7 +100,7 @@ class ExampleCreator
 
         $exampleGroupBuilder = $this->getExampleGroup($className, $classAnnotations);
 
-        $this->exampleBuilder = $exampleGroupBuilder->newExample()
+        $this->currentExampleBuilder = $exampleGroupBuilder->newExample()
             ->setMethodName($methodName)
             ->setSlug($this->settings->generateSlugFromMethodName($methodName))
             ->setTitle($this->getTitleFor('method', $methodAnnotations, $methodName))
@@ -109,18 +109,18 @@ class ExampleCreator
             ->setOrderNum($methodAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
     }
 
-    public function saveQuery(QueryExecuted $query)
+    public function addQuery(QueryExecuted $query)
     {
-        if (is_null($this->exampleBuilder)) {
+        if ($this->shouldIgnore()) {
             return;
         }
 
-        $this->exampleBuilder->addQuery($query);
+        $this->currentExampleBuilder->addQuery($query);
     }
 
     public function captureException(Throwable $exception)
     {
-        if (is_null($this->exampleBuilder)) {
+        if ($this->shouldIgnore()) {
             return;
         }
 
@@ -130,44 +130,37 @@ class ExampleCreator
         $this->currentException = $exception;
     }
 
-    public function saveStatus(string $testStatus)
+    public function setStatus(string $testStatus)
     {
-        if (is_null($this->exampleBuilder)) {
+        if ($this->shouldIgnore()) {
             return;
         }
 
-        $this->exampleBuilder->setStatus($testStatus, Status::fromTestStatus($testStatus));
+        $status = Status::fromTestStatus($testStatus);
 
-        $example = $this->exampleBuilder->build();
+        $this->currentExampleBuilder->setStatus($testStatus, $status);
+
+        if ($status !== Status::SUCCESS && $this->currentException !== null) {
+            $this->currentExampleBuilder->setException(ExceptionInfo::make($this->currentException));
+        }
+    }
+
+    public function build()
+    {
+        if ($this->shouldIgnore()) {
+            return;
+        }
+
+        $example = $this->currentExampleBuilder->build();
 
         if ($example->getStatus() !== Status::SUCCESS) {
-            $this->testRun->saveFailedTestLink($example);
-            $this->saveException();
+            $this->testRun->addFailedTestLink($example);
         }
     }
 
-    private function saveException()
+    public function shouldIgnore(): bool
     {
-        if ($this->currentException === null) {
-            return;
-        }
-
-        $this->exampleBuilder->setException(
-            get_class($this->currentException),
-            $this->currentException,
-            $this->getExtraExceptionData($this->currentException)
-        );
-    }
-
-    private function getExtraExceptionData(?Throwable $exception): array
-    {
-        if ($exception instanceof ValidationException) {
-            return [
-                'errors' => $exception->errors(),
-            ];
-        }
-
-        return [];
+        return is_null($this->currentExampleBuilder);
     }
 
     private function getTitleFor(string $type, Collection $annotations, string $classOrMethodName)

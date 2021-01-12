@@ -158,16 +158,16 @@ class DatabaseExampleBuilder implements ExampleBuilder
         ]);
     }
 
-    public function setException(string $className, ?Throwable $exception, array $extra)
+    public function setException(ExceptionInfo $exception)
     {
         $this->example->exception->fill([
-            'class_name' => $className,
+            'class_name' => $exception->getClassName(),
             'code' => $exception->getCode(),
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
             'trace' => $exception->getTrace(),
-            'extra' => $extra,
+            'extra' => $exception->getData(),
         ])->save();
     }
 
