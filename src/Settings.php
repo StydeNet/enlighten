@@ -5,6 +5,7 @@ namespace Styde\Enlighten;
 use Closure;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Exceptions\InvalidDriverException;
 use Styde\Enlighten\Facades\VersionControl;
 
 class Settings
@@ -41,6 +42,18 @@ class Settings
     public function isDisabled(): bool
     {
         return ! $this->isEnabled();
+    }
+
+    public function getDriver(): RunBuilder
+    {
+        switch (Config::get('enlighten.driver', 'database')) {
+            case 'database':
+                return new DatabaseRunBuilder;
+            case 'api':
+                return new ApiRunBuilder;
+            default:
+                throw new InvalidDriverException;
+        }
     }
 
     public function hide(string $sectionName): bool

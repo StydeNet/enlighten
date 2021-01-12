@@ -7,11 +7,13 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Facade;
 use Styde\Enlighten\CodeExamples\CodeExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
+use Styde\Enlighten\RunBuilder;
 use Styde\Enlighten\Settings;
 
 /**
  * @method static bool isDisabled()
  * @method static bool isEnabled()
+ * @method static RunBuilder getDriver()
  * @method static self setCustomAreaResolver(Closure $callback)
  * @method static string getAreaSlug(string $className)
  * @method static self setCustomTitleGenerator(Closure $callback)

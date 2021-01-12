@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\HtmlResultFormat;
 use Styde\Enlighten\Contracts\VersionControl;
-use Styde\Enlighten\DatabaseRunBuilder;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\ExampleProfile;
 use Styde\Enlighten\Facades\Enlighten;
@@ -93,8 +92,8 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerRunBuilder(): void
     {
-        $this->app->singleton(RunBuilder::class, function () {
-            return new DatabaseRunBuilder;
+        $this->app->singleton(RunBuilder::class, function ($app) {
+            return $app[Settings::class]->getDriver();
         });
     }
 

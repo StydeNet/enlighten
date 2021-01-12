@@ -15,7 +15,9 @@ trait TestHelpers
 {
     protected function setConfig(array $config)
     {
-        $this->app->config->set($config);
+        $this->afterApplicationCreated(function () use ($config) {
+            $this->app->config->set($config);
+        });
     }
 
     public function createRun($branch = 'main', $head = 'abcde', $modified = false): Run
