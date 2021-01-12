@@ -1,7 +1,9 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Drivers;
 
+use Styde\Enlighten\Contracts\ExampleGroupBuilder;
+use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Facades\VersionControl;
 use Styde\Enlighten\Models\Run;
 

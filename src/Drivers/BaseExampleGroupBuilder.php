@@ -2,7 +2,7 @@
 
 namespace Styde\Enlighten\Drivers;
 
-use Styde\Enlighten\ExampleGroupBuilder;
+use Styde\Enlighten\Contracts\ExampleGroupBuilder;
 
 abstract class BaseExampleGroupBuilder implements ExampleGroupBuilder
 {

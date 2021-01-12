@@ -5,7 +5,7 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Styde\Enlighten\Contracts\VersionControl;
-use Styde\Enlighten\DatabaseRunBuilder;
+use Styde\Enlighten\Drivers\DatabaseRunBuilder;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
 use Tests\TestCase;

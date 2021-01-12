@@ -1,13 +1,12 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Contracts;
 
 use Illuminate\Database\Events\QueryExecuted;
-use Styde\Enlighten\Contracts\Example;
+use Styde\Enlighten\ExceptionInfo;
 use Styde\Enlighten\HttpExamples\RequestInfo;
 use Styde\Enlighten\HttpExamples\ResponseInfo;
 use Styde\Enlighten\HttpExamples\RouteInfo;
-use Throwable;
 
 interface ExampleBuilder
 {

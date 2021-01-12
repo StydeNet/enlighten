@@ -2,8 +2,7 @@
 
 namespace Styde\Enlighten\Drivers;
 
-use Styde\Enlighten\DatabaseExampleBuilder;
-use Styde\Enlighten\ExampleBuilder;
+use Styde\Enlighten\Contracts\ExampleBuilder;
 
 abstract class BaseExampleBuilder implements ExampleBuilder
 {

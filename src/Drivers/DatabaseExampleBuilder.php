@@ -1,11 +1,11 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Drivers;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Collection;
 use Styde\Enlighten\Contracts\Example as ExampleContract;
-use Styde\Enlighten\Drivers\BaseExampleBuilder;
+use Styde\Enlighten\ExceptionInfo;
 use Styde\Enlighten\HttpExamples\RequestInfo;
 use Styde\Enlighten\HttpExamples\ResponseInfo;
 use Styde\Enlighten\HttpExamples\RouteInfo;
@@ -15,7 +15,7 @@ use Styde\Enlighten\Models\Status;
 class DatabaseExampleBuilder extends BaseExampleBuilder
 {
     /**
-     * @var ExampleGroupBuilder
+     * @var DatabaseExampleGroupBuilder
      */
     private $exampleGroupBuilder;
 
@@ -34,7 +34,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
      */
     private $currentSnippet = null;
 
-    public function __construct(ExampleGroupBuilder $exampleGroupBuilder)
+    public function __construct(DatabaseExampleGroupBuilder $exampleGroupBuilder)
     {
         $this->currentRequests = new Collection;
         $this->exampleGroupBuilder = $exampleGroupBuilder;

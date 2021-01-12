@@ -1,8 +1,8 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Drivers;
 
-use Styde\Enlighten\Drivers\BaseExampleGroupBuilder;
+use Styde\Enlighten\Contracts\ExampleBuilder;
 use Styde\Enlighten\Models\ExampleGroup;
 
 class DatabaseExampleGroupBuilder extends BaseExampleGroupBuilder

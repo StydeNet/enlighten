@@ -2,8 +2,8 @@
 
 namespace Styde\Enlighten\Drivers;
 
-use Styde\Enlighten\ExampleGroupBuilder;
-use Styde\Enlighten\RunBuilder;
+use Styde\Enlighten\Contracts\ExampleGroupBuilder;
+use Styde\Enlighten\Contracts\RunBuilder;
 
 class ApiRunBuilder implements RunBuilder
 {

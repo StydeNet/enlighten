@@ -2,9 +2,7 @@
 
 namespace Styde\Enlighten\Drivers;
 
-use Styde\Enlighten\DatabaseRunBuilder;
-use Styde\Enlighten\ExampleBuilder;
-use Styde\Enlighten\ExampleGroupBuilder;
+use Styde\Enlighten\Contracts\ExampleBuilder;
 
 class ApiExampleGroupBuilder extends BaseExampleGroupBuilder
 {
