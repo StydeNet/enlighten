@@ -23,36 +23,38 @@ class ApiExampleBuilder extends BaseExampleBuilder
 
     public function addRequest(RequestInfo $request)
     {
-        // TODO: Implement addRequest() method.
+        // Collect info here
     }
 
     public function setResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session)
     {
-        // TODO: Implement setResponse() method.
+        // Collect info here
     }
 
     public function setException(ExceptionInfo $exceptionInfo)
     {
-        // TODO: Implement setException() method.
+        // Collect info here
     }
 
     public function addQuery(QueryExecuted $queryExecuted)
     {
-        // TODO: Implement addQuery() method.
+        // Collect info here
     }
 
     public function addSnippet($key, string $code)
     {
-        // TODO: Implement addSnippet() method.
+        // Collect info here
     }
 
     public function setSnippetResult($result)
     {
-        // TODO: Implement setSnippetResult() method.
+        // Collect info here
     }
 
     public function build(): Example
     {
+        // Send here? (requests, responses, exceptions, queries, snippets, status)
+
         return new ApiExample;
     }
 }
