@@ -4,7 +4,6 @@ namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Styde\Enlighten\CodeExamples\CodeResultExporter;
-use Styde\Enlighten\CodeExamples\HtmlResultFormat;
 
 class ExampleSnippet extends Model
 {

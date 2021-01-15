@@ -29,4 +29,11 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+    public function uploadPhoto(Request $request)
+    {
+        $request->file('photo')->storeAs('photos', 'photo.jpg');
+
+        return response(200);
+    }
 }

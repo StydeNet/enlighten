@@ -30,6 +30,7 @@ class CreateEnlightenExampleRequestsTable extends Migration
             $table->string('request_path');
             $table->json('request_query_parameters');
             $table->json('request_input');
+            $table->json('request_files');
             $table->string('route')->nullable();
             $table->json('route_parameters')->nullable();
             $table->char('response_status', 3)->nullable();

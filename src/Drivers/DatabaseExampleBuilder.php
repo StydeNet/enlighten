@@ -51,6 +51,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
             'request_path' => $request->getPath(),
             'request_query_parameters' => $request->getQueryParameters(),
             'request_input' => $request->getInput(),
+            'request_files' => $request->getFiles(),
         ]));
     }
 

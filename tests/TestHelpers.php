@@ -114,6 +114,7 @@ trait TestHelpers
                 'email' => 'jeff@example.test',
                 'password' => 'my-password'
             ],
+            'request_files' => [],
             'route' => 'user',
             'route_parameters' => [],
             'response_status' => 302,

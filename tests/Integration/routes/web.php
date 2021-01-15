@@ -37,3 +37,5 @@ Route::pattern('global', '[a-z]+');
 Route::get('parameters/{global}/{local}/{optional?}', function () {
     return 'Test route parameters';
 });
+
+Route::post('upload-photo', [UserController::class, 'uploadPhoto']);
