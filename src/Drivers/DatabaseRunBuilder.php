@@ -17,7 +17,7 @@ class DatabaseRunBuilder implements RunBuilder
     /**
      * @var bool
      */
-    protected $hasBeenReset = false;
+    protected static $hasBeenReset = false;
 
     public function newExampleGroup(): ExampleGroupBuilder
     {
@@ -39,13 +39,13 @@ class DatabaseRunBuilder implements RunBuilder
 
     public function reset(): void
     {
-        if ($this->hasBeenReset) {
+        if (static::$hasBeenReset) {
             return;
         }
 
         $this->getRun()->groups()->delete();
 
-        $this->hasBeenReset = true;
+        static::$hasBeenReset = true;
     }
 
     public function save()
