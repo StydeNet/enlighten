@@ -23,7 +23,7 @@ class ExportDocumentationCommandTest extends TestCase
     }
 
     /** @test */
-    function exports_a_run()
+    function exports_a_run_with_a_relative_url()
     {
         $this->createRun('main', 'abcde', true);
         $this->createRun('develop', 'fghij', false);
@@ -44,6 +44,33 @@ class ExportDocumentationCommandTest extends TestCase
             $this->assertSame($selectedRun, $run->signature);
             $this->assertSame('public/docs', $baseDir);
             $this->assertSame('/docs', $baseUrl);
+
+            return true;
+        });
+    }
+
+    /** @test */
+    function exports_a_run_with_an_absolute_url()
+    {
+        $this->createRun('main', 'abcde', true);
+        $this->createRun('develop', 'fghij', false);
+
+        $selectedRun = 'main * abcde';
+
+        $this->artisan('enlighten:export')
+            ->expectsChoice("Please select the run you'd like to export", $selectedRun, [
+                'develop fghij',
+                $selectedRun
+            ])
+            ->expectsQuestion('In which directory would you like to export the documentation?', 'public/docs')
+            ->expectsQuestion("What's the base URL for this documentation going to be?", 'https://example.com')
+            ->expectsOutput('`main * abcde` run exported!')
+            ->assertExitCode(0);
+
+        $this->exporterSpy->shouldHaveReceived('export', function ($run, $baseDir, $baseUrl) use ($selectedRun) {
+            $this->assertSame($selectedRun, $run->signature);
+            $this->assertSame('public/docs', $baseDir);
+            $this->assertSame('https://example.com', $baseUrl);
 
             return true;
         });
