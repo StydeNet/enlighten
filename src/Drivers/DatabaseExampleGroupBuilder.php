@@ -20,13 +20,11 @@ class DatabaseExampleGroupBuilder extends BaseExampleGroupBuilder
     public function __construct(DatabaseRunBuilder $runBuilder)
     {
         $this->runBuilder = $runBuilder;
-
-        return $this;
     }
 
     public function save(): ExampleGroup
     {
-        if ($this->exampleGroup != null) {
+        if ($this->exampleGroup !== null) {
             return $this->exampleGroup;
         }
 

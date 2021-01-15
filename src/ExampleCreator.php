@@ -15,7 +15,7 @@ use Throwable;
 
 class ExampleCreator
 {
-    const LAST_ORDER_POSITION = 9999;
+    private const LAST_ORDER_POSITION = 9999;
 
     /**
      * @var bool
@@ -62,7 +62,7 @@ class ExampleCreator
      */
     private $profile;
 
-    public static function clearExampleGroupBuilder()
+    public static function clearExampleGroupBuilder(): void
     {
         static::$currentExampleGroupBuilder = null;
     }
@@ -111,7 +111,7 @@ class ExampleCreator
             ->setOrderNum($methodAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
     }
 
-    public function addQuery(QueryExecuted $query)
+    public function addQuery(QueryExecuted $query): void
     {
         if ($this->shouldIgnore()) {
             return;
@@ -120,7 +120,7 @@ class ExampleCreator
         $this->currentExampleBuilder->addQuery($query);
     }
 
-    public function captureException(Throwable $exception)
+    public function captureException(Throwable $exception): void
     {
         if ($this->shouldIgnore()) {
             return;
@@ -132,7 +132,7 @@ class ExampleCreator
         $this->currentException = $exception;
     }
 
-    public function setStatus(string $testStatus)
+    public function setStatus(string $testStatus): void
     {
         if ($this->shouldIgnore()) {
             return;
@@ -147,7 +147,7 @@ class ExampleCreator
         }
     }
 
-    public function build()
+    public function build(): void
     {
         if ($this->shouldIgnore()) {
             return;
@@ -172,7 +172,7 @@ class ExampleCreator
             ?: $this->settings->generateTitle($type, $classOrMethodName);
     }
 
-    private function getStartLine($className, $methodName)
+    private function getStartLine($className, $methodName): int
     {
         return (new ReflectionMethod($className, $methodName))->getStartLine();
     }

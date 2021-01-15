@@ -61,8 +61,6 @@ class ApiDriverTest extends TestCase
                 ]
             ]);
 
-        $run = Run::first();
-
         $this->assertNull(Run::first(), 'An unexpected run was added to the database when using the API driver');
         $this->assertNull(ExampleGroup::first(), 'An unexpected group was added to the database when using the API driver');
         $this->assertNull(Example::first(), 'An unexpected group was added to the database when using the API driver');
@@ -73,7 +71,7 @@ class ApiDriverTest extends TestCase
 //            $this->assertSame('integration-api-driver', $exampleGroup->slug);
 //            $this->assertNull($exampleGroup->description);
 //        });
-//
+
 //        tap($group->examples()->first(), function (Example $example) use ($group) {
 //            $this->assertTrue($example->group->is($group));
 //            $this->assertSame('gets_the_list_of_users', $example->method_name);

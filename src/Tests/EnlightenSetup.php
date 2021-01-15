@@ -5,11 +5,11 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
+use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
-use Styde\Enlighten\RunBuilder;
 
 trait EnlightenSetup
 {
@@ -23,7 +23,7 @@ trait EnlightenSetup
      */
     private $captureQueries = true;
 
-    public function setUpEnlighten()
+    public function setUpEnlighten(): void
     {
         if (empty($this->app)) {
             throw new LaravelNotPresent;
@@ -54,24 +54,24 @@ trait EnlightenSetup
         });
     }
 
-    private function resetRunData()
+    private function resetRunData(): void
     {
         $this->app->make(RunBuilder::class)->reset();
     }
 
-    private function makeExample()
+    private function makeExample(): void
     {
         $this->app->make(ExampleCreator::class)->makeExample(get_class($this), $this->getName(false));
     }
 
-    private function captureQueries()
+    private function captureQueries(): void
     {
         DB::listen(function ($query) {
             if (! $this->captureQueries) {
                 return;
             }
 
-            if ($query->connectionName == 'enlighten') {
+            if ($query->connectionName === 'enlighten') {
                 return;
             }
 
@@ -79,12 +79,12 @@ trait EnlightenSetup
         });
     }
 
-    private function stopCapturingQueries()
+    private function stopCapturingQueries(): void
     {
         $this->captureQueries = false;
     }
 
-    private function captureExceptions()
+    private function captureExceptions(): void
     {
         // This setup only needs to run once.
         if ($this->exceptionRecorder) {
@@ -104,7 +104,7 @@ trait EnlightenSetup
      * @param  array  $except
      * @return $this
      */
-    protected function withoutExceptionHandling(array $except = [])
+    protected function withoutExceptionHandling(array $except = []): self
     {
         if (Enlighten::isDisabled()) {
             return parent::withoutExceptionHandling($except);
@@ -122,7 +122,7 @@ trait EnlightenSetup
      *
      * @return $this
      */
-    protected function withExceptionHandling()
+    protected function withExceptionHandling(): self
     {
         if (Enlighten::isDisabled()) {
             return parent::withExceptionHandling();
@@ -135,7 +135,7 @@ trait EnlightenSetup
         return $this;
     }
 
-    protected function saveExampleStatus()
+    protected function saveExampleStatus(): void
     {
         $exampleCreator = $this->app->make(ExampleCreator::class);
 
@@ -143,7 +143,7 @@ trait EnlightenSetup
         $exampleCreator->build();
     }
 
-    private function getStatusAsText()
+    private function getStatusAsText(): string
     {
         $statuses = [
             TestRunner::STATUS_PASSED => 'passed',

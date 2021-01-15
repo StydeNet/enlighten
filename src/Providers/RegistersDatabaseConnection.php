@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 trait RegistersDatabaseConnection
 {
-    protected function registerDatabaseConnection(Config $config)
+    protected function registerDatabaseConnection(Config $config): void
     {
         if ($config->has('database.connections.enlighten')) {
             return;

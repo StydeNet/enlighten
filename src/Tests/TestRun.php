@@ -41,7 +41,7 @@ class TestRun
         return static::$instance;
     }
 
-    public static function resetInstance()
+    public static function resetInstance(): void
     {
         static::$instance = null;
     }
@@ -51,17 +51,17 @@ class TestRun
         // Use Singleton Pattern
     }
 
-    public function reportMissingSetup()
+    public function reportMissingSetup(): void
     {
         $this->missingSetup = true;
     }
 
-    public function missingSetup()
+    public function missingSetup(): bool
     {
         return $this->missingSetup;
     }
 
-    public function addFailedTestLink(Example $example)
+    public function addFailedTestLink(Example $example): void
     {
         $this->failedTestLinks[$example->getSignature()] = $example->getUrl();
     }
