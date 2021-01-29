@@ -305,7 +305,7 @@ You can also create a code-snippet from your unit-tests by using the `Enlighten:
 
 ```php
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 
 class CalcTest extends TestCase
 {
@@ -316,7 +316,7 @@ class CalcTest extends TestCase
     **/
     public function can_sum_two_numbers()
     {
-        $result = Enlighten::test(function () {
+        $result = Settings::test(function () {
             $a = 1;
             $b = 2;
             return Calc::sum($a, $b);

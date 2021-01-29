@@ -5,6 +5,7 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
+use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
@@ -27,7 +28,7 @@ trait EnlightenSetup
             throw new LaravelNotPresent;
         }
 
-        if (Recording::isEnabled()) {
+        if (Enlighten::isDocumenting()) {
             $this->afterApplicationCreated(function () {
                 $this->makeExample();
 
@@ -91,7 +92,7 @@ trait EnlightenSetup
      */
     protected function withoutExceptionHandling(array $except = []): self
     {
-        if (Recording::isEnabled()) {
+        if (Enlighten::isDocumenting()) {
             $this->captureExceptions();
 
             $this->exceptionRecorder->forceThrow($except);
@@ -109,7 +110,7 @@ trait EnlightenSetup
      */
     protected function withExceptionHandling(): self
     {
-        if (Recording::isEnabled()) {
+        if (Enlighten::isDocumenting()) {
             $this->captureExceptions();
 
             $this->exceptionRecorder->forwardToOriginal();

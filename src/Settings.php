@@ -47,22 +47,6 @@ class Settings
         return ! $this->isEnabled();
     }
 
-    public function startRecording()
-    {
-
-    }
-
-    public function isRecording()
-    {
-        if (!file_exists('.enlighten')) {
-            return false;
-        }
-
-        $config = file_get_contents('.enlighten');
-
-        dd($config);
-    }
-
     public function getDriver(): RunBuilder
     {
         switch (Config::get('enlighten.driver', 'database')) {

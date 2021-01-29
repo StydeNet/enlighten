@@ -8,12 +8,10 @@ use Illuminate\Support\Facades\Facade;
 use Styde\Enlighten\CodeExamples\CodeExampleCreator;
 use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
-use Styde\Enlighten\Settings;
 
 /**
- * @method static bool isDisabled()
  * @method static bool isEnabled()
- * @method static bool isRecording()
+ * @method static bool isDisabled()
  * @method static RunBuilder getDriver()
  * @method static self setCustomAreaResolver(Closure $callback)
  * @method static string getAreaSlug(string $className)
@@ -27,30 +25,10 @@ use Styde\Enlighten\Settings;
  *
  * @see \Styde\Enlighten\Settings
  */
-class Enlighten extends Facade
+class Settings extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return Settings::class;
-    }
-
-    public static function test($keyOrCallback, $callback = null)
-    {
-        if ($keyOrCallback instanceof Closure) {
-            $callback = $keyOrCallback;
-            $key = null;
-        } else {
-            $key = $keyOrCallback;
-        }
-
-        if (Enlighten::isDisabled()) {
-            return $callback();
-        }
-
-        try {
-            return app(CodeExampleCreator::class)->createSnippet($callback, $key);
-        } catch (BindingResolutionException $exception) {
-            throw new LaravelNotPresent;
-        }
+        return \Styde\Enlighten\Settings::class;
     }
 }

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Http;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\Providers\EnlightenServiceProvider;
 use Tests\Integration\App\Models\User;
 
 class ApiDriverTest extends TestCase

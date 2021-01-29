@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Models;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\Area;
 use Tests\TestCase;
 
@@ -50,7 +50,7 @@ class AreaTest extends TestCase
             'enlighten.areas' => []
         ]);
 
-        Enlighten::setCustomAreaResolver(function ($className) {
+        Settings::setCustomAreaResolver(function ($className) {
             return explode('\\', $className)[3];
         });
 

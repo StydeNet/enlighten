@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
-use Styde\Enlighten\Facades\Enlighten;
 
 // Deliberately extends from the PHPUnit\Framework\TestCase instead of our TestCase
 class ChecksLaravelPresenceTest extends TestCase

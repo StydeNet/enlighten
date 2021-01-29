@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Facades\VersionControl;
 use Tests\TestCase;
 
@@ -15,15 +15,15 @@ class DisableEnlightenTest extends TestCase
             'enlighten.enabled' => true,
         ]);
 
-        $this->assertTrue(Enlighten::isEnabled());
-        $this->assertFalse(Enlighten::isDisabled());
+        $this->assertTrue(Settings::isEnabled());
+        $this->assertFalse(Settings::isDisabled());
 
         $this->setConfig([
             'enlighten.enabled' => false,
         ]);
 
-        $this->assertFalse(Enlighten::isEnabled());
-        $this->assertTrue(Enlighten::isDisabled());
+        $this->assertFalse(Settings::isEnabled());
+        $this->assertTrue(Settings::isDisabled());
     }
 
     /**
@@ -40,7 +40,7 @@ class DisableEnlightenTest extends TestCase
         ]);
 
         VersionControl::shouldReceive('currentBranch')->andReturn($branch);
-        $this->assertSame($expected, Enlighten::isEnabled());
-        $this->assertSame(! $expected, Enlighten::isDisabled());
+        $this->assertSame($expected, Settings::isEnabled());
+        $this->assertSame(! $expected, Settings::isDisabled());
     }
 }

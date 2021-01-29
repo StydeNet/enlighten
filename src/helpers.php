@@ -1,7 +1,7 @@
 <?php
 
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\Utils\JsonFormatter;
 
 if (! function_exists('enlighten')) {

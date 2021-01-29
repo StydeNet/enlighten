@@ -44,7 +44,7 @@ For example if your area is represented by the forth segment of your test classe
 
 ```php
     if (config('enlighten.enabled')) {
-        \Styde\Enlighten\Facades\Enlighten::setCustomAreaResolver(function ($className) {
+        \Styde\Enlighten\Facades\Settings::setCustomAreaResolver(function ($className) {
             return explode('\\', $className)[3];
         });   
     }

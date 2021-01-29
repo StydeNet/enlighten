@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\ExampleQuery;
@@ -46,7 +46,7 @@ trait TestHelpers
         return Example::create([
             'group_id' => $group->id,
             'method_name' => $methodName,
-            'slug' => Enlighten::generateSlugFromMethodName($methodName),
+            'slug' => Settings::generateSlugFromMethodName($methodName),
             'test_status' => $testStatus,
             'status' => Status::fromTestStatus($testStatus),
             'title' => $title,
@@ -71,7 +71,7 @@ trait TestHelpers
         return ExampleGroup::create($this->getExampleGroupAttributes([
             'run_id' => $run->id,
             'class_name' => $className,
-            'title' => $title ?: ($className ? Enlighten::generateTitle('class', $className) : null),
+            'title' => $title ?: ($className ? Settings::generateTitle('class', $className) : null),
             'description' => $description,
         ]));
     }
@@ -88,8 +88,8 @@ trait TestHelpers
             'class_name' => $className,
             'title' => 'Create User',
             'description' => 'User module API',
-            'area' => Enlighten::getAreaSlug($className),
-            'slug' => Enlighten::generateSlugFromClassName($className),
+            'area' => Settings::getAreaSlug($className),
+            'slug' => Settings::generateSlugFromClassName($className),
         ], array_filter($customAttributes));
     }
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Tests\TestCase;
 
 class GeneratesTitleFromMethodNameTest extends TestCase
@@ -12,7 +12,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     {
         $this->assertSame(
             'Generates title from camel case format',
-            Enlighten::generateTitle('method', 'GeneratesTitleFromCamelCaseFormat')
+            Settings::generateTitle('method', 'GeneratesTitleFromCamelCaseFormat')
         );
     }
 
@@ -21,7 +21,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     {
         $this->assertSame(
             'Generates title from snake format',
-            Enlighten::generateTitle('method', 'generates_title_from_snake_format')
+            Settings::generateTitle('method', 'generates_title_from_snake_format')
         );
     }
 
@@ -30,19 +30,19 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     {
         $this->assertSame(
             'It removes the test prefix',
-            Enlighten::generateTitle('method', 'test_it_removes_the_test_prefix')
+            Settings::generateTitle('method', 'test_it_removes_the_test_prefix')
         );
 
         $this->assertSame(
             'Removes the test prefix',
-            Enlighten::generateTitle('method', 'testRemovesTheTestPrefix')
+            Settings::generateTitle('method', 'testRemovesTheTestPrefix')
         );
     }
 
     /** @test */
     function generates_title_with_a_custom_generator()
     {
-        Enlighten::setCustomTitleGenerator(function ($type, $methodName) {
+        Settings::setCustomTitleGenerator(function ($type, $methodName) {
             $this->assertSame('method', $type);
 
             return strtoupper(str_replace('_', ' ', $methodName));
@@ -50,7 +50,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
 
         $this->assertSame(
             'IT REMOVES THE TEST PREFIX',
-            Enlighten::generateTitle('method', 'it_removes_the_test_prefix')
+            Settings::generateTitle('method', 'it_removes_the_test_prefix')
         );
     }
 }

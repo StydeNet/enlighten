@@ -2,7 +2,7 @@
 
 namespace Styde\Enlighten\Http\Controllers;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\Run;
 use Styde\Enlighten\Section;
 
@@ -21,7 +21,7 @@ class ShowExampleGroupController
             'group' => $group,
             'title' => $group->title,
             'examples' => $examples,
-            'showQueries' => Enlighten::show(Section::QUERIES),
+            'showQueries' => Settings::show(Section::QUERIES),
         ]);
     }
 }

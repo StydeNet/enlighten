@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\Http\Controllers;
 
 use Illuminate\Support\Collection;
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\Endpoint;
 use Styde\Enlighten\Models\ExampleRequest;
@@ -49,7 +49,7 @@ class ShowAreaController
 
         return view('enlighten::area.features', [
             'area' => $area,
-            'showQueries' => Enlighten::show(Section::QUERIES),
+            'showQueries' => Settings::show(Section::QUERIES),
             'groups' => $groups,
         ]);
     }

@@ -4,7 +4,7 @@ namespace Tests\Integration;
 
 use BadMethodCallException;
 use Styde\Enlighten\CodeExamples\CodeResultTransformer;
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleSnippet;
 use Tests\Integration\App\Models\User;

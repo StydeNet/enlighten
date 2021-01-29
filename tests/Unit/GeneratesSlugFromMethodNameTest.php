@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Tests\TestCase;
 
 class GeneratesSlugFromMethodNameTest extends TestCase
@@ -10,19 +10,19 @@ class GeneratesSlugFromMethodNameTest extends TestCase
     /** @test */
     function generates_slug_from_method_name()
     {
-        $this->assertSame('it-list-users', Enlighten::generateSlugFromMethodName('it_list_users'));
+        $this->assertSame('it-list-users', Settings::generateSlugFromMethodName('it_list_users'));
 
-        $this->assertSame('list-users', Enlighten::generateSlugFromMethodName('test_list_users'));
+        $this->assertSame('list-users', Settings::generateSlugFromMethodName('test_list_users'));
 
-        $this->assertSame('create-users', Enlighten::generateSlugFromMethodName('TestCreateUsers'));
+        $this->assertSame('create-users', Settings::generateSlugFromMethodName('TestCreateUsers'));
 
-        $this->assertSame('show-users', Enlighten::generateSlugFromMethodName('showUsers'));
+        $this->assertSame('show-users', Settings::generateSlugFromMethodName('showUsers'));
     }
 
     /** @test */
     function generates_slug_from_class_name_with_a_custom_generator()
     {
-        Enlighten::setCustomSlugGenerator(function ($methodName, $from) {
+        Settings::setCustomSlugGenerator(function ($methodName, $from) {
             $this->assertSame('method', $from);
 
             return 'generated-slug';
@@ -30,7 +30,7 @@ class GeneratesSlugFromMethodNameTest extends TestCase
 
         $this->assertSame(
             'generated-slug',
-            Enlighten::generateSlugFromMethodName('Anything')
+            Settings::generateSlugFromMethodName('Anything')
         );
     }
 }
