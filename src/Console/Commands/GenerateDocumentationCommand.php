@@ -50,6 +50,5 @@ class GenerateDocumentationCommand extends Command
 
     private function printLinks()
     {
-
     }
 }
