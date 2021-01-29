@@ -46,7 +46,7 @@ class Settings
     {
         return ! $this->isEnabled();
     }
-
+    
     public function getDriver(): RunBuilder
     {
         switch (Config::get('enlighten.driver', 'database')) {

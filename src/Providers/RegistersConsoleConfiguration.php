@@ -4,9 +4,9 @@ namespace Styde\Enlighten\Providers;
 
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Filesystem\Filesystem;
-use Styde\Enlighten\Console\Commands\GenerateDocumentationCommand;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\Commands\FreshCommand;
+use Styde\Enlighten\Console\Commands\GenerateDocumentationCommand;
 use Styde\Enlighten\Console\Commands\InstallCommand;
 use Styde\Enlighten\Console\Commands\MigrateCommand;
 use Styde\Enlighten\Console\ContentRequest;
