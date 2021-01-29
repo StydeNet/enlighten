@@ -49,7 +49,6 @@ class Settings
 
     public function startRecording()
     {
-
     }
 
     public function isRecording()
