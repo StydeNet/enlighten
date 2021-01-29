@@ -5,10 +5,8 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
-use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
-use Styde\Enlighten\Facades\Enlighten;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 
 trait EnlightenSetup
@@ -29,34 +27,21 @@ trait EnlightenSetup
             throw new LaravelNotPresent;
         }
 
-        $this->afterApplicationCreated(function () {
-            if (Enlighten::isDisabled()) {
-                return;
-            }
+        if (Recording::isEnabled()) {
+            $this->afterApplicationCreated(function () {
+                $this->makeExample();
 
-            $this->resetRunData();
+                $this->captureExceptions();
 
-            $this->makeExample();
+                $this->captureQueries();
+            });
 
-            $this->captureExceptions();
+            $this->beforeApplicationDestroyed(function () {
+                $this->stopCapturingQueries();
 
-            $this->captureQueries();
-        });
-
-        $this->beforeApplicationDestroyed(function () {
-            if (Enlighten::isDisabled()) {
-                return;
-            }
-
-            $this->stopCapturingQueries();
-
-            $this->saveExampleStatus();
-        });
-    }
-
-    private function resetRunData(): void
-    {
-        $this->app->make(RunBuilder::class)->reset();
+                $this->saveExampleStatus();
+            });
+        }
     }
 
     private function makeExample(): void
@@ -106,15 +91,15 @@ trait EnlightenSetup
      */
     protected function withoutExceptionHandling(array $except = []): self
     {
-        if (Enlighten::isDisabled()) {
+        if (Recording::isEnabled()) {
+            $this->captureExceptions();
+
+            $this->exceptionRecorder->forceThrow($except);
+
+            return $this;
+        } else {
             return parent::withoutExceptionHandling($except);
         }
-
-        $this->captureExceptions();
-
-        $this->exceptionRecorder->forceThrow($except);
-
-        return $this;
     }
 
     /**
@@ -124,15 +109,15 @@ trait EnlightenSetup
      */
     protected function withExceptionHandling(): self
     {
-        if (Enlighten::isDisabled()) {
+        if (Recording::isEnabled()) {
+            $this->captureExceptions();
+
+            $this->exceptionRecorder->forwardToOriginal();
+
+            return $this;
+        } else {
             return parent::withExceptionHandling();
         }
-
-        $this->captureExceptions();
-
-        $this->exceptionRecorder->forwardToOriginal();
-
-        return $this;
     }
 
     protected function saveExampleStatus(): void

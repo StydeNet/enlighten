@@ -3,7 +3,6 @@
 namespace Styde\Enlighten\Tests;
 
 use Styde\Enlighten\Contracts\Example;
-use Styde\Enlighten\Models\Run;
 
 class TestRun
 {
@@ -11,16 +10,6 @@ class TestRun
      * @var static|null
      */
     private static $instance = null;
-
-    /**
-     * @var Run|null
-     */
-    private $run = null;
-
-    /**
-     * @var bool
-     */
-    private $hasBeenReset = false;
 
     /**
      * @var bool

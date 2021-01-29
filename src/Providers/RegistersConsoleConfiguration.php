@@ -4,6 +4,7 @@ namespace Styde\Enlighten\Providers;
 
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Filesystem\Filesystem;
+use Styde\Enlighten\Console\Commands\GenerateDocumentationCommand;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\Commands\FreshCommand;
 use Styde\Enlighten\Console\Commands\InstallCommand;
@@ -13,6 +14,30 @@ use Styde\Enlighten\Console\DocumentationExporter;
 
 trait RegistersConsoleConfiguration
 {
+    private function registerCommands(): void
+    {
+        $this->app->singleton(MigrateCommand::class, function ($app) {
+            return new MigrateCommand($app['migrator'], $app['events']);
+        });
+
+        $this->app->singleton(ExportDocumentationCommand::class, function ($app) {
+            return new ExportDocumentationCommand(
+                new DocumentationExporter(
+                    $app[Filesystem::class],
+                    new ContentRequest($app[HttpKernel::class]),
+                )
+            );
+        });
+
+        $this->commands([
+            InstallCommand::class,
+            FreshCommand::class,
+            MigrateCommand::class,
+            GenerateDocumentationCommand::class,
+            ExportDocumentationCommand::class
+        ]);
+    }
+
     private function registerPublishing(): void
     {
         $this->publishes([
@@ -35,28 +60,5 @@ trait RegistersConsoleConfiguration
         $this->publishes([
             $this->packageRoot('resources/lang') => resource_path('lang/vendor/enlighten'),
         ], 'enlighten-translations');
-    }
-
-    private function registerCommands(): void
-    {
-        $this->app->singleton(MigrateCommand::class, function ($app) {
-            return new MigrateCommand($app['migrator'], $app['events']);
-        });
-
-        $this->app->singleton(ExportDocumentationCommand::class, function ($app) {
-            return new ExportDocumentationCommand(
-                new DocumentationExporter(
-                    $app[Filesystem::class],
-                    new ContentRequest($app[HttpKernel::class]),
-                )
-            );
-        });
-
-        $this->commands([
-            InstallCommand::class,
-            FreshCommand::class,
-            MigrateCommand::class,
-            ExportDocumentationCommand::class
-        ]);
     }
 }

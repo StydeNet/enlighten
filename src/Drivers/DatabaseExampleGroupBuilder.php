@@ -30,7 +30,7 @@ class DatabaseExampleGroupBuilder extends BaseExampleGroupBuilder
 
         $run = $this->runBuilder->save();
 
-        $this->exampleGroup = ExampleGroup::create([
+        $this->exampleGroup = ExampleGroup::updateOrCreate([
             'run_id' => $run->id,
             'class_name' => $this->className,
             'title' => $this->title,

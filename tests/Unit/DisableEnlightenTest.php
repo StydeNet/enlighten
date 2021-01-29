@@ -9,7 +9,7 @@ use Tests\TestCase;
 class DisableEnlightenTest extends TestCase
 {
     /** @test */
-    function enlighten_can_be_disabled()
+    function enlighten_can_be_enabled()
     {
         $this->setConfig([
             'enlighten.enabled' => true,

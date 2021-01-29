@@ -3,7 +3,6 @@
 namespace Styde\Enlighten\Tests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\ExampleCreator;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
