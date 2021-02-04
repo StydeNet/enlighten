@@ -8,6 +8,7 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Laravel Enlighten</title>
     <link rel="stylesheet" href="/vendor/enlighten/css/app.css?0.2.0">
+    <style>svg {max-width: 50px;}</style>
 </head>
 <body class="bg-gray-900 overflow-hidden flex absolute">
 
