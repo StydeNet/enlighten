@@ -1,9 +1,7 @@
 @props(['example'])
 
 @php
-    $queryGroups = $example->queries->chunkWhile(function ($query, $key, $chunk) {
-        return $query->request_id === $chunk->last()->request_id;
-    });
+    $queryGroups = $example->queries->groupBy('request_id');
 @endphp
 
 @foreach($queryGroups as $group)
