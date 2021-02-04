@@ -27,4 +27,15 @@ pre.sf-dump {
 .sf-dump {
     @apply h-full;
 }
+
+.intro-page-content {
+    @apply px-4 pb-8 w-full mx-auto block;
+}
+
+.intro-page-content p:nth-child(2) {
+    @apply flex;
+}
+.intro-page-content p:nth-child(2)>* {
+    margin-right: 0.5rem;
+}
 /* purgecss end ignore */

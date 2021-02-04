@@ -1,7 +1,6 @@
 # Laravel Enlighten
 
-![](https://github.com/StydeNet/enlighten/workflows/run-tests/badge.svg)
-[![Latest Stable Version](https://poser.pugx.org/styde/enlighten/v)](//packagist.org/packages/styde/enlighten) [![Total Downloads](https://poser.pugx.org/styde/enlighten/downloads)](//packagist.org/packages/styde/enlighten) [![License](https://poser.pugx.org/styde/enlighten/license)](//packagist.org/packages/styde/enlighten)
+![](https://github.com/StydeNet/enlighten/workflows/run-tests/badge.svg) [![Latest Stable Version](https://poser.pugx.org/styde/enlighten/v)](//packagist.org/packages/styde/enlighten) [![Total Downloads](https://poser.pugx.org/styde/enlighten/downloads)](//packagist.org/packages/styde/enlighten) [![License](https://poser.pugx.org/styde/enlighten/license)](//packagist.org/packages/styde/enlighten)
 
 A seamless package to document your Laravel APIs.
 
