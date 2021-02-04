@@ -54,10 +54,6 @@ trait RegistersConsoleConfiguration
         ], 'enlighten-views');
 
         $this->publishes([
-            $this->packageRoot('database/migrations') => base_path('database/migrations/enlighten'),
-        ], 'enlighten-migrations');
-
-        $this->publishes([
             $this->packageRoot('resources/lang') => resource_path('lang/vendor/enlighten'),
         ], 'enlighten-translations');
     }

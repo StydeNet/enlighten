@@ -49,7 +49,6 @@ class EnlightenServiceProvider extends ServiceProvider
         $this->registerViewComponents();
 
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom($this->packageRoot('database/migrations'));
 
             $this->registerMiddleware();
 
