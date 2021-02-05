@@ -6,6 +6,7 @@ use Styde\Enlighten\Contracts\ExampleGroupBuilder;
 use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Facades\VersionControl;
 use Styde\Enlighten\Models\Run;
+use Styde\Enlighten\Contracts\Run as RunContract;
 
 class DatabaseRunBuilder implements RunBuilder
 {
@@ -14,44 +15,34 @@ class DatabaseRunBuilder implements RunBuilder
      */
     protected $run;
 
-    /**
-     * @var bool
-     */
-    protected static $hasBeenReset = false;
-
-    public function newExampleGroup(): ExampleGroupBuilder
+    public function __construct()
     {
-        return new DatabaseExampleGroupBuilder($this);
-    }
-
-    private function getRun()
-    {
-        if ($this->run) {
-            return $this->run;
-        }
-
-        return $this->run = Run::firstOrNew([
+        $this->run = Run::firstOrNew([
             'branch' => VersionControl::currentBranch(),
             'head' => VersionControl::head(),
             'modified' => VersionControl::modified(),
         ]);
     }
 
-    public function reset(): void
+    public function newExampleGroup(): ExampleGroupBuilder
     {
-        if (static::$hasBeenReset) {
-            return;
-        }
-
-        $this->getRun()->groups()->delete();
-
-        static::$hasBeenReset = true;
+        return new DatabaseExampleGroupBuilder($this);
     }
 
-    public function save()
+    public function reset(): void
     {
-        $this->getRun()->save();
+        $this->run->groups()->delete();
+    }
+
+    public function save(): RunContract
+    {
+        $this->run->save();
 
         return $this->run;
+    }
+
+    public function getRun(): RunContract
+    {
+        return $this->run->fresh();
     }
 }

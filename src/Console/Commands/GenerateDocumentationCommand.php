@@ -3,6 +3,8 @@
 namespace Styde\Enlighten\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+use Styde\Enlighten\Contracts\Run as RunContract;
 use Styde\Enlighten\Contracts\RunBuilder;
 
 class GenerateDocumentationCommand extends Command
@@ -22,13 +24,22 @@ class GenerateDocumentationCommand extends Command
 
     public function handle()
     {
-        app(RunBuilder::class)->reset();
+        $runBuilder = app(RunBuilder::class);
+
+        $runBuilder->reset();
 
         $this->addCustomBootstrapToGlobalArguments();
 
         $this->runTests();
 
-        $this->printLinks();
+        $run = $runBuilder->getRun();
+
+        if ($run->isEmpty()) {
+            $this->printMissingSetupWarning();
+        } else {
+            $this->printFailedExamples($run);
+            $this->printDocumentationLink($run);
+        }
     }
 
     private function addCustomBootstrapToGlobalArguments()
@@ -48,7 +59,48 @@ class GenerateDocumentationCommand extends Command
         ]);
     }
 
-    private function printLinks()
+    private function printMissingSetupWarning()
     {
+        $this->output->newLine();
+        $this->alert('The documentation was not generated');
+        $this->output->newLine();
+        $this->error('Did you forget to call `$this->setUpEnlighten();` in your tests?');
+        $this->warn('Learn more: https://github.com/StydeNet/enlighten#installation');
+    }
+
+    private function printFailedExamples(RunContract $run)
+    {
+        $failedExamples = $run->getFailedExamples();
+
+        if ($failedExamples->isNotEmpty()) {
+            $this->printFailedExamplesHeader($failedExamples);
+            $this->printFailedExampleItems($failedExamples);
+        }
+    }
+
+    private function printFailedExamplesHeader($examples)
+    {
+        $this->output->newLine();
+        $this->error(sprintf(
+            '⚠️  %s %s failed:',
+            $examples->count(),
+            Str::plural('test', $examples->count())
+        ));
+        $this->output->newLine();
+    }
+
+    private function printFailedExampleItems($examples)
+    {
+        $examples->each(function ($example) {
+            $this->line($example->getTitle().':');
+            $this->warn($example->getUrl());
+            $this->output->newLine();
+        });
+    }
+
+    private function printDocumentationLink(RunContract $run)
+    {
+        $this->line('Check your full documentation at:');
+        $this->info($run->url());
     }
 }

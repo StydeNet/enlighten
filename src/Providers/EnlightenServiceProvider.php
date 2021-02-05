@@ -17,7 +17,6 @@ use Styde\Enlighten\HttpExamples\ResponseInspector;
 use Styde\Enlighten\HttpExamples\RouteInspector;
 use Styde\Enlighten\HttpExamples\SessionInspector;
 use Styde\Enlighten\Settings;
-use Styde\Enlighten\Tests\TestRun;
 use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Utils\Git;
 
@@ -60,7 +59,6 @@ class EnlightenServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerSettings();
-        $this->registerTestRun();
         $this->registerRunBuilder();
         $this->registerExampleCreator();
         $this->registerVersionControlSystem();
@@ -77,13 +75,6 @@ class EnlightenServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Settings::class, function () {
             return new Settings;
-        });
-    }
-
-    private function registerTestRun(): void
-    {
-        $this->app->singleton(TestRun::class, function () {
-            return TestRun::getInstance();
         });
     }
 
@@ -105,7 +96,6 @@ class EnlightenServiceProvider extends ServiceProvider
             });
 
             return new ExampleCreator(
-                $app[TestRun::class],
                 $app[RunBuilder::class],
                 $annotations,
                 $app[Settings::class],

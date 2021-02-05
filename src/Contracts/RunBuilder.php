@@ -8,5 +8,7 @@ interface RunBuilder
 
     public function reset(): void;
 
-    public function save();
+    public function save(): Run;
+
+    public function getRun(): Run;
 }

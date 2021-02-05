@@ -68,11 +68,6 @@ class Example extends Model implements ExampleContract, Statusable
         return $this->requests->isNotEmpty();
     }
 
-    public function getStatus(): string
-    {
-        return $this->attributes['status'] ?? Status::UNKNOWN;
-    }
-
     public function getUrlAttribute()
     {
         return route('enlighten.method.show', [
@@ -94,13 +89,23 @@ class Example extends Model implements ExampleContract, Statusable
 
     // Contract
 
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
     public function getSignature(): string
     {
         return $this->signature;
+    }
+
+    public function getTitle(): string
+    {
+        return "{$this->group->title} - {$this->title}";
+    }
+
+    public function getStatus(): string
+    {
+        return $this->attributes['status'] ?? Status::UNKNOWN;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 }

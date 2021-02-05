@@ -9,23 +9,12 @@ use Styde\Enlighten\Contracts\ExampleBuilder;
 use Styde\Enlighten\Contracts\ExampleGroupBuilder;
 use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Models\Status;
-use Styde\Enlighten\Tests\TestRun;
 use Styde\Enlighten\Utils\Annotations;
 use Throwable;
 
 class ExampleCreator
 {
     private const LAST_ORDER_POSITION = 9999;
-
-    /**
-     * @var bool
-     */
-    protected $missingSetup = true;
-
-    /**
-     * @var TestRun
-     */
-    protected $testRun;
 
     /**
      * @var RunBuilder
@@ -67,9 +56,8 @@ class ExampleCreator
         static::$currentExampleGroupBuilder = null;
     }
 
-    public function __construct(TestRun $testRun, RunBuilder $runBuilder, Annotations $annotations, Settings $settings, ExampleProfile $profile)
+    public function __construct(RunBuilder $runBuilder, Annotations $annotations, Settings $settings, ExampleProfile $profile)
     {
-        $this->testRun = $testRun;
         $this->runBuilder = $runBuilder;
         $this->annotations = $annotations;
         $this->settings = $settings;
@@ -78,16 +66,11 @@ class ExampleCreator
 
     public function getCurrentExample(): ?ExampleBuilder
     {
-        if ($this->missingSetup) {
-            $this->testRun->reportMissingSetup();
-        }
-
         return $this->currentExampleBuilder;
     }
 
     public function makeExample(string $className, string $methodName)
     {
-        $this->missingSetup = false;
         $this->currentExampleBuilder = null;
         $this->currentException = null;
 
@@ -153,11 +136,7 @@ class ExampleCreator
             return;
         }
 
-        $example = $this->currentExampleBuilder->build();
-
-        if ($example->getStatus() !== Status::SUCCESS) {
-            $this->testRun->addFailedTestLink($example);
-        }
+        $this->currentExampleBuilder->build();
     }
 
     public function shouldIgnore(): bool

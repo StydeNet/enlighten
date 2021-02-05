@@ -29,23 +29,7 @@ class DatabaseRunBuilderTest extends TestCase
         $this->assertSame(1, Run::count());
         $this->assertSame(0, ExampleGroup::count());
     }
-
-    /** @test */
-    function a_test_run_can_only_be_reset_once()
-    {
-        $testRunBuilder = $this->app->make(DatabaseRunBuilder::class);
-
-        $testRunBuilder->reset();
-
-        $this->createExampleGroup($testRunBuilder->save(), 'Tests\Unit\TestClass');
-
-        // Does nothing because the test run was already reset before.
-        $testRunBuilder->reset();
-
-        $this->assertSame(1, Run::count());
-        $this->assertSame(1, ExampleGroup::count());
-    }
-
+    
     /** @test */
     function can_get_info_from_a_custom_version_control_system()
     {
