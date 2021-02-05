@@ -1,10 +1,8 @@
 <?php
 
 return [
-    // Set a boolean to enable or disable Enlighten entirely,
-    // or pass an array, for example: ['main', 'develop']
-    // to enable Enlighten only in specific branches.
-    'enabled' => true,
+    // Enable or disable the Enlighten dashboard.
+    'dashboard' => true,
 
     'driver' => 'database',
 

@@ -32,20 +32,16 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($this->packageRoot('config/enlighten.php'), 'enlighten');
 
-        if ($this->app[Settings::class]->isDisabled()) {
-            return;
-        }
-
         $this->registerDatabaseConnection($this->app['config']);
 
-        $this->loadroutesFrom($this->packageRoot('src/Http/routes/web.php'));
-        $this->loadroutesFrom($this->packageRoot('src/Http/routes/api.php'));
+        $this->loadRoutesFrom($this->packageRoot('src/Http/routes/api.php'));
 
-        $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
-
-        $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');
-
-        $this->registerViewComponents();
+        if ($this->app[Settings::class]->dashboardEnabled() || $this->app->runningInConsole()) {
+            $this->loadRoutesFrom($this->packageRoot('src/Http/routes/web.php'));
+            $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
+            $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');
+            $this->registerViewComponents();
+        }
 
         if ($this->app->runningInConsole()) {
             $this->registerMiddleware();

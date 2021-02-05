@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Styde\Enlighten\CodeExamples\CodeExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
-use Styde\Enlighten\Facades\Settings;
 
 class Enlighten
 {
@@ -36,7 +35,7 @@ class Enlighten
             $key = $keyOrCallback;
         }
 
-        if (Settings::isDisabled()) {
+        if (! static::isDocumenting()) {
             return $callback();
         }
 

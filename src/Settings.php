@@ -28,25 +28,11 @@ class Settings
      */
     protected $customTitleGenerator = null;
 
-    public function isEnabled(): bool
+    public function dashboardEnabled(): bool
     {
-        $config = Config::get('enlighten.enabled');
-
-        // You can enable Enlighten only on specific branches
-        // of your control system (i.e.: main and develop)
-        // and it'll be disabled in the other branches.
-        if (is_array($config)) {
-            return in_array(VersionControl::currentBranch(), $config);
-        }
-
-        return (bool) $config;
+        return (bool) Config::get('enlighten.dashboard');
     }
 
-    public function isDisabled(): bool
-    {
-        return ! $this->isEnabled();
-    }
-    
     public function getDriver(): RunBuilder
     {
         switch (Config::get('enlighten.driver', 'database')) {

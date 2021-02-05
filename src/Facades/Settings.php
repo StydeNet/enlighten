@@ -3,16 +3,12 @@
 namespace Styde\Enlighten\Facades;
 
 use Closure;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Facade;
-use Styde\Enlighten\CodeExamples\CodeExampleCreator;
 use Styde\Enlighten\Contracts\RunBuilder;
-use Styde\Enlighten\Exceptions\LaravelNotPresent;
 
 /**
- * @method static bool isEnabled()
- * @method static bool isDisabled()
  * @method static RunBuilder getDriver()
+ * @method static bool dashboardEnabled()
  * @method static self setCustomAreaResolver(Closure $callback)
  * @method static string getAreaSlug(string $className)
  * @method static self setCustomTitleGenerator(Closure $callback)
