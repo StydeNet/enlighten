@@ -92,7 +92,7 @@ class GenerateDocumentationCommand extends Command
     private function printFailedExampleItems($examples)
     {
         $examples->each(function ($example) {
-            $this->line($example->getTitle().':');
+            $this->line("❌ {$example->getTitle()}:");
             $this->warn($example->getUrl());
             $this->output->newLine();
         });
@@ -100,7 +100,7 @@ class GenerateDocumentationCommand extends Command
 
     private function printDocumentationLink(RunContract $run)
     {
-        $this->line('Check your full documentation at:');
+        $this->line('⚡ Check your documentation at:');
         $this->info($run->url());
     }
 }
