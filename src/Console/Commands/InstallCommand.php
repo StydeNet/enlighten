@@ -25,10 +25,12 @@ class InstallCommand extends Command
             $this->error('https://github.com/StydeNet/enlighten#manual-setup');
         }
 
+        $this->call('enlighten:migrate');
+
         $this->output->newLine();
         $this->warn('Please remember to create and setup the database for Enlighten and to change the APP_URL env variable if necessary.');
         $this->output->newLine();
-        $this->info("After running your tests, you'll find your documentation by visiting: ".url('/enlighten'));
+        $this->info("After running `php artisan enlighten`, you'll find your documentation by visiting: ".url('/enlighten'));
     }
 
     private function publishBuildAndConfigFiles(): void

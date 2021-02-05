@@ -1,7 +1,7 @@
 <?php
 
 return [
-    // Enable or disable the Enlighten dashboard.
+    // Set to false to disable the Enlighten Dashboard.
     'dashboard' => true,
 
     'driver' => 'database',
