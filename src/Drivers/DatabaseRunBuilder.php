@@ -3,10 +3,10 @@
 namespace Styde\Enlighten\Drivers;
 
 use Styde\Enlighten\Contracts\ExampleGroupBuilder;
+use Styde\Enlighten\Contracts\Run as RunContract;
 use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Facades\VersionControl;
 use Styde\Enlighten\Models\Run;
-use Styde\Enlighten\Contracts\Run as RunContract;
 
 class DatabaseRunBuilder implements RunBuilder
 {

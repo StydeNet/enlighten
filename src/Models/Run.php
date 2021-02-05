@@ -4,8 +4,8 @@ namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection as SupportCollection;
-use Styde\Enlighten\Models\Concerns\GetStats;
 use Styde\Enlighten\Contracts\Run as RunContract;
+use Styde\Enlighten\Models\Concerns\GetStats;
 
 class Run extends Model implements RunContract, Statable
 {
