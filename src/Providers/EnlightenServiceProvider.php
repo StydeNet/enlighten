@@ -8,8 +8,11 @@ use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\HtmlResultFormat;
 use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Contracts\VersionControl;
+use Styde\Enlighten\Drivers\ApiRunBuilder;
+use Styde\Enlighten\Drivers\DatabaseRunBuilder;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\ExampleProfile;
+use Styde\Enlighten\Exceptions\InvalidDriverException;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 use Styde\Enlighten\HttpExamples\HttpExampleCreatorMiddleware;
 use Styde\Enlighten\HttpExamples\RequestInspector;
@@ -77,8 +80,20 @@ class EnlightenServiceProvider extends ServiceProvider
     private function registerRunBuilder(): void
     {
         $this->app->singleton(RunBuilder::class, function ($app) {
-            return $app[Settings::class]->getDriver();
+            return $this->getDriver($app);
         });
+    }
+
+    private function getDriver($app)
+    {
+        switch ($app['config']->get('enlighten.driver', 'database')) {
+            case 'database':
+                return new DatabaseRunBuilder;
+            case 'api':
+                return new ApiRunBuilder;
+            default:
+                throw new InvalidDriverException;
+        }
     }
 
     private function registerExampleCreator(): void

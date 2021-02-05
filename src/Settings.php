@@ -33,18 +33,6 @@ class Settings
         return (bool) Config::get('enlighten.dashboard');
     }
 
-    public function getDriver(): RunBuilder
-    {
-        switch (Config::get('enlighten.driver', 'database')) {
-            case 'database':
-                return new DatabaseRunBuilder;
-            case 'api':
-                return new ApiRunBuilder;
-            default:
-                throw new InvalidDriverException;
-        }
-    }
-
     public function hide(string $sectionName): bool
     {
         return in_array($sectionName, config('enlighten.hide', []));
