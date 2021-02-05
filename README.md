@@ -5,7 +5,7 @@
 
 A seamless package to document your Laravel APIs.
 
-There is no need to add endless docblocks to each API method, maintain dozens of read   me files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
+There is no need to add endless docblocks to each API method, maintain dozens of readme files, or write extensive wikis to keep your APIs documented and in sync with your codebase!
 
 Enlighten your Laravel applications with a beautiful documentation generated automatically from your test suites, by doing so, your documentation will always be updated with the current version of your app.
 
@@ -20,14 +20,16 @@ If you have already invested a lot of time developing and testing your API you d
 
 ![Enlighten preview](./preview.png "Enlighten Dashboard preview")
 
-After installing the component, run `phpunit` and that's it! You'll find the entire API documentation in the following URL: `/enlighten/`
+After installing the component, run `php artisan enlighten` and that's it! You'll find the entire API documentation in the following URL: `/enlighten/`
 
 ## Usage
-After finishing the installation process, run your Laravel tests as usual.
+After finishing the installation process, run your Laravel tests with the following command:
 
 ```bash
-phpunit
+php artisan enlighten
 ```
+
+You can pass any option you'd normally pass to `php artisan test` including the `--parallel` option available in Laravel 8 onwards!
 
 Now visit `/enlighten/` to navigate the documentation.
 
@@ -43,13 +45,15 @@ Alternatively, install our [demo project](https://github.com/StydeNet/curso-de-l
 
 Installing Enlighten requires only 3 steps!
 
-First: require the package with Composer as a **dev** dependency:
+## Step 1: Composer Require
+
+Require the package with Composer as a **dev** dependency:
 
 ```bash
 composer require styde/enlighten --dev
 ```
 
-If you are not using the Laravel package auto-discovery feature, please add the following service-provider to `config/app.php`
+If you are NOT using the Laravel package auto-discovery feature, please add the following service-provider to `config/app.php`
 
 ```php
 [
@@ -60,12 +64,15 @@ If you are not using the Laravel package auto-discovery feature, please add the 
 ];
 ```
 
-Second: Run `php artisan enlighten:install` to install and setup Enlighten automatically, otherwise follow the instructions in the [Manual Setup Section](#manual-setup).
+# Step 2: Install Enlighten
 
-Third: create and configure a database for Enlighten following the instructions below:
+Run `php artisan enlighten:install` to install and setup Enlighten automatically, otherwise follow the instructions in the [Manual Setup Section](#manual-setup).
 
-## Database Setup
-`Enlighten` needs its own database and database connection to record and preserve the information from your test-suite.
+## Step 3: Database Setup
+
+Create and configure a database for Enlighten following the instructions below:
+
+`Enlighten` needs its own database and database connection to record and preserve the documentation generated from your test suites.
 
 If you use the following convention: 
 
@@ -99,28 +106,12 @@ If you're not following the convention above, just add a new connection entry in
     ],
 ```
 
-After creating the new database, run the migrations using Artisan:
-
-```bash
-php artisan migrate
-```
-
 > It's important to have a different connection and a different database for Enlighten in order to avoid having the info deleted or not persisted when
 > using any of the database migration traits included by Laravel or if you run the tests using SQLite.
 
-You can use the `enlighten:migrate` artisan commands to run the package migrations in isolation, before doing this, you'll need to publish the database migration files:
+Use `php artisan enlighten:migrate` to run the package migrations.
 
-```bash
-php artisan vendor:publish --tag=enlighten-migrations
-```
-
-Now you can use:
-
-```bash
-php artisan enlighten:migrate
-
-php artisan enlighten:migrate:fresh
-```
+You can also use: `php artisan enlighten:migrate:fresh` to refresh the migrations. Warning: this will also delete the auto generated documentation!
 
 ## Manual Setup
 
@@ -162,14 +153,6 @@ class TestCase extends \Tests\TestCase
 ```
 
 *Note:* remember to include and use the trait `Styde\Enlighten\Tests\EnlightenSetup`.
-
-## "See in Enlighten" link
-
-Add the `printerClass` attribute with the value `Styde\Enlighten\Tests\BasicResultPrinter` to the `phpunit` tag in `phpunit.xml` like in the example below. Don't delete the other attributes!
-
-```
-<phpunit [...] printerClass="Styde\Enlighten\Tests\BasicResultPrinter">
-```
 
 ## Optional configuration
 To "group" your tests-classes as "modules", you can use a regular expression to find all the classes that match with the given pattern or patterns:
