@@ -27,6 +27,7 @@ class GenerateDocumentationCommand extends Command
         $runBuilder = app(RunBuilder::class);
 
         $runBuilder->reset();
+        $runBuilder->save();
 
         $this->addCustomBootstrapToGlobalArguments();
 
