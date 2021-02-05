@@ -3,6 +3,7 @@
 namespace Styde\Enlighten\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Styde\Enlighten\Models\Run;
 
@@ -61,6 +62,10 @@ class ExportDocumentationCommand extends Command
 
     private function normalizeBaseUrl($url)
     {
+        if (Str::startsWith($url, ['http://', 'https://'])) {
+            return $url;
+        }
+
         return '/'.ltrim($url, '/');
     }
 }

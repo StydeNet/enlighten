@@ -30,8 +30,6 @@
     "alpinejs": "^2.7.0",
     "cross-env": "^7.0.2",
     "laravel-mix": "^5.0.5",
-    "less": "^3.12.2",
-    "less-loader": "^7.0.1",
     "tailwindcss": "^1.8.10",
     "vue-template-compiler": "^2.6.12"
   },

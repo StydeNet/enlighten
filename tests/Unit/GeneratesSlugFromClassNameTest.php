@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Tests\TestCase;
 
 class GeneratesSlugFromClassNameTest extends TestCase
@@ -10,24 +10,24 @@ class GeneratesSlugFromClassNameTest extends TestCase
     /** @test */
     function generates_slug_from_class_name()
     {
-        $this->assertSame('feature-list-users', Enlighten::generateSlugFromClassName('Tests\Feature\ListUsersTest'));
+        $this->assertSame('feature-list-users', Settings::generateSlugFromClassName('Tests\Feature\ListUsersTest'));
 
-        $this->assertSame('api-list-tests', Enlighten::generateSlugFromClassName('Tests\Api\ListTestsTest'));
+        $this->assertSame('api-list-tests', Settings::generateSlugFromClassName('Tests\Api\ListTestsTest'));
 
-        $this->assertSame('feature-admin-show-users', Enlighten::generateSlugFromClassName('Tests\Feature\Admin\ShowUsers'));
+        $this->assertSame('feature-admin-show-users', Settings::generateSlugFromClassName('Tests\Feature\Admin\ShowUsers'));
 
-        $this->assertSame('unit-create-test', Enlighten::generateSlugFromClassName('Tests\Unit\CreateTestTest'));
+        $this->assertSame('unit-create-test', Settings::generateSlugFromClassName('Tests\Unit\CreateTestTest'));
 
         $this->assertSame(
             'modules-users-feature-admin-create-test',
-            Enlighten::generateSlugFromClassName('Tests\Modules\Users\Feature\Admin\CreateTestTest')
+            Settings::generateSlugFromClassName('Tests\Modules\Users\Feature\Admin\CreateTestTest')
         );
     }
 
     /** @test */
     function generates_slug_from_class_name_with_a_custom_generator()
     {
-        Enlighten::setCustomSlugGenerator(function ($className, $from) {
+        Settings::setCustomSlugGenerator(function ($className, $from) {
             $this->assertSame('class', $from);
 
             return 'generated-slug';
@@ -35,7 +35,7 @@ class GeneratesSlugFromClassNameTest extends TestCase
 
         $this->assertSame(
             'generated-slug',
-            Enlighten::generateSlugFromClassName('CreateUserTest')
+            Settings::generateSlugFromClassName('CreateUserTest')
         );
     }
 }

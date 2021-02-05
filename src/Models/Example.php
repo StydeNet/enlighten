@@ -3,9 +3,10 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Styde\Enlighten\Contracts\Example as ExampleContract;
 use Styde\Enlighten\Utils\FileLink;
 
-class Example extends Model implements Statusable
+class Example extends Model implements ExampleContract, Statusable
 {
     protected $connection = 'enlighten';
 
@@ -47,6 +48,11 @@ class Example extends Model implements Statusable
 
     // Accessors
 
+    public function getSignatureAttribute()
+    {
+        return $this->group->class_name.'::'.$this->method_name;
+    }
+
     public function getHasExceptionAttribute()
     {
         return $this->exception->exists;
@@ -60,11 +66,6 @@ class Example extends Model implements Statusable
     public function getIsHttpAttribute()
     {
         return $this->requests->isNotEmpty();
-    }
-
-    public function getStatus(): string
-    {
-        return $this->attributes['status'] ?? Status::UNKNOWN;
     }
 
     public function getUrlAttribute()
@@ -84,5 +85,27 @@ class Example extends Model implements Statusable
     public function getOrderAttribute()
     {
         return [$this->order_num, $this->id];
+    }
+
+    // Contract
+
+    public function getSignature(): string
+    {
+        return $this->signature;
+    }
+
+    public function getTitle(): string
+    {
+        return "{$this->group->title} - {$this->title}";
+    }
+
+    public function getStatus(): string
+    {
+        return $this->attributes['status'] ?? Status::UNKNOWN;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 }

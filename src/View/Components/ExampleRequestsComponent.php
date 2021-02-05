@@ -4,7 +4,7 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Section;
 
@@ -32,7 +32,7 @@ class ExampleRequestsComponent extends Component
     }
     private function showException()
     {
-        if (Enlighten::hide(Section::EXCEPTION)) {
+        if (Settings::hide(Section::EXCEPTION)) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class ExampleRequestsComponent extends Component
 
     private function showQueries(): bool
     {
-        if (Enlighten::hide(Section::QUERIES)) {
+        if (Settings::hide(Section::QUERIES)) {
             return false;
         }
 
@@ -57,7 +57,7 @@ class ExampleRequestsComponent extends Component
                     'key' => $request->hash,
                     'title' => sprintf('Request #%s', $key + 1),
                     'request' => $request,
-                    'showSession' => Enlighten::show(Section::SESSION) && ! empty($request->session_data),
+                    'showSession' => Settings::show(Section::SESSION) && ! empty($request->session_data),
                     'showOnlyPreview' => $this->example->has_exeption && $request->response_type === 'JSON',
                 ];
             });

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
@@ -22,7 +22,7 @@ class TestExampleGroupTest extends TestCase
     /** @test */
     public function the_area_name_can_be_determined_with_a_custom_resolver(): void
     {
-        Enlighten::setCustomAreaResolver(function ($className) {
+        Settings::setCustomAreaResolver(function ($className) {
             return explode('\\', $className)[3];
         });
 

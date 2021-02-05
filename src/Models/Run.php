@@ -3,10 +3,11 @@
 namespace Styde\Enlighten\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection as SupportCollection;
+use Styde\Enlighten\Contracts\Run as RunContract;
 use Styde\Enlighten\Models\Concerns\GetStats;
 
-class Run extends Model implements Statable
+class Run extends Model implements RunContract, Statable
 {
     use GetStats;
 
@@ -23,7 +24,7 @@ class Run extends Model implements Statable
         return $this->hasMany(ExampleGroup::class);
     }
 
-    public function examples(): HasManyThrough
+    public function examples()
     {
         return $this->hasManyThrough(Example::class, ExampleGroup::class, 'run_id', 'group_id');
     }
@@ -43,6 +44,23 @@ class Run extends Model implements Statable
                 COUNT(enlighten_examples.id) as count
             ')
             ->groupBy('status', 'run_id');
+    }
+
+    // Run Contract
+
+    public function isEmpty(): bool
+    {
+        return $this->groups()->count() == 0;
+    }
+
+    public function getFailedExamples(): SupportCollection
+    {
+        return $this->examples()->where('status', '!=', Status::SUCCESS)->get();
+    }
+
+    public function url(): string
+    {
+        return $this->getUrlAttribute();
     }
 
     // Accessors

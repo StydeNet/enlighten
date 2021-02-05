@@ -6,6 +6,7 @@ use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\ServiceProvider;
 use Styde\Enlighten\CodeExamples\CodeResultFormat;
 use Styde\Enlighten\CodeExamples\HtmlResultFormat;
+use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\ExampleProfile;
@@ -16,7 +17,6 @@ use Styde\Enlighten\HttpExamples\ResponseInspector;
 use Styde\Enlighten\HttpExamples\RouteInspector;
 use Styde\Enlighten\HttpExamples\SessionInspector;
 use Styde\Enlighten\Settings;
-use Styde\Enlighten\TestRun;
 use Styde\Enlighten\Utils\Annotations;
 use Styde\Enlighten\Utils\Git;
 
@@ -32,24 +32,18 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom($this->packageRoot('config/enlighten.php'), 'enlighten');
 
-        if (! $this->app['config']->get('enlighten.enabled')) {
-            return;
-        }
-
         $this->registerDatabaseConnection($this->app['config']);
 
-        $this->loadroutesFrom($this->packageRoot('src/Http/routes/web.php'));
-        $this->loadroutesFrom($this->packageRoot('src/Http/routes/api.php'));
+        $this->loadRoutesFrom($this->packageRoot('src/Http/routes/api.php'));
 
-        $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
-
-        $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');
-
-        $this->registerViewComponents();
+        if ($this->app[Settings::class]->dashboardEnabled() || $this->app->runningInConsole()) {
+            $this->loadRoutesFrom($this->packageRoot('src/Http/routes/web.php'));
+            $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
+            $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');
+            $this->registerViewComponents();
+        }
 
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom($this->packageRoot('database/migrations'));
-
             $this->registerMiddleware();
 
             $this->registerPublishing();
@@ -58,36 +52,36 @@ class EnlightenServiceProvider extends ServiceProvider
         }
     }
 
-    public function register()
+    public function register(): void
     {
         $this->registerSettings();
-        $this->registerTestRun();
+        $this->registerRunBuilder();
         $this->registerExampleCreator();
         $this->registerVersionControlSystem();
         $this->registerHttpExampleCreator();
         $this->registerCodeResultFormat();
     }
 
-    private function registerMiddleware()
+    private function registerMiddleware(): void
     {
         $this->app[HttpKernel::class]->pushMiddleware(HttpExampleCreatorMiddleware::class);
     }
 
-    private function registerSettings()
+    private function registerSettings(): void
     {
         $this->app->singleton(Settings::class, function () {
             return new Settings;
         });
     }
 
-    private function registerTestRun()
+    private function registerRunBuilder(): void
     {
-        $this->app->singleton(TestRun::class, function () {
-            return TestRun::getInstance();
+        $this->app->singleton(RunBuilder::class, function ($app) {
+            return $app[Settings::class]->getDriver();
         });
     }
 
-    private function registerExampleCreator()
+    private function registerExampleCreator(): void
     {
         $this->app->singleton(ExampleCreator::class, function ($app) {
             $annotations = new Annotations;
@@ -98,7 +92,7 @@ class EnlightenServiceProvider extends ServiceProvider
             });
 
             return new ExampleCreator(
-                $app[TestRun::class],
+                $app[RunBuilder::class],
                 $annotations,
                 $app[Settings::class],
                 new ExampleProfile($app['config']->get('enlighten.tests')),
@@ -106,12 +100,12 @@ class EnlightenServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerVersionControlSystem()
+    private function registerVersionControlSystem(): void
     {
         $this->app->singleton(VersionControl::class, Git::class);
     }
 
-    private function registerHttpExampleCreator()
+    private function registerHttpExampleCreator(): void
     {
         $this->app->singleton(HttpExampleCreator::class, function ($app) {
             return new HttpExampleCreator(
@@ -124,7 +118,7 @@ class EnlightenServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerCodeResultFormat()
+    private function registerCodeResultFormat(): void
     {
         $this->app->singleton(CodeResultFormat::class, HtmlResultFormat::class);
     }

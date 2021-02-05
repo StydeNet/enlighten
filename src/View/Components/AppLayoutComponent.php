@@ -14,7 +14,7 @@ class AppLayoutComponent extends Component
 
     public function __construct(Request $request)
     {
-        $this->activeRun = $request->route('run') ?: Run::latest()->first();
+        $this->activeRun = $request->route('run') ?: Run::latest()->firstOrNew();
     }
 
     public function render()

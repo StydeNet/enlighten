@@ -3,13 +3,12 @@
 namespace Styde\Enlighten\Facades;
 
 use Closure;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Facade;
-use Styde\Enlighten\CodeExamples\CodeExampleCreator;
-use Styde\Enlighten\Exceptions\LaravelNotPresent;
-use Styde\Enlighten\Settings;
+use Styde\Enlighten\Contracts\RunBuilder;
 
 /**
+ * @method static RunBuilder getDriver()
+ * @method static bool dashboardEnabled()
  * @method static self setCustomAreaResolver(Closure $callback)
  * @method static string getAreaSlug(string $className)
  * @method static self setCustomTitleGenerator(Closure $callback)
@@ -22,19 +21,10 @@ use Styde\Enlighten\Settings;
  *
  * @see \Styde\Enlighten\Settings
  */
-class Enlighten extends Facade
+class Settings extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return Settings::class;
-    }
-
-    public static function test($keyOrCallback, $callback = null)
-    {
-        try {
-            return app(CodeExampleCreator::class)->createSnippet($keyOrCallback, $callback);
-        } catch (BindingResolutionException $exception) {
-            throw new LaravelNotPresent;
-        }
+        return \Styde\Enlighten\Settings::class;
     }
 }

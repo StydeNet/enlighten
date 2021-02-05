@@ -12,25 +12,13 @@ class ExampleProfile
      */
     protected $ignore;
 
-    /**
-     * @var array
-     */
-    protected $classOptions = [];
-
     public function __construct(array $config)
     {
         $this->ignore = $config['ignore'];
     }
 
-    public function setClassOptions(?array $options)
-    {
-        $this->classOptions = $options ?: [];
-    }
-
     public function shouldIgnore(string $className, string $methodName, ?array $options): bool
     {
-        $options = array_merge($this->classOptions, $options ?: []);
-
         // If the test has been explicitly ignored via the
         // annotation options we need to ignore the test.
         if (Arr::get($options, 'ignore', false)) {

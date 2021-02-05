@@ -4,38 +4,37 @@ namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Collection;
-use Illuminate\Validation\ValidationException;
 use ReflectionMethod;
+use Styde\Enlighten\Contracts\ExampleBuilder;
+use Styde\Enlighten\Contracts\ExampleGroupBuilder;
+use Styde\Enlighten\Contracts\RunBuilder;
 use Styde\Enlighten\Models\Status;
 use Styde\Enlighten\Utils\Annotations;
 use Throwable;
 
 class ExampleCreator
 {
+    private const LAST_ORDER_POSITION = 9999;
+
     /**
-     * @var ExampleGroupCreator|null
+     * @var RunBuilder
      */
-    protected static $currentExampleGroup = null;
+    private $runBuilder;
+
+    /**
+     * @var ExampleGroupBuilder|null
+     */
+    protected static $currentExampleGroupBuilder = null;
+
+    /**
+     * @var ExampleBuilder|null
+     */
+    protected $currentExampleBuilder = null;
 
     /**
      * @var Throwable
      */
     protected $currentException;
-
-    /**
-     * @var bool
-     */
-    protected $missingSetup = true;
-
-    /**
-     * @var ExampleBuilder|null
-     */
-    protected $currentExample = null;
-
-    /**
-     * @var TestRun
-     */
-    protected $testRun;
 
     /**
      * @var Annotations
@@ -52,9 +51,14 @@ class ExampleCreator
      */
     private $profile;
 
-    public function __construct(TestRun $testRun, Annotations $annotations, Settings $settings, ExampleProfile $profile)
+    public static function clearExampleGroupBuilder(): void
     {
-        $this->testRun = $testRun;
+        static::$currentExampleGroupBuilder = null;
+    }
+
+    public function __construct(RunBuilder $runBuilder, Annotations $annotations, Settings $settings, ExampleProfile $profile)
+    {
+        $this->runBuilder = $runBuilder;
         $this->annotations = $annotations;
         $this->settings = $settings;
         $this->profile = $profile;
@@ -62,48 +66,46 @@ class ExampleCreator
 
     public function getCurrentExample(): ?ExampleBuilder
     {
-        if ($this->missingSetup) {
-            $this->testRun->reportMissingSetup();
-        }
-
-        return $this->currentExample;
+        return $this->currentExampleBuilder;
     }
 
     public function makeExample(string $className, string $methodName)
     {
-        $this->missingSetup = false;
-        $this->currentExample = null;
+        $this->currentExampleBuilder = null;
         $this->currentException = null;
 
-        $exampleGroupCreator = $this->getExampleGroup($className);
+        $classAnnotations = $this->annotations->getFromClass($className);
+        $methodAnnotations = $this->annotations->getFromMethod($className, $methodName);
 
-        $annotations = $this->annotations->getFromMethod($className, $methodName);
+        $options = array_merge($classAnnotations->get('enlighten', []), $methodAnnotations->get('enlighten', []));
 
-        if ($this->profile->shouldIgnore($className, $methodName, $annotations->get('enlighten'))) {
+        if ($this->profile->shouldIgnore($className, $methodName, $options)) {
             return;
         }
 
-        $this->currentExample = new ExampleBuilder($exampleGroupCreator, $methodName, [
-            'line'  => $this->getStartLine($className, $methodName),
-            'title' => $this->getTitleFor('method', $annotations, $methodName),
-            'slug'  => $this->settings->generateSlugFromMethodName($methodName),
-            'description' => $annotations->get('description'),
-            'order_num' => $annotations->get('enlighten')['order'] ?? 9999,
-        ]);
+        $exampleGroupBuilder = $this->getExampleGroup($className, $classAnnotations);
+
+        $this->currentExampleBuilder = $exampleGroupBuilder->newExample()
+            ->setMethodName($methodName)
+            ->setSlug($this->settings->generateSlugFromMethodName($methodName))
+            ->setTitle($this->getTitleFor('method', $methodAnnotations, $methodName))
+            ->setDescription($methodAnnotations->get('description'))
+            ->setLine($this->getStartLine($className, $methodName))
+            ->setOrderNum($methodAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
     }
 
-    public function saveQuery(QueryExecuted $query)
+    public function addQuery(QueryExecuted $query): void
     {
-        if (is_null($this->currentExample)) {
+        if ($this->shouldIgnore()) {
             return;
         }
 
-        $this->currentExample->saveQuery($query);
+        $this->currentExampleBuilder->addQuery($query);
     }
 
-    public function captureException(Throwable $exception)
+    public function captureException(Throwable $exception): void
     {
-        if (is_null($this->currentExample)) {
+        if ($this->shouldIgnore()) {
             return;
         }
 
@@ -113,66 +115,33 @@ class ExampleCreator
         $this->currentException = $exception;
     }
 
-    public function saveStatus(string $testStatus)
+    public function setStatus(string $testStatus): void
     {
-        if (is_null($this->currentExample)) {
+        if ($this->shouldIgnore()) {
             return;
         }
 
-        $example = $this->currentExample->saveStatus($testStatus, Status::fromTestStatus($testStatus));
+        $status = Status::fromTestStatus($testStatus);
 
-        if ($example->status !== Status::SUCCESS) {
-            $this->testRun->saveFailedTestLink($example);
-            $this->saveException();
+        $this->currentExampleBuilder->setStatus($testStatus, $status);
+
+        if ($status !== Status::SUCCESS && $this->currentException !== null) {
+            $this->currentExampleBuilder->setException(ExceptionInfo::make($this->currentException));
         }
     }
 
-    private function saveException()
+    public function build(): void
     {
-        if ($this->currentException === null) {
+        if ($this->shouldIgnore()) {
             return;
         }
 
-        $this->currentExample->saveExceptionData(
-            get_class($this->currentException),
-            $this->currentException,
-            $this->getExtraExceptionData($this->currentException)
-        );
+        $this->currentExampleBuilder->build();
     }
 
-    private function getExtraExceptionData(?Throwable $exception): array
+    public function shouldIgnore(): bool
     {
-        if ($exception instanceof ValidationException) {
-            return [
-                'errors' => $exception->errors(),
-            ];
-        }
-
-        return [];
-    }
-
-    private function getExampleGroup($className): ExampleGroupCreator
-    {
-        if (optional(static::$currentExampleGroup)->is($className)) {
-            return static::$currentExampleGroup;
-        }
-
-        return static::$currentExampleGroup = $this->makeExampleGroup($className);
-    }
-
-    private function makeExampleGroup($className): ExampleGroupCreator
-    {
-        $annotations = $this->annotations->getFromClass($className);
-
-        $this->profile->setClassOptions($annotations->get('enlighten'));
-
-        return new ExampleGroupCreator($this->testRun, $className, [
-            'title' => $this->getTitleFor('class', $annotations, $className),
-            'description' => $annotations->get('description'),
-            'area' => $this->settings->getAreaSlug($className),
-            'slug' => $this->settings->generateSlugFromClassName($className),
-            'order_num' => $annotations->get('enlighten')['order'] ?? 9999,
-        ]);
+        return is_null($this->currentExampleBuilder);
     }
 
     private function getTitleFor(string $type, Collection $annotations, string $classOrMethodName)
@@ -182,8 +151,28 @@ class ExampleCreator
             ?: $this->settings->generateTitle($type, $classOrMethodName);
     }
 
-    private function getStartLine($className, $methodName)
+    private function getStartLine($className, $methodName): int
     {
         return (new ReflectionMethod($className, $methodName))->getStartLine();
+    }
+
+    private function getExampleGroup(string $className, Collection $classAnnotations): ExampleGroupBuilder
+    {
+        if (optional(static::$currentExampleGroupBuilder)->is($className)) {
+            return static::$currentExampleGroupBuilder;
+        }
+
+        return static::$currentExampleGroupBuilder = $this->makeExampleGroup($className, $classAnnotations);
+    }
+
+    private function makeExampleGroup(string $className, Collection $classAnnotations): ExampleGroupBuilder
+    {
+        return $this->runBuilder->newExampleGroup()
+            ->setClassName($className)
+            ->setTitle($this->getTitleFor('class', $classAnnotations, $className))
+            ->setDescription($classAnnotations->get('description'))
+            ->setArea($this->settings->getAreaSlug($className))
+            ->setSlug($this->settings->generateSlugFromClassName($className))
+            ->setOrderNum($classAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
     }
 }

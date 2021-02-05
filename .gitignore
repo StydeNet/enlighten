@@ -5,3 +5,4 @@ node_modules
 .php_cs.cache
 storage
 .env
+disable-xdebug.ini

@@ -114,7 +114,7 @@ class DocumentationExporterTest extends TestCase
     }
 
     /** @test */
-    function replaces_the_original_urls_with_static_urls()
+    function replaces_the_original_urls_with_relative_urls()
     {
         $run = $this->createRun('main', 'abcde', true);
 
@@ -142,7 +142,35 @@ class DocumentationExporterTest extends TestCase
     }
 
     /** @test */
-    function replaces_the_seearch_file_path_with_the_export_base_path()
+    function replaces_the_original_urls_with_absolute_urls()
+    {
+        $run = $this->createRun('main', 'abcde', true);
+
+        $baseRunUrl = url("enlighten/run/{$run->id}");
+
+        $this->expectContentRequest($run->url)->andReturn('
+            <link rel="stylesheet" href="/vendor/enlighten/css/app.css?0.2.0">
+            <h1>Enlighten</h1>
+            <a href="'.$baseRunUrl.'"></a>
+            <a href="'.$baseRunUrl.'/features"></a>
+            <p>https://github.com/Stydenet/enlighten</p>
+            <div data-search="fetch(\'/search.json\')"></div>
+        ');
+
+        $this->exporter->export($run, __DIR__.'/public/docs', 'https://example.com');
+
+        $this->assertDocumentHasContent('
+            <link rel="stylesheet" href="https://example.com/assets/css/app.css?0.2.0">
+            <h1>Enlighten</h1>
+            <a href="https://example.com"></a>
+            <a href="https://example.com/features.html"></a>
+            <p>https://github.com/Stydenet/enlighten</p>
+            <div data-search="fetch(\'https://example.com/search.json\')"></div>
+        ', 'index.html');
+    }
+
+    /** @test */
+    function replaces_the_search_file_path_with_the_export_base_path()
     {
         $run = $this->createRun('main', 'abcde', true);
 

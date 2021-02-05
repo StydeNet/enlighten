@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Section;
 use Tests\TestCase;
 
@@ -11,8 +11,8 @@ class HidesSectionsTest extends TestCase
     /** @test */
     function determines_if_a_section_should_be_hidden()
     {
-        $this->assertFalse(Enlighten::hide(Section::QUERIES));
-        $this->assertTrue(Enlighten::show(Section::QUERIES));
+        $this->assertFalse(Settings::hide(Section::QUERIES));
+        $this->assertTrue(Settings::show(Section::QUERIES));
 
         $this->setConfig([
             'enlighten.hide' => [
@@ -20,7 +20,7 @@ class HidesSectionsTest extends TestCase
             ]
         ]);
 
-        $this->assertTrue(Enlighten::hide(Section::QUERIES));
-        $this->assertFalse(Enlighten::show(Section::QUERIES));
+        $this->assertTrue(Settings::hide(Section::QUERIES));
+        $this->assertFalse(Settings::show(Section::QUERIES));
     }
 }

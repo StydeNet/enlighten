@@ -29,13 +29,25 @@ class RequestInfo
      */
     private $input;
 
-    public function __construct(string $method, string $path, array $headers, array $queryParameters, array $input)
-    {
+    /**
+     * @var array
+     */
+    private $files;
+
+    public function __construct(
+        string $method,
+        string $path,
+        array $headers,
+        array $queryParameters,
+        array $input,
+        array $files
+    ) {
         $this->method = $method;
         $this->path = $path;
         $this->headers = $headers;
         $this->queryParameters = $queryParameters;
         $this->input = $input;
+        $this->files = $files;
     }
 
     public function getMethod(): string
@@ -61,5 +73,10 @@ class RequestInfo
     public function getInput(): array
     {
         return $this->input;
+    }
+
+    public function getFiles(): array
+    {
+        return $this->files;
     }
 }

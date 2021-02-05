@@ -3,6 +3,7 @@
 namespace Tests\Integration;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleRequest;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -11,6 +12,16 @@ use Throwable;
 class FailedRequestTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Force the example group to be recreated after each test
+        // Since we are also refreshing the Enlighten database
+        // after each test method is executed by PHPUnit.
+        ExampleCreator::clearExampleGroupBuilder();
+    }
 
     /** @test */
     function creates_example_even_if_the_request_fails()
@@ -82,8 +93,6 @@ class FailedRequestTest extends TestCase
                 $exception->trace[0]['file']
             );
             $this->assertSame('Illuminate\Foundation\Application', $exception->trace[0]['class']);
-
-            // $exception->trace ?
         });
     }
 

@@ -3,7 +3,13 @@
 namespace Styde\Enlighten;
 
 use Closure;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Styde\Enlighten\Contracts\RunBuilder;
+use Styde\Enlighten\Drivers\ApiRunBuilder;
+use Styde\Enlighten\Drivers\DatabaseRunBuilder;
+use Styde\Enlighten\Exceptions\InvalidDriverException;
+use Styde\Enlighten\Facades\VersionControl;
 
 class Settings
 {
@@ -21,6 +27,23 @@ class Settings
      * @var Closure|null
      */
     protected $customTitleGenerator = null;
+
+    public function dashboardEnabled(): bool
+    {
+        return (bool) Config::get('enlighten.dashboard');
+    }
+
+    public function getDriver(): RunBuilder
+    {
+        switch (Config::get('enlighten.driver', 'database')) {
+            case 'database':
+                return new DatabaseRunBuilder;
+            case 'api':
+                return new ApiRunBuilder;
+            default:
+                throw new InvalidDriverException;
+        }
+    }
 
     public function hide(string $sectionName): bool
     {

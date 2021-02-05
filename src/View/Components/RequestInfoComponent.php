@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Section;
 
@@ -33,7 +33,7 @@ class RequestInfoComponent extends Component
 
     private function showRouteParameters()
     {
-        if (Enlighten::hide(Section::ROUTE_PARAMETERS)) {
+        if (Settings::hide(Section::ROUTE_PARAMETERS)) {
             return false;
         }
 
@@ -42,7 +42,7 @@ class RequestInfoComponent extends Component
 
     private function showInput()
     {
-        if (Enlighten::hide(Section::REQUEST_INPUT)) {
+        if (Settings::hide(Section::REQUEST_INPUT)) {
             return false;
         }
 
@@ -51,7 +51,7 @@ class RequestInfoComponent extends Component
 
     private function showHeaders()
     {
-        if (Enlighten::hide(Section::REQUEST_HEADERS)) {
+        if (Settings::hide(Section::REQUEST_HEADERS)) {
             return false;
         }
 

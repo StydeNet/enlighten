@@ -1,37 +1,28 @@
 <?php
 
-namespace Styde\Enlighten;
+namespace Styde\Enlighten\Drivers;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Collection;
+use Styde\Enlighten\Contracts\Example as ExampleContract;
+use Styde\Enlighten\ExceptionInfo;
 use Styde\Enlighten\HttpExamples\RequestInfo;
 use Styde\Enlighten\HttpExamples\ResponseInfo;
 use Styde\Enlighten\HttpExamples\RouteInfo;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\Status;
-use Throwable;
 
-class ExampleBuilder
+class DatabaseExampleBuilder extends BaseExampleBuilder
 {
     /**
-     * @var ExampleGroupCreator
+     * @var DatabaseExampleGroupBuilder
      */
-    public $exampleGroupCreator;
-
-    /**
-     * @var string
-     */
-    protected $methodName;
+    private $exampleGroupBuilder;
 
     /**
      * @var Example|null
      */
-    protected $example = null;
-
-    /**
-     * @var array
-     */
-    protected $attributes;
+    private $example = null;
 
     /**
      * @var Collection
@@ -43,44 +34,13 @@ class ExampleBuilder
      */
     private $currentSnippet = null;
 
-    public function __construct(ExampleGroupCreator $exampleGroupCreator, string $methodName, array $attributes = [])
+    public function __construct(DatabaseExampleGroupBuilder $exampleGroupBuilder)
     {
-        $this->exampleGroupCreator = $exampleGroupCreator;
-        $this->methodName = $methodName;
         $this->currentRequests = new Collection;
-        $this->attributes = $attributes;
+        $this->exampleGroupBuilder = $exampleGroupBuilder;
     }
 
-    public function save()
-    {
-        if ($this->example != null) {
-            return;
-        }
-
-        $group = $this->exampleGroupCreator->save();
-
-        $this->example = Example::updateOrCreate([
-            'group_id' => $group->id,
-            'method_name' => $this->methodName,
-        ], array_merge($this->attributes, [
-            'test_status' => Status::UNKNOWN,
-            'status' => Status::UNKNOWN,
-        ]));
-    }
-
-    public function saveStatus(string $testStatus, string $status)
-    {
-        $this->save();
-
-        $this->example->update([
-            'test_status' => $testStatus,
-            'status' => $status,
-        ]);
-
-        return $this->example;
-    }
-
-    public function createRequest(RequestInfo $request)
+    public function addRequest(RequestInfo $request)
     {
         $this->save();
 
@@ -91,10 +51,11 @@ class ExampleBuilder
             'request_path' => $request->getPath(),
             'request_query_parameters' => $request->getQueryParameters(),
             'request_input' => $request->getInput(),
+            'request_files' => $request->getFiles(),
         ]));
     }
 
-    public function saveResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session)
+    public function setResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session)
     {
         $this->save();
 
@@ -113,20 +74,20 @@ class ExampleBuilder
         ]);
     }
 
-    public function saveExceptionData(string $className, ?Throwable $exception, array $extra)
+    public function setException(ExceptionInfo $exception)
     {
         $this->example->exception->fill([
-            'class_name' => $className,
+            'class_name' => $exception->getClassName(),
             'code' => $exception->getCode(),
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
             'trace' => $exception->getTrace(),
-            'extra' => $extra,
+            'extra' => $exception->getData(),
         ])->save();
     }
 
-    public function saveQuery(QueryExecuted $queryExecuted)
+    public function addQuery(QueryExecuted $queryExecuted)
     {
         $this->save();
 
@@ -139,7 +100,7 @@ class ExampleBuilder
         ]);
     }
 
-    public function createSnippet($key, string $code)
+    public function addSnippet($key, string $code)
     {
         $this->save();
 
@@ -149,10 +110,43 @@ class ExampleBuilder
         ]);
     }
 
-    public function saveSnippetResult($result)
+    public function setSnippetResult($result)
     {
         $this->currentSnippet->update(['result' => $result]);
 
         $this->currentSnippet = null;
+    }
+
+    public function build(): ExampleContract
+    {
+        $this->save();
+
+        $this->example->update([
+            'test_status' => $this->testStatus,
+            'status' => $this->status,
+        ]);
+
+        return $this->example;
+    }
+
+    private function save()
+    {
+        if ($this->example != null) {
+            return;
+        }
+
+        $group = $this->exampleGroupBuilder->save();
+
+        $this->example = Example::create([
+            'group_id' => $group->id,
+            'method_name' => $this->methodName,
+            'slug' => $this->slug,
+            'title' => $this->title,
+            'description' => $this->description,
+            'order_num' => $this->order_num,
+            'line' => $this->line,
+            'test_status' => Status::UNKNOWN,
+            'status' => Status::UNKNOWN,
+        ]);
     }
 }

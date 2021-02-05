@@ -5,10 +5,10 @@ namespace Styde\Enlighten\Tests;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
 use PHPUnit\TextUI\TestRunner;
+use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
-use Styde\Enlighten\TestRun;
 
 trait EnlightenSetup
 {
@@ -22,73 +22,55 @@ trait EnlightenSetup
      */
     private $captureQueries = true;
 
-    public function setUpEnlighten()
+    public function setUpEnlighten(): void
     {
         if (empty($this->app)) {
             throw new LaravelNotPresent;
         }
 
-        $this->afterApplicationCreated(function () {
-            if ($this->enlightenIsDisabled()) {
-                return;
-            }
+        if (Enlighten::isDocumenting()) {
+            $this->afterApplicationCreated(function () {
+                $this->makeExample();
 
-            $this->resetRunData();
+                $this->captureExceptions();
 
-            $this->makeExample();
+                $this->captureQueries();
+            });
 
-            $this->captureExceptions();
+            $this->beforeApplicationDestroyed(function () {
+                $this->stopCapturingQueries();
 
-            $this->captureQueries();
-        });
-
-        $this->beforeApplicationDestroyed(function () {
-            if ($this->enlightenIsDisabled()) {
-                return;
-            }
-
-            $this->stopCapturingQueries();
-
-            $this->saveExampleStatus();
-        });
+                $this->saveExampleStatus();
+            });
+        }
     }
 
-    private function enlightenIsDisabled()
-    {
-        return ! $this->app->make('config')->get('enlighten.enabled');
-    }
-
-    private function resetRunData()
-    {
-        TestRun::getInstance()->reset();
-    }
-
-    private function makeExample()
+    private function makeExample(): void
     {
         $this->app->make(ExampleCreator::class)->makeExample(get_class($this), $this->getName(false));
     }
 
-    private function captureQueries()
+    private function captureQueries(): void
     {
         DB::listen(function ($query) {
             if (! $this->captureQueries) {
                 return;
             }
 
-            if ($query->connectionName == 'enlighten') {
+            if ($query->connectionName === 'enlighten') {
                 return;
             }
 
-            $this->app->make(ExampleCreator::class)->saveQuery($query);
+            $this->app->make(ExampleCreator::class)->addQuery($query);
         });
     }
 
-    private function stopCapturingQueries()
+    private function stopCapturingQueries(): void
     {
         $this->captureQueries = false;
     }
 
-    private function captureExceptions()
+    private function captureExceptions(): void
     {
         // This setup only needs to run once.
         if ($this->exceptionRecorder) {
@@ -108,17 +90,17 @@ trait EnlightenSetup
      * @param  array  $except
      * @return $this
      */
-    protected function withoutExceptionHandling(array $except = [])
+    protected function withoutExceptionHandling(array $except = []): self
     {
-        if ($this->enlightenIsDisabled()) {
+        if (Enlighten::isDocumenting()) {
+            $this->captureExceptions();
+
+            $this->exceptionRecorder->forceThrow($except);
+
+            return $this;
+        } else {
             return parent::withoutExceptionHandling($except);
         }
-
-        $this->captureExceptions();
-
-        $this->exceptionRecorder->forceThrow($except);
-
-        return $this;
     }
 
     /**
@@ -126,25 +108,28 @@ trait EnlightenSetup
      *
      * @return $this
      */
-    protected function withExceptionHandling()
+    protected function withExceptionHandling(): self
     {
-        if ($this->enlightenIsDisabled()) {
+        if (Enlighten::isDocumenting()) {
+            $this->captureExceptions();
+
+            $this->exceptionRecorder->forwardToOriginal();
+
+            return $this;
+        } else {
             return parent::withExceptionHandling();
         }
-
-        $this->captureExceptions();
-
-        $this->exceptionRecorder->forwardToOriginal();
-
-        return $this;
     }
 
-    protected function saveExampleStatus()
+    protected function saveExampleStatus(): void
     {
-        $this->app->make(ExampleCreator::class)->saveStatus($this->getStatusAsText());
+        $exampleCreator = $this->app->make(ExampleCreator::class);
+
+        $exampleCreator->setStatus($this->getStatusAsText());
+        $exampleCreator->build();
     }
 
-    private function getStatusAsText()
+    private function getStatusAsText(): string
     {
         $statuses = [
             TestRunner::STATUS_PASSED => 'passed',

@@ -73,7 +73,7 @@ class HttpExampleCreator
             return;
         }
 
-        $testExample->createRequest(
+        $testExample->addRequest(
             $this->requestInspector->getDataFrom($request)
         );
     }
@@ -86,7 +86,7 @@ class HttpExampleCreator
             return;
         }
 
-        $testExample->saveResponse(
+        $testExample->setResponse(
             $this->responseInspector->getDataFrom($this->normalizeResponse($response)),
             static::$followsRedirect,
             $this->routeInspector->getInfoFrom($request->route()),

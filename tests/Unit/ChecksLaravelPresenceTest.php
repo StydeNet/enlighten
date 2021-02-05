@@ -3,12 +3,19 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
-use Styde\Enlighten\Facades\Enlighten;
 
 // Deliberately extends from the PHPUnit\Framework\TestCase instead of our TestCase
 class ChecksLaravelPresenceTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Enlighten::document();
+    }
+
     /** @test */
     function throws_exception_when_calling_the_enlighten_helper_without_booting_laravel()
     {

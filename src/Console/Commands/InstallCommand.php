@@ -14,9 +14,8 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->publishBuildAndConfigFiles();
-        $this->addBasicPrinterToPhpUnit();
 
-        $this->newLine();
+        $this->output->newLine();
 
         if ($this->setupEnlightenInTestCase()) {
             $this->info('Installation complete!');
@@ -26,10 +25,12 @@ class InstallCommand extends Command
             $this->error('https://github.com/StydeNet/enlighten#manual-setup');
         }
 
-        $this->newLine();
+        $this->call('enlighten:migrate');
+
+        $this->output->newLine();
         $this->warn('Please remember to create and setup the database for Enlighten and to change the APP_URL env variable if necessary.');
-        $this->newLine();
-        $this->info("After running your tests, you'll find your documentation by visiting: ".url('/enlighten'));
+        $this->output->newLine();
+        $this->info("After running `php artisan enlighten`, you'll find your documentation by visiting: ".url('/enlighten'));
     }
 
     private function publishBuildAndConfigFiles(): void
@@ -50,25 +51,5 @@ class InstallCommand extends Command
         File::put(base_path('tests/TestCase.php'), $enlightenTestCase);
 
         return true;
-    }
-
-    private function addBasicPrinterToPhpUnit()
-    {
-        $config = File::get(base_path('phpunit.xml'));
-
-        $printer = 'printerClass="Styde\Enlighten\Tests\BasicResultPrinter"';
-
-        if (strpos($config, $printer) !== false) {
-            return;
-        }
-
-        $config = preg_replace(
-            '@<phpunit @',
-            implode(PHP_EOL, ['<phpunit ', '         '.$printer, '         ']),
-            $config,
-            1
-        );
-
-        File::put(base_path('phpunit.xml'), $config);
     }
 }

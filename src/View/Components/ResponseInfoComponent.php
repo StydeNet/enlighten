@@ -3,7 +3,7 @@
 namespace Styde\Enlighten\View\Components;
 
 use Illuminate\View\Component;
-use Styde\Enlighten\Facades\Enlighten;
+use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\ExampleRequest;
 use Styde\Enlighten\Section;
 
@@ -31,7 +31,7 @@ class ResponseInfoComponent extends Component
 
     private function showHeaders()
     {
-        if (Enlighten::hide(Section::RESPONSE_HEADERS)) {
+        if (Settings::hide(Section::RESPONSE_HEADERS)) {
             return false;
         }
 
