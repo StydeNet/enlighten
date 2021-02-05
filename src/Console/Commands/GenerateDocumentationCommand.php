@@ -86,20 +86,20 @@ class GenerateDocumentationCommand extends Command
             $examples->count(),
             Str::plural('test', $examples->count())
         ));
-        $this->output->newLine();
     }
 
     private function printFailedExampleItems($examples)
     {
         $examples->each(function ($example) {
+            $this->output->newLine();
             $this->line("❌ {$example->getTitle()}:");
             $this->warn($example->getUrl());
-            $this->output->newLine();
         });
     }
 
     private function printDocumentationLink(RunContract $run)
     {
+        $this->output->newLine();
         $this->line('⚡ Check your documentation at:');
         $this->info($run->url());
     }
