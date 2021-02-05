@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.6.0 - 2021-02-05
+
+**To upgrade from v0.5.* to v0.6**
+1. Publishing the migrations folder is not longer necessary, you can remove the directory `/database/migrations/enlighten` from your project.
+2. Refresh the database using the artisan command `php artisan enlighten:migrate:fresh`
+3. Delete any published views `rm -r resources/views/vendor/enlighten` and published assets `rm -r public/vendor/enlighten`
+4. Re-publish the assets with `php artisan vendor:publish` and select `enlighten-build`
+5. Run `php artisan view:clear` to delete any view cache.**
+6. Remove the `printerClass="Styde\Enlighten\Tests\BasicResultPrinter"` from your `phpunit.xml` file.
+
+### Added
+- New artisan command to generate the documentation: `php artisan enlighten`; enlighten no longer runs with `php artisan test` or `/vendor/bin/phpunit`
+- Parallel testing support `php artisan enlighten --parallel --processes=4`
+- Support for [nunomaduro/collision](https://github.com/nunomaduro/collision)
+- New option `dashboard` added to the config file, to enable or disable the `/enlighten` section
+- Improved report output for failed tests when running `php artisan enlighten`
+- Added the documentation link to the command output after running the tests with enlighten.
+
+### Fixed
+- [Support documentation of file uploads](https://github.com/StydeNet/enlighten/commit/49e37af53fd91a5a574479d7148e41cdc7b64f6a)
+- Removing redundant `/` at the beginning of assets urls ([#48](https://github.com/StydeNet/enlighten/issues/48))
+- Redirect to `/intro` page when the runs table is empty
+- Removing `Collection::chunkWhile` method usage to solve compatibility issues with Laravel 7
+
+### Changed
+- Run enlighten migrations in isolation with `php artisan enlighten:migrate` command
+- The `disabled` option removed from the config file; now enlighten runs with a custom command (`php artisan enlighten`)
+ 
 ## v.5.7 - 2020-12-12
 
 Support for PHP 8.
