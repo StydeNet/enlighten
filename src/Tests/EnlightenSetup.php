@@ -9,6 +9,7 @@ use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
 use Styde\Enlighten\HttpExamples\HttpExampleCreator;
+use Styde\Enlighten\Tests\ExceptionRecorder;
 
 trait EnlightenSetup
 {
