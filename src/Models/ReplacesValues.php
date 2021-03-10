@@ -8,29 +8,30 @@ trait ReplacesValues
      * Returns an array of values without the ignored keys and
      * overwriting the given $values with the $overwrite values.
      *
-     * @param array|string|null $values
+     * @param array|string|null $originalValues
      * @param array $config
-     * @return array
+     * @return mixed
      */
-    public function replaceValues($values, array $config): array
+    public function replaceValues($originalValues, array $config)
     {
-        if (is_null($values)) {
-            return [];
+        $decodedValues = $this->decodeValues($originalValues);
+
+        if (! is_array($decodedValues)) {
+            return $originalValues;
         }
 
-        if (is_string($values)) {
-            $originalString = $values;
-
-            $values = json_decode($values, JSON_OBJECT_AS_ARRAY);
-        }
-
-        if (is_null($values)) {
-            return [$originalString];
-        }
-
-        return collect($values)
-            ->merge(array_intersect_key($config['overwrite'] ?? [], $values))
+        return collect($decodedValues)
+            ->merge(array_intersect_key($config['overwrite'] ?? [], $decodedValues))
             ->diffKeys(array_flip($config['hide'] ?? []))
             ->all();
+    }
+
+    private function decodeValues($originalValues)
+    {
+        if (! is_string($originalValues)) {
+            return $originalValues;
+        }
+
+        return json_decode($originalValues, JSON_OBJECT_AS_ARRAY);
     }
 }

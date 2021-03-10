@@ -9,3 +9,11 @@ Route::get('users/{status?}/{page?}', function () {
 
     return UserResource::collection($users);
 });
+
+Route::get('text', function () {
+    return 'This is just a string';
+});
+
+Route::get('json-string', function () {
+    return response()->json('Unsubscription was successful', 200);
+});
