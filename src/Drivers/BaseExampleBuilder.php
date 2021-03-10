@@ -12,6 +12,11 @@ abstract class BaseExampleBuilder implements ExampleBuilder
     protected $methodName;
 
     /**
+     * @var array
+     */
+    protected $providedData;
+
+    /**
      * @var string
      */
     protected $slug;
@@ -56,6 +61,13 @@ abstract class BaseExampleBuilder implements ExampleBuilder
     public function setMethodName(string $methodName): ExampleBuilder
     {
         $this->methodName = $methodName;
+
+        return $this;
+    }
+
+    public function setProvidedData(array $data = null): ExampleBuilder
+    {
+        $this->providedData = $data;
 
         return $this;
     }

@@ -15,6 +15,7 @@ class Example extends Model implements ExampleContract, Statusable
     protected $guarded = [];
 
     protected $casts = [
+        'provided_data' => 'array',
         'count' => 'int',
         'order_num' => 'int',
     ];

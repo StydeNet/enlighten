@@ -63,6 +63,7 @@ class ListUsersTest extends TestCase
             $this->assertTrue($example->group->is($group));
             $this->assertSame('gets_the_list_of_users', $example->method_name);
             $this->assertSame('gets-the-list-of-users', $example->slug);
+            $this->assertSame([], $example->provided_data);
             $this->assertSame('Obtiene la lista de usuarios', $example->title);
             $this->assertSame('Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema', $example->description);
 

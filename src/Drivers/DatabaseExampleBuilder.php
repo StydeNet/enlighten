@@ -140,6 +140,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         $this->example = Example::create([
             'group_id' => $group->id,
             'method_name' => $this->methodName,
+            'provided_data' => $this->providedData,
             'slug' => $this->slug,
             'title' => $this->title,
             'description' => $this->description,

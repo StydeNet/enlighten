@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models;
 
 use PHPUnit\Framework\TestCase;
-use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\Status;
 
 class StatusTest extends TestCase

@@ -47,7 +47,11 @@ trait EnlightenSetup
 
     private function makeExample(): void
     {
-        $this->app->make(ExampleCreator::class)->makeExample(get_class($this), $this->getName(false));
+        $this->app->make(ExampleCreator::class)->makeExample(
+            get_class($this),
+            $this->getName(false),
+            $this->getProvidedData()
+        );
     }
 
     private function captureQueries(): void

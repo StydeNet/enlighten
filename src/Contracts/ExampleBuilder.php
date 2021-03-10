@@ -12,6 +12,8 @@ interface ExampleBuilder
 {
     public function setStatus(string $testStatus, string $status);
 
+    public function setProvidedData(array $data = null): ExampleBuilder;
+
     public function addRequest(RequestInfo $request);
 
     public function setResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session);
