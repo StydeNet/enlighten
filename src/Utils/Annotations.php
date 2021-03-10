@@ -9,31 +9,30 @@ use ReflectionMethod;
 
 class Annotations
 {
-    protected static $casts = [];
+    protected $casts = [];
 
     public function addCast(string $key, Closure $callback)
     {
-        static::$casts[$key] = $callback;
+        $this->casts[$key] = $callback;
     }
 
     public function getFromClass($class): Collection
     {
         $reflectionClass = new ReflectionClass($class);
 
-        return static::fromDocComment($reflectionClass->getDocComment());
+        return $this->fromDocComment($reflectionClass->getDocComment());
     }
 
     public function getFromMethod($class, $method): Collection
     {
         $reflectionMethod = new ReflectionMethod($class, $method);
 
-        return static::fromDocComment($reflectionMethod->getDocComment());
+        return $this->fromDocComment($reflectionMethod->getDocComment());
     }
 
-    protected static function fromDocComment($docComment)
+    protected function fromDocComment($docComment)
     {
-        return Collection::make(explode(PHP_EOL, $docComment))
-            ->slice(1, -1)
+        return Collection::make(explode(PHP_EOL, trim($docComment, '/*')))
             ->map(function ($line) {
                 return ltrim(rtrim($line, ' .'), '* ');
             })
@@ -45,7 +44,7 @@ class Annotations
             });
     }
 
-    private static function chunkByAnnotation(Collection $lines)
+    protected function chunkByAnnotation(Collection $lines)
     {
         $result = [];
 
@@ -64,12 +63,12 @@ class Annotations
         return $result;
     }
 
-    private static function applyCast($name, $value)
+    protected function applyCast($name, $value)
     {
-        if (empty(static::$casts[$name])) {
+        if (empty($this->casts[$name])) {
             return $value;
         }
 
-        return call_user_func(static::$casts[$name], $value);
+        return call_user_func($this->casts[$name], $value);
     }
 }

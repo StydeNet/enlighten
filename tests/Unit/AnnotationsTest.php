@@ -43,6 +43,15 @@ class AnnotationsTest extends TestCase
         $this->assertSame('It can get the annotation from a method', $annotations->get('description'));
     }
 
+    /** @enlighten {"order": 4} **/
+    function test_gets_single_line_annotation()
+    {
+        $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'test_gets_single_line_annotation');
+
+        $this->assertCount(1, $annotations);
+        $this->assertSame('{"order": 4}', $annotations->get('enlighten'));
+    }
+
     /**
      * @title  it gets
      *        multiline
