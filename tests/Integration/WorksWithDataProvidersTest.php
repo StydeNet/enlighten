@@ -42,7 +42,7 @@ class WorksWithDataProvidersTest extends TestCase
         $this->assertTrue(strpos($example->provided_data[0], 'dataset') === 0);
     }
 
-    public function dataProviderMethod(): array 
+    public function dataProviderMethod(): array
     {
         return [
             ['dataset1'],
