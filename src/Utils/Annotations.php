@@ -32,7 +32,7 @@ class Annotations
 
     protected function fromDocComment($docComment)
     {
-        return Collection::make(explode("\n", trim($docComment, '/*')))
+        return Collection::make(explode(PHP_EOL, trim($docComment, '/*')))
             ->map(function ($line) {
                 return ltrim(rtrim($line, ' .'), '* ');
             })
