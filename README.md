@@ -9,6 +9,10 @@ There is no need to add endless docblocks to each API method, maintain dozens of
 Enlighten your Laravel applications with a beautiful documentation generated automatically from your test suites, by doing so, your documentation will always be updated with the current version of your app.
 
 If you have already invested a lot of time developing and testing your API you don't need to spend the same amount of time documenting it, we'll do that for you, you deserve it!
+
+## Compatibility
+
+Enlighten is compatible with Laravel 7.28 onwards and requires PHP from version 7.3.
  
 ## You can be a part of this project:
 - [Join us on Discord](https://discord.gg/JyfxmPM)
