@@ -19,7 +19,13 @@ trait ReplacesValues
         }
 
         if (is_string($values)) {
+            $originalString = $values;
+
             $values = json_decode($values, JSON_OBJECT_AS_ARRAY);
+        }
+
+        if (is_null($values)) {
+            return [$originalString];
         }
 
         return collect($values)
