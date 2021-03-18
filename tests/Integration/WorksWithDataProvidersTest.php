@@ -90,7 +90,7 @@ class WorksWithDataProvidersTest extends TestCase
      * @test
      * @dataProvider dataProviderWithFunctions
      */
-        function stores_information_of_functions_returned_by_data_providers($function)
+    function stores_information_of_functions_returned_by_data_providers($function)
     {
         $this->assertInstanceOf(\Closure::class, $function);
         $this->assertSame('test', $function());
@@ -122,5 +122,4 @@ class WorksWithDataProvidersTest extends TestCase
             ]
         ];
     }
-
 }
