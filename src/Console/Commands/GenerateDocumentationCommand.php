@@ -39,7 +39,13 @@ class GenerateDocumentationCommand extends Command
         } else {
             $this->printFailedExamples($run);
             $this->printDocumentationLink($run);
+            $this->openOnBrowser($run);
         }
+    }
+
+    private function openOnBrowser(RunContract $run)
+    {
+        exec("open {$run->url()}");
     }
 
     private function addCustomBootstrapToGlobalArguments()
