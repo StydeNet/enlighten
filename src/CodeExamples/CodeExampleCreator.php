@@ -37,7 +37,7 @@ class CodeExampleCreator
         try {
             $result = call_user_func($callback);
 
-            $testExample->setSnippetResult(CodeResultTransformer::toArray($result));
+            $testExample->setSnippetResult(CodeResultTransformer::export($result));
 
             return $result;
         } catch (Throwable $throwable) {

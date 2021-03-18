@@ -145,7 +145,7 @@ class ExportCodeResultTest extends TestCase
     /** @test */
     function export_code_with_nested_classes_and_arrays()
     {
-        $data = CodeResultTransformer::toArray([
+        $data = CodeResultTransformer::export([
             'package' => 'Enlighten',
             'users' => collect([
                 new User(['name' => 'Duilio']),

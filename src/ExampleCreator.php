@@ -5,6 +5,7 @@ namespace Styde\Enlighten;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Collection;
 use ReflectionMethod;
+use Styde\Enlighten\CodeExamples\CodeResultTransformer;
 use Styde\Enlighten\Contracts\ExampleBuilder;
 use Styde\Enlighten\Contracts\ExampleGroupBuilder;
 use Styde\Enlighten\Contracts\RunBuilder;
@@ -87,7 +88,7 @@ class ExampleCreator
 
         $this->currentExampleBuilder = $exampleGroupBuilder->newExample()
             ->setMethodName($methodName)
-            ->setProvidedData($providedData)
+            ->setProvidedData(CodeResultTransformer::exportProvidedData($providedData))
             ->setSlug($this->settings->generateSlugFromMethodName($methodName))
             ->setTitle($this->getTitleFor('method', $methodAnnotations, $methodName))
             ->setDescription($methodAnnotations->get('description'))

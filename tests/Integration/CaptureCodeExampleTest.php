@@ -200,6 +200,84 @@ class CaptureCodeExampleTest extends TestCase
             ], $snippet->result);
         });
     }
+
+    /** @test */
+    function captures_information_from_functions_returned_by_code_snippets()
+    {
+        enlighten(function () {
+            return function () {
+                return 1 + 2;
+            };
+        });
+
+        $this->assertFirstSnippetReturns([
+            ExampleSnippet::FUNCTION => ExampleSnippet::ANONYMOUS_FUNCTION,
+            ExampleSnippet::PARAMETERS => [],
+            ExampleSnippet::RETURN_TYPE => null,
+        ]);
+    }
+
+    /** @test */
+    function captures_information_from_functions_with_parameters()
+    {
+        enlighten(function () {
+            return function ($a, int $b = 2, \stdClass $anObject = null) {
+                return 1 + 2;
+            };
+        });
+
+        $this->assertFirstSnippetReturns([
+            ExampleSnippet::FUNCTION => ExampleSnippet::ANONYMOUS_FUNCTION,
+            ExampleSnippet::PARAMETERS => [
+                [
+                    ExampleSnippet::TYPE => null,
+                    ExampleSnippet::PARAMETER => 'a',
+                    ExampleSnippet::OPTIONAL => false,
+                    ExampleSnippet::DEFAULT => null,
+                ],
+                [
+                    ExampleSnippet::TYPE => 'int',
+                    ExampleSnippet::PARAMETER => 'b',
+                    ExampleSnippet::OPTIONAL => true,
+                    ExampleSnippet::DEFAULT => 2,
+                ],
+                [
+                    ExampleSnippet::TYPE => \stdClass::class,
+                    ExampleSnippet::PARAMETER => 'anObject',
+                    ExampleSnippet::OPTIONAL => true,
+                    ExampleSnippet::DEFAULT => null,
+                ],
+            ],
+            ExampleSnippet::RETURN_TYPE => null,
+        ]);
+    }
+
+    /** @test */
+    function captures_information_from_functions_with_return_type()
+    {
+        enlighten(function () {
+            return function (): int {
+                return 1 + 2;
+            };
+        });
+
+        $this->assertFirstSnippetReturns([
+            ExampleSnippet::FUNCTION => ExampleSnippet::ANONYMOUS_FUNCTION,
+            ExampleSnippet::PARAMETERS => [],
+            ExampleSnippet::RETURN_TYPE => 'int',
+        ]);
+    }
+
+
+    private function assertFirstSnippetReturns(array $expected)
+    {
+        $example = Example::firstOrFail();
+
+        tap($snippet = $example->snippets()->first(), function ($snippet) use ($expected) {
+            $this->assertInstanceOf(ExampleSnippet::class, $snippet);
+            $this->assertSame($expected, $snippet->result);
+        });
+    }
 }
 
 class DemoClassForSnippetExample
