@@ -39,7 +39,14 @@ class GenerateDocumentationCommand extends Command
         } else {
             $this->printFailedExamples($run);
             $this->printDocumentationLink($run);
+            $this->openOnBrowser($run);
         }
+    }
+
+    private function openOnBrowser(RunContract $run)
+    {
+        $command = PHP_SHLIB_SUFFIX == 'so' ? 'open' : 'start';
+        exec("{$command} {$run->url()}");
     }
 
     private function addCustomBootstrapToGlobalArguments()
