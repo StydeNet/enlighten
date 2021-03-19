@@ -45,7 +45,8 @@ class GenerateDocumentationCommand extends Command
 
     private function openOnBrowser(RunContract $run)
     {
-        exec("open {$run->url()}");
+        $command = PHP_SHLIB_SUFFIX == 'so' ? 'open' : 'start';
+        exec("{$command} {$run->url()}");
     }
 
     private function addCustomBootstrapToGlobalArguments()
