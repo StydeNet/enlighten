@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.7.0 - 2021-03-23
+
+### Upgrade from v0.6.* to v0.7
+
+1. We added 2 more columns to the examples table:
+
+```
+$table->string('data_name')->nullable();
+$table->json('provided_data')->nullable();
+```
+
+to get these changes added automatically please run: `php artisan enlighten:migrate:fresh` or add the columns to the table directly through your database admin tool.
+
+### Changes
+
+1. Improved support for tests with data providers (simple or complex).
+2. Now Enlighten will show info about the data provider in the title of each example.
+3. Fixed issue when JSON responses returned a string instead of an array.
+4. Support for single line annotations with 1 annotation (for 2 annotations or more, please add them as separate lines)
+
+
 ## v0.6.0 - 2021-02-05
 
 **To upgrade from v0.5.* to v0.6**
