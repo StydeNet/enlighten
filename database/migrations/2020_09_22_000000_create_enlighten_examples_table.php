@@ -26,6 +26,7 @@ class CreateEnlightenExamplesTable extends Migration
                 ->cascadeOnDelete();
 
             $table->string('method_name');
+            $table->string('data_name')->nullable();
             $table->json('provided_data')->nullable();
 
             $table->string('slug');

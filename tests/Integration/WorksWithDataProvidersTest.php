@@ -40,6 +40,8 @@ class WorksWithDataProvidersTest extends TestCase
 
         $example = Example::first();
 
+        $this->assertSame('Can store information of tests with data providers from method', $example->title);
+        $this->assertNull($example->data_name);
         $this->assertIsArray($example->provided_data);
         $this->assertTrue(strpos($example->provided_data[0], 'dataset') === 0);
     }
@@ -120,6 +122,29 @@ class WorksWithDataProvidersTest extends TestCase
                     return 'test';
                 },
             ]
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider providedDataWithKeys
+     */
+    function adds_key_from_the_data_provider_at_the_end_of_the_title($num1, $num2)
+    {
+        $this->assertSame(3, $num1 + $num2);
+
+        $this->saveExampleStatus();
+
+        $example = Example::first();
+
+        $this->assertSame('Adds key from the data provider at the end of the title', $example->title);
+        $this->assertSame('custom data key', $example->data_name);
+    }
+
+    public function providedDataWithKeys()
+    {
+        return [
+           'custom data key' => [1, 2],
         ];
     }
 }

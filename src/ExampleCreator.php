@@ -70,7 +70,7 @@ class ExampleCreator
         return $this->currentExampleBuilder;
     }
 
-    public function makeExample(string $className, string $methodName, array $providedData = null)
+    public function makeExample(string $className, string $methodName, array $providedData = null, $dataName = null)
     {
         $this->currentExampleBuilder = null;
         $this->currentException = null;
@@ -89,6 +89,7 @@ class ExampleCreator
         $this->currentExampleBuilder = $exampleGroupBuilder->newExample()
             ->setMethodName($methodName)
             ->setProvidedData(CodeResultTransformer::exportProvidedData($providedData))
+            ->setDataName(is_int($dataName) ? null : $dataName)
             ->setSlug($this->settings->generateSlugFromMethodName($methodName))
             ->setTitle($this->getTitleFor('method', $methodAnnotations, $methodName))
             ->setDescription($methodAnnotations->get('description'))

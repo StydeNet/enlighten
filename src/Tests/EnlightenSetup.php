@@ -50,7 +50,8 @@ trait EnlightenSetup
         $this->app->make(ExampleCreator::class)->makeExample(
             get_class($this),
             $this->getName(false),
-            $this->getProvidedData()
+            $this->getProvidedData(),
+            $this->dataName()
         );
     }
 

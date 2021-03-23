@@ -17,6 +17,11 @@ abstract class BaseExampleBuilder implements ExampleBuilder
     protected $providedData;
 
     /**
+     * @var string|null
+     */
+    protected $dataName;
+
+    /**
      * @var string
      */
     protected $slug;
@@ -68,6 +73,13 @@ abstract class BaseExampleBuilder implements ExampleBuilder
     public function setProvidedData(array $data = null): ExampleBuilder
     {
         $this->providedData = $data;
+
+        return $this;
+    }
+
+    public function setDataName(string $name = null): ExampleBuilder
+    {
+        $this->dataName = $name;
 
         return $this;
     }
