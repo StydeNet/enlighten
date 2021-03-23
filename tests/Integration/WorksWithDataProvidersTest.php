@@ -41,7 +41,7 @@ class WorksWithDataProvidersTest extends TestCase
         $example = Example::first();
 
         $this->assertSame('Can store information of tests with data providers from method', $example->title);
-        $this->assertNull($example->data_name);
+        $this->assertTrue(in_array($example->data_name, ['0', '1'], true));
         $this->assertIsArray($example->provided_data);
         $this->assertTrue(strpos($example->provided_data[0], 'dataset') === 0);
     }

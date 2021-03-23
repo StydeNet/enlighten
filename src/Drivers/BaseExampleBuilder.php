@@ -77,7 +77,7 @@ abstract class BaseExampleBuilder implements ExampleBuilder
         return $this;
     }
 
-    public function setDataName(string $name = null): ExampleBuilder
+    public function setDataName($name = null): ExampleBuilder
     {
         $this->dataName = $name;
 
