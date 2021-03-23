@@ -49,6 +49,19 @@ class Example extends Model implements ExampleContract, Statusable
 
     // Accessors
 
+    public function getTitleAttribute($title)
+    {
+        if (is_null($this->data_name)) {
+            return $title;
+        }
+
+        if (is_numeric($this->data_name)) {
+            return sprintf('%s (dataset #%s)', $title, $this->data_name);
+        }
+
+        return sprintf('%s (%s)', $title, $this->data_name);
+    }
+
     public function getSignatureAttribute()
     {
         return $this->group->class_name.'::'.$this->method_name;
