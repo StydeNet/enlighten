@@ -31,8 +31,8 @@ class CreateEnlightenExamplesTable extends Migration
 
             $table->string('slug');
 
-            $table->unique(['group_id', 'method_name', 'data_provider']);
-            $table->unique(['group_id', 'slug', 'data_provider']);
+            $table->unique(['group_id', 'method_name', 'data_name']);
+            $table->unique(['group_id', 'slug', 'data_name']);
 
             $table->integer('line')->nullable();
             $table->string('title');
