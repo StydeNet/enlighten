@@ -60,6 +60,7 @@ trait RegistersViewComponents
             'runs-table' => 'enlighten::components.runs-table',
             'panel-title' => 'enlighten::components.panel-title',
             'example-snippets' => 'enlighten::components.example-snippets',
+            'data-provided' => 'enlighten::components.data-provided',
 
 
             'example-requests' => ExampleRequestsComponent::class,

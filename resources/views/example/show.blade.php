@@ -16,7 +16,7 @@
         <p class="text-gray-100 mb-4 bg-gray-800 p-4 rounded-md">{{ $example->description }}</p>
     @endif
 
-    <x-enlighten-example-snippets :snippets="$example->snippets"/>
+    <x-enlighten-example-snippets :example="$example"/>
 
     <x-enlighten-example-requests :example="$example"/>
 </x-enlighten-main-layout>

@@ -8,5 +8,5 @@
         type="text"
         role="search"
         name="Search">
-    <div x-cloak x-ref="dropdown" x-show-="open" x-on:click.away="open = false"class="absolute block w-full my-1"></div>
+    <div x-cloak x-ref="dropdown" x-show-="open" x-on:click.away="open = false" class="absolute block w-full my-1" style="top:3rem;"></div>
 </div>

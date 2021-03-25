@@ -51,4 +51,32 @@ class ExampleTest extends TestCase
         $this->assertSame('Namespace\NameOfTheClass::the_name_of_the_method', $example->signature);
         $this->assertSame('Namespace\NameOfTheClass::the_name_of_the_method', $example->getSignature());
     }
+
+    /** @test */
+    function get_data_provided_snippet()
+    {
+        $group = $this->createExampleGroup(null, 'Namespace\NameOfTheClass');
+        $example = $this->createExample($group, 'the_name_of_the_method');
+        $example->provided_data = [
+            [
+                [
+                    '--attributes' => [
+                        'property' => 'dataset1'
+                    ],
+                    '--class_name' => 'stdClass'
+                ]
+            ]
+        ];
+        $example->save();
+
+        $this->assertSame(implode("\n", [
+            '<pre>',
+            '    <span class="enlighten-symbol">[</span>',
+            '        <span class="enlighten-class">stdClass</span> <span class="enlighten-symbol">{</span>',
+            '            <span class="enlighten-property">property</span><span class="enlighten-symbol">:</span> <span class="enlighten-string">"dataset1"</span><span class="enlighten-symbol">,</span>',
+            '        <span class="enlighten-symbol">}</span><span class="enlighten-symbol">,</span>',
+            '    <span class="enlighten-symbol">]</span>',
+            '</pre>',
+        ]), $example->provided_data_snippet);
+    }
 }

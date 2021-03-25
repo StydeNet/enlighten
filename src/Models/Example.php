@@ -2,9 +2,11 @@
 
 namespace Styde\Enlighten\Models;
 
+use Illuminate\Support\Arr;
+use Styde\Enlighten\CodeExamples\CodeResultExporter;
+use Styde\Enlighten\Utils\FileLink;
 use Illuminate\Database\Eloquent\Model;
 use Styde\Enlighten\Contracts\Example as ExampleContract;
-use Styde\Enlighten\Utils\FileLink;
 
 class Example extends Model implements ExampleContract, Statusable
 {
@@ -99,6 +101,11 @@ class Example extends Model implements ExampleContract, Statusable
     public function getOrderAttribute()
     {
         return [$this->order_num, $this->id];
+    }
+
+    public function getProvidedDataSnippetAttribute()
+    {
+        return app(CodeResultExporter::class)->export(Arr::first($this->provided_data));
     }
 
     // Contract

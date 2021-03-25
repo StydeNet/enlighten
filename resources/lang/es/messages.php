@@ -4,6 +4,7 @@ return [
     'all_areas' => 'Todas las áreas',
     'all_endpoints' => 'Todos las URLs',
     'branch_commit' => 'Rama / Confirmación',
+    'data_provided' => 'Datos Prporcionados',
     'dashboard' => 'Tablero',
     'date' => 'Fecha',
     'features' => 'Funcionalidades',

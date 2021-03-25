@@ -18,6 +18,8 @@
                             <x-enlighten-request-info :request="$tab->request" />
                             <span class="mb-8 w-full block"></span>
 
+                            <x-enlighten-data-provided class="mb-8" :example="$example"></x-enlighten-data-provided>
+
                             <x-enlighten-response-info :request="$tab->request" />
                             <span class="mb-8 w-full block"></span>
 

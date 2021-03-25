@@ -4,6 +4,7 @@ return [
     'all_areas' => 'All Areas',
     'all_endpoints' => 'All Endpoints',
     'branch_commit' => 'Branch / Commit',
+    'data_provided' => 'Data Provided',
     'dashboard' => 'Dashboard',
     'date' => 'Date',
     'features' => 'Features',
