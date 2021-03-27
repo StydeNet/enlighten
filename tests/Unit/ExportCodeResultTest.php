@@ -168,6 +168,23 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports($expected, $data);
     }
 
+
+    /** @test */
+    function export_code_snippet_with_functions()
+    {
+        $data = [
+            ExampleSnippet::FUNCTION => 'Anonymous Function',
+            ExampleSnippet::PARAMETERS => [],
+            ExampleSnippet::RETURN_TYPE => 'string',
+        ];
+
+
+        $this->assertExports([
+            '<symbol>//</symbol> <symbol>Anonymous Function</symbol>',
+            '<symbol>function(</symbol><symbol>)</symbol><property>: string</property> ',
+        ], $data);
+    }
+
     private function assertExports($segments, $value)
     {
         $expectedCode = collect($segments)

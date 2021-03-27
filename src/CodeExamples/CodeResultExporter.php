@@ -32,6 +32,8 @@ class CodeResultExporter
     {
         if (isset($value[ExampleSnippet::CLASS_NAME])) {
             return $this->exportObject($value);
+        } elseif (isset($value[ExampleSnippet::FUNCTION])) {
+            return $this->exportFunction($value);
         }
 
         switch (gettype($value)) {
@@ -54,7 +56,7 @@ class CodeResultExporter
         return '';
     }
 
-    private function exportArray($items)
+    private function exportArray($items): string
     {
         $result = $this->format->symbol('[').$this->format->line();
 
@@ -70,7 +72,7 @@ class CodeResultExporter
         return $result;
     }
 
-    public function isAssoc(array $array)
+    public function isAssoc(array $array): bool
     {
         return array_keys($array) !== range(0, count($array) - 1);
     }
@@ -141,6 +143,45 @@ class CodeResultExporter
 
         $result .= $this->format->indentation($this->currentLevel)
             .$this->format->symbol('}');
+
+        return $result;
+    }
+
+
+    private function exportFunction($snippet): string
+    {
+        $parameters = $snippet[ExampleSnippet::PARAMETERS] ?? [];
+        $result = $this->format->symbol('//')
+                . $this->format->space()
+                . $this->format->symbol($snippet[ExampleSnippet::FUNCTION])
+                . $this->format->line()
+                . $this->format->indentation(1)
+                . $this->format->symbol('function(');
+
+        foreach ($parameters as $key => $parameter) {
+            $result .= ($this->format->symbol($parameter[ExampleSnippet::OPTIONAL] ? '?' : ''))
+                . ($parameter[ExampleSnippet::TYPE] ? $this->format->propertyName($parameter[ExampleSnippet::TYPE]): '')
+                . $this->format->space()
+                . $this->format->propertyName('$')
+                . $this->format->symbol($parameter[ExampleSnippet::PARAMETER])
+                . (
+                    $parameter[ExampleSnippet::DEFAULT] !== null ?
+                        $this->format->space()
+                        . $this->format->symbol('=')
+                        . $this->format->space()
+                        .$this->exportValue($parameter[ExampleSnippet::DEFAULT])
+                    : ''
+                )
+                . (count($parameters) === $key+1 ? '' : $this->format->symbol(', '));
+        }
+
+        $result .= $this->format->symbol(')')
+             . (
+                 $snippet[ExampleSnippet::RETURN_TYPE] ?
+                 $this->format->propertyName(': ' . $snippet[ExampleSnippet::RETURN_TYPE]) :
+                 ''
+             )
+            . $this->format->space();
 
         return $result;
     }
