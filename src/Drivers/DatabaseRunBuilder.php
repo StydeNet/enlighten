@@ -17,11 +17,7 @@ class DatabaseRunBuilder implements RunBuilder
 
     public function __construct()
     {
-        $this->run = Run::firstOrNew([
-            'branch' => VersionControl::currentBranch(),
-            'head' => VersionControl::head(),
-            'modified' => VersionControl::modified(),
-        ]);
+        //...
     }
 
     public function newExampleGroup(): ExampleGroupBuilder
@@ -31,11 +27,15 @@ class DatabaseRunBuilder implements RunBuilder
 
     public function reset(): void
     {
+        $this->initRun();
+
         $this->run->groups()->delete();
     }
 
     public function save(): RunContract
     {
+        $this->initRun();
+
         $this->run->save();
 
         return $this->run;
@@ -43,6 +43,21 @@ class DatabaseRunBuilder implements RunBuilder
 
     public function getRun(): RunContract
     {
+        $this->initRun();
+
         return $this->run->fresh();
+    }
+
+    protected function initRun()
+    {
+        if ($this->run !== null) {
+            return;
+        }
+
+        $this->run = Run::firstOrNew([
+            'branch' => VersionControl::currentBranch(),
+            'head' => VersionControl::head(),
+            'modified' => VersionControl::modified(),
+        ]);
     }
 }
