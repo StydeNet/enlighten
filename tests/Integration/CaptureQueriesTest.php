@@ -52,8 +52,8 @@ class CaptureQueriesTest extends TestCase
 
             $this->assertSame('select * from "users" where "id" = ? limit 1', $exampleQuery->sql);
             $this->assertSame([0 => '1'], $exampleQuery->bindings);
-            $this->assertTrue($exampleQuery->request->is($example->requests->first()));
             $this->assertSame('request', $exampleQuery->context);
+            $this->assertTrue($exampleQuery->request->is($example->requests->first()));
         });
 
         tap($example->queries->shift(), function (ExampleQuery $exampleQuery) {
@@ -63,6 +63,35 @@ class CaptureQueriesTest extends TestCase
             $this->assertSame([], $exampleQuery->bindings);
             $this->assertNull($exampleQuery->request_id);
             $this->assertSame('test', $exampleQuery->context);
+        });
+    }
+
+    /** @test */
+    function links_queries_to_the_snippet_context()
+    {
+        $user = enlighten(function () {
+            return User::create([
+                'name' => 'Duilio',
+                'email' => 'duilio@styde.net',
+                'password' => 'password',
+            ]);
+        });
+
+        $this->assertNotNull($user);
+        $this->assertSame('Duilio', $user->name);
+
+        $example = Example::first();
+
+        $this->assertNotNull($example, 'The Example was not recorded as expected');
+
+        $this->assertNotNull($example->snippets->first(), 'The Example HTTP data was not recorded as expected');
+
+        tap($example->queries->shift(), function ($exampleQuery) use ($example) {
+            $this->assertInstanceOf(ExampleQuery::class, $exampleQuery);
+
+            $this->assertSame('insert into "users" ("name", "email", "password", "updated_at", "created_at") values (?, ?, ?, ?, ?)', $exampleQuery->sql);
+            $this->assertSame($example->snippets->first()->id, $exampleQuery->snippet_id);
+            $this->assertSame('snippet', $exampleQuery->context);
         });
     }
 }

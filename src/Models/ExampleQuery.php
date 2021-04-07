@@ -30,8 +30,16 @@ class ExampleQuery extends Model
 
     // Accessors
 
-    public function getContextAttribute($value)
+    public function getContextAttribute()
     {
-        return is_null($this->request_id) ? 'test' : 'request';
+        if ($this->request_id !== null) {
+            return 'request';
+        }
+
+        if ($this->snippet_id !== null) {
+            return 'snippet';
+        }
+
+        return 'test';
     }
 }

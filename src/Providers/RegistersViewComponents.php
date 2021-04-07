@@ -8,7 +8,7 @@ use Styde\Enlighten\View\Components\CodeExampleComponent;
 use Styde\Enlighten\View\Components\DynamicTabsComponent;
 use Styde\Enlighten\View\Components\EditButtonComponent;
 use Styde\Enlighten\View\Components\ExampleBreadcrumbs;
-use Styde\Enlighten\View\Components\ExampleRequestsComponent;
+use Styde\Enlighten\View\Components\ExampleTabsComponent;
 use Styde\Enlighten\View\Components\ExceptionInfoComponent;
 use Styde\Enlighten\View\Components\GroupBreadcrumbs;
 use Styde\Enlighten\View\Components\HtmlResponseComponent;
@@ -60,13 +60,9 @@ trait RegistersViewComponents
             'runs-table' => 'enlighten::components.runs-table',
             'panel-title' => 'enlighten::components.panel-title',
             'example-snippets' => 'enlighten::components.example-snippets',
-
-
-            'example-requests' => ExampleRequestsComponent::class,
+            'example-tabs' => ExampleTabsComponent::class,
             'example-breadcrumbs' => ExampleBreadcrumbs::class,
-
             'group-breadcrumbs' => GroupBreadcrumbs::class
-
         ]);
     }
 }

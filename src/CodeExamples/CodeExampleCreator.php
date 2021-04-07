@@ -2,7 +2,6 @@
 
 namespace Styde\Enlighten\CodeExamples;
 
-use Styde\Enlighten\ExampleBuilder;
 use Styde\Enlighten\ExampleCreator;
 use Throwable;
 

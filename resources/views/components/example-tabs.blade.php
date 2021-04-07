@@ -9,9 +9,10 @@
             <x-enlighten-queries-info :example="$example"></x-enlighten-queries-info>
         </x-slot>
     @endif
+    @if($showRequests)
     <x-slot name="requests">
-        <x-enlighten-dynamic-tabs :tabs="$tabs->pluck('title', 'key')->toArray()">
-            @foreach($tabs as $tab)
+        <x-enlighten-dynamic-tabs :tabs="$requestTabs->pluck('title', 'key')->toArray()">
+            @foreach($requestTabs as $tab)
                 <x-slot :name="$tab->key">
                     <div class="grid md:grid-cols-2 space-y-8 md:space-y-0 md:space-x-6 w-full h-full">
                         <div>
@@ -29,7 +30,7 @@
                             @endif
                         </div>
                         <div class="h-full relative">
-                            @if($tab->showOnlyPreview)
+                            @if($tab->showPreviewOnly)
                                 <x-enlighten-iframe srcdoc="{{ $tab->request->response_preview }}" />
                             @else
                                 <x-enlighten-response-preview :request="$tab->request" />
@@ -40,4 +41,5 @@
             @endforeach
         </x-enlighten-dynamic-tabs>
     </x-slot>
+    @endif
 </x-enlighten-dynamic-tabs>
