@@ -20,7 +20,6 @@ class InstallCommand extends Command
         if ($this->setupEnlightenInTestCase()) {
             $this->info('Installation complete!');
         } else {
-            $this->error('The installer has detected changes in your TestCase class.');
             $this->error('Please setup Enlighten manually with the link below:');
             $this->error('https://github.com/StydeNet/enlighten#manual-setup');
         }
@@ -38,10 +37,16 @@ class InstallCommand extends Command
 
     private function setupEnlightenInTestCase()
     {
-        $appTestCase = File::get(base_path('tests/TestCase.php'));
+    	try {
+            $appTestCase = File::get(base_path('tests/TestCase.php'));
+	    } catch (\Throwable $throwable) {
+			$this->error('The installer could not load your TestCase class. Maybe it has been moved from the default location?');
+			return false;
+	    }
         $baseTestCase = File::get(__DIR__.'/stubs/BaseTestCase.php.stub');
 
         if ($appTestCase != $baseTestCase) {
+        	$this->error('The installer has detected changes in your TestCase class.');
             return false;
         }
 
