@@ -2,7 +2,6 @@
 vendor/
 .phpunit.result.cache
 node_modules
-.php_cs.cache
 .php-cs-fixer.cache
 storage
 .env
