@@ -1,1 +1,0 @@
-<iframe {{ $attributes->merge(['class' => 'h-full w-full bg-white rounded-md']) }}></iframe>

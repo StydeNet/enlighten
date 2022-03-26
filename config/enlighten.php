@@ -108,5 +108,8 @@ return [
             'name' => 'Other Modules',
             'classes' => ['*'],
         ],
+    ],
+    'theme' => [
+        'dist' => base_path('styde/enlighten-base-template/dist')
     ]
 ];

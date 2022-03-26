@@ -54,6 +54,8 @@ class DocumentationExporterTest extends TestCase
     /** @test */
     function exports_run_as_static_files()
     {
+        config(['enlighten.theme.dist' => __DIR__.'/../../vendor/styde/enlighten-base-template/dist']);
+
         $run = $this->createRun('main', 'abcde', true);
         $group1 = $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest', 'List Users');
         $example1 = $this->createExample($group1, 'lists_users', 'passed', 'Lists Users');
@@ -87,7 +89,6 @@ class DocumentationExporterTest extends TestCase
         $this->assertDocumentHasContent('Group 2', 'api-create-user.html');
         $this->assertDocumentHasContent('Example 3', 'api-create-user/creates-a-user.html');
 
-        $this->assertFileExists(__DIR__.'/public/docs/assets/css/app.css');
 
         $this->assertFileExists(__DIR__.'/public/docs/search.json');
 

@@ -31,7 +31,9 @@ class TestCase extends \Tests\TestCase
     protected function getPackageProviders($app)
     {
         return array_merge(
-            [RouteServiceProvider::class],
+            [
+                RouteServiceProvider::class
+            ],
             parent::getPackageProviders($app),
         );
     }

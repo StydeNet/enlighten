@@ -26,6 +26,7 @@ class TestCase extends OrchestraTestCase
     {
         return [
             EnlightenServiceProvider::class,
+            \Styde\EnlightenBaseTemplate\Providers\EnlightenViewServiceProvider::class,
         ];
     }
 

@@ -25,7 +25,7 @@ use Styde\Enlighten\Utils\Git;
 
 class EnlightenServiceProvider extends ServiceProvider
 {
-    use RegistersConsoleConfiguration, RegistersViewComponents, RegistersDatabaseConnection;
+    use RegistersConsoleConfiguration, RegistersDatabaseConnection;
 
     public function boot()
     {
@@ -37,14 +37,6 @@ class EnlightenServiceProvider extends ServiceProvider
 
         $this->registerDatabaseConnection($this->app['config']);
 
-        $this->loadRoutesFrom($this->packageRoot('src/Http/routes/api.php'));
-
-        if ($this->app[Settings::class]->dashboardEnabled() || $this->app->runningInConsole()) {
-            $this->loadRoutesFrom($this->packageRoot('src/Http/routes/web.php'));
-            $this->loadViewsFrom($this->packageRoot('resources/views'), 'enlighten');
-            $this->loadTranslationsFrom($this->packageRoot('resources/lang'), 'enlighten');
-            $this->registerViewComponents();
-        }
 
         if ($this->app->runningInConsole()) {
             $this->registerMiddleware();

@@ -62,7 +62,7 @@ class DocumentationExporter
     {
         $this->filesystem->deleteDirectory("{$this->baseDir}/assets");
 
-        $this->filesystem->copyDirectory(__DIR__.'/../../dist', "{$this->baseDir}/assets");
+        $this->filesystem->copyDirectory(config('enlighten.theme.dist'), "{$this->baseDir}/assets");
     }
 
     private function exportRunWithAreas(Run $run)
