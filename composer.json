@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": "^7.3|^8.0",
-        "laravel/framework": "^7.28|^8.0|^9.0",
+        "laravel/framework": "^7.28|^8.0|^9.0|^10.0",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^7.2"
     },
