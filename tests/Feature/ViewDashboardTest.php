@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-
 use PHPUnit\Framework\Attributes\Test;
 
 class ViewDashboardTest extends TestCase
