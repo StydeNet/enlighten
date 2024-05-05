@@ -4,7 +4,7 @@ namespace Styde\Enlighten\Tests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
-use PHPUnit\TextUI\TestRunner;
+use PHPUnit\Framework\TestStatus\TestStatus;
 use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
@@ -12,15 +12,10 @@ use Styde\Enlighten\HttpExamples\HttpExampleCreator;
 
 trait EnlightenSetup
 {
-    /**
-     * @var ExceptionRecorder|null
-     */
-    private $exceptionRecorder = null;
+    private ?ExceptionRecorder $exceptionRecorder = null;
+    private ExceptionHandler $backupOriginalExceptionHandler;
 
-    /**
-     * @var bool
-     */
-    private $captureQueries = true;
+    private bool $captureQueries = true;
 
     public function setUpEnlighten(): void
     {
@@ -41,6 +36,8 @@ trait EnlightenSetup
                 $this->stopCapturingQueries();
 
                 $this->saveExampleStatus();
+
+                $this->restoreBackupOriginalExceptionHandler();
             });
         }
     }
@@ -49,8 +46,8 @@ trait EnlightenSetup
     {
         $this->app->make(ExampleCreator::class)->makeExample(
             get_class($this),
-            $this->getName(false),
-            $this->getProvidedData(),
+            $this->name(),
+            $this->providedData(),
             $this->dataName()
         );
     }
@@ -77,16 +74,17 @@ trait EnlightenSetup
 
     private function captureExceptions(): void
     {
-        // This setup only needs to run once.
-        if ($this->exceptionRecorder) {
-            return;
+        if ($this->exceptionRecorder === null) {
+            $this->backupOriginalExceptionHandler = $this->app->make(ExceptionHandler::class);
+            $this->exceptionRecorder = new ExceptionRecorder($this->backupOriginalExceptionHandler);
         }
 
-        $originalExceptionHandler = $this->app->make(ExceptionHandler::class);
-
-        $this->exceptionRecorder = new ExceptionRecorder($originalExceptionHandler);
-
         $this->app->instance(ExceptionHandler::class, $this->exceptionRecorder);
+    }
+
+    private function restoreBackupOriginalExceptionHandler(): void
+    {
+        $this->app->instance(ExceptionHandler::class, $this->backupOriginalExceptionHandler);
     }
 
     /**
@@ -136,17 +134,18 @@ trait EnlightenSetup
 
     private function getStatusAsText(): string
     {
-        $statuses = [
-            TestRunner::STATUS_PASSED => 'passed',
-            TestRunner::STATUS_SKIPPED => 'skipped',
-            TestRunner::STATUS_INCOMPLETE => 'incomplete',
-            TestRunner::STATUS_FAILURE => 'failure',
-            TestRunner::STATUS_ERROR => 'error',
-            TestRunner::STATUS_RISKY => 'risky',
-            TestRunner::STATUS_WARNING => 'warning',
-        ];
-
-        return $statuses[$this->getStatus()] ?? 'unknown';
+        return match ($this->status()) {
+            TestStatus::success() => 'passed',
+            TestStatus::skipped() => 'skipped',
+            TestStatus::incomplete() => 'incomplete',
+            TestStatus::notice() => 'notice',
+            TestStatus::deprecation() => 'deprecation',
+            TestStatus::risky() => 'risky',
+            TestStatus::warning() => 'warning',
+            TestStatus::failure() => 'failure',
+            TestStatus::error() => 'error',
+            default => 'unknown',
+        };
     }
 
     /**

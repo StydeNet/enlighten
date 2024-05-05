@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use PHPUnit\Framework\Attributes\Test;
 
 class ViewDashboardTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     public function get_dashboard_features_view(): void
     {
         $run = $this->createRun();
@@ -28,7 +27,7 @@ class ViewDashboardTest extends TestCase
             ]);
     }
 
-    /** @test */
+    #[Test]
     public function get_dashboard_modules_view(): void
     {
         $this->withoutExceptionHandling();
@@ -51,7 +50,7 @@ class ViewDashboardTest extends TestCase
             ->assertDontSeeText('List the users');
     }
 
-    /** @test */
+    #[Test]
     public function get_dashboard_endpoints_view(): void
     {
         $this->withoutExceptionHandling();
@@ -98,7 +97,7 @@ class ViewDashboardTest extends TestCase
             ]);
     }
 
-    /** @test */
+    #[Test]
     public function redirect_to_intro_page_if_no_data_has_been_recorded_yet(): void
     {
         $response = $this->get(route('enlighten.run.index'));
@@ -106,7 +105,7 @@ class ViewDashboardTest extends TestCase
         $response->assertRedirect(route('enlighten.intro'));
     }
 
-    /** @test */
+    #[Test]
     public function get_example_groups_by_test_area(): void
     {
         $this->withoutExceptionHandling();
@@ -129,7 +128,7 @@ class ViewDashboardTest extends TestCase
             ->assertSeeText('Filter tests');
     }
 
-    /** @test */
+    #[Test]
     public function return_all_groups_if_no_area_provided(): void
     {
         $run = $this->createRun();
@@ -150,7 +149,7 @@ class ViewDashboardTest extends TestCase
             ->assertSeeText('Filter tests');
     }
 
-    /** @test */
+    #[Test]
     public function filter_tests_by_run_id(): void
     {
         $firstRun = $this->createRun(['head' => 'abc123']);

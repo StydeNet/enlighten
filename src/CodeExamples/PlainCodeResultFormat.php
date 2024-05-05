@@ -6,7 +6,7 @@ use Illuminate\Support\HtmlString;
 
 class PlainCodeResultFormat extends BaseCodeResultFormat
 {
-    public function block(string $code)
+    public function block(string $code): HtmlString
     {
         return new HtmlString('<pre>'.$code.'</pre>');
     }
@@ -46,7 +46,7 @@ class PlainCodeResultFormat extends BaseCodeResultFormat
         return $name;
     }
 
-    public function propertyName(string $name)
+    public function propertyName(string $name): string
     {
         return $name;
     }

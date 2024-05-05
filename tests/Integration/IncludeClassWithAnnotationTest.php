@@ -2,15 +2,13 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 /**
  * @enlighten
  */
 class IncludeClassWithAnnotationTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -20,7 +18,7 @@ class IncludeClassWithAnnotationTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function export_test_classes_with_the_enlighten_annotation_even_if_its_ignored_in_the_config()
     {
         $this->assertExampleIsCreated();

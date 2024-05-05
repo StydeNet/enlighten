@@ -2,16 +2,14 @@
 
 namespace Tests\Unit\Models;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Area;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
 class ExampleGroupTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     public function get_example_groups_by_test_area(): void
     {
         $run = $this->createRun();
@@ -29,7 +27,7 @@ class ExampleGroupTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function get_the_stats_of_an_example_group(): void
     {
         $run = $this->createRun();
@@ -59,7 +57,7 @@ class ExampleGroupTest extends TestCase
         $this->assertSame('failure', $group->status);
     }
 
-    /** @test */
+    #[Test]
     function get_the_example_group_url()
     {
         $exampleGroup = new ExampleGroup([
@@ -77,7 +75,7 @@ class ExampleGroupTest extends TestCase
         $this->assertSame('http://localhost/enlighten/run/2/api-list-users', $exampleGroup->url);
     }
 
-    /** @test */
+    #[Test]
     function get_the_example_group_area_as_a_title()
     {
         $exampleGroup = new ExampleGroup([

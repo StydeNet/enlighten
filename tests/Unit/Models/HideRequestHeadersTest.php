@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideRequestHeadersTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function hides_request_headers()
     {
         $request = new ExampleRequest([
@@ -32,7 +33,7 @@ class HideRequestHeadersTest extends TestCase
         ], $request->request_headers);
     }
 
-    /** @test */
+    #[Test]
     function can_overwrite_headers()
     {
         $request = new ExampleRequest([
@@ -56,7 +57,7 @@ class HideRequestHeadersTest extends TestCase
         ], $request->request_headers);
     }
 
-    /** @test */
+    #[Test]
     function hidden_headers_take_precedence_over_overwritten_headers()
     {
         $request = new ExampleRequest([

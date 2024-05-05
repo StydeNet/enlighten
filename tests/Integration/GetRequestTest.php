@@ -2,24 +2,22 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\ExampleRequest;
 use Tests\Integration\App\Models\User;
-use Tests\Integration\Database\Factories\UserFactory;
 
+#[TestDox("Shows the user's information")]
 /**
- * @testdox Shows the user's information
  * @description This endpoint allows you to get all the info from a specific user.
  */
 class GetRequestTest extends TestCase
 {
-    use RefreshDatabase;
-
+    #[Test]
+    #[TestDox('Get user data by ID')]
     /**
-     * @test
-     * @testdox Get user data by ID
      * @description Retrieves the public-user data
      */
     public function creates_an_example_of_a_get_request(): void

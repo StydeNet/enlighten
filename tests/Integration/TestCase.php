@@ -28,7 +28,7 @@ class TestCase extends \Tests\TestCase
         Enlighten::stopDocumenting();
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return array_merge(
             [RouteServiceProvider::class],

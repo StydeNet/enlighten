@@ -11,21 +11,21 @@ trait TestHelpers
         $this->app['view']->addLocation($dir);
     }
 
-    protected function assertExampleIsCreated()
+    protected function assertExampleIsCreated(): void
     {
         $this->sendPostRequest();
 
         $this->assertSame(1, Example::count(), 'The expected example was not created.');
     }
 
-    protected function assertExampleIsNotCreated()
+    protected function assertExampleIsNotCreated(): void
     {
         $this->sendPostRequest();
 
         $this->assertSame(0, Example::count(), 'An unexpected example was created.');
     }
 
-    protected function sendPostRequest()
+    protected function sendPostRequest(): void
     {
         $this->withoutExceptionHandling();
 

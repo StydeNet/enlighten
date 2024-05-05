@@ -2,12 +2,13 @@
 
 namespace Tests\Integration;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleRequest;
 
 class FollowRedirectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function saves_the_first_request_and_the_last_response()
     {
         $this->withoutExceptionHandling();

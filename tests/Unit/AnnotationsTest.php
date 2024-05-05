@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Utils\Annotations;
 use Tests\TestCase;
 
@@ -13,7 +14,7 @@ use Tests\TestCase;
  */
 class AnnotationsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function gets_annotations_from_class()
     {
         $annotations = (new Annotations)->getFromClass(AnnotationsTest::class);
@@ -25,8 +26,8 @@ class AnnotationsTest extends TestCase
         $this->assertSame('Tests\Unit', $annotations->get('package'));
     }
 
+    #[Test]
     /**
-     * @test
      * @title Gets annotations from methods
      * @description It can get the annotation from a method.
      */
@@ -35,10 +36,8 @@ class AnnotationsTest extends TestCase
         $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'gets_annotations_from_methods');
 
         $this->assertInstanceOf(Collection::class, $annotations);
-        $this->assertCount(3, $annotations);
+        $this->assertCount(2, $annotations);
 
-        $this->assertSame('', $annotations->get('test'));
-        // Trailing spaces and dots are removed.
         $this->assertSame('Gets annotations from methods', $annotations->get('title'));
         $this->assertSame('It can get the annotation from a method', $annotations->get('description'));
     }
@@ -52,11 +51,11 @@ class AnnotationsTest extends TestCase
         $this->assertSame('{"order": 4}', $annotations->get('enlighten'));
     }
 
+    #[Test]
     /**
      * @title  it gets
      *        multiline
      *       annotations
-     * @test
      * @description It can get annotations
      * that span
      * across multiple lines
@@ -65,7 +64,7 @@ class AnnotationsTest extends TestCase
     {
         $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'gets_multiline_annotations');
 
-        $this->assertCount(3, $annotations);
+        $this->assertCount(2, $annotations);
 
         $expected = implode(PHP_EOL, [
             'it gets',

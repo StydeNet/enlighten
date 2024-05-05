@@ -3,7 +3,7 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Contracts\VersionControl;
 use Styde\Enlighten\Drivers\DatabaseRunBuilder;
 use Styde\Enlighten\Models\ExampleGroup;
@@ -12,9 +12,7 @@ use Tests\TestCase;
 
 class DatabaseRunBuilderTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     function can_reset_a_test_run()
     {
         $testRunBuilder = $this->app->make(DatabaseRunBuilder::class);
@@ -29,8 +27,8 @@ class DatabaseRunBuilderTest extends TestCase
         $this->assertSame(1, Run::count());
         $this->assertSame(0, ExampleGroup::count());
     }
-    
-    /** @test */
+
+    #[Test]
     function can_get_info_from_a_custom_version_control_system()
     {
         $this->app->instance(VersionControl::class, new class implements VersionControl {

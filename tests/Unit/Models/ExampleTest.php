@@ -2,16 +2,14 @@
 
 namespace Tests\Unit\Models;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     function gets_the_path_to_the_file()
     {
         $example = new Example([
@@ -24,7 +22,7 @@ class ExampleTest extends TestCase
         $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php&line=3@', $example->file_link));
     }
 
-    /** @test */
+    #[Test]
     function get_the_example_url()
     {
         $exampleGroup = new ExampleGroup([
@@ -41,7 +39,7 @@ class ExampleTest extends TestCase
         $this->assertSame('http://localhost/enlighten/run/1/feature-api-request/list-users', $example->getUrl());
     }
 
-    /** @test */
+    #[Test]
     function get_the_signature_of_an_example()
     {
         $group = $this->createExampleGroup(null, 'Namespace\NameOfTheClass');

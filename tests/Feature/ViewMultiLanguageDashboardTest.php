@@ -3,10 +3,11 @@
 namespace Tests\Feature;
 
 use App;
+use PHPUnit\Framework\Attributes\Test;
 
 class ViewMultiLanguageDashboardTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get_dashboard_view_with_translated_messages(): void
     {
         $run = $this->createRun();

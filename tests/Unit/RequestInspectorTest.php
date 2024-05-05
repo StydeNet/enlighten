@@ -4,13 +4,14 @@ namespace Tests\Unit;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\HttpExamples\RequestInspector;
 use Styde\Enlighten\HttpExamples\RouteInspector;
 use Tests\TestCase;
 
 class RequestInspectorTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function gets_the_form_data_from_the_request_without_query_parameters()
     {
         $request = new Request([

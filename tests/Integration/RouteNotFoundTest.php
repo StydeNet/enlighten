@@ -2,11 +2,12 @@
 
 namespace Tests\Integration;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 
 class RouteNotFoundTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function gets_a_non_existing_url()
     {
         $this->get('not-found-url')

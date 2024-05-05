@@ -4,31 +4,20 @@ namespace Tests\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Mockery;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Console\ContentRequest;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Tests\TestCase;
 
 class DocumentationExporterTest extends TestCase
 {
-    /**
-     * @var DocumentationExporter
-     */
-    private $exporter;
+    protected Filesystem $filesystem;
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected Mockery\MockInterface|ContentRequest $contentRequest;
 
-    /**
-     * @var Mockery\MockInterface|ContentRequest
-     */
-    protected $contentRequest;
+    private DocumentationExporter $exporter;
 
-    /**
-     * @var string
-     */
-    private $baseDir;
+    private string $baseDir;
 
     protected function setUp(): void
     {
@@ -51,7 +40,7 @@ class DocumentationExporterTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function exports_run_as_static_files()
     {
         $run = $this->createRun('main', 'abcde', true);
@@ -113,7 +102,7 @@ class DocumentationExporterTest extends TestCase
         $this->assertSame($expectedJson, json_decode(file_get_contents(__DIR__.'/public/docs/search.json'), JSON_OBJECT_AS_ARRAY));
     }
 
-    /** @test */
+    #[Test]
     function replaces_the_original_urls_with_relative_urls()
     {
         $run = $this->createRun('main', 'abcde', true);
@@ -141,7 +130,7 @@ class DocumentationExporterTest extends TestCase
         ', 'index.html');
     }
 
-    /** @test */
+    #[Test]
     function replaces_the_original_urls_with_absolute_urls()
     {
         $run = $this->createRun('main', 'abcde', true);
@@ -169,7 +158,7 @@ class DocumentationExporterTest extends TestCase
         ', 'index.html');
     }
 
-    /** @test */
+    #[Test]
     function replaces_the_search_file_path_with_the_export_base_path()
     {
         $run = $this->createRun('main', 'abcde', true);

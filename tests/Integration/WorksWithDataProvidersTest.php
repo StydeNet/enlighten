@@ -2,20 +2,18 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestWith;
 use stdClass;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleSnippet;
 
 class WorksWithDataProvidersTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /**
-     * @test
-     * @testWith ["dataset1"]
-     *           ["dataset2"]
-     */
+    #[Test]
+    #[TestWith(['dataset1'])]
+    #[TestWith(['dataset2'])]
     function can_store_information_of_tests_with_data_provider_from_annotation($data)
     {
         $this->assertTrue(strpos($data, 'dataset') === 0);
@@ -28,10 +26,8 @@ class WorksWithDataProvidersTest extends TestCase
         $this->assertTrue(strpos($example->provided_data[0], 'dataset') === 0);
     }
 
-    /**
-     * @test
-     * @dataProvider dataProviderMethod
-     */
+    #[Test]
+    #[DataProvider('dataProviderMethod')]
     function can_store_information_of_tests_with_data_providers_from_method($data)
     {
         $this->assertTrue(strpos($data, 'dataset') === 0);
@@ -46,7 +42,7 @@ class WorksWithDataProvidersTest extends TestCase
         $this->assertTrue(strpos($example->provided_data[0], 'dataset') === 0);
     }
 
-    public function dataProviderMethod(): array
+    public static function dataProviderMethod(): array
     {
         return [
             ['dataset1'],
@@ -54,10 +50,8 @@ class WorksWithDataProvidersTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider dataProviderWithObjects
-     */
+    #[Test]
+    #[DataProvider('dataProviderWithObjects')]
     function stores_information_of_objects_returned_by_data_providers($object)
     {
         $this->assertInstanceOf(StdClass::class, $object);
@@ -78,7 +72,7 @@ class WorksWithDataProvidersTest extends TestCase
         $this->assertSame($expected, $example->provided_data);
     }
 
-    public function dataProviderWithObjects(): array
+    public static function dataProviderWithObjects(): array
     {
         $object1 = new stdClass;
         $object1->property = 'dataset1';
@@ -88,10 +82,8 @@ class WorksWithDataProvidersTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider dataProviderWithFunctions
-     */
+    #[Test]
+    #[DataProvider('dataProviderWithFunctions')]
     function stores_information_of_functions_returned_by_data_providers($function)
     {
         $this->assertInstanceOf(\Closure::class, $function);
@@ -102,7 +94,7 @@ class WorksWithDataProvidersTest extends TestCase
         $example = Example::first();
 
         $expected = [
-            'Test Function' => [
+            'function' => [
                 ExampleSnippet::FUNCTION => ExampleSnippet::ANONYMOUS_FUNCTION,
                 ExampleSnippet::PARAMETERS => [],
                 ExampleSnippet::RETURN_TYPE => 'string',
@@ -111,24 +103,22 @@ class WorksWithDataProvidersTest extends TestCase
         $this->assertSame($expected, $example->provided_data);
     }
 
-    public function dataProviderWithFunctions(): array
+    public static function dataProviderWithFunctions(): array
     {
         $object1 = new stdClass;
         $object1->property = 'dataset1';
 
         return [
             [
-                'Test Function' => function (): string {
+                'function' => function (): string {
                     return 'test';
                 },
             ]
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider providedDataWithKeys
-     */
+    #[Test]
+    #[DataProvider('providedDataWithKeys')]
     function adds_key_from_the_data_provider_at_the_end_of_the_title($num1, $num2)
     {
         $this->assertSame(3, $num1 + $num2);
@@ -141,7 +131,7 @@ class WorksWithDataProvidersTest extends TestCase
         $this->assertSame('custom data key', $example->data_name);
     }
 
-    public function providedDataWithKeys()
+    public static function providedDataWithKeys(): array
     {
         return [
            'custom data key' => [1, 2],

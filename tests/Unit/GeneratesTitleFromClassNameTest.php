@@ -3,12 +3,13 @@
 namespace Tests\Unit;
 
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Facades\Settings;
 use Tests\TestCase;
 
 class GeneratesTitleFromClassNameTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function generates_title_from_class_name()
     {
         $this->assertSame('List Users', Settings::generateTitle('class', 'ListUsersTest'));
@@ -20,7 +21,7 @@ class GeneratesTitleFromClassNameTest extends TestCase
         $this->assertSame('Create Test', Settings::generateTitle('class', 'CreateTestTest'));
     }
 
-    /** @test */
+    #[Test]
     function generates_title_from_class_name_with_a_custom_generator()
     {
         Settings::setCustomTitleGenerator(function ($type, $className) {

@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Facades\Settings;
 use Tests\TestCase;
 
 class GeneratesTitleFromMethodNameTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function generates_a_title_from_test_method_names_in_camel_case_format()
     {
         $this->assertSame(
@@ -16,7 +17,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     function generates_a_title_from_test_method_names_in_snake_format()
     {
         $this->assertSame(
@@ -25,7 +26,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     function generates_titles_without_including_the_test_prefix()
     {
         $this->assertSame(
@@ -39,7 +40,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     function generates_title_with_a_custom_generator()
     {
         Settings::setCustomTitleGenerator(function ($type, $methodName) {

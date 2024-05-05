@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideResponseDataTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function can_hide_and_overwrite_response_headers()
     {
         $request = new ExampleRequest([
@@ -35,7 +36,7 @@ class HideResponseDataTest extends TestCase
         ], $request->response_headers);
     }
 
-    /** @test */
+    #[Test]
     function can_hide_and_overwrite_data_from_a_json_response_body()
     {
         $request = new ExampleRequest([

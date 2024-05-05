@@ -2,13 +2,14 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Section;
 use Tests\TestCase;
 
 class HidesSectionsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function determines_if_a_section_should_be_hidden()
     {
         $this->assertFalse(Settings::hide(Section::QUERIES));

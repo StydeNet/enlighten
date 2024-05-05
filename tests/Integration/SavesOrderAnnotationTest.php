@@ -2,6 +2,7 @@
 
 namespace Tests\Integration;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Example;
 
 /**
@@ -9,8 +10,8 @@ use Styde\Enlighten\Models\Example;
  */
 class SavesOrderAnnotationTest extends TestCase
 {
+    #[Test]
     /**
-     * @test
      * @enlighten {"order": 22}
      */
     function it_saves_an_example_and_example_group_with_an_order_num_attribute()

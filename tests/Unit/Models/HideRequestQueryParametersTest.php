@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideRequestQueryParametersTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function can_remove_and_overwrite_query_parameters()
     {
         $request = new ExampleRequest([

@@ -2,16 +2,14 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleQuery;
 use Tests\Integration\App\Models\User;
 
 class CaptureQueriesTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     function it_stores_the_queries_executed_during_the_test()
     {
         User::create([
@@ -66,7 +64,7 @@ class CaptureQueriesTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function links_queries_to_the_snippet_context()
     {
         $user = enlighten(function () {

@@ -5,15 +5,13 @@ namespace Tests\Unit\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class ExampleRequestTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     function an_example_can_have_many_requests()
     {
         $run = $this->createRun();
@@ -35,7 +33,7 @@ class ExampleRequestTest extends TestCase
         $this->assertTrue($example->is_http);
     }
 
-    /** @test */
+    #[Test]
     function an_example_request_belongs_to_an_example()
     {
         $example = $this->createExample();
@@ -45,7 +43,7 @@ class ExampleRequestTest extends TestCase
         $this->assertTrue($request->example->is($example));
     }
 
-    /** @test */
+    #[Test]
     function gets_the_full_path_of_the_request()
     {
         $data = new ExampleRequest([
@@ -62,7 +60,7 @@ class ExampleRequestTest extends TestCase
         $this->assertSame('api/users?page=2&status=active', $data->full_path);
     }
 
-    /** @test */
+    #[Test]
     function gets_the_response_type_in_a_readable_format()
     {
         $data = new ExampleRequest([
@@ -88,7 +86,7 @@ class ExampleRequestTest extends TestCase
         $this->assertSame('NO RESPONSE', $data->response_type);
     }
 
-    /** @test */
+    #[Test]
     function checks_if_a_response_is_a_redirect()
     {
         $data = new ExampleRequest([
@@ -116,7 +114,7 @@ class ExampleRequestTest extends TestCase
         $this->assertTrue($data->has_redirection_status);
     }
 
-    /** @test */
+    #[Test]
     function gets_redirection_location_from_the_response()
     {
         $data = new ExampleRequest([
@@ -130,7 +128,7 @@ class ExampleRequestTest extends TestCase
         $this->assertNull($data->redirection_location);
     }
 
-    /** @test */
+    #[Test]
     public function gets_the_response_status_based_on_the_response_code(): void
     {
         $data = new ExampleRequest(['response_status' => 200]);

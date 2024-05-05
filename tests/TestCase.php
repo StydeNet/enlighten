@@ -3,12 +3,14 @@
 namespace Tests;
 
 use Illuminate\Config\Repository as Config;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Styde\Enlighten\Providers\EnlightenServiceProvider;
 
 class TestCase extends OrchestraTestCase
 {
     use TestHelpers;
+    use WithWorkbench;
 
     protected function setUp(): void
     {
@@ -29,7 +31,7 @@ class TestCase extends OrchestraTestCase
         ];
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $this->configureDatabase($app['config']);
     }

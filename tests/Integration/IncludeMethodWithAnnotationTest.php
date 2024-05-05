@@ -2,12 +2,10 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class IncludeMethodWithAnnotationTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         $this->setConfig([
@@ -17,8 +15,8 @@ class IncludeMethodWithAnnotationTest extends TestCase
         parent::setUp();
     }
 
+    #[Test]
     /**
-     * @test
      * @enlighten
      */
     function export_test_method_with_the_enlighten_annotation_even_if_its_ignored_in_the_config()
@@ -26,9 +24,7 @@ class IncludeMethodWithAnnotationTest extends TestCase
         $this->assertExampleIsCreated();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     function it_does_not_export_test_method_ignored_with_the_config()
     {
         $this->assertExampleIsNotCreated();

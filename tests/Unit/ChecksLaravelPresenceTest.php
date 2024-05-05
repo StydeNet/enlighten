@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
@@ -16,7 +17,7 @@ class ChecksLaravelPresenceTest extends TestCase
         Enlighten::document();
     }
 
-    /** @test */
+    #[Test]
     function throws_exception_when_calling_the_enlighten_helper_without_booting_laravel()
     {
         try {
@@ -30,7 +31,7 @@ class ChecksLaravelPresenceTest extends TestCase
         $this->fail('The exception LaravelNotPresent was not thrown');
     }
 
-    /** @test */
+    #[Test]
     function throws_exception_when_calling_the_enlighten_test_facade_without_booting_laravel()
     {
         try {

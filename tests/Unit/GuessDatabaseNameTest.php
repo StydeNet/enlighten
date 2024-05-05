@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Providers\RegistersDatabaseConnection;
 use Tests\TestCase;
 
@@ -9,7 +10,7 @@ class GuessDatabaseNameTest extends TestCase
 {
     use RegistersDatabaseConnection;
 
-    /** @test */
+    #[Test]
     function guesses_the_database_name()
     {
         $config = [

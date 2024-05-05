@@ -2,13 +2,14 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
 class TestExampleGroupTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function it_saves_an_example_group_with_an_area_name(): void
     {
         $testExampleGroup = $this->createExampleGroup(null, 'Tests\Feature\ListUsersTest');
@@ -19,7 +20,7 @@ class TestExampleGroupTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     public function the_area_name_can_be_determined_with_a_custom_resolver(): void
     {
         Settings::setCustomAreaResolver(function ($className) {

@@ -2,12 +2,13 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 use Tests\TestCase;
 
 class HideRequestInputTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function can_hide_and_overwrite_request_input_values()
     {
         $request = new ExampleRequest([

@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Utils\JsonFormatter;
 use Tests\TestCase;
 
 class JsonEncoderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function preview_unascaped_unicode_values(): void
     {
         $entry = [

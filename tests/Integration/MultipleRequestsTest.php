@@ -2,12 +2,13 @@
 
 namespace Tests\Integration;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleRequest;
 
 class MultipleRequestsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function can_store_multiple_requests()
     {
         $this->withoutExceptionHandling();

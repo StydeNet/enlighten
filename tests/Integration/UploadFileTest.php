@@ -3,11 +3,12 @@
 namespace Tests\Integration;
 
 use Illuminate\Http\UploadedFile;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 
 class UploadFileTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function documents_file_parameters()
     {
         $this->withoutExceptionHandling();

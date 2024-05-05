@@ -22,7 +22,7 @@ class GenerateDocumentationCommand extends Command
         $this->ignoreValidationErrors();
     }
 
-    public function handle()
+    public function handle(): void
     {
         $runBuilder = app(RunBuilder::class);
 
@@ -43,7 +43,7 @@ class GenerateDocumentationCommand extends Command
         }
     }
 
-    private function addCustomBootstrapToGlobalArguments()
+    private function addCustomBootstrapToGlobalArguments(): void
     {
         $_SERVER['argv'] = array_merge(
             array_slice($_SERVER['argv'], 0, 2),
@@ -60,7 +60,7 @@ class GenerateDocumentationCommand extends Command
         ]);
     }
 
-    private function printMissingSetupWarning()
+    private function printMissingSetupWarning(): void
     {
         $this->output->newLine();
         $this->alert('The documentation was not generated');
@@ -69,7 +69,7 @@ class GenerateDocumentationCommand extends Command
         $this->warn('Learn more: https://github.com/StydeNet/enlighten#installation');
     }
 
-    private function printFailedExamples(RunContract $run)
+    private function printFailedExamples(RunContract $run): void
     {
         $failedExamples = $run->getFailedExamples();
 
@@ -79,7 +79,7 @@ class GenerateDocumentationCommand extends Command
         }
     }
 
-    private function printFailedExamplesHeader($examples)
+    private function printFailedExamplesHeader($examples): void
     {
         $this->output->newLine();
         $this->error(sprintf(
@@ -89,7 +89,7 @@ class GenerateDocumentationCommand extends Command
         ));
     }
 
-    private function printFailedExampleItems($examples)
+    private function printFailedExampleItems($examples): void
     {
         $examples->each(function ($example) {
             $this->output->newLine();
@@ -98,7 +98,7 @@ class GenerateDocumentationCommand extends Command
         });
     }
 
-    private function printDocumentationLink(RunContract $run)
+    private function printDocumentationLink(RunContract $run): void
     {
         $this->output->newLine();
         $this->line('⚡ Check your documentation at:');

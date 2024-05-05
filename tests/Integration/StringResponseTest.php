@@ -2,6 +2,7 @@
 
 namespace Tests\Integration;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\ExampleRequest;
@@ -9,7 +10,7 @@ use Styde\Enlighten\Models\Run;
 
 class StringResponseTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function a_response_can_return_a_string()
     {
         $this->get('api/text')
@@ -39,7 +40,7 @@ class StringResponseTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function a_json_response_can_be_a_string()
     {
         $this->get('api/json-string')

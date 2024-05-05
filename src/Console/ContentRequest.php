@@ -8,17 +8,12 @@ use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 class ContentRequest
 {
-    /**
-     * @var HttpKernel
-     */
-    private $httpKernel;
 
-    public function __construct(HttpKernel $httpKernel)
+    public function __construct(private readonly HttpKernel $httpKernel)
     {
-        $this->httpKernel = $httpKernel;
     }
 
-    public function getContent(string $url)
+    public function getContent(string $url): false|string
     {
         $symfonyRequest = SymfonyRequest::create($url, 'GET');
 

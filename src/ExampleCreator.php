@@ -4,6 +4,8 @@ namespace Styde\Enlighten;
 
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\TestDox;
+use ReflectionClass;
 use ReflectionMethod;
 use Styde\Enlighten\CodeExamples\CodeResultTransformer;
 use Styde\Enlighten\Contracts\ExampleBuilder;
@@ -17,52 +19,23 @@ class ExampleCreator
 {
     private const LAST_ORDER_POSITION = 9999;
 
-    /**
-     * @var RunBuilder
-     */
-    private $runBuilder;
+    protected static ?ExampleGroupBuilder $currentExampleGroupBuilder = null;
 
-    /**
-     * @var ExampleGroupBuilder|null
-     */
-    protected static $currentExampleGroupBuilder = null;
+    protected ?ExampleBuilder $currentExampleBuilder = null;
 
-    /**
-     * @var ExampleBuilder|null
-     */
-    protected $currentExampleBuilder = null;
-
-    /**
-     * @var Throwable
-     */
-    protected $currentException;
-
-    /**
-     * @var Annotations
-     */
-    protected $annotations;
-
-    /**
-     * @var Settings
-     */
-    protected $settings;
-
-    /**
-     * @var ExampleProfile
-     */
-    private $profile;
+    protected ?Throwable $currentException;
 
     public static function clearExampleGroupBuilder(): void
     {
         static::$currentExampleGroupBuilder = null;
     }
 
-    public function __construct(RunBuilder $runBuilder, Annotations $annotations, Settings $settings, ExampleProfile $profile)
-    {
-        $this->runBuilder = $runBuilder;
-        $this->annotations = $annotations;
-        $this->settings = $settings;
-        $this->profile = $profile;
+    public function __construct(
+        private RunBuilder $runBuilder,
+        protected Annotations $annotations,
+        protected Settings $settings,
+        private ExampleProfile $profile,
+    ) {
     }
 
     public function getCurrentExample(): ?ExampleBuilder
@@ -84,6 +57,8 @@ class ExampleCreator
             return;
         }
 
+        $methodAttributes = (new ReflectionMethod($className, $methodName))->getAttributes();
+
         $exampleGroupBuilder = $this->getExampleGroup($className, $classAnnotations);
 
         $this->currentExampleBuilder = $exampleGroupBuilder->newExample()
@@ -91,7 +66,7 @@ class ExampleCreator
             ->setProvidedData(CodeResultTransformer::exportProvidedData($providedData))
             ->setDataName($dataName === '' ? null : $dataName)
             ->setSlug($this->settings->generateSlugFromMethodName($methodName))
-            ->setTitle($this->getTitleFor('method', $methodAnnotations, $methodName))
+            ->setTitle($this->getTitleFor('method', $methodAttributes, $methodAnnotations, $methodName))
             ->setDescription($methodAnnotations->get('description'))
             ->setLine($this->getStartLine($className, $methodName))
             ->setOrderNum($methodAnnotations->get('enlighten')['order'] ?? self::LAST_ORDER_POSITION);
@@ -147,8 +122,14 @@ class ExampleCreator
         return is_null($this->currentExampleBuilder);
     }
 
-    private function getTitleFor(string $type, Collection $annotations, string $classOrMethodName)
+    private function getTitleFor(string $type, array $attributes, Collection $annotations, string $classOrMethodName)
     {
+        foreach ($attributes as $attribute) {
+            if ($attribute->getName() === TestDox::class) {
+                return $attribute->getArguments()[0];
+            }
+        }
+
         return $annotations->get('title')
             ?: $annotations->get('testdox')
             ?: $this->settings->generateTitle($type, $classOrMethodName);
@@ -170,9 +151,11 @@ class ExampleCreator
 
     private function makeExampleGroup(string $className, Collection $classAnnotations): ExampleGroupBuilder
     {
+        $classAttributes = (new ReflectionClass($className))->getAttributes();
+
         return $this->runBuilder->newExampleGroup()
             ->setClassName($className)
-            ->setTitle($this->getTitleFor('class', $classAnnotations, $className))
+            ->setTitle($this->getTitleFor('class', $classAttributes, $classAnnotations, $className))
             ->setDescription($classAnnotations->get('description'))
             ->setArea($this->settings->getAreaSlug($className))
             ->setSlug($this->settings->generateSlugFromClassName($className))

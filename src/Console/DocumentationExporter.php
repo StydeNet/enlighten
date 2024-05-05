@@ -10,36 +10,19 @@ use Styde\Enlighten\Models\Run;
 
 class DocumentationExporter
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-    /**
-     * @var string
-     */
-    private $baseDir;
-    /**
-     * @var ContentRequest
-     */
-    private $request;
+    private string $baseDir;
 
-    /**
-     * @var string
-     */
-    protected $originalBaseUrl;
+    protected string $originalBaseUrl;
 
-    /**
-     * @var string
-     */
-    protected $staticBaseUrl;
+    protected string $staticBaseUrl;
 
-    public function __construct(Filesystem $filesystem, ContentRequest $request)
-    {
-        $this->filesystem = $filesystem;
-        $this->request = $request;
+    public function __construct(
+        private readonly Filesystem $filesystem,
+        private readonly ContentRequest $request
+    ) {
     }
 
-    public function export(Run $run, string $baseDir, string $staticBaseUrl)
+    public function export(Run $run, string $baseDir, string $staticBaseUrl): void
     {
         $this->baseDir = rtrim($baseDir, '/');
         $this->staticBaseUrl = rtrim($staticBaseUrl, '/');
@@ -65,7 +48,7 @@ class DocumentationExporter
         $this->filesystem->copyDirectory(__DIR__.'/../../dist', "{$this->baseDir}/assets");
     }
 
-    private function exportRunWithAreas(Run $run)
+    private function exportRunWithAreas(Run $run): void
     {
         $this->createFile('index.html', $this->withContentFrom($run->url));
 
@@ -76,12 +59,12 @@ class DocumentationExporter
         });
     }
 
-    private function exportArea(Run $run, Area $area)
+    private function exportArea(Run $run, Area $area): void
     {
         $this->createFile("areas/{$area->slug}.html", $this->withContentFrom($run->areaUrl($area->slug)));
     }
 
-    private function exportGroupWithExamples(ExampleGroup $group)
+    private function exportGroupWithExamples(ExampleGroup $group): void
     {
         $this->createFile("{$group->slug}.html", $this->withContentFrom($group->url));
 
@@ -92,7 +75,7 @@ class DocumentationExporter
         });
     }
 
-    private function exportExample(Example $example)
+    private function exportExample(Example $example): void
     {
         $this->createFile(
             "{$example->group->slug}/{$example->slug}.html",
@@ -100,7 +83,7 @@ class DocumentationExporter
         );
     }
 
-    private function exportSearchJson(Run $run)
+    private function exportSearchJson(Run $run): void
     {
         $this->createFile(
             'search.json',
@@ -125,7 +108,7 @@ class DocumentationExporter
             ->values();
     }
 
-    private function createDirectory($path)
+    private function createDirectory($path): void
     {
         if ($this->filesystem->isDirectory("{$this->baseDir}/$path")) {
             return;
@@ -134,7 +117,7 @@ class DocumentationExporter
         $this->filesystem->makeDirectory("{$this->baseDir}/$path", 0755);
     }
 
-    private function createFile(string $filename, string $contents)
+    private function createFile(string $filename, string $contents): void
     {
         $this->filesystem->put("{$this->baseDir}/{$filename}", $contents);
     }

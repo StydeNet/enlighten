@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Facades\Settings;
 use Tests\TestCase;
 
 class GeneratesSlugFromClassNameTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function generates_slug_from_class_name()
     {
         $this->assertSame('feature-list-users', Settings::generateSlugFromClassName('Tests\Feature\ListUsersTest'));
@@ -24,7 +25,7 @@ class GeneratesSlugFromClassNameTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     function generates_slug_from_class_name_with_a_custom_generator()
     {
         Settings::setCustomSlugGenerator(function ($className, $from) {

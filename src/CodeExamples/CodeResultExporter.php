@@ -6,16 +6,10 @@ use Styde\Enlighten\Models\ExampleSnippet;
 
 class CodeResultExporter
 {
-    private $currentLevel;
+    private int $currentLevel;
 
-    /**
-     * @var CodeResultFormat
-     */
-    private $format;
-
-    public function __construct(CodeResultFormat $format)
+    public function __construct(private readonly CodeResultFormat $format)
     {
-        $this->format = $format;
     }
 
     public function export($snippet)
@@ -28,7 +22,7 @@ class CodeResultExporter
         );
     }
 
-    private function exportValue($value)
+    private function exportValue($value): string
     {
         if (isset($value[ExampleSnippet::CLASS_NAME])) {
             return $this->exportObject($value);
@@ -54,7 +48,7 @@ class CodeResultExporter
         return '';
     }
 
-    private function exportArray($items)
+    private function exportArray($items): string
     {
         $result = $this->format->symbol('[').$this->format->line();
 
@@ -70,7 +64,7 @@ class CodeResultExporter
         return $result;
     }
 
-    public function isAssoc(array $array)
+    public function isAssoc(array $array): bool
     {
         return array_keys($array) !== range(0, count($array) - 1);
     }

@@ -2,15 +2,13 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleRequest;
 use Tests\Integration\App\Models\User;
 
 class PostRequestTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -20,7 +18,7 @@ class PostRequestTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function creates_an_example_of_a_post_request()
     {
         $this->withoutExceptionHandling();
@@ -58,7 +56,7 @@ class PostRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function saves_validation_errors()
     {
         $response = $this->post('user', [

@@ -5,22 +5,12 @@ namespace Styde\Enlighten\CodeExamples;
 use Styde\Enlighten\ExampleCreator;
 use Throwable;
 
-class CodeExampleCreator
+readonly class CodeExampleCreator
 {
-    /**
-     * @var \Styde\Enlighten\ExampleCreator
-     */
-    private $exampleCreator;
-
-    /**
-     * @var CodeInspector
-     */
-    private $codeInspector;
-
-    public function __construct(ExampleCreator $exampleCreator, CodeInspector $codeInspector)
-    {
-        $this->exampleCreator = $exampleCreator;
-        $this->codeInspector = $codeInspector;
+    public function __construct(
+        private ExampleCreator $exampleCreator,
+        private CodeInspector $codeInspector,
+    ) {
     }
 
     public function createSnippet(callable $callback, string $key = null)

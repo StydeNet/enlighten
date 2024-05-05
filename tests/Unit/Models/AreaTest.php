@@ -2,13 +2,14 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Facades\Settings;
 use Styde\Enlighten\Models\Area;
 use Tests\TestCase;
 
 class AreaTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function get_all_the_areas_from_the_current_run()
     {
         config([
@@ -43,7 +44,7 @@ class AreaTest extends TestCase
         $this->assertSame($expected, $run->areas->toArray());
     }
 
-    /** @test */
+    #[Test]
     function get_all_the_areas_from_the_current_groups_with_a_custom_area_resolver()
     {
         $this->setConfig([
@@ -75,7 +76,7 @@ class AreaTest extends TestCase
         $this->assertArrayable($expected, $run->areas);
     }
 
-    /** @test */
+    #[Test]
     function gets_all_the_areas_from_the_configuration()
     {
         $this->setConfig([

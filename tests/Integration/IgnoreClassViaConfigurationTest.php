@@ -2,12 +2,10 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 class IgnoreClassViaConfigurationTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         $this->setConfig([
@@ -19,7 +17,7 @@ class IgnoreClassViaConfigurationTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
+    #[Test]
     function does_not_export_test_classes_ignored_in_the_configuration()
     {
         $this->assertExampleIsNotCreated();

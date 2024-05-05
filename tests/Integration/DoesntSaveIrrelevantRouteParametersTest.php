@@ -3,11 +3,12 @@
 namespace Tests\Integration;
 
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleRequest;
 
 class DoesntSaveIrrelevantRouteParametersTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function does_not_save_irrelevant_route_parameters()
     {
         $this->get('parameters/global/local')

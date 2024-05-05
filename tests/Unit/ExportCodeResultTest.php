@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\CodeExamples\BaseCodeResultFormat;
 use Styde\Enlighten\CodeExamples\CodeResultExporter;
 use Styde\Enlighten\CodeExamples\CodeResultFormat;
@@ -12,10 +13,7 @@ use Tests\TestCase;
 
 class ExportCodeResultTest extends TestCase
 {
-    /**
-     * @var CodeResultExporter
-     */
-    protected $exporter;
+    protected CodeResultExporter $exporter;
 
     protected function setUp(): void
     {
@@ -26,7 +24,7 @@ class ExportCodeResultTest extends TestCase
         $this->exporter = $this->app->make(CodeResultExporter::class);
     }
 
-    /** @test */
+    #[Test]
     function export_simple_code_snippets()
     {
         $this->assertExports('<int>2020</int>', 2020);
@@ -36,7 +34,7 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports('<null>null</null>', null);
     }
 
-    /** @test */
+    #[Test]
     function export_simple_array_code_snippet()
     {
         $expected = [
@@ -54,7 +52,7 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports($expected, $data);
     }
 
-    /** @test */
+    #[Test]
     function export_associative_array_code_snippet()
     {
         $data = [
@@ -72,7 +70,7 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports($expected, $data);
     }
 
-    /** @test */
+    #[Test]
     function export_code_snippet_with_nested_arrays()
     {
         $data = [
@@ -95,7 +93,7 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports($expected, $data);
     }
 
-    /** @test */
+    #[Test]
     function export_code_snippet_with_class()
     {
         $data = [
@@ -114,7 +112,7 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports($expected, $data);
     }
 
-    /** @test */
+    #[Test]
     function export_code_snippet_with_nested_classes()
     {
         $data = [
@@ -142,7 +140,7 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports($expected, $data);
     }
 
-    /** @test */
+    #[Test]
     function export_code_with_nested_classes_and_arrays()
     {
         $data = CodeResultTransformer::export([

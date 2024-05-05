@@ -2,7 +2,7 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleRequest;
@@ -11,8 +11,6 @@ use Throwable;
 
 class FailedRequestTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -23,7 +21,7 @@ class FailedRequestTest extends TestCase
         ExampleCreator::clearExampleGroupBuilder();
     }
 
-    /** @test */
+    #[Test]
     function creates_example_even_if_the_request_fails()
     {
         $response = $this->get('/server-error');
@@ -35,7 +33,7 @@ class FailedRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function creates_example_with_request_data_without_exception_handling()
     {
         $this->withoutExceptionHandling();
@@ -64,7 +62,7 @@ class FailedRequestTest extends TestCase
         $this->fail("The HTTP request (/server-error) didn't fail as expected.");
     }
 
-    /** @test */
+    #[Test]
     function saves_the_information_from_the_http_exceptions_with_exception_handling()
     {
         $this->get('/server-error')
@@ -96,7 +94,7 @@ class FailedRequestTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function saves_the_information_from_the_http_exceptions_without_exception_handling()
     {
         $this->withoutExceptionHandling();

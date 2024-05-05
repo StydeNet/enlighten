@@ -3,6 +3,7 @@
 namespace Tests\Console;
 
 use Mockery;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Console\Commands\ExportDocumentationCommand;
 use Styde\Enlighten\Console\DocumentationExporter;
 use Tests\TestCase;
@@ -22,7 +23,7 @@ class ExportDocumentationCommandTest extends TestCase
         $this->app->instance(ExportDocumentationCommand::class, $command);
     }
 
-    /** @test */
+    #[Test]
     function exports_a_run_with_a_relative_url()
     {
         $this->createRun('main', 'abcde', true);
@@ -49,7 +50,7 @@ class ExportDocumentationCommandTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function exports_a_run_with_an_absolute_url()
     {
         $this->createRun('main', 'abcde', true);
@@ -76,7 +77,7 @@ class ExportDocumentationCommandTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function asks_the_user_to_run_the_tests_before_trying_to_export_the_documentation()
     {
         $this->artisan('enlighten:export')

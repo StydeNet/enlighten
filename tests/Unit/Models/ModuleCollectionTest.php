@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Endpoint;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Module;
@@ -11,7 +12,7 @@ use Tests\TestCase;
 
 class ModuleCollectionTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function can_create_a_module_collection()
     {
         $modules = ModuleCollection::make([
@@ -24,7 +25,7 @@ class ModuleCollectionTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function add_example_groups_to_the_modules_in_the_module_collection()
     {
         $modules = ModuleCollection::make([
@@ -72,7 +73,7 @@ class ModuleCollectionTest extends TestCase
         $this->assertSame($expectedGroups, $module->groups->values()->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function remove_modules_without_example_groups_from_the_module_collection(): void
     {
         $modules = ModuleCollection::make([
@@ -89,7 +90,7 @@ class ModuleCollectionTest extends TestCase
         $this->assertSame(1, $modules->count());
     }
 
-    /** @test */
+    #[Test]
     function add_endpoint_groups_to_the_modules_in_the_module_collection()
     {
         $modules = ModuleCollection::make([
@@ -121,7 +122,7 @@ class ModuleCollectionTest extends TestCase
         $this->assertSame($expectedGroups, $module->groups->map->getSignature()->values()->all());
     }
 
-    /** @test */
+    #[Test]
     public function remove_modules_without_endpoint_groups_from_the_module_collection(): void
     {
         $modules = ModuleCollection::make([

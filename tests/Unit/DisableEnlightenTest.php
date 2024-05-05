@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Facades\Settings;
-use Styde\Enlighten\Facades\VersionControl;
 use Tests\TestCase;
 
 class DisableEnlightenTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function enlighten_dashboard_can_be_enabled()
     {
         $this->setConfig([

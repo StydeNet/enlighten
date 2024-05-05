@@ -4,15 +4,13 @@ namespace Tests\Unit\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
 class RunTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     function gets_the_signature_of_a_run()
     {
         $run = $this->createRun('main', 'abcde', true);
@@ -22,7 +20,7 @@ class RunTest extends TestCase
         $this->assertSame('develop fghij', $run->signature);
     }
 
-    /** @test */
+    #[Test]
     function gets_the_url_of_the_run()
     {
         $run = $this->createRun();
@@ -30,7 +28,7 @@ class RunTest extends TestCase
         $this->assertSame('http://localhost/enlighten/run/1/areas', $run->url);
     }
 
-    /** @test */
+    #[Test]
     function gets_the_base_url_of_the_run()
     {
         $run = $this->createRun();
@@ -38,7 +36,7 @@ class RunTest extends TestCase
         $this->assertSame('http://localhost/enlighten/run/1', $run->base_url);
     }
 
-    /** @test */
+    #[Test]
     function gets_the_url_of_a_run_area()
     {
         $run = $this->createRun();
@@ -46,7 +44,7 @@ class RunTest extends TestCase
         $this->assertSame('http://localhost/enlighten/run/1/areas/feature', $run->areaUrl('feature'));
     }
 
-    /** @test */
+    #[Test]
     function a_run_has_many_groups()
     {
         $run = $this->createRun();
@@ -57,7 +55,7 @@ class RunTest extends TestCase
         $this->assertInstanceOf(ExampleGroup::class, $run->groups->first());
     }
 
-    /** @test */
+    #[Test]
     function gets_the_areas_of_a_run()
     {
         $run = $this->createRun();
@@ -88,7 +86,7 @@ class RunTest extends TestCase
         $this->assertSame($expected, $run->areas->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function run_has_many_examples(): void
     {
         $run = $this->createRun();

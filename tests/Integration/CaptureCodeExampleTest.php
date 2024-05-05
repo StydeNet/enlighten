@@ -3,6 +3,7 @@
 namespace Tests\Integration;
 
 use BadMethodCallException;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\CodeExamples\CodeResultTransformer;
 use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\Models\Example;
@@ -11,7 +12,7 @@ use Tests\Integration\App\Models\User;
 
 class CaptureCodeExampleTest extends TestCase
 {
-    /** @test */
+    #[Test]
     function captures_single_line_snippet()
     {
         $sum = Enlighten::test(function () {
@@ -41,7 +42,7 @@ class CaptureCodeExampleTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function captures_snippet_with_key()
     {
         $msg = Enlighten::test('hello-world', function () {
@@ -63,7 +64,7 @@ class CaptureCodeExampleTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function captures_snippet_with_key_using_helper()
     {
         $msg = enlighten('hello-world-2', function () {
@@ -85,7 +86,7 @@ class CaptureCodeExampleTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function captures_snippet_with_sql_query()
     {
         $user = enlighten(function () {
@@ -123,7 +124,7 @@ class CaptureCodeExampleTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function captures_snippet_with_exception()
     {
         $this->expectException(BadMethodCallException::class);
@@ -145,7 +146,7 @@ class CaptureCodeExampleTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function captures_objects_returned_by_snippets()
     {
         enlighten(function () {
@@ -174,7 +175,7 @@ class CaptureCodeExampleTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function captures_objects_returned_by_snippets_with_limited_recursion()
     {
         CodeResultTransformer::$maxNestedLevel = 1;
@@ -201,7 +202,7 @@ class CaptureCodeExampleTest extends TestCase
         });
     }
 
-    /** @test */
+    #[Test]
     function captures_information_from_functions_returned_by_code_snippets()
     {
         enlighten(function () {
@@ -217,7 +218,7 @@ class CaptureCodeExampleTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function captures_information_from_functions_with_parameters()
     {
         enlighten(function () {
@@ -252,7 +253,7 @@ class CaptureCodeExampleTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     function captures_information_from_functions_with_return_type()
     {
         enlighten(function () {

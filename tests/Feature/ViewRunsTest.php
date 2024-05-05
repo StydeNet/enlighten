@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class ViewRunsTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function get_dashboard_view(): void
     {
         $this->createRun(['head' => 'abc123']);

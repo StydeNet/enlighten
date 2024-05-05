@@ -2,7 +2,8 @@
 
 namespace Tests\Integration;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 use Styde\Enlighten\Models\Example;
 use Styde\Enlighten\Models\ExampleGroup;
 use Styde\Enlighten\Models\Run;
@@ -10,11 +11,9 @@ use Tests\Integration\App\Models\User;
 
 class ListUsersTest extends TestCase
 {
-    use RefreshDatabase;
-
+    #[Test]
+    #[TestDox('Obtiene la lista de usuarios')]
     /**
-     * @test
-     * @testdox Obtiene la lista de usuarios.
      * @description Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema.
      */
     function gets_the_list_of_users()

@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class SearchTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function search_examples_by_title(): void
     {
         $firstRun = $this->createRun(['head' => 'abc123']);

@@ -2,21 +2,21 @@
 
 namespace Tests\Unit\Models;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Styde\Enlighten\Models\Status;
 
 class StatusTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider getStatusEquivalences
-     */
+    #[Test]
+    #[DataProvider('getStatusEquivalences')]
     function gets_a_simplified_status($testStatus, $expectedStatus)
     {
         $this->assertSame($expectedStatus, Status::fromTestStatus($testStatus));
     }
 
-    public function getStatusEquivalences(): array
+    public static function getStatusEquivalences(): array
     {
         return [
             ['passed', 'success'],

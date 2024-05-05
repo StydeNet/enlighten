@@ -11,10 +11,7 @@ use Styde\Enlighten\Models\ExampleSnippet;
 
 class CodeResultTransformer
 {
-    /**
-     * @var int
-     */
-    public static $maxNestedLevel = 5;
+    public static int $maxNestedLevel = 5;
 
     public static function export($result)
     {

@@ -2,16 +2,14 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Styde\Enlighten\Models\Concerns\GetsStatsFromGroups;
 use Styde\Enlighten\Models\ExampleGroup;
 use Tests\TestCase;
 
 class GetsStatsFromGroupsTest extends TestCase
 {
-    use RefreshDatabase;
-
-    /** @test */
+    #[Test]
     public function get_stats_from_an_example_group_collection(): void
     {
         $run = $this->createRun();

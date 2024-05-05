@@ -11,7 +11,7 @@ class InstallCommand extends Command
 
     protected $description = 'Install and Enlighten automatically';
 
-    public function handle()
+    public function handle(): void
     {
         $this->publishBuildAndConfigFiles();
 
@@ -36,7 +36,7 @@ class InstallCommand extends Command
         $this->call('vendor:publish', ['--tag' => 'enlighten']);
     }
 
-    private function setupEnlightenInTestCase()
+    private function setupEnlightenInTestCase(): bool
     {
         $appTestCase = File::get(base_path('tests/TestCase.php'));
         $baseTestCase = File::get(__DIR__.'/stubs/BaseTestCase.php.stub');
