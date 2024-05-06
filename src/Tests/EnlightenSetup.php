@@ -4,7 +4,6 @@ namespace Styde\Enlighten\Tests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\DB;
-use PHPUnit\Framework\TestStatus\TestStatus;
 use Styde\Enlighten\Enlighten;
 use Styde\Enlighten\ExampleCreator;
 use Styde\Enlighten\Exceptions\LaravelNotPresent;
