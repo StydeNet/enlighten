@@ -40,7 +40,7 @@ class FailedRequestTest extends TestCase
 
         try {
             $this->get('/server-error');
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             $example = Example::first();
 
             $this->assertNotNull($example);
@@ -90,7 +90,7 @@ class FailedRequestTest extends TestCase
                 str_replace('/', DIRECTORY_SEPARATOR, 'src/Illuminate/Foundation/helpers.php'),
                 $exception->trace[0]['file']
             );
-            $this->assertSame('Illuminate\Foundation\Application', $exception->trace[0]['class']);
+            $this->assertSame(\Illuminate\Foundation\Application::class, $exception->trace[0]['class']);
         });
     }
 

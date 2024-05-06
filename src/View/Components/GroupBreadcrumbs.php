@@ -27,7 +27,7 @@ class GroupBreadcrumbs extends Component
             route('enlighten.area.show', [
                 'run' => $this->exampleGroup->run_id,
                 'area' => $this->exampleGroup->area
-            ]) => ucwords($this->exampleGroup->area),
+            ]) => ucwords((string) $this->exampleGroup->area),
         ];
     }
 }

@@ -4,32 +4,8 @@ namespace Styde\Enlighten\HttpExamples;
 
 class ResponseInfo
 {
-    /**
-     * @var array
-     */
-    private $headers;
-
-    /**
-     * @var string
-     */
-    private $content;
-
-    /**
-     * @var string|null
-     */
-    private $template;
-
-    /**
-     * @var int
-     */
-    private $statusCode;
-
-    public function __construct(int $statusCode, array $headers, string $content, ?string $template)
+    public function __construct(private readonly int $statusCode, private readonly array $headers, private readonly string $content, private readonly ?string $template)
     {
-        $this->statusCode = $statusCode;
-        $this->headers = $headers;
-        $this->content = $content;
-        $this->template = $template;
     }
 
     public function getStatusCode(): int

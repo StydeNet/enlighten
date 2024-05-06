@@ -22,13 +22,11 @@ class RequestInspector
     public function getFilesInfo(array $files): array
     {
         return collect($files)
-            ->map(function (UploadedFile $file) {
-                return [
-                    'name' => $file->getClientOriginalName(),
-                    'type' => $file->getMimeType(),
-                    'size' => intdiv($file->getSize(), 1024),
-                ];
-            })
+            ->map(fn(UploadedFile $file) => [
+                'name' => $file->getClientOriginalName(),
+                'type' => $file->getMimeType(),
+                'size' => intdiv($file->getSize(), 1024),
+            ])
             ->all();
     }
 }

@@ -95,15 +95,11 @@ class DocumentationExporter
     {
         return $run->groups
             ->load('examples')
-            ->flatMap(function ($group) {
-                return $group->examples->map(function ($example) use ($group) {
-                    return [
-                        'section' => "{$group->area_title} / {$group->title}",
-                        'title' => $example->title,
-                        'url' => $this->getStaticUrl($example->url),
-                    ];
-                });
-            })
+            ->flatMap(fn($group) => $group->examples->map(fn($example) => [
+                'section' => "{$group->area_title} / {$group->title}",
+                'title' => $example->title,
+                'url' => $this->getStaticUrl($example->url),
+            ]))
             ->sortBy('title')
             ->values();
     }
@@ -133,14 +129,12 @@ class DocumentationExporter
         $contents = preg_replace('@fetch\((.*?)search.json\'\)@', "fetch('{$this->staticBaseUrl}/search.json')", $contents);
 
         // Assets paths
-        $contents = str_replace('/vendor/enlighten/', "{$this->staticBaseUrl}/assets/", $contents);
+        $contents = str_replace('/vendor/enlighten/', "{$this->staticBaseUrl}/assets/", (string) $contents);
 
         // Internal links
         return preg_replace_callback(
             '@'.$this->originalBaseUrl.'([^"]+)?@',
-            function ($matches) {
-                return $this->getStaticUrl($matches[0]);
-            },
+            fn($matches) => $this->getStaticUrl($matches[0]),
             $contents
         );
     }

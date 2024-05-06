@@ -17,13 +17,11 @@ class Area implements Arrayable
         $defaultView = config('enlighten.area_view');
 
         return collect(config('enlighten.areas'))
-            ->map(function ($data) use ($defaultView) {
-                return new static(
-                    $data['slug'],
-                    $data['name'] ?? null,
-                    $data['view'] ?? $defaultView,
-                );
-            });
+            ->map(fn($data) => new static(
+                $data['slug'],
+                $data['name'] ?? null,
+                $data['view'] ?? $defaultView,
+            ));
     }
 
     public static function get($areas): Collection

@@ -10,11 +10,6 @@ use Throwable;
 
 class ExceptionRecorder implements ExceptionHandler
 {
-    /**
-     * @var ExceptionHandler
-     */
-    private $originalHandler;
-
     private $forwardToOriginalHandler = true;
 
     /**
@@ -22,9 +17,8 @@ class ExceptionRecorder implements ExceptionHandler
      */
     private $except = [];
 
-    public function __construct(ExceptionHandler $originalHandler)
+    public function __construct(private readonly ExceptionHandler $originalHandler)
     {
-        $this->originalHandler = $originalHandler;
     }
 
     public function forwardToORiginal(): void

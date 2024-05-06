@@ -16,21 +16,21 @@ class WorksWithDataProvidersTest extends TestCase
     #[TestWith(['dataset2'])]
     function can_store_information_of_tests_with_data_provider_from_annotation($data): void
     {
-        $this->assertTrue(strpos($data, 'dataset') === 0);
+        $this->assertTrue(str_starts_with((string) $data, 'dataset'));
 
         $this->saveExampleStatus();
 
         $example = Example::first();
 
         $this->assertIsArray($example->provided_data);
-        $this->assertTrue(strpos($example->provided_data[0], 'dataset') === 0);
+        $this->assertTrue(str_starts_with((string) $example->provided_data[0], 'dataset'));
     }
 
     #[Test]
     #[DataProvider('dataProviderMethod')]
     function can_store_information_of_tests_with_data_providers_from_method($data): void
     {
-        $this->assertTrue(strpos($data, 'dataset') === 0);
+        $this->assertTrue(str_starts_with((string) $data, 'dataset'));
 
         $this->saveExampleStatus();
 
@@ -39,7 +39,7 @@ class WorksWithDataProvidersTest extends TestCase
         $this->assertStringStartsWith('Can store information of tests with data providers from method', $example->title);
         $this->assertTrue(in_array($example->data_name, ['0', '1'], true));
         $this->assertIsArray($example->provided_data);
-        $this->assertTrue(strpos($example->provided_data[0], 'dataset') === 0);
+        $this->assertTrue(str_starts_with((string) $example->provided_data[0], 'dataset'));
     }
 
     public static function dataProviderMethod(): array

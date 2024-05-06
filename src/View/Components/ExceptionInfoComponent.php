@@ -7,14 +7,8 @@ use Styde\Enlighten\Models\ExampleException;
 
 class ExceptionInfoComponent extends Component
 {
-    /**
-     * @var ExampleException
-     */
-    private $exception;
-
-    public function __construct(ExampleException $exception)
+    public function __construct(private readonly ExampleException $exception)
     {
-        $this->exception = $exception;
     }
 
     private function trace()
@@ -24,14 +18,12 @@ class ExceptionInfoComponent extends Component
         }
 
         return collect($this->exception->trace)
-            ->map(function ($data) {
-                return [
-                    'file' => $data['file'] ?? '',
-                    'line' => $data['line'] ?? '',
-                    'function' => $this->getFunctionSignature($data),
-                    'args' => $data['args'] ?? [],
-                ];
-            });
+            ->map(fn($data) => [
+                'file' => $data['file'] ?? '',
+                'line' => $data['line'] ?? '',
+                'function' => $this->getFunctionSignature($data),
+                'args' => $data['args'] ?? [],
+            ]);
     }
 
     private function getFunctionSignature(array $data): string

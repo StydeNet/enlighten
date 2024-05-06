@@ -76,15 +76,11 @@ class ShowAreaController
 
         $endpoints = $requests
             ->groupBy('signature')
-            ->map(function ($requests) {
-                return new Endpoint(
-                    $requests->first()->request_method,
-                    $requests->first()->route_or_path,
-                    $requests->unique(function ($response) {
-                        return $response->signature.$response->example->slug;
-                    })->sortBy('example.order')
-                );
-            })
+            ->map(fn($requests) => new Endpoint(
+                $requests->first()->request_method,
+                $requests->first()->route_or_path,
+                $requests->unique(fn($response) => $response->signature.$response->example->slug)->sortBy('example.order')
+            ))
             ->sortBy('method_index');
 
         return view('enlighten::area.endpoints', [
@@ -113,9 +109,7 @@ class ShowAreaController
         // because we use them to build the menu. So by filtering
         // at a collection level we're actually saving a query.
         return $run->groups
-            ->when($area->isNotDefault(), function ($collection) use ($area) {
-                return $collection->where('area', $area->slug);
-            })
+            ->when($area->isNotDefault(), fn($collection) => $collection->where('area', $area->slug))
             ->sortBy('order');
     }
 

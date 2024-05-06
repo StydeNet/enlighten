@@ -57,7 +57,7 @@ class ExampleGroup extends Model implements Statable, Wrappable
 
     public function getAreaTitleAttribute()
     {
-        return config('enlighten.areas.'.$this->area) ?: ucwords($this->area);
+        return config('enlighten.areas.'.$this->area) ?: ucwords((string) $this->area);
     }
 
     public function getPassingTestsCountAttribute()

@@ -7,24 +7,18 @@ use Throwable;
 
 class ExceptionInfo
 {
-    /**
-     * @var Throwable
-     */
-    private $exception;
-
     public static function make(Throwable $exception): ExceptionInfo
     {
         return new self($exception);
     }
 
-    public function __construct(Throwable $exception)
+    public function __construct(private readonly Throwable $exception)
     {
-        $this->exception = $exception;
     }
 
     public function getClassName(): string
     {
-        return get_class($this->exception);
+        return $this->exception::class;
     }
 
     public function getCode(): int

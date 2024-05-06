@@ -9,14 +9,8 @@ use Styde\Enlighten\Section;
 
 class RequestInfoComponent extends Component
 {
-    /**
-     * @var ExampleRequest
-     */
-    private $request;
-
-    public function __construct(ExampleRequest $request)
+    public function __construct(private ExampleRequest $request)
     {
-        $this->request = $request;
     }
 
     public function render()
@@ -70,8 +64,6 @@ class RequestInfoComponent extends Component
     private function normalizeRequestInput(): array
     {
         return collect($this->request['request_input'])
-            ->map(function ($value) {
-                return is_array($value) ? enlighten_json_prettify($value) : $value;
-            })->toArray();
+            ->map(fn($value) => is_array($value) ? enlighten_json_prettify($value) : $value)->toArray();
     }
 }

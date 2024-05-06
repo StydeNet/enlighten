@@ -45,7 +45,7 @@ trait EnlightenSetup
     private function makeExample(): void
     {
         $this->app->make(ExampleCreator::class)->makeExample(
-            get_class($this),
+            $this::class,
             $this->name(),
             $this->providedData(),
             $this->dataName()
@@ -90,7 +90,6 @@ trait EnlightenSetup
     /**
      * Only handle the given exceptions via the exception handler.
      *
-     * @param  array  $except
      * @return $this
      */
     protected function withoutExceptionHandling(array $except = []): self
@@ -145,8 +144,6 @@ trait EnlightenSetup
      */
     protected function followRedirects($response)
     {
-        return HttpExampleCreator::followingRedirect(function () use ($response) {
-            return parent::followRedirects($response);
-        });
+        return HttpExampleCreator::followingRedirect(fn() => parent::followRedirects($response));
     }
 }

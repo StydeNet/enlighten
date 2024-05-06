@@ -4,10 +4,10 @@ namespace Styde\Enlighten\Models;
 
 class Status
 {
-    const SUCCESS = 'success';
-    const WARNING = 'warning';
-    const FAILURE = 'failure';
-    const UNKNOWN = 'unkown';
+    public const SUCCESS = 'success';
+    public const WARNING = 'warning';
+    public const FAILURE = 'failure';
+    public const UNKNOWN = 'unkown';
 
     public static function fromTestStatus($testStatus)
     {

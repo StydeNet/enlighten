@@ -19,9 +19,7 @@ class RequestInputTableComponent extends Component
 
     private function normalizeInput(array $input): array
     {
-        return array_map(function ($value) {
-            return is_array($value) ? implode(': ', $value) :  $value;
-        }, $input);
+        return array_map(fn($value) => is_array($value) ? implode(': ', $value) :  $value, $input);
     }
 
     public function render()

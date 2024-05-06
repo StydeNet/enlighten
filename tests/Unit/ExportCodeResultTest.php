@@ -97,7 +97,7 @@ class ExportCodeResultTest extends TestCase
     function export_code_snippet_with_class(): void
     {
         $data = [
-            ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
+            ExampleSnippet::CLASS_NAME => \Tests\Integration\DemoClassForSnippetExample::class,
             ExampleSnippet::ATTRIBUTES => [
                 'message' => 'this data can be collected',
             ],
@@ -116,11 +116,11 @@ class ExportCodeResultTest extends TestCase
     function export_code_snippet_with_nested_classes(): void
     {
         $data = [
-            ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
+            ExampleSnippet::CLASS_NAME => \Tests\Integration\DemoClassForSnippetExample::class,
             ExampleSnippet::ATTRIBUTES => [
                 'message' => 'this data can be collected',
                 'nestedObject' => [
-                    ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoNestedClassForSnippetExample',
+                    ExampleSnippet::CLASS_NAME => \Tests\Integration\DemoNestedClassForSnippetExample::class,
                     ExampleSnippet::ATTRIBUTES => [
                         'nested' => 'nested attribute',
                     ]

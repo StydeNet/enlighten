@@ -22,7 +22,7 @@ class StringResponseTest extends TestCase
         $this->assertNotNull($run, 'A Run record was not created in the database.');
 
         tap($group = $run->groups()->first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\Integration\StringResponseTest', $exampleGroup->class_name);
+            $this->assertSame(\Tests\Integration\StringResponseTest::class, $exampleGroup->class_name);
         });
 
         tap($group->examples()->first(), function (Example $example) use ($group) {

@@ -37,9 +37,7 @@ class CodeResultTransformer
             return $result;
         }
 
-        return array_map(function ($item) use ($currentLevel) {
-            return $this->transformInArray($item, $currentLevel);
-        }, $result);
+        return array_map(fn($item) => $this->transformInArray($item, $currentLevel), $result);
     }
 
     private function exportFunction($result): array
@@ -56,21 +54,19 @@ class CodeResultTransformer
     private function exportParameters(array $parameters): array
     {
         return collect($parameters)
-            ->map(function (ReflectionParameter $parameter) {
-                return [
-                    ExampleSnippet::TYPE => $parameter->hasType() ? $parameter->getType()->getName() : null,
-                    ExampleSnippet::PARAMETER => $parameter->getName(),
-                    ExampleSnippet::OPTIONAL => $parameter->isOptional(),
-                    ExampleSnippet::DEFAULT => $parameter->isOptional() ? $parameter->getDefaultValue() : null,
-                ];
-            })
+            ->map(fn(ReflectionParameter $parameter) => [
+                ExampleSnippet::TYPE => $parameter->hasType() ? $parameter->getType()->getName() : null,
+                ExampleSnippet::PARAMETER => $parameter->getName(),
+                ExampleSnippet::OPTIONAL => $parameter->isOptional(),
+                ExampleSnippet::DEFAULT => $parameter->isOptional() ? $parameter->getDefaultValue() : null,
+            ])
             ->all();
     }
 
     private function exportObject(object $result, int $currentLevel): array
     {
         return [
-            ExampleSnippet::CLASS_NAME => get_class($result),
+            ExampleSnippet::CLASS_NAME => $result::class,
             ExampleSnippet::ATTRIBUTES => $this->exportAttributes($result, $currentLevel),
         ];
     }

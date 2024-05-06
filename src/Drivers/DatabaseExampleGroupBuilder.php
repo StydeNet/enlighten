@@ -8,18 +8,12 @@ use Styde\Enlighten\Models\ExampleGroup;
 class DatabaseExampleGroupBuilder extends BaseExampleGroupBuilder
 {
     /**
-     * @var DatabaseRunBuilder
-     */
-    private $runBuilder;
-
-    /**
      * @var ExampleGroup|null
      */
     protected $exampleGroup = null;
 
-    public function __construct(DatabaseRunBuilder $runBuilder)
+    public function __construct(private readonly DatabaseRunBuilder $runBuilder)
     {
-        $this->runBuilder = $runBuilder;
     }
 
     public function save(): ExampleGroup

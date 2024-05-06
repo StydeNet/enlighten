@@ -15,11 +15,6 @@ use Styde\Enlighten\Models\Status;
 class DatabaseExampleBuilder extends BaseExampleBuilder
 {
     /**
-     * @var DatabaseExampleGroupBuilder
-     */
-    private $exampleGroupBuilder;
-
-    /**
      * @var Example|null
      */
     private $example = null;
@@ -34,10 +29,9 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
      */
     private $currentSnippet = null;
 
-    public function __construct(DatabaseExampleGroupBuilder $exampleGroupBuilder)
+    public function __construct(private readonly DatabaseExampleGroupBuilder $exampleGroupBuilder)
     {
         $this->currentRequests = new Collection;
-        $this->exampleGroupBuilder = $exampleGroupBuilder;
     }
 
     public function addRequest(RequestInfo $request): void

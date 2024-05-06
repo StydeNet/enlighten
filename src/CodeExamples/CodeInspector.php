@@ -18,12 +18,8 @@ class CodeInspector
                 $reflection->getStartLine(),
                 $reflection->getEndLine() - $reflection->getStartLine() - 1
             )
-            ->pipe(function ($collection) {
-                return $this->removeExternalIndentation($collection);
-            })
-            ->pipe(function ($collection) {
-                return $this->removeReturnKeyword($collection);
-            })
+            ->pipe(fn($collection) => $this->removeExternalIndentation($collection))
+            ->pipe(fn($collection) => $this->removeReturnKeyword($collection))
             ->implode("\n");
     }
 
@@ -34,9 +30,7 @@ class CodeInspector
     {
         $leadingSpacesInFirstLine = $this->numberOfLeadingSpaces($lines->first());
 
-        return $lines->transform(function ($line) use ($leadingSpacesInFirstLine) {
-            return preg_replace("/^( {{$leadingSpacesInFirstLine}})/", '', $line);
-        });
+        return $lines->transform(fn($line) => preg_replace("/^( {{$leadingSpacesInFirstLine}})/", '', (string) $line));
     }
 
     private function numberOfLeadingSpaces(string $str)
@@ -51,12 +45,12 @@ class CodeInspector
      */
     private function removeReturnKeyword(Collection $lines)
     {
-        if (strpos($lines->first(), 'return ') === 0) {
-            return $lines->prepend(substr($lines->shift(), 7));
+        if (str_starts_with((string) $lines->first(), 'return ')) {
+            return $lines->prepend(substr((string) $lines->shift(), 7));
         }
 
-        if (strpos($lines->last(), 'return ') === 0) {
-            return $lines->add(substr($lines->pop(), 7));
+        if (str_starts_with((string) $lines->last(), 'return ')) {
+            return $lines->add(substr((string) $lines->pop(), 7));
         }
 
         return $lines;

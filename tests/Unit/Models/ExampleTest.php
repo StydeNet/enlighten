@@ -19,7 +19,7 @@ class ExampleTest extends TestCase
             'class_name' => 'Tests\Feature\Admin\CreateUsersTest',
         ]);
 
-        $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php&line=3@', $example->file_link));
+        $this->assertSame(1, preg_match('@phpstorm://open\?file=(.*?)Tests%2FFeature%2FAdmin%2FCreateUsersTest.php&line=3@', (string) $example->file_link));
     }
 
     #[Test]

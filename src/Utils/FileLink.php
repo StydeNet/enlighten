@@ -24,6 +24,6 @@ class FileLink
             );
         }
 
-        return str_replace(['{path}', '{line}'], [urlencode(base_path($path)), $line], static::$template);
+        return str_replace(['{path}', '{line}'], [urlencode(base_path($path)), $line], (string) static::$template);
     }
 }

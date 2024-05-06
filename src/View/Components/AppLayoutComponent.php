@@ -27,14 +27,12 @@ class AppLayoutComponent extends Component
 
     public function tabs()
     {
-        return $this->activeRun->areas->map(function ($area) {
-            return [
-                'slug' => $area->slug,
-                'title' => $area->name,
-                'active' => $area->slug === request()->route('area'),
-                'panels' => $this->panels($area)
-            ];
-        });
+        return $this->activeRun->areas->map(fn($area) => [
+            'slug' => $area->slug,
+            'title' => $area->name,
+            'active' => $area->slug === request()->route('area'),
+            'panels' => $this->panels($area)
+        ]);
     }
 
     public function panels(Area $area)
@@ -42,8 +40,6 @@ class AppLayoutComponent extends Component
         return Module::all()
             ->wrapGroups(
                 $this->activeRun->groups->where('area', $area->slug)
-            )->filter(function ($panel) {
-                return $panel->groups->isNotEmpty();
-            });
+            )->filter(fn($panel) => $panel->groups->isNotEmpty());
     }
 }

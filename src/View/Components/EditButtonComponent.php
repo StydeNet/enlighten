@@ -6,14 +6,8 @@ use Illuminate\View\Component;
 
 class EditButtonComponent extends Component
 {
-    /**
-     * @var string|null
-     */
-    private $file;
-
-    public function __construct(?string $file = null)
+    public function __construct(private readonly ?string $file = null)
     {
-        $this->file = $file;
     }
 
     public function shouldRender()

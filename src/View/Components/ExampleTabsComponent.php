@@ -47,9 +47,7 @@ class ExampleTabsComponent extends Component
 
     private function getRequestTabs()
     {
-        return $this->example->requests->map(function ($request, $key) {
-            return $this->newRequestTab($request, $key + 1);
-        });
+        return $this->example->requests->map(fn($request, $key) => $this->newRequestTab($request, $key + 1));
     }
 
     private function newRequestTab(ExampleRequest $request, int $requestNumber): object

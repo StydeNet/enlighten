@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Tests\Integration\App\Http\Controllers\UserController;
 
-Route::get('/user/{user}', [UserController::class, 'show'])
+Route::get('/user/{user}', (new UserController())->show(...))
     ->name('user.show')
     ->where('user', '\d+');
 
-Route::post('user', [UserController::class, 'store'])
+Route::post('user', (new UserController())->store(...))
     ->name('user.store');
 
 Route::get('request/{num}', function ($num) {
@@ -38,4 +38,4 @@ Route::get('parameters/{global}/{local}/{optional?}', function () {
     return 'Test route parameters';
 });
 
-Route::post('upload-photo', [UserController::class, 'uploadPhoto']);
+Route::post('upload-photo', (new UserController())->uploadPhoto(...));

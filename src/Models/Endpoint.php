@@ -54,11 +54,9 @@ class Endpoint implements Wrappable, Statable
     {
         return $this->requests
             ->groupBy('example.status')
-            ->map(function ($endpoints, $status) {
-                return [
-                    'status' => $status,
-                    'count' => count($endpoints),
-                ];
-            });
+            ->map(fn($endpoints, $status) => [
+                'status' => $status,
+                'count' => count($endpoints),
+            ]);
     }
 }

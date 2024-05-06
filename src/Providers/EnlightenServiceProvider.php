@@ -72,28 +72,21 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerSettings(): void
     {
-        $this->app->singleton(Settings::class, function () {
-            return new Settings;
-        });
+        $this->app->singleton(Settings::class, fn() => new Settings);
     }
 
     private function registerRunBuilder(): void
     {
-        $this->app->singleton(RunBuilder::class, function ($app) {
-            return $this->getDriver($app);
-        });
+        $this->app->singleton(RunBuilder::class, fn($app) => $this->getDriver($app));
     }
 
     private function getDriver($app)
     {
-        switch ($app['config']->get('enlighten.driver', 'database')) {
-            case 'database':
-                return new DatabaseRunBuilder;
-            case 'api':
-                return new ApiRunBuilder;
-            default:
-                throw new InvalidDriverException;
-        }
+        return match ($app['config']->get('enlighten.driver', 'database')) {
+            'database' => new DatabaseRunBuilder,
+            'api' => new ApiRunBuilder,
+            default => throw new InvalidDriverException,
+        };
     }
 
     private function registerExampleCreator(): void
@@ -122,15 +115,13 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerHttpExampleCreator(): void
     {
-        $this->app->singleton(HttpExampleCreator::class, function ($app) {
-            return new HttpExampleCreator(
-                $app[ExampleCreator::class],
-                new RequestInspector,
-                new RouteInspector,
-                new ResponseInspector,
-                new SessionInspector($app['session.store']),
-            );
-        });
+        $this->app->singleton(HttpExampleCreator::class, fn($app) => new HttpExampleCreator(
+            $app[ExampleCreator::class],
+            new RequestInspector,
+            new RouteInspector,
+            new ResponseInspector,
+            new SessionInspector($app['session.store']),
+        ));
     }
 
     private function registerCodeResultFormat(): void

@@ -23,7 +23,7 @@ class ChecksLaravelPresenceTest extends TestCase
         try {
             enlighten(function () {
             });
-        } catch (LaravelNotPresent $exception) {
+        } catch (LaravelNotPresent) {
             $this->passed();
             return;
         }
@@ -37,7 +37,7 @@ class ChecksLaravelPresenceTest extends TestCase
         try {
             Enlighten::test(function () {
             });
-        } catch (LaravelNotPresent $exception) {
+        } catch (LaravelNotPresent) {
             $this->passed();
             return;
         }

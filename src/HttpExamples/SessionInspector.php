@@ -6,14 +6,8 @@ use Illuminate\Session\Store as SessionStore;
 
 class SessionInspector
 {
-    /**
-     * @var SessionStore
-     */
-    private $session;
-
-    public function __construct(SessionStore $session)
+    public function __construct(private readonly SessionStore $session)
     {
-        $this->session = $session;
     }
 
     public function getData(): array

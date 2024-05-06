@@ -15,43 +15,8 @@ class HttpExampleCreator
      */
     private static $followsRedirect = false;
 
-    /**
-     * @var ExampleCreator
-     */
-    private $exampleCreator;
-
-    /**
-     * @var RequestInspector
-     */
-    private $requestInspector;
-
-    /**
-     * @var ResponseInspector
-     */
-    private $responseInspector;
-
-    /**
-     * @var SessionInspector
-     */
-    private $sessionInspector;
-
-    /**
-     * @var RouteInspector
-     */
-    private $routeInspector;
-
-    public function __construct(
-        ExampleCreator $exampleCreator,
-        RequestInspector $requestInspector,
-        RouteInspector $routeInspector,
-        ResponseInspector $responseInspector,
-        SessionInspector $sessionInspector
-    ) {
-        $this->exampleCreator = $exampleCreator;
-        $this->requestInspector = $requestInspector;
-        $this->routeInspector = $routeInspector;
-        $this->responseInspector = $responseInspector;
-        $this->sessionInspector = $sessionInspector;
+    public function __construct(private readonly ExampleCreator $exampleCreator, private readonly RequestInspector $requestInspector, private readonly RouteInspector $routeInspector, private readonly ResponseInspector $responseInspector, private readonly SessionInspector $sessionInspector)
+    {
     }
 
     public static function followingRedirect(Closure $callback)

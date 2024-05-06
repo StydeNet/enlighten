@@ -27,25 +27,15 @@ class CodeResultExporter
         if (isset($value[ExampleSnippet::CLASS_NAME])) {
             return $this->exportObject($value);
         }
-
-        switch (gettype($value)) {
-            case 'array':
-                return $this->exportArray($value);
-            case 'integer':
-                return $this->format->integer($value);
-            case 'double':
-            case 'float':
-                return $this->format->float($value);
-            case 'string':
-                return $this->format->string($value);
-            case 'boolean':
-                return $this->format->bool($value ? 'true' : 'false');
-            case 'NULL':
-            case 'null':
-                return $this->format->null();
-        }
-
-        return '';
+        return match (gettype($value)) {
+            'array' => $this->exportArray($value),
+            'integer' => $this->format->integer($value),
+            'double', 'float' => $this->format->float($value),
+            'string' => $this->format->string($value),
+            'boolean' => $this->format->bool($value ? 'true' : 'false'),
+            'NULL', 'null' => $this->format->null(),
+            default => '',
+        };
     }
 
     private function exportArray($items): string

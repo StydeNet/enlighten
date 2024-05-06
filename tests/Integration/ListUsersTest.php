@@ -52,7 +52,7 @@ class ListUsersTest extends TestCase
         $this->assertNotNull($run, 'A Run record was not created in the database.');
 
         tap($group = $run->groups()->first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\Integration\ListUsersTest', $exampleGroup->class_name);
+            $this->assertSame(\Tests\Integration\ListUsersTest::class, $exampleGroup->class_name);
             $this->assertSame('List Users', $exampleGroup->title);
             $this->assertSame('integration-list-users', $exampleGroup->slug);
             $this->assertNull($exampleGroup->description);

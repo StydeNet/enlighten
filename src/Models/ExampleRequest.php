@@ -106,16 +106,14 @@ class ExampleRequest extends Model implements Statusable
             'text/plain' => 'TEXT'
         ];
 
-        return collect($contentTypes)->first(function ($label, $type) {
-            return Str::contains($this->response_headers['content-type'][0], $type);
-        });
+        return collect($contentTypes)->first(fn($label, $type) => Str::contains($this->response_headers['content-type'][0], $type));
     }
 
     public function getResponseBodyAttribute()
     {
         if ($this->response_type === 'JSON') {
             return $this->replaceValues(
-                json_decode($this->attributes['response_body'], JSON_OBJECT_AS_ARRAY),
+                json_decode((string) $this->attributes['response_body'], JSON_OBJECT_AS_ARRAY),
                 config('enlighten.response.body')
             );
         }
@@ -129,7 +127,7 @@ class ExampleRequest extends Model implements Statusable
         // the meta http-equiv HTML tag to avoid triggering any HTML
         // redirection, when displaying the previews to the users.
         if ($this->has_redirection_status) {
-            return preg_replace('@<meta http-equiv="refresh" .*?>@', '<!--$0-->', $this->response_body);
+            return preg_replace('@<meta http-equiv="refresh" .*?>@', '<!--$0-->', (string) $this->response_body);
         }
 
         return $this->response_body;

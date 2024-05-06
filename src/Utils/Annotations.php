@@ -32,16 +32,10 @@ class Annotations
 
     protected function fromDocComment($docComment)
     {
-        return Collection::make(explode(PHP_EOL, trim($docComment, '/*')))
-            ->map(function ($line) {
-                return ltrim(rtrim($line, ' .'), '* ');
-            })
-            ->pipe(function ($collection) {
-                return Collection::make(static::chunkByAnnotation($collection));
-            })
-            ->map(function ($value, $name) {
-                return static::applyCast($name, trim($value));
-            });
+        return Collection::make(explode(PHP_EOL, trim((string) $docComment, '/*')))
+            ->map(fn($line) => ltrim(rtrim((string) $line, ' .'), '* '))
+            ->pipe(fn($collection) => Collection::make(static::chunkByAnnotation($collection)))
+            ->map(fn($value, $name) => static::applyCast($name, trim((string) $value)));
     }
 
     protected function chunkByAnnotation(Collection $lines)
@@ -49,7 +43,7 @@ class Annotations
         $result = [];
 
         foreach ($lines as $line) {
-            if (preg_match("#^@(\w+)(.*?)?$#", $line, $matches)) {
+            if (preg_match("#^@(\w+)(.*?)?$#", (string) $line, $matches)) {
                 $currentAnnotation = $matches[1];
                 $result[$currentAnnotation] = $matches[2] ?? '';
                 continue;

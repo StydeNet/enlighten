@@ -4,13 +4,13 @@ namespace Styde\Enlighten;
 
 class Section
 {
-    const QUERIES = 'queries';
-    const HTML = 'html';
-    const BLADE = 'blade';
-    const ROUTE_PARAMETERS = 'route_parameters';
-    const REQUEST_INPUT = 'request_input';
-    const REQUEST_HEADERS = 'request_headers';
-    const RESPONSE_HEADERS = 'response_headers';
-    const SESSION = 'session';
-    const EXCEPTION = 'exception';
+    public const QUERIES = 'queries';
+    public const HTML = 'html';
+    public const BLADE = 'blade';
+    public const ROUTE_PARAMETERS = 'route_parameters';
+    public const REQUEST_INPUT = 'request_input';
+    public const REQUEST_HEADERS = 'request_headers';
+    public const RESPONSE_HEADERS = 'response_headers';
+    public const SESSION = 'session';
+    public const EXCEPTION = 'exception';
 }

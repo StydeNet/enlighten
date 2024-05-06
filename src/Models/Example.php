@@ -74,7 +74,7 @@ class Example extends Model implements ExampleContract, Statusable
 
     public function getFileLinkAttribute()
     {
-        return FileLink::get(str_replace('\\', '/', $this->group->class_name).'.php', $this->line);
+        return FileLink::get(str_replace('\\', '/', (string) $this->group->class_name).'.php', $this->line);
     }
 
     public function getIsHttpAttribute()

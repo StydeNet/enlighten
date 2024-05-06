@@ -129,7 +129,7 @@ class CaptureCodeExampleTest extends TestCase
     {
         $this->expectException(BadMethodCallException::class);
 
-        enlighten(function () {
+        enlighten(function (): never {
             throw new BadMethodCallException('Enlighten can record exceptions in code snippets');
         });
 
@@ -161,11 +161,11 @@ class CaptureCodeExampleTest extends TestCase
             $this->assertSame('new DemoClassForSnippetExample;', $snippet->code);
 
             $this->assertSame([
-                ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
+                ExampleSnippet::CLASS_NAME => \Tests\Integration\DemoClassForSnippetExample::class,
                 ExampleSnippet::ATTRIBUTES => [
                     'message' => 'this data can be collected',
                     'nestedObject' => [
-                        ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoNestedClassForSnippetExample',
+                        ExampleSnippet::CLASS_NAME => \Tests\Integration\DemoNestedClassForSnippetExample::class,
                         ExampleSnippet::ATTRIBUTES => [
                             'nested' => 'nested attribute',
                         ]
@@ -190,11 +190,11 @@ class CaptureCodeExampleTest extends TestCase
             $this->assertSame('new DemoClassForSnippetExample;', $snippet->code);
 
             $this->assertSame([
-                ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
+                ExampleSnippet::CLASS_NAME => \Tests\Integration\DemoClassForSnippetExample::class,
                 ExampleSnippet::ATTRIBUTES => [
                     'message' => 'this data can be collected',
                     'nestedObject' => [
-                        ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoNestedClassForSnippetExample',
+                        ExampleSnippet::CLASS_NAME => \Tests\Integration\DemoNestedClassForSnippetExample::class,
                         ExampleSnippet::ATTRIBUTES => null,
                     ]
                 ],

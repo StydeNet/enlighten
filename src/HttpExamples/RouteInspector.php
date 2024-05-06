@@ -23,19 +23,15 @@ class RouteInspector
     protected function getParameters(Route $route): array
     {
         return collect($route->parameterNames())
-            ->mapWithKeys(function ($parameter) {
-                return [$parameter => '*'];
-            })
+            ->mapWithKeys(fn($parameter) => [$parameter => '*'])
             ->merge(
                 array_intersect_key($route->wheres, $route->originalParameters())
             )
-            ->map(function ($pattern, $name) use ($route) {
-                return [
-                    'name' => $name,
-                    'pattern' => $pattern,
-                    'optional' => $this->isParameterOptional($route, $name),
-                ];
-            })
+            ->map(fn($pattern, $name) => [
+                'name' => $name,
+                'pattern' => $pattern,
+                'optional' => $this->isParameterOptional($route, $name),
+            ])
             ->values()
             ->all();
     }

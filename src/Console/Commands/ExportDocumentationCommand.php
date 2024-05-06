@@ -61,6 +61,6 @@ class ExportDocumentationCommand extends Command
             return $url;
         }
 
-        return '/'.ltrim($url, '/');
+        return '/'.ltrim((string) $url, '/');
     }
 }

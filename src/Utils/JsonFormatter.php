@@ -10,7 +10,7 @@ class JsonFormatter
     {
         try {
             return json_encode($input, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             return '';
         }
     }

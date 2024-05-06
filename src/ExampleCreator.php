@@ -23,7 +23,7 @@ class ExampleCreator
 
     protected ?ExampleBuilder $currentExampleBuilder = null;
 
-    protected ?Throwable $currentException;
+    protected ?Throwable $currentException = null;
 
     public static function clearExampleGroupBuilder(): void
     {
@@ -31,10 +31,10 @@ class ExampleCreator
     }
 
     public function __construct(
-        private RunBuilder $runBuilder,
+        private readonly RunBuilder $runBuilder,
         protected Annotations $annotations,
         protected Settings $settings,
-        private ExampleProfile $profile,
+        private readonly ExampleProfile $profile,
     ) {
     }
 

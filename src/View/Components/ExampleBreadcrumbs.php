@@ -25,7 +25,7 @@ class ExampleBreadcrumbs extends Component
     private function getBreadcrumbSegments(): array
     {
         return [
-            route('enlighten.area.show', ['run' => $this->example->group->run_id, 'area' => $this->example->group->area]) => ucwords($this->example->group->area),
+            route('enlighten.area.show', ['run' => $this->example->group->run_id, 'area' => $this->example->group->area]) => ucwords((string) $this->example->group->area),
             $this->example->group->url => $this->example->group->title
         ];
     }

@@ -8,14 +8,8 @@ use Styde\Enlighten\Enlighten;
 
 class HttpExampleCreatorMiddleware
 {
-    /**
-     * @var HttpExampleCreator
-     */
-    private $httpExampleCreator;
-
-    public function __construct(HttpExampleCreator $httpExampleCreator)
+    public function __construct(private readonly HttpExampleCreator $httpExampleCreator)
     {
-        $this->httpExampleCreator = $httpExampleCreator;
     }
 
     public function handle($request, Closure $next)

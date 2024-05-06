@@ -39,7 +39,7 @@ class GetRequestTest extends TestCase
             ->assertSee('user@example.test');
 
         tap(ExampleGroup::first(), function (ExampleGroup $exampleGroup) {
-            $this->assertSame('Tests\Integration\GetRequestTest', $exampleGroup->class_name);
+            $this->assertSame(\Tests\Integration\GetRequestTest::class, $exampleGroup->class_name);
             $this->assertSame('integration-get-request', $exampleGroup->slug);
             $this->assertSame("Shows the user's information", $exampleGroup->title);
             $this->assertSame('This endpoint allows you to get all the info from a specific user', $exampleGroup->description);

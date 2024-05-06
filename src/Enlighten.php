@@ -41,7 +41,7 @@ class Enlighten
 
         try {
             return app(CodeExampleCreator::class)->createSnippet($callback, $key);
-        } catch (BindingResolutionException $exception) {
+        } catch (BindingResolutionException) {
             throw new LaravelNotPresent;
         }
     }

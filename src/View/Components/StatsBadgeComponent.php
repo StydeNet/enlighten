@@ -7,14 +7,8 @@ use Styde\Enlighten\Models\Statable;
 
 class StatsBadgeComponent extends Component
 {
-    /**
-     * @var Statable
-     */
-    private $model;
-
-    public function __construct(Statable $model)
+    public function __construct(private readonly Statable $model)
     {
-        $this->model = $model;
     }
 
     public function render()

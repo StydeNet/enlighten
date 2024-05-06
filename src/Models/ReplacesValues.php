@@ -9,7 +9,6 @@ trait ReplacesValues
      * overwriting the given $values with the $overwrite values.
      *
      * @param array|string|null $originalValues
-     * @param array $config
      * @return mixed
      */
     public function replaceValues($originalValues, array $config)
