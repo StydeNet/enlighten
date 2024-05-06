@@ -134,18 +134,7 @@ trait EnlightenSetup
 
     private function getStatusAsText(): string
     {
-        return match ($this->status()) {
-            TestStatus::success() => 'passed',
-            TestStatus::skipped() => 'skipped',
-            TestStatus::incomplete() => 'incomplete',
-            TestStatus::notice() => 'notice',
-            TestStatus::deprecation() => 'deprecation',
-            TestStatus::risky() => 'risky',
-            TestStatus::warning() => 'warning',
-            TestStatus::failure() => 'failure',
-            TestStatus::error() => 'error',
-            default => 'unknown',
-        };
+        return $this->status()->asString();
     }
 
     /**

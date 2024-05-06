@@ -11,7 +11,7 @@ class Status
 
     public static function fromTestStatus($testStatus)
     {
-        if ($testStatus == 'passed') {
+        if (in_array($testStatus, ['passed', 'success'])) {
             return Status::SUCCESS;
         }
 
