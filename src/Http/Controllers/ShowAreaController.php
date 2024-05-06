@@ -76,10 +76,10 @@ class ShowAreaController
 
         $endpoints = $requests
             ->groupBy('signature')
-            ->map(fn($requests) => new Endpoint(
+            ->map(fn ($requests) => new Endpoint(
                 $requests->first()->request_method,
                 $requests->first()->route_or_path,
-                $requests->unique(fn($response) => $response->signature.$response->example->slug)->sortBy('example.order')
+                $requests->unique(fn ($response) => $response->signature.$response->example->slug)->sortBy('example.order')
             ))
             ->sortBy('method_index');
 
@@ -109,7 +109,7 @@ class ShowAreaController
         // because we use them to build the menu. So by filtering
         // at a collection level we're actually saving a query.
         return $run->groups
-            ->when($area->isNotDefault(), fn($collection) => $collection->where('area', $area->slug))
+            ->when($area->isNotDefault(), fn ($collection) => $collection->where('area', $area->slug))
             ->sortBy('order');
     }
 

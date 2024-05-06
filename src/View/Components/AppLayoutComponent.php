@@ -27,7 +27,7 @@ class AppLayoutComponent extends Component
 
     public function tabs()
     {
-        return $this->activeRun->areas->map(fn($area) => [
+        return $this->activeRun->areas->map(fn ($area) => [
             'slug' => $area->slug,
             'title' => $area->name,
             'active' => $area->slug === request()->route('area'),
@@ -40,6 +40,6 @@ class AppLayoutComponent extends Component
         return Module::all()
             ->wrapGroups(
                 $this->activeRun->groups->where('area', $area->slug)
-            )->filter(fn($panel) => $panel->groups->isNotEmpty());
+            )->filter(fn ($panel) => $panel->groups->isNotEmpty());
     }
 }

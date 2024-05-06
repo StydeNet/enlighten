@@ -106,7 +106,7 @@ class ExampleRequest extends Model implements Statusable
             'text/plain' => 'TEXT'
         ];
 
-        return collect($contentTypes)->first(fn($label, $type) => Str::contains($this->response_headers['content-type'][0], $type));
+        return collect($contentTypes)->first(fn ($label, $type) => Str::contains($this->response_headers['content-type'][0], $type));
     }
 
     public function getResponseBodyAttribute()

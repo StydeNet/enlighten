@@ -18,7 +18,7 @@ class ExceptionInfoComponent extends Component
         }
 
         return collect($this->exception->trace)
-            ->map(fn($data) => [
+            ->map(fn ($data) => [
                 'file' => $data['file'] ?? '',
                 'line' => $data['line'] ?? '',
                 'function' => $this->getFunctionSignature($data),

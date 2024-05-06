@@ -64,6 +64,6 @@ class RequestInfoComponent extends Component
     private function normalizeRequestInput(): array
     {
         return collect($this->request['request_input'])
-            ->map(fn($value) => is_array($value) ? enlighten_json_prettify($value) : $value)->toArray();
+            ->map(fn ($value) => is_array($value) ? enlighten_json_prettify($value) : $value)->toArray();
     }
 }

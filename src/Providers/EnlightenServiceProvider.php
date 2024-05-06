@@ -72,12 +72,12 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerSettings(): void
     {
-        $this->app->singleton(Settings::class, fn() => new Settings);
+        $this->app->singleton(Settings::class, fn () => new Settings);
     }
 
     private function registerRunBuilder(): void
     {
-        $this->app->singleton(RunBuilder::class, fn($app) => $this->getDriver($app));
+        $this->app->singleton(RunBuilder::class, fn ($app) => $this->getDriver($app));
     }
 
     private function getDriver($app)
@@ -115,7 +115,7 @@ class EnlightenServiceProvider extends ServiceProvider
 
     private function registerHttpExampleCreator(): void
     {
-        $this->app->singleton(HttpExampleCreator::class, fn($app) => new HttpExampleCreator(
+        $this->app->singleton(HttpExampleCreator::class, fn ($app) => new HttpExampleCreator(
             $app[ExampleCreator::class],
             new RequestInspector,
             new RouteInspector,

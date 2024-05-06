@@ -33,9 +33,9 @@ class Annotations
     protected function fromDocComment($docComment)
     {
         return Collection::make(explode(PHP_EOL, trim((string) $docComment, '/*')))
-            ->map(fn($line) => ltrim(rtrim((string) $line, ' .'), '* '))
-            ->pipe(fn($collection) => Collection::make(static::chunkByAnnotation($collection)))
-            ->map(fn($value, $name) => static::applyCast($name, trim((string) $value)));
+            ->map(fn ($line) => ltrim(rtrim((string) $line, ' .'), '* '))
+            ->pipe(fn ($collection) => Collection::make(static::chunkByAnnotation($collection)))
+            ->map(fn ($value, $name) => static::applyCast($name, trim((string) $value)));
     }
 
     protected function chunkByAnnotation(Collection $lines)

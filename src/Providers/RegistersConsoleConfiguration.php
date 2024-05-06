@@ -16,9 +16,9 @@ trait RegistersConsoleConfiguration
 {
     private function registerCommands(): void
     {
-        $this->app->singleton(MigrateCommand::class, fn($app) => new MigrateCommand($app['migrator'], $app['events']));
+        $this->app->singleton(MigrateCommand::class, fn ($app) => new MigrateCommand($app['migrator'], $app['events']));
 
-        $this->app->singleton(ExportDocumentationCommand::class, fn($app) => new ExportDocumentationCommand(
+        $this->app->singleton(ExportDocumentationCommand::class, fn ($app) => new ExportDocumentationCommand(
             new DocumentationExporter(
                 $app[Filesystem::class],
                 new ContentRequest($app[HttpKernel::class]),

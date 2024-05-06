@@ -13,7 +13,7 @@ class Module implements Statusable, Statable
     public static function all()
     {
         return ModuleCollection::make(config('enlighten.modules'))
-            ->map(fn($item) => new static($item['name'], $item['classes'] ?? [], $item['routes'] ?? []));
+            ->map(fn ($item) => new static($item['name'], $item['classes'] ?? [], $item['routes'] ?? []));
     }
 
     public function __construct(string $name, array $classes = [], array $routes = [])

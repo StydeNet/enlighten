@@ -37,7 +37,7 @@ class CodeResultTransformer
             return $result;
         }
 
-        return array_map(fn($item) => $this->transformInArray($item, $currentLevel), $result);
+        return array_map(fn ($item) => $this->transformInArray($item, $currentLevel), $result);
     }
 
     private function exportFunction($result): array
@@ -54,7 +54,7 @@ class CodeResultTransformer
     private function exportParameters(array $parameters): array
     {
         return collect($parameters)
-            ->map(fn(ReflectionParameter $parameter) => [
+            ->map(fn (ReflectionParameter $parameter) => [
                 ExampleSnippet::TYPE => $parameter->hasType() ? $parameter->getType()->getName() : null,
                 ExampleSnippet::PARAMETER => $parameter->getName(),
                 ExampleSnippet::OPTIONAL => $parameter->isOptional(),

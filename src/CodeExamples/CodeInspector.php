@@ -18,8 +18,8 @@ class CodeInspector
                 $reflection->getStartLine(),
                 $reflection->getEndLine() - $reflection->getStartLine() - 1
             )
-            ->pipe(fn($collection) => $this->removeExternalIndentation($collection))
-            ->pipe(fn($collection) => $this->removeReturnKeyword($collection))
+            ->pipe(fn ($collection) => $this->removeExternalIndentation($collection))
+            ->pipe(fn ($collection) => $this->removeReturnKeyword($collection))
             ->implode("\n");
     }
 
@@ -30,7 +30,7 @@ class CodeInspector
     {
         $leadingSpacesInFirstLine = $this->numberOfLeadingSpaces($lines->first());
 
-        return $lines->transform(fn($line) => preg_replace("/^( {{$leadingSpacesInFirstLine}})/", '', (string) $line));
+        return $lines->transform(fn ($line) => preg_replace("/^( {{$leadingSpacesInFirstLine}})/", '', (string) $line));
     }
 
     private function numberOfLeadingSpaces(string $str)

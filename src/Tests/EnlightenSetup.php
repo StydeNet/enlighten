@@ -144,6 +144,6 @@ trait EnlightenSetup
      */
     protected function followRedirects($response)
     {
-        return HttpExampleCreator::followingRedirect(fn() => parent::followRedirects($response));
+        return HttpExampleCreator::followingRedirect(fn () => parent::followRedirects($response));
     }
 }

@@ -26,7 +26,7 @@ class KeyValueComponent extends Component
 
     private function normalizeItems(array $items): array
     {
-        return array_map(fn($value) => is_array($value) ? implode('<br/>', $value) : $value, $items);
+        return array_map(fn ($value) => is_array($value) ? implode('<br/>', $value) : $value, $items);
     }
 
     public function render()

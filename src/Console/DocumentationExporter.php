@@ -95,7 +95,7 @@ class DocumentationExporter
     {
         return $run->groups
             ->load('examples')
-            ->flatMap(fn($group) => $group->examples->map(fn($example) => [
+            ->flatMap(fn ($group) => $group->examples->map(fn ($example) => [
                 'section' => "{$group->area_title} / {$group->title}",
                 'title' => $example->title,
                 'url' => $this->getStaticUrl($example->url),
@@ -134,7 +134,7 @@ class DocumentationExporter
         // Internal links
         return preg_replace_callback(
             '@'.$this->originalBaseUrl.'([^"]+)?@',
-            fn($matches) => $this->getStaticUrl($matches[0]),
+            fn ($matches) => $this->getStaticUrl($matches[0]),
             $contents
         );
     }
