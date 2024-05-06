@@ -10,7 +10,7 @@ use Tests\TestCase;
 class GeneratesTitleFromClassNameTest extends TestCase
 {
     #[Test]
-    function generates_title_from_class_name()
+    function generates_title_from_class_name(): void
     {
         $this->assertSame('List Users', Settings::generateTitle('class', 'ListUsersTest'));
 
@@ -22,7 +22,7 @@ class GeneratesTitleFromClassNameTest extends TestCase
     }
 
     #[Test]
-    function generates_title_from_class_name_with_a_custom_generator()
+    function generates_title_from_class_name_with_a_custom_generator(): void
     {
         Settings::setCustomTitleGenerator(function ($type, $className) {
             $this->assertSame('class', $type);

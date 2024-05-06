@@ -11,7 +11,7 @@ use Styde\Enlighten\Models\Run;
 class StringResponseTest extends TestCase
 {
     #[Test]
-    function a_response_can_return_a_string()
+    function a_response_can_return_a_string(): void
     {
         $this->get('api/text')
             ->assertOk()
@@ -41,7 +41,7 @@ class StringResponseTest extends TestCase
     }
 
     #[Test]
-    function a_json_response_can_be_a_string()
+    function a_json_response_can_be_a_string(): void
     {
         $this->get('api/json-string')
             ->assertOk()

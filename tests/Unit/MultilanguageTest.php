@@ -8,7 +8,7 @@ use Tests\TestCase;
 class MultilanguageTest extends TestCase
 {
     #[Test]
-    public function loads_english_and_spanish_branch_commit_message_correctly()
+    public function loads_english_and_spanish_branch_commit_message_correctly(): void
     {
         \App::setLocale('en');
 
@@ -26,7 +26,7 @@ class MultilanguageTest extends TestCase
     }
 
     #[Test]
-    public function loads_english_and_spanish_dashboard_message_correctly()
+    public function loads_english_and_spanish_dashboard_message_correctly(): void
     {
         \App::setLocale('en');
 

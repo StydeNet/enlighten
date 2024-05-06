@@ -13,7 +13,7 @@ use Tests\TestCase;
 class DatabaseRunBuilderTest extends TestCase
 {
     #[Test]
-    function can_reset_a_test_run()
+    function can_reset_a_test_run(): void
     {
         $testRunBuilder = $this->app->make(DatabaseRunBuilder::class);
 
@@ -29,7 +29,7 @@ class DatabaseRunBuilderTest extends TestCase
     }
 
     #[Test]
-    function can_get_info_from_a_custom_version_control_system()
+    function can_get_info_from_a_custom_version_control_system(): void
     {
         $this->app->instance(VersionControl::class, new class implements VersionControl {
             public function currentBranch(): string

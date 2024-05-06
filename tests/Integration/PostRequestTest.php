@@ -19,7 +19,7 @@ class PostRequestTest extends TestCase
     }
 
     #[Test]
-    function creates_an_example_of_a_post_request()
+    function creates_an_example_of_a_post_request(): void
     {
         $this->withoutExceptionHandling();
 
@@ -57,7 +57,7 @@ class PostRequestTest extends TestCase
     }
 
     #[Test]
-    function saves_validation_errors()
+    function saves_validation_errors(): void
     {
         $response = $this->post('user', [
             'name' => 'Duilio',

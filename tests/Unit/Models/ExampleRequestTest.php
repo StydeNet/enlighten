@@ -12,7 +12,7 @@ use Tests\TestCase;
 class ExampleRequestTest extends TestCase
 {
     #[Test]
-    function an_example_can_have_many_requests()
+    function an_example_can_have_many_requests(): void
     {
         $run = $this->createRun();
 
@@ -34,7 +34,7 @@ class ExampleRequestTest extends TestCase
     }
 
     #[Test]
-    function an_example_request_belongs_to_an_example()
+    function an_example_request_belongs_to_an_example(): void
     {
         $example = $this->createExample();
         $request = $example->requests()->create($this->getExampleRequestAttributes());
@@ -44,7 +44,7 @@ class ExampleRequestTest extends TestCase
     }
 
     #[Test]
-    function gets_the_full_path_of_the_request()
+    function gets_the_full_path_of_the_request(): void
     {
         $data = new ExampleRequest([
             'request_path' => 'api/users',
@@ -61,7 +61,7 @@ class ExampleRequestTest extends TestCase
     }
 
     #[Test]
-    function gets_the_response_type_in_a_readable_format()
+    function gets_the_response_type_in_a_readable_format(): void
     {
         $data = new ExampleRequest([
             'response_headers' => [
@@ -87,7 +87,7 @@ class ExampleRequestTest extends TestCase
     }
 
     #[Test]
-    function checks_if_a_response_is_a_redirect()
+    function checks_if_a_response_is_a_redirect(): void
     {
         $data = new ExampleRequest([
             'response_status' => 200,
@@ -115,7 +115,7 @@ class ExampleRequestTest extends TestCase
     }
 
     #[Test]
-    function gets_redirection_location_from_the_response()
+    function gets_redirection_location_from_the_response(): void
     {
         $data = new ExampleRequest([
             'response_headers' => ['location' => ['http://localhost/foo']],

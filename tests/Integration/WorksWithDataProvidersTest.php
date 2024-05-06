@@ -14,7 +14,7 @@ class WorksWithDataProvidersTest extends TestCase
     #[Test]
     #[TestWith(['dataset1'])]
     #[TestWith(['dataset2'])]
-    function can_store_information_of_tests_with_data_provider_from_annotation($data)
+    function can_store_information_of_tests_with_data_provider_from_annotation($data): void
     {
         $this->assertTrue(strpos($data, 'dataset') === 0);
 
@@ -28,7 +28,7 @@ class WorksWithDataProvidersTest extends TestCase
 
     #[Test]
     #[DataProvider('dataProviderMethod')]
-    function can_store_information_of_tests_with_data_providers_from_method($data)
+    function can_store_information_of_tests_with_data_providers_from_method($data): void
     {
         $this->assertTrue(strpos($data, 'dataset') === 0);
 
@@ -52,7 +52,7 @@ class WorksWithDataProvidersTest extends TestCase
 
     #[Test]
     #[DataProvider('dataProviderWithObjects')]
-    function stores_information_of_objects_returned_by_data_providers($object)
+    function stores_information_of_objects_returned_by_data_providers($object): void
     {
         $this->assertInstanceOf(StdClass::class, $object);
         $this->assertSame('dataset1', $object->property);
@@ -84,7 +84,7 @@ class WorksWithDataProvidersTest extends TestCase
 
     #[Test]
     #[DataProvider('dataProviderWithFunctions')]
-    function stores_information_of_functions_returned_by_data_providers($function)
+    function stores_information_of_functions_returned_by_data_providers($function): void
     {
         $this->assertInstanceOf(\Closure::class, $function);
         $this->assertSame('test', $function());
@@ -119,7 +119,7 @@ class WorksWithDataProvidersTest extends TestCase
 
     #[Test]
     #[DataProvider('providedDataWithKeys')]
-    function adds_key_from_the_data_provider_at_the_end_of_the_title($num1, $num2)
+    function adds_key_from_the_data_provider_at_the_end_of_the_title($num1, $num2): void
     {
         $this->assertSame(3, $num1 + $num2);
 

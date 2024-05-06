@@ -13,7 +13,7 @@ use Tests\Integration\App\Models\User;
 class CaptureCodeExampleTest extends TestCase
 {
     #[Test]
-    function captures_single_line_snippet()
+    function captures_single_line_snippet(): void
     {
         $sum = Enlighten::test(function () {
             $a = 1;
@@ -43,7 +43,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_snippet_with_key()
+    function captures_snippet_with_key(): void
     {
         $msg = Enlighten::test('hello-world', function () {
             return 'Hello World';
@@ -65,7 +65,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_snippet_with_key_using_helper()
+    function captures_snippet_with_key_using_helper(): void
     {
         $msg = enlighten('hello-world-2', function () {
             return 'Hello World';
@@ -87,7 +87,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_snippet_with_sql_query()
+    function captures_snippet_with_sql_query(): void
     {
         $user = enlighten(function () {
             return User::create([
@@ -125,7 +125,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_snippet_with_exception()
+    function captures_snippet_with_exception(): void
     {
         $this->expectException(BadMethodCallException::class);
 
@@ -147,7 +147,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_objects_returned_by_snippets()
+    function captures_objects_returned_by_snippets(): void
     {
         enlighten(function () {
             return new DemoClassForSnippetExample;
@@ -176,7 +176,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_objects_returned_by_snippets_with_limited_recursion()
+    function captures_objects_returned_by_snippets_with_limited_recursion(): void
     {
         CodeResultTransformer::$maxNestedLevel = 1;
 
@@ -203,7 +203,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_information_from_functions_returned_by_code_snippets()
+    function captures_information_from_functions_returned_by_code_snippets(): void
     {
         enlighten(function () {
             return function () {
@@ -219,7 +219,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_information_from_functions_with_parameters()
+    function captures_information_from_functions_with_parameters(): void
     {
         enlighten(function () {
             return function ($a, int $b = 2, \stdClass $anObject = null) {
@@ -254,7 +254,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
     #[Test]
-    function captures_information_from_functions_with_return_type()
+    function captures_information_from_functions_with_return_type(): void
     {
         enlighten(function () {
             return function (): int {
@@ -270,7 +270,7 @@ class CaptureCodeExampleTest extends TestCase
     }
 
 
-    private function assertFirstSnippetReturns(array $expected)
+    private function assertFirstSnippetReturns(array $expected): void
     {
         $example = Example::firstOrFail();
 

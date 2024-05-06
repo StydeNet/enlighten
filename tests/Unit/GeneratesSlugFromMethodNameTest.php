@@ -9,7 +9,7 @@ use Tests\TestCase;
 class GeneratesSlugFromMethodNameTest extends TestCase
 {
     #[Test]
-    function generates_slug_from_method_name()
+    function generates_slug_from_method_name(): void
     {
         $this->assertSame('it-list-users', Settings::generateSlugFromMethodName('it_list_users'));
 
@@ -21,7 +21,7 @@ class GeneratesSlugFromMethodNameTest extends TestCase
     }
 
     #[Test]
-    function generates_slug_from_class_name_with_a_custom_generator()
+    function generates_slug_from_class_name_with_a_custom_generator(): void
     {
         Settings::setCustomSlugGenerator(function ($methodName, $from) {
             $this->assertSame('method', $from);

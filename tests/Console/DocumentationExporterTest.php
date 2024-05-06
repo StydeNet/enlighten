@@ -41,7 +41,7 @@ class DocumentationExporterTest extends TestCase
     }
 
     #[Test]
-    function exports_run_as_static_files()
+    function exports_run_as_static_files(): void
     {
         $run = $this->createRun('main', 'abcde', true);
         $group1 = $this->createExampleGroup($run, 'Tests\Feature\ListUsersTest', 'List Users');
@@ -103,7 +103,7 @@ class DocumentationExporterTest extends TestCase
     }
 
     #[Test]
-    function replaces_the_original_urls_with_relative_urls()
+    function replaces_the_original_urls_with_relative_urls(): void
     {
         $run = $this->createRun('main', 'abcde', true);
 
@@ -131,7 +131,7 @@ class DocumentationExporterTest extends TestCase
     }
 
     #[Test]
-    function replaces_the_original_urls_with_absolute_urls()
+    function replaces_the_original_urls_with_absolute_urls(): void
     {
         $run = $this->createRun('main', 'abcde', true);
 
@@ -159,7 +159,7 @@ class DocumentationExporterTest extends TestCase
     }
 
     #[Test]
-    function replaces_the_search_file_path_with_the_export_base_path()
+    function replaces_the_search_file_path_with_the_export_base_path(): void
     {
         $run = $this->createRun('main', 'abcde', true);
 
@@ -176,7 +176,7 @@ class DocumentationExporterTest extends TestCase
         ', 'index.html');
     }
 
-    private function resetDirectory(Filesystem $filesystem, $dir)
+    private function resetDirectory(Filesystem $filesystem, $dir): void
     {
         if (! $filesystem->isDirectory($dir)) {
             return;
@@ -185,7 +185,7 @@ class DocumentationExporterTest extends TestCase
         $filesystem->deleteDirectory($dir);
     }
 
-    private function assertDocumentHasContent(string $expectedContent, $filename)
+    private function assertDocumentHasContent(string $expectedContent, $filename): void
     {
         $this->assertFileExists("{$this->baseDir}/{$filename}");
         $this->assertSame($expectedContent, file_get_contents("{$this->baseDir}/$filename"));

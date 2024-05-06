@@ -9,14 +9,14 @@ use Tests\TestCase;
 class GetsAreaSlugTest extends TestCase
 {
     #[Test]
-    function gets_the_slug_of_an_area_from_a_class_name()
+    function gets_the_slug_of_an_area_from_a_class_name(): void
     {
         $this->assertSame('feature', Settings::getAreaSlug('Tests\Feature\ListUsers'));
         $this->assertSame('api', Settings::getAreaSlug('Tests\Api\CreateUser'));
     }
 
     #[Test]
-    function can_resolve_the_area_with_a_custom_resolver()
+    function can_resolve_the_area_with_a_custom_resolver(): void
     {
         Settings::setCustomAreaResolver(function ($className) {
             return explode('\\', $className)[3];

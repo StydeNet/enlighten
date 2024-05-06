@@ -18,7 +18,7 @@ class ChecksLaravelPresenceTest extends TestCase
     }
 
     #[Test]
-    function throws_exception_when_calling_the_enlighten_helper_without_booting_laravel()
+    function throws_exception_when_calling_the_enlighten_helper_without_booting_laravel(): void
     {
         try {
             enlighten(function () {
@@ -32,7 +32,7 @@ class ChecksLaravelPresenceTest extends TestCase
     }
 
     #[Test]
-    function throws_exception_when_calling_the_enlighten_test_facade_without_booting_laravel()
+    function throws_exception_when_calling_the_enlighten_test_facade_without_booting_laravel(): void
     {
         try {
             Enlighten::test(function () {
@@ -45,7 +45,7 @@ class ChecksLaravelPresenceTest extends TestCase
         $this->fail('The exception LaravelNotPresent was not thrown');
     }
 
-    private function passed()
+    private function passed(): void
     {
         $this->assertTrue(true);
     }

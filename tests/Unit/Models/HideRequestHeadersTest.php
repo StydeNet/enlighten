@@ -9,7 +9,7 @@ use Tests\TestCase;
 class HideRequestHeadersTest extends TestCase
 {
     #[Test]
-    function hides_request_headers()
+    function hides_request_headers(): void
     {
         $request = new ExampleRequest([
             'request_headers' => [
@@ -34,7 +34,7 @@ class HideRequestHeadersTest extends TestCase
     }
 
     #[Test]
-    function can_overwrite_headers()
+    function can_overwrite_headers(): void
     {
         $request = new ExampleRequest([
             'request_headers' => [
@@ -58,7 +58,7 @@ class HideRequestHeadersTest extends TestCase
     }
 
     #[Test]
-    function hidden_headers_take_precedence_over_overwritten_headers()
+    function hidden_headers_take_precedence_over_overwritten_headers(): void
     {
         $request = new ExampleRequest([
             'request_headers' => [

@@ -15,7 +15,7 @@ use Tests\TestCase;
 class AnnotationsTest extends TestCase
 {
     #[Test]
-    function gets_annotations_from_class()
+    function gets_annotations_from_class(): void
     {
         $annotations = (new Annotations)->getFromClass(AnnotationsTest::class);
 
@@ -31,7 +31,7 @@ class AnnotationsTest extends TestCase
      * @title Gets annotations from methods
      * @description It can get the annotation from a method.
      */
-    function gets_annotations_from_methods()
+    function gets_annotations_from_methods(): void
     {
         $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'gets_annotations_from_methods');
 
@@ -43,7 +43,7 @@ class AnnotationsTest extends TestCase
     }
 
     /** @enlighten {"order": 4} **/
-    function test_gets_single_line_annotation()
+    function test_gets_single_line_annotation(): void
     {
         $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'test_gets_single_line_annotation');
 
@@ -60,7 +60,7 @@ class AnnotationsTest extends TestCase
      * that span
      * across multiple lines
      */
-    function gets_multiline_annotations()
+    function gets_multiline_annotations(): void
     {
         $annotations = (new Annotations)->getFromMethod(AnnotationsTest::class, 'gets_multiline_annotations');
 

@@ -9,7 +9,7 @@ use Styde\Enlighten\Models\ExampleRequest;
 class MultipleRequestsTest extends TestCase
 {
     #[Test]
-    function can_store_multiple_requests()
+    function can_store_multiple_requests(): void
     {
         $this->withoutExceptionHandling();
 

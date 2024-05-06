@@ -11,7 +11,7 @@ class Annotations
 {
     protected $casts = [];
 
-    public function addCast(string $key, Closure $callback)
+    public function addCast(string $key, Closure $callback): void
     {
         $this->casts[$key] = $callback;
     }

@@ -11,7 +11,7 @@ use Tests\TestCase;
 class RunTest extends TestCase
 {
     #[Test]
-    function gets_the_signature_of_a_run()
+    function gets_the_signature_of_a_run(): void
     {
         $run = $this->createRun('main', 'abcde', true);
         $this->assertSame('main * abcde', $run->signature);
@@ -21,7 +21,7 @@ class RunTest extends TestCase
     }
 
     #[Test]
-    function gets_the_url_of_the_run()
+    function gets_the_url_of_the_run(): void
     {
         $run = $this->createRun();
 
@@ -29,7 +29,7 @@ class RunTest extends TestCase
     }
 
     #[Test]
-    function gets_the_base_url_of_the_run()
+    function gets_the_base_url_of_the_run(): void
     {
         $run = $this->createRun();
 
@@ -37,7 +37,7 @@ class RunTest extends TestCase
     }
 
     #[Test]
-    function gets_the_url_of_a_run_area()
+    function gets_the_url_of_a_run_area(): void
     {
         $run = $this->createRun();
 
@@ -45,7 +45,7 @@ class RunTest extends TestCase
     }
 
     #[Test]
-    function a_run_has_many_groups()
+    function a_run_has_many_groups(): void
     {
         $run = $this->createRun();
 
@@ -56,7 +56,7 @@ class RunTest extends TestCase
     }
 
     #[Test]
-    function gets_the_areas_of_a_run()
+    function gets_the_areas_of_a_run(): void
     {
         $run = $this->createRun();
 

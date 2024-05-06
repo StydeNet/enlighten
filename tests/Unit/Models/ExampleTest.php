@@ -10,7 +10,7 @@ use Tests\TestCase;
 class ExampleTest extends TestCase
 {
     #[Test]
-    function gets_the_path_to_the_file()
+    function gets_the_path_to_the_file(): void
     {
         $example = new Example([
             'line' => 3,
@@ -23,7 +23,7 @@ class ExampleTest extends TestCase
     }
 
     #[Test]
-    function get_the_example_url()
+    function get_the_example_url(): void
     {
         $exampleGroup = new ExampleGroup([
             'run_id' => 1,
@@ -40,7 +40,7 @@ class ExampleTest extends TestCase
     }
 
     #[Test]
-    function get_the_signature_of_an_example()
+    function get_the_signature_of_an_example(): void
     {
         $group = $this->createExampleGroup(null, 'Namespace\NameOfTheClass');
 

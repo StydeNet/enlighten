@@ -9,7 +9,7 @@ use Tests\TestCase;
 class HideSessionDataTest extends TestCase
 {
     #[Test]
-    function can_hide_and_overwrite_request_input_values()
+    function can_hide_and_overwrite_request_input_values(): void
     {
         $request = new ExampleRequest([
             'session_data' => [

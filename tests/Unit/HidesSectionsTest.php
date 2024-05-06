@@ -10,7 +10,7 @@ use Tests\TestCase;
 class HidesSectionsTest extends TestCase
 {
     #[Test]
-    function determines_if_a_section_should_be_hidden()
+    function determines_if_a_section_should_be_hidden(): void
     {
         $this->assertFalse(Settings::hide(Section::QUERIES));
         $this->assertTrue(Settings::show(Section::QUERIES));

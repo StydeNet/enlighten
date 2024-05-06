@@ -9,7 +9,7 @@ use Styde\Enlighten\Models\ExampleRequest;
 class FollowRedirectionTest extends TestCase
 {
     #[Test]
-    function saves_the_first_request_and_the_last_response()
+    function saves_the_first_request_and_the_last_response(): void
     {
         $this->withoutExceptionHandling();
 

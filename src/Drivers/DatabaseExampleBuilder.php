@@ -40,7 +40,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         $this->exampleGroupBuilder = $exampleGroupBuilder;
     }
 
-    public function addRequest(RequestInfo $request)
+    public function addRequest(RequestInfo $request): void
     {
         $this->save();
 
@@ -55,7 +55,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         ]));
     }
 
-    public function setResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session)
+    public function setResponse(ResponseInfo $response, bool $followsRedirect, RouteInfo $routeInfo, array $session): void
     {
         $this->save();
 
@@ -74,7 +74,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         ]);
     }
 
-    public function setException(ExceptionInfo $exception)
+    public function setException(ExceptionInfo $exception): void
     {
         $this->example->exception->fill([
             'class_name' => $exception->getClassName(),
@@ -87,7 +87,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         ])->save();
     }
 
-    public function addQuery(QueryExecuted $queryExecuted)
+    public function addQuery(QueryExecuted $queryExecuted): void
     {
         $this->save();
 
@@ -100,7 +100,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         ]);
     }
 
-    public function addSnippet($key, string $code)
+    public function addSnippet($key, string $code): void
     {
         $this->save();
 
@@ -110,7 +110,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         ]);
     }
 
-    public function setSnippetResult($result)
+    public function setSnippetResult($result): void
     {
         $this->currentSnippet->update(['result' => $result]);
 
@@ -129,7 +129,7 @@ class DatabaseExampleBuilder extends BaseExampleBuilder
         return $this->example;
     }
 
-    private function save()
+    private function save(): void
     {
         if ($this->example != null) {
             return;

@@ -30,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Route::middleware('web')
             ->group(__DIR__ . '/../../routes/web.php');

@@ -18,7 +18,7 @@ class IgnoreClassViaConfigurationTest extends TestCase
     }
 
     #[Test]
-    function does_not_export_test_classes_ignored_in_the_configuration()
+    function does_not_export_test_classes_ignored_in_the_configuration(): void
     {
         $this->assertExampleIsNotCreated();
     }

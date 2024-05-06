@@ -58,7 +58,7 @@ class ExampleGroupTest extends TestCase
     }
 
     #[Test]
-    function get_the_example_group_url()
+    function get_the_example_group_url(): void
     {
         $exampleGroup = new ExampleGroup([
             'run_id' => 1,
@@ -76,7 +76,7 @@ class ExampleGroupTest extends TestCase
     }
 
     #[Test]
-    function get_the_example_group_area_as_a_title()
+    function get_the_example_group_area_as_a_title(): void
     {
         $exampleGroup = new ExampleGroup([
             'area' => 'feature',

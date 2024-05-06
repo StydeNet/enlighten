@@ -14,7 +14,7 @@ class SavesOrderAnnotationTest extends TestCase
     /**
      * @enlighten {"order": 22}
      */
-    function it_saves_an_example_and_example_group_with_an_order_num_attribute()
+    function it_saves_an_example_and_example_group_with_an_order_num_attribute(): void
     {
         $this->saveExampleStatus();
 

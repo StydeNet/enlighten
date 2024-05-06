@@ -8,7 +8,7 @@ use Styde\Enlighten\Models\ExampleRequest;
 class RouteNotFoundTest extends TestCase
 {
     #[Test]
-    function gets_a_non_existing_url()
+    function gets_a_non_existing_url(): void
     {
         $this->get('not-found-url')
             ->assertNotFound();

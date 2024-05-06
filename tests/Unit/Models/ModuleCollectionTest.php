@@ -13,7 +13,7 @@ use Tests\TestCase;
 class ModuleCollectionTest extends TestCase
 {
     #[Test]
-    function can_create_a_module_collection()
+    function can_create_a_module_collection(): void
     {
         $modules = ModuleCollection::make([
             new Module('Users', ['*UserTest*', '*UsersTest*']),
@@ -26,7 +26,7 @@ class ModuleCollectionTest extends TestCase
     }
 
     #[Test]
-    function add_example_groups_to_the_modules_in_the_module_collection()
+    function add_example_groups_to_the_modules_in_the_module_collection(): void
     {
         $modules = ModuleCollection::make([
             new Module('Users', ['*UserTest*', '*UsersTest*']),
@@ -64,7 +64,7 @@ class ModuleCollectionTest extends TestCase
         ]);
     }
 
-    public function assertModuleHasGroups(ModuleCollection $modules, $name, array $expectedGroups)
+    public function assertModuleHasGroups(ModuleCollection $modules, $name, array $expectedGroups): void
     {
         $module = $modules->getByName($name);
 
@@ -91,7 +91,7 @@ class ModuleCollectionTest extends TestCase
     }
 
     #[Test]
-    function add_endpoint_groups_to_the_modules_in_the_module_collection()
+    function add_endpoint_groups_to_the_modules_in_the_module_collection(): void
     {
         $modules = ModuleCollection::make([
             new Module('Users', [], ['/users*', '/user/*']),
@@ -113,7 +113,7 @@ class ModuleCollectionTest extends TestCase
         $this->assertModuleHasEndpoints($modules, 'Other Modules', ['POST /likes']);
     }
 
-    public function assertModuleHasEndpoints(ModuleCollection $modules, $name, array $expectedGroups)
+    public function assertModuleHasEndpoints(ModuleCollection $modules, $name, array $expectedGroups): void
     {
         $module = $modules->getByName($name);
 

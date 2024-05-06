@@ -155,7 +155,7 @@ trait TestHelpers
 
     // Custom assertions
 
-    public function assertArrayable($expected, $arrayable)
+    public function assertArrayable($expected, $arrayable): void
     {
         $this->assertInstanceOf(Arrayable::class, $arrayable);
         $this->assertSame($expected, $arrayable->toArray());

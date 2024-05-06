@@ -41,7 +41,7 @@ class DocumentationExporter
         $this->exportSearchJson($run);
     }
 
-    private function exportAssets()
+    private function exportAssets(): void
     {
         $this->filesystem->deleteDirectory("{$this->baseDir}/assets");
 

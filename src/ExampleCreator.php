@@ -43,7 +43,7 @@ class ExampleCreator
         return $this->currentExampleBuilder;
     }
 
-    public function makeExample(string $className, string $methodName, array $providedData = null, $dataName = null)
+    public function makeExample(string $className, string $methodName, array $providedData = null, $dataName = null): void
     {
         $this->currentExampleBuilder = null;
         $this->currentException = null;

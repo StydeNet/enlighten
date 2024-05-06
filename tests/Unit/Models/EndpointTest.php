@@ -9,7 +9,7 @@ use Tests\TestCase;
 class EndpointTest extends TestCase
 {
     #[Test]
-    function make_an_endpoint_instance()
+    function make_an_endpoint_instance(): void
     {
         $endpoint = new Endpoint('GET', '/users');
 

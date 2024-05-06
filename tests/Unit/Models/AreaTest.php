@@ -10,7 +10,7 @@ use Tests\TestCase;
 class AreaTest extends TestCase
 {
     #[Test]
-    function get_all_the_areas_from_the_current_run()
+    function get_all_the_areas_from_the_current_run(): void
     {
         config([
             'enlighten.areas' => []
@@ -45,7 +45,7 @@ class AreaTest extends TestCase
     }
 
     #[Test]
-    function get_all_the_areas_from_the_current_groups_with_a_custom_area_resolver()
+    function get_all_the_areas_from_the_current_groups_with_a_custom_area_resolver(): void
     {
         $this->setConfig([
             'enlighten.areas' => []
@@ -77,7 +77,7 @@ class AreaTest extends TestCase
     }
 
     #[Test]
-    function gets_all_the_areas_from_the_configuration()
+    function gets_all_the_areas_from_the_configuration(): void
     {
         $this->setConfig([
             'enlighten.areas' => [

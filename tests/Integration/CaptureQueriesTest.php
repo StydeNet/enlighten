@@ -10,7 +10,7 @@ use Tests\Integration\App\Models\User;
 class CaptureQueriesTest extends TestCase
 {
     #[Test]
-    function it_stores_the_queries_executed_during_the_test()
+    function it_stores_the_queries_executed_during_the_test(): void
     {
         User::create([
             'name' => 'Duilio',
@@ -65,7 +65,7 @@ class CaptureQueriesTest extends TestCase
     }
 
     #[Test]
-    function links_queries_to_the_snippet_context()
+    function links_queries_to_the_snippet_context(): void
     {
         $user = enlighten(function () {
             return User::create([

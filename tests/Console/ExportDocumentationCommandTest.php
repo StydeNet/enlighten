@@ -24,7 +24,7 @@ class ExportDocumentationCommandTest extends TestCase
     }
 
     #[Test]
-    function exports_a_run_with_a_relative_url()
+    function exports_a_run_with_a_relative_url(): void
     {
         $this->createRun('main', 'abcde', true);
         $this->createRun('develop', 'fghij', false);
@@ -51,7 +51,7 @@ class ExportDocumentationCommandTest extends TestCase
     }
 
     #[Test]
-    function exports_a_run_with_an_absolute_url()
+    function exports_a_run_with_an_absolute_url(): void
     {
         $this->createRun('main', 'abcde', true);
         $this->createRun('develop', 'fghij', false);
@@ -78,7 +78,7 @@ class ExportDocumentationCommandTest extends TestCase
     }
 
     #[Test]
-    function asks_the_user_to_run_the_tests_before_trying_to_export_the_documentation()
+    function asks_the_user_to_run_the_tests_before_trying_to_export_the_documentation(): void
     {
         $this->artisan('enlighten:export')
             ->expectsOutput('There are no runs available. Please setup `Enlighten` and run the tests first.');

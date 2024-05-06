@@ -25,7 +25,7 @@ class ExportCodeResultTest extends TestCase
     }
 
     #[Test]
-    function export_simple_code_snippets()
+    function export_simple_code_snippets(): void
     {
         $this->assertExports('<int>2020</int>', 2020);
         $this->assertExports('<float>0.4</float>', 0.4);
@@ -35,7 +35,7 @@ class ExportCodeResultTest extends TestCase
     }
 
     #[Test]
-    function export_simple_array_code_snippet()
+    function export_simple_array_code_snippet(): void
     {
         $expected = [
             '<symbol>[</symbol>',
@@ -53,7 +53,7 @@ class ExportCodeResultTest extends TestCase
     }
 
     #[Test]
-    function export_associative_array_code_snippet()
+    function export_associative_array_code_snippet(): void
     {
         $data = [
             'name' => 'Enlighten',
@@ -71,7 +71,7 @@ class ExportCodeResultTest extends TestCase
     }
 
     #[Test]
-    function export_code_snippet_with_nested_arrays()
+    function export_code_snippet_with_nested_arrays(): void
     {
         $data = [
             'Enlighten',
@@ -94,7 +94,7 @@ class ExportCodeResultTest extends TestCase
     }
 
     #[Test]
-    function export_code_snippet_with_class()
+    function export_code_snippet_with_class(): void
     {
         $data = [
             ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
@@ -113,7 +113,7 @@ class ExportCodeResultTest extends TestCase
     }
 
     #[Test]
-    function export_code_snippet_with_nested_classes()
+    function export_code_snippet_with_nested_classes(): void
     {
         $data = [
             ExampleSnippet::CLASS_NAME => 'Tests\Integration\DemoClassForSnippetExample',
@@ -141,7 +141,7 @@ class ExportCodeResultTest extends TestCase
     }
 
     #[Test]
-    function export_code_with_nested_classes_and_arrays()
+    function export_code_with_nested_classes_and_arrays(): void
     {
         $data = CodeResultTransformer::export([
             'package' => 'Enlighten',
@@ -166,7 +166,7 @@ class ExportCodeResultTest extends TestCase
         $this->assertExports($expected, $data);
     }
 
-    private function assertExports($segments, $value)
+    private function assertExports($segments, $value): void
     {
         $expectedCode = collect($segments)
             ->map(function ($segment) {

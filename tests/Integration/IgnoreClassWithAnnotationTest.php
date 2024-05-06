@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\Test;
 class IgnoreClassWithAnnotationTest extends TestCase
 {
     #[Test]
-    function does_not_export_test_classes_with_the_enlighten_ignore_annotation()
+    function does_not_export_test_classes_with_the_enlighten_ignore_annotation(): void
     {
         $this->assertExampleIsNotCreated();
     }

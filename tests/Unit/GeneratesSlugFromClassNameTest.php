@@ -9,7 +9,7 @@ use Tests\TestCase;
 class GeneratesSlugFromClassNameTest extends TestCase
 {
     #[Test]
-    function generates_slug_from_class_name()
+    function generates_slug_from_class_name(): void
     {
         $this->assertSame('feature-list-users', Settings::generateSlugFromClassName('Tests\Feature\ListUsersTest'));
 
@@ -26,7 +26,7 @@ class GeneratesSlugFromClassNameTest extends TestCase
     }
 
     #[Test]
-    function generates_slug_from_class_name_with_a_custom_generator()
+    function generates_slug_from_class_name_with_a_custom_generator(): void
     {
         Settings::setCustomSlugGenerator(function ($className, $from) {
             $this->assertSame('class', $from);

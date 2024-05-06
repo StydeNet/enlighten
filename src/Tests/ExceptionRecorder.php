@@ -27,19 +27,19 @@ class ExceptionRecorder implements ExceptionHandler
         $this->originalHandler = $originalHandler;
     }
 
-    public function forwardToORiginal()
+    public function forwardToORiginal(): void
     {
         $this->forwardToOriginalHandler = true;
         $this->except = [];
     }
 
-    public function forceThrow(array $except = [])
+    public function forceThrow(array $except = []): void
     {
         $this->forwardToOriginalHandler = false;
         $this->except = $except;
     }
 
-    public function report(Throwable $e)
+    public function report(Throwable $e): void
     {
         app(ExampleCreator::class)->captureException($e);
 
@@ -80,7 +80,7 @@ class ExceptionRecorder implements ExceptionHandler
         throw $e;
     }
 
-    public function renderForConsole($output, Throwable $e)
+    public function renderForConsole($output, Throwable $e): void
     {
         if ($this->forwardToOriginalHandler) {
             $this->originalHandler->renderForConsole($output, $e);

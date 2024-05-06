@@ -9,7 +9,7 @@ use Tests\TestCase;
 class GeneratesTitleFromMethodNameTest extends TestCase
 {
     #[Test]
-    function generates_a_title_from_test_method_names_in_camel_case_format()
+    function generates_a_title_from_test_method_names_in_camel_case_format(): void
     {
         $this->assertSame(
             'Generates title from camel case format',
@@ -18,7 +18,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     }
 
     #[Test]
-    function generates_a_title_from_test_method_names_in_snake_format()
+    function generates_a_title_from_test_method_names_in_snake_format(): void
     {
         $this->assertSame(
             'Generates title from snake format',
@@ -27,7 +27,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     }
 
     #[Test]
-    function generates_titles_without_including_the_test_prefix()
+    function generates_titles_without_including_the_test_prefix(): void
     {
         $this->assertSame(
             'It removes the test prefix',
@@ -41,7 +41,7 @@ class GeneratesTitleFromMethodNameTest extends TestCase
     }
 
     #[Test]
-    function generates_title_with_a_custom_generator()
+    function generates_title_with_a_custom_generator(): void
     {
         Settings::setCustomTitleGenerator(function ($type, $methodName) {
             $this->assertSame('method', $type);

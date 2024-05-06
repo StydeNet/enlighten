@@ -9,7 +9,7 @@ use Styde\Enlighten\Models\ExampleRequest;
 class UploadFileTest extends TestCase
 {
     #[Test]
-    function documents_file_parameters()
+    function documents_file_parameters(): void
     {
         $this->withoutExceptionHandling();
 

@@ -9,7 +9,7 @@ use Tests\TestCase;
 class HideRequestQueryParametersTest extends TestCase
 {
     #[Test]
-    function can_remove_and_overwrite_query_parameters()
+    function can_remove_and_overwrite_query_parameters(): void
     {
         $request = new ExampleRequest([
             'request_query_parameters' => [

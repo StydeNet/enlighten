@@ -12,7 +12,7 @@ use Tests\TestCase;
 class RequestInspectorTest extends TestCase
 {
     #[Test]
-    function gets_the_form_data_from_the_request_without_query_parameters()
+    function gets_the_form_data_from_the_request_without_query_parameters(): void
     {
         $request = new Request([
             'query' => 'parameter',

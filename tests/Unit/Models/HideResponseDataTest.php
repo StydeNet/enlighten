@@ -9,7 +9,7 @@ use Tests\TestCase;
 class HideResponseDataTest extends TestCase
 {
     #[Test]
-    function can_hide_and_overwrite_response_headers()
+    function can_hide_and_overwrite_response_headers(): void
     {
         $request = new ExampleRequest([
             'response_headers' => [
@@ -37,7 +37,7 @@ class HideResponseDataTest extends TestCase
     }
 
     #[Test]
-    function can_hide_and_overwrite_data_from_a_json_response_body()
+    function can_hide_and_overwrite_data_from_a_json_response_body(): void
     {
         $request = new ExampleRequest([
             'response_headers' => ['content-type' => ['application/json']],

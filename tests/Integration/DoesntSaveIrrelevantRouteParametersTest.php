@@ -9,7 +9,7 @@ use Styde\Enlighten\Models\ExampleRequest;
 class DoesntSaveIrrelevantRouteParametersTest extends TestCase
 {
     #[Test]
-    function does_not_save_irrelevant_route_parameters()
+    function does_not_save_irrelevant_route_parameters(): void
     {
         $this->get('parameters/global/local')
             ->assertOk();

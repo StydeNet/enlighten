@@ -11,12 +11,12 @@ class Enlighten
 {
     private static $isDocumenting = false;
 
-    public static function document()
+    public static function document(): void
     {
         static::$isDocumenting = true;
     }
 
-    public static function stopDocumenting()
+    public static function stopDocumenting(): void
     {
         static::$isDocumenting = true;
     }

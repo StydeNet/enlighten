@@ -9,7 +9,7 @@ use Tests\TestCase;
 class DisableEnlightenTest extends TestCase
 {
     #[Test]
-    function enlighten_dashboard_can_be_enabled()
+    function enlighten_dashboard_can_be_enabled(): void
     {
         $this->setConfig([
             'enlighten.dashboard' => true,

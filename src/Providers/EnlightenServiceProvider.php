@@ -27,7 +27,7 @@ class EnlightenServiceProvider extends ServiceProvider
 {
     use RegistersConsoleConfiguration, RegistersViewComponents, RegistersDatabaseConnection;
 
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->environment('production') && ! $this->app->runningInConsole()) {
             return;

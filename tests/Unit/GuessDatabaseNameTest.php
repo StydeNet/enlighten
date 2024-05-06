@@ -11,7 +11,7 @@ class GuessDatabaseNameTest extends TestCase
     use RegistersDatabaseConnection;
 
     #[Test]
-    function guesses_the_database_name()
+    function guesses_the_database_name(): void
     {
         $config = [
             'driver' => 'sqlite',

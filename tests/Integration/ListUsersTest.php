@@ -16,7 +16,7 @@ class ListUsersTest extends TestCase
     /**
      * @description Obtiene los nombres y correos electrónicos de todos los usuarios registrados en el sistema.
      */
-    function gets_the_list_of_users()
+    function gets_the_list_of_users(): void
     {
         $this->withoutExceptionHandling();
 

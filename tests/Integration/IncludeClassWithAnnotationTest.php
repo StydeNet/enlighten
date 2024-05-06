@@ -19,7 +19,7 @@ class IncludeClassWithAnnotationTest extends TestCase
     }
 
     #[Test]
-    function export_test_classes_with_the_enlighten_annotation_even_if_its_ignored_in_the_config()
+    function export_test_classes_with_the_enlighten_annotation_even_if_its_ignored_in_the_config(): void
     {
         $this->assertExampleIsCreated();
     }

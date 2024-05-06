@@ -11,7 +11,7 @@ class StatusTest extends TestCase
 {
     #[Test]
     #[DataProvider('getStatusEquivalences')]
-    function gets_a_simplified_status($testStatus, $expectedStatus)
+    function gets_a_simplified_status($testStatus, $expectedStatus): void
     {
         $this->assertSame($expectedStatus, Status::fromTestStatus($testStatus));
     }

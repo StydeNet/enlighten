@@ -105,7 +105,7 @@ abstract class BaseExampleBuilder implements ExampleBuilder
         return $this;
     }
 
-    public function setStatus(string $testStatus, string $status)
+    public function setStatus(string $testStatus, string $status): void
     {
         $this->testStatus = $testStatus;
         $this->status = $status;

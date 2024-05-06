@@ -65,7 +65,7 @@ class HttpExampleCreator
         return $response;
     }
 
-    public function createHttpExample(Request $request)
+    public function createHttpExample(Request $request): void
     {
         $testExample = $this->exampleCreator->getCurrentExample();
 
@@ -78,7 +78,7 @@ class HttpExampleCreator
         );
     }
 
-    public function saveHttpResponseData(Request $request, Response $response)
+    public function saveHttpResponseData(Request $request, Response $response): void
     {
         $testExample = $this->exampleCreator->getCurrentExample();
 

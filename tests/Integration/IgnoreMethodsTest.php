@@ -20,22 +20,13 @@ class IgnoreMethodsTest extends TestCase
     }
 
     #[Test]
-    function does_not_export_test_methods_ignored_in_the_configuration()
+    function does_not_export_test_methods_ignored_in_the_configuration(): void
     {
         $this->assertExampleIsNotCreated();
     }
 
     #[Test]
-    function can_use_wildcards_to_ignore_a_test_method_in_the_configuration()
-    {
-        $this->assertExampleIsNotCreated();
-    }
-
-    #[Test]
-    /**
-     * @enlighten {"ignore": true}
-     */
-    function does_not_export_test_methods_with_the_enlighten_ignore_annotation()
+    function can_use_wildcards_to_ignore_a_test_method_in_the_configuration(): void
     {
         $this->assertExampleIsNotCreated();
     }
@@ -44,7 +35,16 @@ class IgnoreMethodsTest extends TestCase
     /**
      * @enlighten {"ignore": true}
      */
-    function can_ignore_test_methods_that_throw_an_http_exception()
+    function does_not_export_test_methods_with_the_enlighten_ignore_annotation(): void
+    {
+        $this->assertExampleIsNotCreated();
+    }
+
+    #[Test]
+    /**
+     * @enlighten {"ignore": true}
+     */
+    function can_ignore_test_methods_that_throw_an_http_exception(): void
     {
         $response = $this->post('not-found', [
             'name' => 'Duilio',

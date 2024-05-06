@@ -22,7 +22,7 @@ class FailedRequestTest extends TestCase
     }
 
     #[Test]
-    function creates_example_even_if_the_request_fails()
+    function creates_example_even_if_the_request_fails(): void
     {
         $response = $this->get('/server-error');
 
@@ -34,7 +34,7 @@ class FailedRequestTest extends TestCase
     }
 
     #[Test]
-    function creates_example_with_request_data_without_exception_handling()
+    function creates_example_with_request_data_without_exception_handling(): void
     {
         $this->withoutExceptionHandling();
 
@@ -63,7 +63,7 @@ class FailedRequestTest extends TestCase
     }
 
     #[Test]
-    function saves_the_information_from_the_http_exceptions_with_exception_handling()
+    function saves_the_information_from_the_http_exceptions_with_exception_handling(): void
     {
         $this->get('/server-error')
             ->assertStatus(500);
@@ -95,7 +95,7 @@ class FailedRequestTest extends TestCase
     }
 
     #[Test]
-    function saves_the_information_from_the_http_exceptions_without_exception_handling()
+    function saves_the_information_from_the_http_exceptions_without_exception_handling(): void
     {
         $this->withoutExceptionHandling();
 

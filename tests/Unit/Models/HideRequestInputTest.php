@@ -9,7 +9,7 @@ use Tests\TestCase;
 class HideRequestInputTest extends TestCase
 {
     #[Test]
-    function can_hide_and_overwrite_request_input_values()
+    function can_hide_and_overwrite_request_input_values(): void
     {
         $request = new ExampleRequest([
             'request_input' => [
