@@ -6,3 +6,4 @@ node_modules
 storage
 .env
 disable-xdebug.ini
+.phpunit.cache/test-results
